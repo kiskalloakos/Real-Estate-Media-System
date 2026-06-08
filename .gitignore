@@ -1,0 +1,8 @@
+.DS_Store
+*.DNG
+*.dng
+*_preview.jpg
+*_small.jpg
+*.DNG.png
+*.dng.png
+.codex/
