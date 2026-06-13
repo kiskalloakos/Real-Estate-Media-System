@@ -1,0 +1,10 @@
+.agents/
+HDR CONVERTING/
+VIDEO EDITING/
+cluj-county-airbnb-properties.csv
+
+Website Content/*
+!Website Content/Exports/
+!Website Content/Exports/Drone.mp4
+!Website Content/Exports/Reels.mp4
+!Website Content/PRJ_1.mp4

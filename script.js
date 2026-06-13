@@ -1,10 +1,30 @@
 const menuButton = document.querySelector(".menu-toggle");
 const body = document.body;
+const menuLinks = document.querySelectorAll(".main-nav a, .nav-cta");
 
 if (menuButton) {
   menuButton.addEventListener("click", () => {
     const isOpen = body.classList.toggle("nav-open");
     menuButton.setAttribute("aria-expanded", String(isOpen));
+    menuButton.textContent = isOpen ? "Închide" : "Meniu";
+  });
+
+  menuLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      body.classList.remove("nav-open");
+      menuButton.setAttribute("aria-expanded", "false");
+      menuButton.textContent = "Meniu";
+    });
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!body.classList.contains("nav-open")) return;
+    const header = document.querySelector("[data-header]");
+    if (header && !header.contains(event.target)) {
+      body.classList.remove("nav-open");
+      menuButton.setAttribute("aria-expanded", "false");
+      menuButton.textContent = "Meniu";
+    }
   });
 }
 
@@ -13,24 +33,6 @@ document.querySelectorAll(".service-video").forEach((video) => {
   video.addEventListener("mouseenter", play);
   video.addEventListener("focus", play);
 });
-
-const parallaxCards = document.querySelectorAll("[data-parallax]");
-
-function updateParallax() {
-  if (!parallaxCards.length || window.innerWidth < 901) return;
-  const viewport = window.innerHeight;
-  parallaxCards.forEach((card, index) => {
-    const rect = card.getBoundingClientRect();
-    const progress = Math.max(-1, Math.min(1, (rect.top - viewport * 0.18) / viewport));
-    const scale = 0.94 + Math.max(0, 1 - Math.abs(progress)) * 0.04;
-    const y = progress * -18 + index * 3;
-    card.style.transform = `translateY(${y}px) scale(${scale})`;
-  });
-}
-
-window.addEventListener("scroll", updateParallax, { passive: true });
-window.addEventListener("resize", updateParallax);
-updateParallax();
 
 const contactForm = document.querySelector(".contact-form");
 if (contactForm) {

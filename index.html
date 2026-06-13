@@ -11,6 +11,26 @@
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
+    <svg class="icon-sprite" aria-hidden="true" focusable="false">
+      <symbol id="icon-camera" viewBox="0 0 24 24">
+        <path d="M14.5 4.5 16 7h3a2 2 0 0 1 2 2v8.5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h3l1.5-2.5h5Z"></path>
+        <circle cx="12" cy="13" r="3.5"></circle>
+      </symbol>
+      <symbol id="icon-video" viewBox="0 0 24 24">
+        <path d="M4 6.5h10a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2Z"></path>
+        <path d="m16 10 5-3v10l-5-3"></path>
+      </symbol>
+      <symbol id="icon-reels" viewBox="0 0 24 24">
+        <rect x="4" y="4" width="16" height="16" rx="3"></rect>
+        <path d="m10 8 6 4-6 4V8Z"></path>
+      </symbol>
+      <symbol id="icon-web" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9"></circle>
+        <path d="M3 12h18"></path>
+        <path d="M12 3a14 14 0 0 1 0 18"></path>
+        <path d="M12 3a14 14 0 0 0 0 18"></path>
+      </symbol>
+    </svg>
     <header class="site-header" data-header>
       <a class="brand" href="index.html" aria-label="REMS home">REMS</a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Meniu</button>
@@ -37,20 +57,20 @@
           <h2>Tot ce ai nevoie pentru o prezență premium online.</h2>
           <div class="service-grid">
             <article class="service-card">
-              <div class="service-icon">Camera</div>
-              <h3>Fotografie de atmosferă</h3>
+              <svg class="service-icon"><use href="#icon-camera"></use></svg>
+              <h3>Fotografie HDR</h3>
               <p>Imagini luminoase, curate, care arată spațiul așa cum merită.</p>
               <div class="media-frame media-bedroom"></div>
               <ul class="check-list">
                 <li>Fotografii HDR profesionale</li>
                 <li>Editare avansată</li>
-                <li>Unghiuri studiate pentru conversie</li>
+                <li>Unghiuri care vând</li>
                 <li>Detalii care vând</li>
               </ul>
             </article>
             <article class="service-card">
-              <div class="service-icon">Drone</div>
-              <h3>Video cinematic + drone</h3>
+              <svg class="service-icon"><use href="#icon-video"></use></svg>
+              <h3>Video cinematic</h3>
               <p>Cadre interioare, exterioare și detalii care transmit experiența.</p>
               <video class="media-frame service-video" src="Website Content/Exports/Drone.mp4" muted loop playsinline></video>
               <ul class="check-list">
@@ -61,20 +81,20 @@
               </ul>
             </article>
             <article class="service-card">
-              <div class="service-icon">Reels</div>
-              <h3>Reels / TikTok / Instagram organic</h3>
+              <svg class="service-icon"><use href="#icon-reels"></use></svg>
+              <h3>Reels / TikTok</h3>
               <p>Conținut scurt, constant, creat pentru vizibilitate și salvări.</p>
-              <video class="media-frame service-video" src="Website Content/Exports/Reels.mp4" muted loop playsinline></video>
+              <video class="media-frame service-video" src="Website Content/PRJ_1.mp4" muted loop playsinline></video>
               <ul class="check-list">
                 <li>Hook-uri puternice</li>
-                <li>Editare ritmată, text & muzică</li>
-                <li>Call-to-action pentru rezervări</li>
-                <li>Prezență organică constantă</li>
+                <li>Editare text & muzică</li>
+                <li>Optimizat pentru rezervări</li>
+                <li>Prezență constantă online</li>
               </ul>
             </article>
             <article class="service-card">
-              <div class="service-icon">Web</div>
-              <h3>Website / landing page pentru proprietate</h3>
+              <svg class="service-icon"><use href="#icon-web"></use></svg>
+              <h3>Website</h3>
               <p>O pagină clară pentru proprietatea ta, dincolo de Airbnb și Booking.</p>
               <div class="media-frame media-laptop"></div>
               <ul class="check-list">
