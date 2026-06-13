@@ -6,3 +6,5 @@
 *.DNG.png
 *.dng.png
 .codex/
+.vercel
+.env*
