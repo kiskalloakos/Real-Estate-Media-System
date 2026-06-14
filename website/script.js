@@ -28,11 +28,42 @@ if (menuButton) {
   });
 }
 
-document.querySelectorAll(".service-video").forEach((video) => {
-  const play = () => video.play().catch(() => {});
-  video.addEventListener("mouseenter", play);
-  video.addEventListener("focus", play);
+const autoplayVideos = document.querySelectorAll(".hero-video, .service-video");
+const playVideo = (video) => video.play().catch(() => {});
+const playAutoplayVideos = () => {
+  autoplayVideos.forEach(playVideo);
+};
+
+autoplayVideos.forEach((video) => {
+  video.muted = true;
+  video.defaultMuted = true;
+  video.playsInline = true;
+  video.setAttribute("playsinline", "");
+  video.setAttribute("webkit-playsinline", "");
+  if (video.readyState === 0) video.load();
+
+  video.addEventListener("mouseenter", playAutoplayVideos);
+  video.addEventListener("focus", playAutoplayVideos);
+  video.addEventListener("touchstart", playAutoplayVideos, { passive: true });
+  video.addEventListener("loadeddata", () => playVideo(video));
+  video.addEventListener("canplay", () => playVideo(video));
 });
+
+if ("IntersectionObserver" in window) {
+  const videoObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) playVideo(entry.target);
+    });
+  }, { threshold: 0.2 });
+
+  autoplayVideos.forEach((video) => videoObserver.observe(video));
+}
+
+playAutoplayVideos();
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden) playAutoplayVideos();
+});
+document.addEventListener("pointerdown", playAutoplayVideos, { once: true });
 
 const contactForm = document.querySelector(".contact-form");
 if (contactForm) {

@@ -35,7 +35,7 @@
       <a class="brand" href="index.html" aria-label="REMS home">REMS</a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Meniu</button>
       <nav class="main-nav" id="main-nav" aria-label="Navigație principală">
-        <a href="portfolio.html">Portfolio</a>
+        <a href="portfolio.html">Portofoliu</a>
         <a href="contact.html">Contact</a>
       </nav>
       <a class="nav-cta" href="contact.html">Cere ofertă</a>
@@ -43,7 +43,7 @@
 
     <main>
       <section class="hero">
-        <video class="hero-video" src="assets/videos/drone.mp4" autoplay muted loop playsinline></video>
+        <video class="hero-video" src="assets/videos/drone.mp4" autoplay muted loop playsinline webkit-playsinline preload="auto"></video>
         <div class="hero-shade"></div>
         <div class="hero-content">
           <h1>Transformăm cazarea ta într-un brand care <span>se vede, se salvează și se rezervă.</span></h1>
@@ -72,7 +72,7 @@
               <svg class="service-icon"><use href="#icon-video"></use></svg>
               <h3>Video cinematic</h3>
               <p>Cadre interioare, exterioare și detalii care transmit experiența.</p>
-              <video class="media-frame service-video" src="assets/videos/drone.mp4" muted loop playsinline></video>
+              <video class="media-frame service-video" src="assets/videos/drone.mp4" autoplay muted loop playsinline webkit-playsinline preload="auto"></video>
               <ul class="check-list">
                 <li>Video cinematic 4K</li>
                 <li>Drone exterior & locație</li>
@@ -84,7 +84,7 @@
               <svg class="service-icon"><use href="#icon-reels"></use></svg>
               <h3>Reels / TikTok</h3>
               <p>Conținut scurt, constant, creat pentru vizibilitate și salvări.</p>
-              <video class="media-frame service-video" src="assets/videos/prj-1.mp4" muted loop playsinline></video>
+              <video class="media-frame service-video" src="assets/videos/prj-1.mp4" autoplay muted loop playsinline webkit-playsinline preload="auto"></video>
               <ul class="check-list">
                 <li>Hook-uri puternice</li>
                 <li>Editare text & muzică</li>
@@ -110,26 +110,22 @@
 
       <section class="packages section-light" id="pachete">
         <div class="section-inner">
-          <p class="eyebrow">Pachete pentru Airbnb-uri din Cluj</p>
-          <h2 class="package-title">Alege pachetul potrivit pentru proprietatea ta.</h2>
+          <h2 class="package-title">Pachete pentru Airbnb-uri din Cluj</h2>
           <div class="package-grid">
             <article class="package-card">
               <h3>Starter</h3>
-              <p>Prezență profesională</p>
               <div class="price"><strong>990</strong> RON <span>/ ședință</span></div>
               <ul class="check-list">
                 <li>Fotografii HDR (20+)</li>
                 <li>Video scurt 30-60 sec</li>
                 <li>Optimizare anunț Airbnb</li>
                 <li>1 reel scurt</li>
-                <li>Livrare în 3-5 zile</li>
               </ul>
               <a class="button button-gold" href="contact.html">Cere ofertă</a>
             </article>
             <article class="package-card featured">
               <span class="ribbon">Cel mai popular</span>
               <h3>Performance</h3>
-              <p>Conținut care aduce rezervări</p>
               <div class="price"><strong>1.990</strong> RON <span>/ lună</span></div>
               <ul class="check-list">
                 <li>Fotografii HDR (30+)</li>
@@ -138,13 +134,11 @@
                 <li>3 reels scurte</li>
                 <li>Optimizare anunț Airbnb</li>
                 <li>Pagină de prezentare dedicată</li>
-                <li>Livrare în 3-5 zile</li>
               </ul>
               <a class="button button-gold" href="contact.html">Cere ofertă</a>
             </article>
             <article class="package-card">
               <h3>Premium</h3>
-              <p>Experiență completă</p>
               <div class="price"><strong>3.490</strong> RON <span>/ lună</span></div>
               <ul class="check-list">
                 <li>Fotografii HDR (40+)</li>
@@ -154,7 +148,6 @@
                 <li>Optimizare anunț Airbnb</li>
                 <li>Pagină de prezentare dedicată</li>
                 <li>Strategie conținut 30 zile</li>
-                <li>Livrare în 3-5 zile</li>
               </ul>
               <a class="button button-gold" href="contact.html">Cere ofertă</a>
             </article>
@@ -165,11 +158,12 @@
 
     <footer class="site-footer">
       <a class="brand" href="index.html">REMS</a>
-      <p>Conținut premium pentru proprietăți din Cluj. Hai să discutăm despre cazarea ta.</p>
-      <div class="footer-links">
-        <a href="tel:+40123456789">+40 123 456 789</a>
-        <a href="mailto:hello@remsmedia.ro">hello@remsmedia.ro</a>
+      <div class="footer-meta">
+        <span>Mint Studios Agency SRL</span>
         <span>Cluj-Napoca, România</span>
+      </div>
+      <div class="footer-links">
+        <a href="tel:+40732775601">+40 732 775 601</a>
       </div>
     </footer>
 
