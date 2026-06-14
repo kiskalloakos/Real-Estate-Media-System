@@ -313,9 +313,8 @@ img, video { display: block; max-width: 100%; }
 }
 .package-card h3 {
   margin: 0;
-  text-transform: uppercase;
-  font: 700 34px/1 var(--condensed);
-  letter-spacing: .02em;
+  font: 600 38px/1.02 var(--serif);
+  letter-spacing: -.04em;
 }
 .price {
   margin-top: 34px;
@@ -339,49 +338,24 @@ img, video { display: block; max-width: 100%; }
 }
 
 .site-footer {
-  display: grid;
-  grid-template-columns: auto minmax(240px, 1fr) auto;
-  gap: 28px;
-  align-items: center;
-  padding: 26px clamp(28px, 5vw, 72px);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 28px clamp(28px, 5vw, 72px);
   border-top: 1px solid rgba(20, 20, 18, .1);
   background: #f3eadc;
   color: rgba(33, 28, 21, .72);
-}
-.site-footer .brand {
-  padding-right: 28px;
-  border-right: 1px solid rgba(0,0,0,.12);
-  color: #211c15;
-}
-.footer-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 18px;
-  color: inherit;
   font-size: 13px;
-  font-weight: 650;
-  line-height: 1.4;
+  font-weight: 600;
+  line-height: 1.45;
 }
-.footer-links {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 14px 24px;
-  color: rgba(33, 28, 21, .82);
-  font-size: 14px;
-  font-weight: 750;
+.site-footer p {
+  margin: 0;
 }
 .dark-footer {
   border-top-color: rgba(255, 255, 255, .08);
   background: #090d0c;
   color: rgba(255, 255, 255, .58);
-}
-.dark-footer .brand {
-  border-right-color: rgba(255, 255, 255, .14);
-  color: var(--white);
-}
-.dark-footer .footer-links {
-  color: rgba(255, 255, 255, .74);
 }
 
 .portfolio-page,
@@ -602,8 +576,7 @@ img, video { display: block; max-width: 100%; }
   }
   .service-grid,
   .package-grid,
-  .contact-layout,
-  .site-footer {
+  .contact-layout {
     grid-template-columns: 1fr;
   }
   .service-grid { gap: 34px; }
@@ -623,27 +596,23 @@ img, video { display: block; max-width: 100%; }
   .package-card,
   .package-card.featured {
     min-height: auto;
-    padding: 38px 28px 30px;
+    padding: 46px clamp(28px, 8vw, 34px) 36px;
     transform: none;
   }
   .package-card h3 {
-    font-size: 32px;
+    font-size: 38px;
+    line-height: 1.02;
   }
   .price {
-    margin-top: 30px;
+    margin-top: 34px;
+    padding-bottom: 30px;
   }
   .price strong {
     font-size: 44px;
   }
   .package-card .check-list {
-    margin-bottom: 42px;
-  }
-  .site-footer .brand {
-    border-right: 0;
-    padding-right: 0;
-  }
-  .footer-links {
-    justify-content: flex-start;
+    margin-top: 30px;
+    margin-bottom: 52px;
   }
   .property-card {
     position: relative;
