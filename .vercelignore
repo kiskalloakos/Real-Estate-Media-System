@@ -1,6 +1,9 @@
 .agents/
+CONTENT/
 HDR CONVERTING/
 VIDEO EDITING/
 cluj-county-airbnb-properties.csv
+.DS_Store
+**/.DS_Store
 
 Website Content/*
