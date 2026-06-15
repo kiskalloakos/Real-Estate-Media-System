@@ -148,12 +148,76 @@ img, video { display: block; max-width: 100%; }
 .hero h1 span,
 .hero h1 strong { color: var(--gold); }
 .hero h1::first-letter { letter-spacing: -.07em; }
+.hero-features {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 18px;
+  width: min(620px, 100%);
+  margin: 26px 0 18px;
+}
+.hero-feature {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 11px;
+  align-items: center;
+  color: rgba(255, 255, 255, .92);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.hero-feature svg {
+  width: 34px;
+  height: 34px;
+  padding: 7px;
+  border: 1px solid rgba(217, 173, 82, .55);
+  border-radius: 999px;
+  color: var(--gold-2);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
 .hero p {
   width: min(460px, 100%);
   margin: 24px 0 30px;
   font-size: 17px;
   line-height: 1.65;
   color: rgba(255, 255, 255, .92);
+}
+.hero .hero-social-proof {
+  position: relative;
+  width: min(540px, 100%);
+  margin: 0 0 30px;
+  padding-left: 18px;
+  color: rgba(255, 255, 255, .88);
+  font-weight: 800;
+}
+.hero .hero-social-proof::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .55em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gold);
+  animation: proof-pulse 2.6s ease-in-out infinite;
+}
+@keyframes proof-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(217, 173, 82, .28);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(217, 173, 82, 0);
+    transform: scale(1.18);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero .hero-social-proof::before {
+    animation: none;
+  }
 }
 
 .section-light {
@@ -342,6 +406,121 @@ img, video { display: block; max-width: 100%; }
 .package-card .button {
   width: 100%;
   margin-top: auto;
+}
+
+.about-founders {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 18% 6%, rgba(217, 173, 82, .14), transparent 34%),
+    linear-gradient(180deg, var(--ivory-2), #efe2cf);
+}
+.about-founders-inner {
+  display: grid;
+  grid-template-columns: minmax(0, .92fr) minmax(520px, 1.08fr);
+  gap: clamp(42px, 6vw, 78px);
+  align-items: center;
+  padding-top: 72px;
+  padding-bottom: 86px;
+}
+.section-kicker {
+  display: inline-flex;
+  margin-bottom: 18px;
+  color: #a67b30;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+.about-founders-copy h2 {
+  width: min(520px, 100%);
+  margin: 0 0 24px;
+  font: 600 clamp(36px, 3.7vw, 56px)/1.04 var(--serif);
+  letter-spacing: -.04em;
+}
+.about-founders-copy p {
+  width: min(560px, 100%);
+  margin: 0;
+  color: #3d372f;
+  font-size: 16px;
+  line-height: 1.75;
+}
+.about-founders-copy p + p {
+  margin-top: 18px;
+}
+.founder-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+.founder-card {
+  position: relative;
+  padding: 12px;
+  border: 1px solid rgba(20, 20, 18, .1);
+  border-radius: 14px;
+  background: rgba(255, 250, 241, .62);
+  box-shadow: 0 22px 58px rgba(29, 22, 15, .14);
+}
+.founder-photo {
+  position: relative;
+  min-height: 390px;
+  aspect-ratio: 4 / 5;
+  border-radius: 10px;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.16)),
+    radial-gradient(circle at 50% 20%, rgba(239, 197, 110, .3), transparent 24%),
+    linear-gradient(145deg, #233529, #0a1714 72%);
+}
+.founder-photo::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgba(239, 197, 110, .28);
+  border-radius: 8px;
+}
+.founder-photo::after {
+  content: "Portret fondator";
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: 20px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, .18);
+  color: rgba(255, 255, 255, .82);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.founder-photo-b {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.05), rgba(0,0,0,.18)),
+    radial-gradient(circle at 52% 18%, rgba(217, 173, 82, .28), transparent 25%),
+    linear-gradient(145deg, #1c2d27, #07110f 72%);
+}
+.founder-meta {
+  padding: 18px 6px 4px;
+}
+.founder-meta span {
+  display: block;
+  margin-bottom: 8px;
+  color: #a67b30;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.founder-meta h3 {
+  margin: 0;
+  font: 600 25px/1.12 var(--serif);
+  letter-spacing: -.035em;
+}
+.founder-meta p {
+  margin: 9px 0 0;
+  color: #52493d;
+  font-size: 14px;
+  line-height: 1.55;
 }
 
 .site-footer {
@@ -550,6 +729,7 @@ img, video { display: block; max-width: 100%; }
   }
   body.nav-open .site-header .main-nav a:nth-child(1) { transition-delay: .05s; }
   body.nav-open .site-header .main-nav a:nth-child(2) { transition-delay: .09s; }
+  body.nav-open .site-header .main-nav a:nth-child(3) { transition-delay: .13s; }
   .hero {
     min-height: 760px;
   }
@@ -569,12 +749,35 @@ img, video { display: block; max-width: 100%; }
     font-size: 17px;
     line-height: 1.7;
   }
+  .hero-features {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 10px;
+    margin: 22px 0 16px;
+  }
+  .hero-feature {
+    grid-template-columns: 30px minmax(0, 1fr);
+    gap: 8px;
+    align-items: start;
+    font-size: 12.5px;
+    line-height: 1.25;
+  }
+  .hero-feature svg {
+    width: 30px;
+    height: 30px;
+    padding: 6px;
+  }
+  .hero .hero-social-proof {
+    margin-bottom: 26px;
+    font-size: 13px;
+    line-height: 1.45;
+  }
   .section-inner {
     width: min(100% - 36px, 620px);
     padding: 54px 0;
   }
   .services h2,
-  .package-title {
+  .package-title,
+  .about-founders-copy h2 {
     margin-bottom: 38px;
     text-align: left;
     font-size: clamp(30px, 8.2vw, 36px);
@@ -583,8 +786,29 @@ img, video { display: block; max-width: 100%; }
   }
   .service-grid,
   .package-grid,
+  .about-founders-inner,
+  .founder-grid,
   .contact-layout {
     grid-template-columns: 1fr;
+  }
+  .about-founders-inner {
+    gap: 34px;
+    padding-top: 58px;
+    padding-bottom: 64px;
+  }
+  .about-founders-copy p {
+    font-size: 15px;
+    line-height: 1.68;
+  }
+  .founder-card {
+    padding: 10px;
+  }
+  .founder-photo {
+    min-height: 0;
+    aspect-ratio: 16 / 13;
+  }
+  .founder-meta {
+    padding: 16px 4px 4px;
   }
   .service-grid { gap: 34px; }
   .service-card {

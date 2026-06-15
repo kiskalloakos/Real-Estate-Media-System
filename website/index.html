@@ -30,11 +30,38 @@
         <path d="M12 3a14 14 0 0 1 0 18"></path>
         <path d="M12 3a14 14 0 0 0 0 18"></path>
       </symbol>
+      <symbol id="icon-social" viewBox="0 0 24 24">
+        <circle cx="6" cy="7" r="2.4"></circle>
+        <circle cx="18" cy="7" r="2.4"></circle>
+        <circle cx="12" cy="17" r="2.4"></circle>
+        <path d="m8.2 8.4 2.5 6"></path>
+        <path d="m15.8 8.4-2.5 6"></path>
+        <path d="M8.5 7h7"></path>
+      </symbol>
+      <symbol id="icon-optimization" viewBox="0 0 24 24">
+        <path d="M5 4.5h9l5 5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6.5a2 2 0 0 1 2-2Z"></path>
+        <path d="M14 4.5V10h5"></path>
+        <path d="m7.2 15 2.3 2.3 5.3-6.1"></path>
+      </symbol>
+      <symbol id="icon-drone" viewBox="0 0 24 24">
+        <path d="M9 12h6"></path>
+        <path d="M12 9v6"></path>
+        <rect x="9" y="9" width="6" height="6" rx="1.5"></rect>
+        <circle cx="5" cy="5" r="2.3"></circle>
+        <circle cx="19" cy="5" r="2.3"></circle>
+        <circle cx="5" cy="19" r="2.3"></circle>
+        <circle cx="19" cy="19" r="2.3"></circle>
+        <path d="m7 7 2.4 2.4"></path>
+        <path d="m17 7-2.4 2.4"></path>
+        <path d="m7 17 2.4-2.4"></path>
+        <path d="m17 17-2.4-2.4"></path>
+      </symbol>
     </svg>
     <header class="site-header" data-header>
       <a class="brand" href="/" aria-label="RM acasă">RM</a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Meniu</button>
       <nav class="main-nav" id="main-nav" aria-label="Navigație principală">
+        <a href="#despre-noi">Despre noi</a>
         <a href="portfolio.html">Portofoliu</a>
         <a href="contact.html">Contact</a>
       </nav>
@@ -46,13 +73,39 @@
         <video class="hero-video" src="assets/videos/drone.mp4" autoplay muted loop playsinline webkit-playsinline preload="auto"></video>
         <div class="hero-shade"></div>
         <div class="hero-content">
-          <h1>Transformăm cazarea ta într-un brand care <span>se vede, se salvează și se rezervă.</span></h1>
-          <p>Conținut organic pentru Airbnb-uri și cazări din Cluj: foto, video, drone, clipuri verticale și o prezentare online care inspiră încredere.</p>
+          <h1>Transformă Airbnb-ul tău într-un <span>brand viral.</span></h1>
+          <div class="hero-features" aria-label="Servicii Realty Media">
+            <div class="hero-feature">
+              <svg><use href="#icon-camera"></use></svg>
+              <span>Fotografii profesionale</span>
+            </div>
+            <div class="hero-feature">
+              <svg><use href="#icon-social"></use></svg>
+              <span>Strategie virală pentru rețele sociale</span>
+            </div>
+            <div class="hero-feature">
+              <svg><use href="#icon-optimization"></use></svg>
+              <span>Optimizarea anunțului Airbnb</span>
+            </div>
+            <div class="hero-feature">
+              <svg><use href="#icon-video"></use></svg>
+              <span>Videoclip prezentare cinematic</span>
+            </div>
+            <div class="hero-feature">
+              <svg><use href="#icon-web"></use></svg>
+              <span>Site modern și profesional</span>
+            </div>
+            <div class="hero-feature">
+              <svg><use href="#icon-drone"></use></svg>
+              <span>Conținut dronă de înaltă calitate</span>
+            </div>
+          </div>
+          <p class="hero-social-proof">Colaborări 24/7 cu proprietăți de top în județul Cluj</p>
           <a class="button button-gold" href="contact.html">Cere ofertă</a>
         </div>
       </section>
 
-      <section class="services section-light" id="servicii">
+      <section class="services section-light">
         <div class="section-inner">
           <h2>Tot ce ai nevoie pentru o prezență premium online.</h2>
           <div class="service-grid">
@@ -110,7 +163,7 @@
 
       <section class="packages section-light" id="pachete">
         <div class="section-inner">
-          <h2 class="package-title">Pachete pentru Airbnb-uri din Cluj</h2>
+          <h2 class="package-title">Alege pachetul favorit</h2>
           <div class="package-grid">
             <article class="package-card">
               <h3>Ședință</h3>
@@ -125,7 +178,7 @@
             </article>
             <article class="package-card featured">
               <span class="ribbon">Cel mai popular</span>
-              <h3>Pachet mediu</h3>
+              <h3>Premium</h3>
               <div class="price"><strong>1.790</strong> RON <span>/ lună</span></div>
               <ul class="check-list">
                 <li><strong>Social media:</strong> strategie premium pentru vizibilitate și rezervări</li>
@@ -136,7 +189,7 @@
               <a class="button button-gold" href="contact.html">Cere ofertă</a>
             </article>
             <article class="package-card">
-              <h3>Pachet complet</h3>
+              <h3>All inclusive</h3>
               <div class="price"><strong>2.890</strong> RON <span>/ lună</span></div>
               <ul class="check-list">
                 <li><strong>Social media:</strong> strategie premium pentru vizibilitate și rezervări</li>
@@ -151,11 +204,40 @@
           </div>
         </div>
       </section>
+
+      <section class="about-founders section-light" id="despre-noi" aria-labelledby="about-title">
+        <div class="section-inner about-founders-inner">
+          <div class="about-founders-copy">
+            <span class="section-kicker">Despre noi</span>
+            <h2 id="about-title">Câteva cuvinte despre noi</h2>
+            <p>Realty Media este construită de doi fondatori cu experiență în media, marketing și prezentare premium pentru proprietăți care merită să fie percepute diferit.</p>
+            <p>Lucrăm aproape de gazde și proprietari din Cluj: filmăm, fotografiem, optimizăm anunțul și transformăm cazarea într-o prezență online coerentă, elegantă și orientată spre rezervări.</p>
+          </div>
+          <div class="founder-grid" aria-label="Fondatorii Realty Media">
+            <article class="founder-card">
+              <div class="founder-photo founder-photo-a" role="img" aria-label="Portret fondator Realty Media"></div>
+              <div class="founder-meta">
+                <span>Fondator</span>
+                <h3>Realty Media</h3>
+                <p>Strategie, direcție creativă și poziționarea proprietăților.</p>
+              </div>
+            </article>
+            <article class="founder-card">
+              <div class="founder-photo founder-photo-b" role="img" aria-label="Portret fondator Realty Media"></div>
+              <div class="founder-meta">
+                <span>Fondator</span>
+                <h3>Realty Media</h3>
+                <p>Producție media, execuție vizuală și prezentare cinematică.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
     </main>
 
     <footer class="site-footer">
-      <p>RM este operat de Mint Studios Agency SRL.</p>
-      <p>Drepturi de autor 2026 Mint Studios Agency SRL. Toate drepturile rezervate.</p>
+      <p>Realty Media Romania parte din Mint Studios Agency SRL.</p>
+      <p>© 2026 Mint Studios Agency SRL. All Rights Reserved.</p>
     </footer>
 
     <script src="script.js"></script>
