@@ -67,9 +67,13 @@ document.addEventListener("pointerdown", playAutoplayVideos, { once: true });
 
 const contactForm = document.querySelector(".contact-form");
 if (contactForm) {
-  contactForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const note = document.querySelector("[data-form-note]");
-    if (note) note.textContent = "Mulțumim. Cererea demonstrativă a fost înregistrată local.";
+  const note = document.querySelector("[data-form-note]");
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("sent") === "true" && note) {
+    note.textContent = "Mulțumim. Cererea a fost trimisă către contact@realtymedia.ro.";
+  }
+
+  contactForm.addEventListener("submit", () => {
+    if (note) note.textContent = "Se trimite cererea...";
   });
 }

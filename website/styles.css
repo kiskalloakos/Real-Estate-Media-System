@@ -263,16 +263,9 @@ img, video { display: block; max-width: 100%; }
 }
 .service-card h3 {
   min-height: 42px;
-  margin: 0;
+  margin: 0 0 20px;
   font: 600 24px/1.12 var(--serif);
   letter-spacing: -.035em;
-}
-.service-card p {
-  min-height: 56px;
-  margin: 8px 0 20px;
-  color: #3d372f;
-  font-size: 14px;
-  line-height: 1.6;
 }
 .media-frame {
   width: 100%;
@@ -526,8 +519,9 @@ img, video { display: block; max-width: 100%; }
 }
 
 .site-footer {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
   gap: 8px;
   padding: 28px clamp(28px, 5vw, 72px);
   border-top: 1px solid rgba(20, 20, 18, .1);
@@ -539,6 +533,25 @@ img, video { display: block; max-width: 100%; }
 }
 .site-footer p {
   margin: 0;
+}
+.footer-legal,
+.footer-contact {
+  display: grid;
+  gap: 8px;
+}
+.footer-contact {
+  justify-items: end;
+  text-align: right;
+}
+.footer-contact p:first-child {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  gap: 8px 18px;
+  white-space: nowrap;
+}
+.footer-contact a:hover {
+  color: var(--gold);
 }
 .dark-footer {
   border-top-color: rgba(255, 255, 255, .08);
@@ -611,13 +624,14 @@ img, video { display: block; max-width: 100%; }
 .property-copy p { font-size: 18px; line-height: 1.65; color: rgba(255,255,255,.82); }
 
 .contact-layout {
-  min-height: 100vh;
+  min-height: calc(100svh - 126px);
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(360px, 480px);
-  gap: clamp(42px, 5vw, 70px);
-  width: min(1120px, calc(100% - var(--page-gutter)));
+  grid-template-columns: minmax(0, 1040px);
+  justify-content: center;
+  align-items: center;
+  width: min(1180px, calc(100% - var(--page-gutter)));
   margin: 0 auto;
-  padding: 150px 0 80px;
+  padding: 54px 0;
 }
 .contact-copy { align-self: center; }
 .contact-details {
@@ -628,8 +642,9 @@ img, video { display: block; max-width: 100%; }
 .contact-form {
   align-self: center;
   display: grid;
-  gap: 18px;
-  padding: 34px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 18px;
+  padding: clamp(24px, 3vw, 34px);
   border-radius: 18px;
   background: var(--ivory-2);
   color: var(--ink);
@@ -637,8 +652,9 @@ img, video { display: block; max-width: 100%; }
 }
 .contact-form label {
   display: grid;
-  gap: 8px;
+  gap: 7px;
   font-weight: 700;
+  font-size: 15px;
 }
 .contact-form input,
 .contact-form select,
@@ -647,11 +663,24 @@ img, video { display: block; max-width: 100%; }
   border: 1px solid rgba(20,20,18,.18);
   border-radius: 9px;
   background: #fff;
-  padding: 15px 16px;
+  min-height: 48px;
+  padding: 12px 14px;
   color: var(--ink);
-  font: 500 16px var(--sans);
+  font: 500 15px var(--sans);
 }
-.contact-form textarea { resize: vertical; }
+.form-field-wide,
+.contact-form .button {
+  grid-column: 1 / -1;
+}
+.contact-form textarea {
+  min-height: 104px;
+  resize: vertical;
+}
+.contact-form .button {
+  justify-self: end;
+  min-height: 48px;
+}
+.form-honey { display: none; }
 .form-note { margin: 0; color: var(--muted); line-height: 1.5; }
 
 @media (max-width: 900px) {
@@ -821,8 +850,7 @@ img, video { display: block; max-width: 100%; }
     padding: 0 0 32px;
     border-bottom: 1px solid var(--line);
   }
-  .service-card h3,
-  .service-card p {
+  .service-card h3 {
     min-height: 0;
   }
   .media-frame {
@@ -857,12 +885,30 @@ img, video { display: block; max-width: 100%; }
     margin-top: 24px;
     transform: none;
   }
+  .site-footer {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .footer-contact {
+    justify-items: start;
+    text-align: left;
+  }
+  .footer-contact p:first-child {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    white-space: normal;
+  }
   .contact-layout {
-    padding-top: 125px;
-    gap: 36px;
+    width: min(100% - 36px, 520px);
+    min-height: auto;
+    padding: 44px 0 54px;
   }
   .contact-form {
+    grid-template-columns: 1fr;
     padding: 24px;
+  }
+  .contact-form .button {
+    justify-self: stretch;
   }
 }
 .icon-sprite {

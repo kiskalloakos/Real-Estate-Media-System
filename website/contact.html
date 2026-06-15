@@ -21,7 +21,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=20260615-2">
+    <link rel="stylesheet" href="styles.css?v=20260615-3">
   </head>
   <body class="contact-page">
     <header class="site-header dark" data-header>
@@ -32,34 +32,29 @@
         <a href="portfolio.html">Portofoliu</a>
         <a href="contact.html" aria-current="page">Contact</a>
       </nav>
-      <a class="nav-cta" href="#formular">Cere ofertă</a>
+      <a class="nav-cta" href="https://wa.me/40732775601" target="_blank" rel="noopener">Trimite-ne mesaj</a>
     </header>
 
     <main class="contact-layout">
-      <section class="contact-copy">
-        <p class="eyebrow">Contact RM</p>
-        <h1>Hai să vedem cum poate arăta cazarea ta online.</h1>
-        <p>Trimite câteva detalii despre proprietate, iar noi revenim cu o direcție clară pentru foto, video, clipuri verticale și prezentare online.</p>
-        <div class="contact-details">
-          <a href="tel:+40732775601">+40 732 775 601</a>
-          <span>Cluj-Napoca, România</span>
-        </div>
-      </section>
-
-      <form class="contact-form" id="formular">
-        <label>
+      <form class="contact-form" id="formular" action="https://formsubmit.co/contact@realtymedia.ro" method="POST">
+        <input type="hidden" name="_subject" value="Cerere nouă Realty Media">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_next" value="https://www.realtymedia.ro/contact.html?sent=true">
+        <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" class="form-honey">
+        <label class="form-field">
           Nume
           <input name="name" type="text" placeholder="Numele tău" required>
         </label>
-        <label>
+        <label class="form-field">
           E-mail
           <input name="email" type="email" placeholder="e-mail@exemplu.ro" required>
         </label>
-        <label>
+        <label class="form-field">
           Telefon
           <input name="phone" type="tel" placeholder="+40 ...">
         </label>
-        <label>
+        <label class="form-field">
           Tip proprietate
           <select name="property">
             <option>Apartament Airbnb</option>
@@ -68,20 +63,25 @@
             <option>Mai multe proprietăți</option>
           </select>
         </label>
-        <label>
+        <label class="form-field form-field-wide">
           Mesaj
-          <textarea name="message" rows="5" placeholder="Spune-ne unde este proprietatea și ce ai vrea să îmbunătățești."></textarea>
+          <textarea name="message" rows="3" placeholder="Spune-ne unde este proprietatea și ce ai vrea să îmbunătățești."></textarea>
         </label>
         <button class="button button-gold" type="submit">Trimite cererea</button>
-        <p class="form-note" data-form-note>Formular demonstrativ local. La implementarea finală îl conectăm la e-mail/CRM.</p>
       </form>
     </main>
 
     <footer class="site-footer dark-footer">
-      <p>Realty Media Romania parte din Mint Studios Agency SRL.</p>
-      <p>© 2026 Mint Studios Agency SRL. All Rights Reserved.</p>
+      <div class="footer-legal">
+        <p>Realty Media Romania parte din Mint Studios Agency SRL.</p>
+        <p>© 2026 Mint Studios Agency SRL. All Rights Reserved.</p>
+      </div>
+      <div class="footer-contact">
+        <p><a href="mailto:contact@realtymedia.ro">contact@realtymedia.ro</a><a href="tel:+40732775601">+40 732 775 601</a></p>
+        <p>Cluj-Napoca, România</p>
+      </div>
     </footer>
 
-    <script src="script.js?v=20260615-2"></script>
+    <script src="script.js?v=20260615-3"></script>
   </body>
 </html>
