@@ -234,7 +234,8 @@ img, video { display: block; max-width: 100%; }
   padding: 62px 0;
 }
 .services h2,
-.package-title {
+.package-title,
+.section-title {
   width: min(820px, 100%);
   margin: 0 auto 62px;
   text-align: center;
@@ -724,37 +725,8 @@ img, video { display: block; max-width: 100%; }
   background: var(--ivory);
 }
 .about-founders-inner {
-  display: grid;
-  grid-template-columns: minmax(0, .92fr) minmax(520px, 1.08fr);
-  gap: clamp(42px, 6vw, 78px);
-  align-items: center;
   padding-top: 72px;
   padding-bottom: 86px;
-}
-.section-kicker {
-  display: inline-flex;
-  margin-bottom: 18px;
-  color: #a67b30;
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-}
-.about-founders-copy h2 {
-  width: min(520px, 100%);
-  margin: 0 0 24px;
-  font: 600 clamp(36px, 3.7vw, 56px)/1.04 var(--serif);
-  letter-spacing: -.04em;
-}
-.about-founders-copy p {
-  width: min(560px, 100%);
-  margin: 0;
-  color: #3d372f;
-  font-size: 16px;
-  line-height: 1.75;
-}
-.about-founders-copy p + p {
-  margin-top: 18px;
 }
 .founder-grid {
   display: grid;
@@ -945,6 +917,9 @@ img, video { display: block; max-width: 100%; }
   min-height: auto;
   padding: 70px 0 84px;
 }
+.contact-section .section-title {
+  margin-bottom: 42px;
+}
 .contact-section .contact-form {
   box-shadow: 0 22px 60px rgba(29, 22, 15, .14);
 }
@@ -1128,7 +1103,7 @@ img, video { display: block; max-width: 100%; }
   }
   .services h2,
   .package-title,
-  .about-founders-copy h2 {
+  .section-title {
     margin-bottom: 38px;
     text-align: left;
     font-size: clamp(30px, 8.2vw, 36px);
@@ -1149,10 +1124,6 @@ img, video { display: block; max-width: 100%; }
     gap: 34px;
     padding-top: 58px;
     padding-bottom: 64px;
-  }
-  .about-founders-copy p {
-    font-size: 15px;
-    line-height: 1.68;
   }
   .founder-card {
     padding: 10px;
