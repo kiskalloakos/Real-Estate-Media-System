@@ -21,7 +21,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=20260615-3">
+    <link rel="stylesheet" href="styles.css?v=20260615-13">
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -113,7 +113,7 @@
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Meniu</button>
       <nav class="main-nav" id="main-nav" aria-label="Navigație principală">
         <a href="#despre-noi">Despre noi</a>
-        <a href="portfolio.html">Portofoliu</a>
+        <a href="portfolio.html" data-disabled-link aria-disabled="true">Portofoliu</a>
         <a href="contact.html">Contact</a>
       </nav>
       <a class="nav-cta" href="https://wa.me/40732775601" target="_blank" rel="noopener">Trimite-ne mesaj</a>
@@ -178,7 +178,6 @@
                 <li>Videoclip cinematic de 90-120 de secunde</li>
                 <li>Cadre care spun o poveste și transformă curiozitatea în dorință</li>
                 <li>Calitate înaltă, efecte cinematice și mișcări fluide</li>
-                <li>Impact vizual maxim creat special pentru pagina ta</li>
               </ul>
             </article>
             <article class="service-card">
@@ -188,7 +187,6 @@
               <ul class="check-list">
                 <li>Conținut scurt, creat să oprească scroll-ul</li>
                 <li>Conținut nou în fiecare zi</li>
-                <li>Optimizat pentru Instagram și alte rețele sociale în vogă</li>
                 <li>Editare în trend cu muzică, tranziții și animații personalizate</li>
               </ul>
             </article>
@@ -198,11 +196,8 @@
               <div class="media-frame media-laptop"></div>
               <ul class="check-list">
                 <li>Copywriting persuasiv, descrieri care atrag și conving</li>
-                <li>SEO pentru Airbnb ca anunțul să urce în căutări</li>
-                <li>Strategie de optimizare pentru profit maxim</li>
                 <li>Design premium, adaptat pentru mobil</li>
                 <li>Galerie foto elegantă</li>
-                <li>Buton de rezervare / contact</li>
               </ul>
             </article>
           </div>
@@ -221,21 +216,10 @@
                 <li><strong>Foto:</strong> 20 de imagini cu proprietatea și împrejurimile</li>
                 <li><strong>Airbnb:</strong> optimizarea anunțului</li>
               </ul>
-              <a class="button button-gold" href="contact.html">Cere ofertă</a>
+              <a class="button button-gold" href="https://wa.me/40732775601?text=Buna%2C%20vreau%20o%20oferta%20pentru%20pachetul%20Sedinta%20Realty%20Media." target="_blank" rel="noopener">Cere ofertă</a>
             </article>
             <article class="package-card featured">
               <span class="ribbon">Cel mai popular</span>
-              <h3>Premium</h3>
-              <div class="price"><strong>1.790</strong> RON <span>/ lună</span></div>
-              <ul class="check-list">
-                <li><strong>Video:</strong> 15 clipuri pentru Instagram</li>
-                <li><strong>Foto:</strong> 20 de imagini cu proprietatea și împrejurimile</li>
-                <li><strong>Airbnb:</strong> optimizarea anunțului</li>
-                <li><strong>Social media:</strong> strategie premium pentru vizibilitate și rezervări</li>
-              </ul>
-              <a class="button button-gold" href="contact.html">Cere ofertă</a>
-            </article>
-            <article class="package-card">
               <h3>All inclusive</h3>
               <div class="price"><strong>2.890</strong> RON <span>/ lună</span></div>
               <ul class="check-list">
@@ -246,35 +230,44 @@
                 <li><strong>Prezentare:</strong> video de 90-120 secunde</li>
                 <li><strong>Site web:</strong> pagină modernă construită pentru conversii</li>
               </ul>
-              <a class="button button-gold" href="contact.html">Cere ofertă</a>
+              <a class="button button-gold" href="https://wa.me/40732775601?text=Buna%2C%20vreau%20o%20oferta%20pentru%20pachetul%20All%20inclusive%20Realty%20Media." target="_blank" rel="noopener">Cere ofertă</a>
+            </article>
+            <article class="package-card">
+              <h3>Premium</h3>
+              <div class="price"><strong>1.790</strong> RON <span>/ lună</span></div>
+              <ul class="check-list">
+                <li><strong>Video:</strong> 15 clipuri pentru Instagram</li>
+                <li><strong>Foto:</strong> 20 de imagini cu proprietatea și împrejurimile</li>
+                <li><strong>Airbnb:</strong> optimizarea anunțului</li>
+                <li><strong>Social media:</strong> strategie premium pentru vizibilitate și rezervări</li>
+              </ul>
+              <a class="button button-gold" href="https://wa.me/40732775601?text=Buna%2C%20vreau%20o%20oferta%20pentru%20pachetul%20Premium%20Realty%20Media." target="_blank" rel="noopener">Cere ofertă</a>
             </article>
           </div>
         </div>
       </section>
 
-      <section class="about-founders section-light" id="despre-noi" aria-labelledby="about-title">
+      <section class="about-founders section-light" id="despre-noi" aria-label="Despre noi">
         <div class="section-inner about-founders-inner">
           <div class="about-founders-copy">
-            <span class="section-kicker">Despre noi</span>
-            <h2 id="about-title">Câteva cuvinte despre noi</h2>
             <p>Realty Media este construită de doi fondatori cu experiență în media, marketing și prezentare premium pentru proprietăți care merită să fie percepute diferit.</p>
             <p>Lucrăm aproape de gazde și proprietari din Cluj: filmăm, fotografiem, optimizăm anunțul și transformăm cazarea într-o prezență online coerentă, elegantă și orientată spre rezervări.</p>
           </div>
           <div class="founder-grid" aria-label="Fondatorii Realty Media">
             <article class="founder-card">
-              <div class="founder-photo founder-photo-a" role="img" aria-label="Portret fondator Realty Media"></div>
+              <div class="founder-photo founder-photo-b" role="img" aria-label="Portret Irsai Soma, Founder Realty Media"></div>
               <div class="founder-meta">
-                <span>Fondator</span>
-                <h3>Realty Media</h3>
-                <p>Strategie, direcție creativă și poziționarea proprietăților.</p>
+                <span>Founder</span>
+                <h3>Irsai Soma</h3>
+                <p>Conduce producția media, execuția vizuală și prezentarea cinematică. Are 5+ ani de experiență în fotografie și cinematografie și a absolvit UBB Teatru și Film, specializarea Cinematografie și Media.</p>
               </div>
             </article>
             <article class="founder-card">
-              <div class="founder-photo founder-photo-b" role="img" aria-label="Portret fondator Realty Media"></div>
+              <div class="founder-photo founder-photo-a" role="img" aria-label="Portret Kis-Kalló Ákos, Co-Founder Realty Media"></div>
               <div class="founder-meta">
-                <span>Fondator</span>
-                <h3>Realty Media</h3>
-                <p>Producție media, execuție vizuală și prezentare cinematică.</p>
+                <span>Co-Founder</span>
+                <h3>Kis-Kalló Ákos</h3>
+                <p>Coordonează zona de tech, operațiuni și sisteme. Are 10+ ani de experiență în social media și tehnologie, este fondatorul famescale.co și transformă ideile creative în procese clare, scalabile și orientate spre rezultate.</p>
               </div>
             </article>
           </div>
@@ -293,6 +286,6 @@
       </div>
     </footer>
 
-    <script src="script.js?v=20260615-3"></script>
+    <script src="script.js?v=20260615-4"></script>
   </body>
 </html>

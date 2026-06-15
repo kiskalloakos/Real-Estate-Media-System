@@ -1,6 +1,13 @@
 const menuButton = document.querySelector(".menu-toggle");
 const body = document.body;
 const menuLinks = document.querySelectorAll(".main-nav a, .nav-cta");
+const disabledLinks = document.querySelectorAll("[data-disabled-link]");
+
+disabledLinks.forEach((link) => {
+  link.addEventListener("click", (event) => {
+    event.preventDefault();
+  });
+});
 
 if (menuButton) {
   menuButton.addEventListener("click", () => {
