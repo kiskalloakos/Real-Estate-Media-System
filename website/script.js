@@ -70,6 +70,6 @@ if (contactForm) {
   contactForm.addEventListener("submit", (event) => {
     event.preventDefault();
     const note = document.querySelector("[data-form-note]");
-    if (note) note.textContent = "Mulțumim. Cererea demo a fost înregistrată local.";
+    if (note) note.textContent = "Mulțumim. Cererea demonstrativă a fost înregistrată local.";
   });
 }

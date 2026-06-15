@@ -293,7 +293,6 @@ img, video { display: block; max-width: 100%; }
   background:
     radial-gradient(circle at 30% 0%, rgba(217, 173, 82, .18), transparent 46%),
     linear-gradient(145deg, #111514, #07100f 70%);
-  transform: translateY(-8px);
 }
 .ribbon {
   position: absolute;
@@ -329,8 +328,16 @@ img, video { display: block; max-width: 100%; }
 }
 .price span { color: rgba(255, 255, 255, .82); font-weight: 600; }
 .package-card .check-list {
-  margin: 24px 0 30px;
+  margin: 26px 0 34px;
   color: rgba(255, 255, 255, .92);
+}
+.package-card .check-list li {
+  line-height: 1.45;
+}
+.package-card .check-list strong {
+  color: var(--white);
+  font-weight: 800;
+  white-space: nowrap;
 }
 .package-card .button {
   width: 100%;

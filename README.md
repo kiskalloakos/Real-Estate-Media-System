@@ -1,10 +1,10 @@
-# Real Estate Media System
+# Realty Media
 
 ## Purpose of This File
 
-This README is the working context file for the Real Estate Media System agency concept. It is written so future AI chats can quickly understand the business, strategic direction, offer structure, assumptions, and current decisions without needing the original conversation.
+This README is the working context file for the Realty Media agency concept. It is written so future AI chats can quickly understand the business, strategic direction, offer structure, assumptions, and current decisions without needing the original conversation.
 
-The company is currently called **Real Estate Media System** as a working name. The exact brand name may change later.
+The company is now called **Realty Media** and uses **RM** as the short website mark.
 
 ## Simple Service Explanation
 
@@ -12,7 +12,7 @@ The company is currently called **Real Estate Media System** as a working name. 
 
 ## High-Level Concept
 
-Real Estate Media System is a real estate-focused media and marketing agency for agents in Romania, starting in **Cluj / Cluj-Napoca**.
+Realty Media is a real estate-focused media and marketing agency for agents in Romania, starting in **Cluj / Cluj-Napoca**.
 
 The core idea is not just to sell photography or videography. The preferred positioning is a **full agent growth system**:
 
@@ -87,7 +87,7 @@ Romanian real estate discovery is still heavily portal-driven. Buyers commonly u
 - Imobiliare.ro
 - Other local classifieds/real estate platforms
 
-Because of this, the agency should not position itself as replacing portals. Instead, the stronger angle is that Real Estate Media System helps agents look premium and trustworthy **outside the portals**, especially when sellers are deciding which agent to hire.
+Because of this, the agency should not position itself as replacing portals. Instead, the stronger angle is that Realty Media helps agents look premium and trustworthy **outside the portals**, especially when sellers are deciding which agent to hire.
 
 The likely buyer psychology:
 
@@ -104,7 +104,7 @@ Recommended core angle:
 
 A light public competitive scan suggests that the Romanian/Cluj market already understands real estate media as a category. There are competitors offering property photography, videography, drone footage, 360/3D tours, mini-sites, and social-ready videos.
 
-This means Real Estate Media System is not inventing demand from zero. The category exists. The strategic task is to avoid sounding like another generic photo/video provider.
+This means Realty Media is not inventing demand from zero. The category exists. The strategic task is to avoid sounding like another generic photo/video provider.
 
 ### Competitor Types
 
@@ -141,13 +141,13 @@ Competitors validate that the market can understand and buy:
 
 Most competitors sell **property media**.
 
-Real Estate Media System should sell **agent positioning, seller trust, Instagram execution, and content distribution**.
+Realty Media should sell **agent positioning, seller trust, Instagram execution, and content distribution**.
 
 A normal competitor says:
 
 > We photograph and film your property.
 
-Real Estate Media System should say:
+Realty Media should say:
 
 > We make you look like the agent sellers trust with premium properties, then turn each listing into a full Instagram content campaign.
 
@@ -421,7 +421,7 @@ The pages should be **templated with customization**, not fully custom every tim
 
 Open question:
 
-- Whether pages should live under Real Estate Media System's own domain/system or under each agent's domain.
+- Whether pages should live under Realty Media's own domain/system or under each agent's domain.
 
 Possible options:
 
@@ -601,7 +601,7 @@ These are not final, but useful directions:
 - Listing Launch
 - Agent Growth System
 - Premium Agent System
-- Real Estate Media System
+- Realty Media
 - Agent Presence System
 - Seller Lead System
 - Property Content Engine
@@ -610,7 +610,6 @@ These are not final, but useful directions:
 
 These decisions are not final yet:
 
-- Final company/brand name
 - Romanian vs English final public-facing copy
 - Exact pricing tiers
 - Exact deliverables per tier
@@ -624,7 +623,7 @@ These decisions are not final yet:
 
 ## Current Best Strategic Summary
 
-Real Estate Media System should be built as a Romanian real estate marketing agency focused first on Cluj agents. The agency combines premium property media, Instagram management, AI-assisted workflows, listing landing pages, and FameScale-powered distribution into a full agent growth system.
+Realty Media should be built as a Romanian real estate marketing agency focused first on Cluj agents. The agency combines premium property media, Instagram management, AI-assisted workflows, listing landing pages, and FameScale-powered distribution into a full agent growth system.
 
 The main business should not be one-off shoots, although one-off listing media can be used as an entry offer. The stronger long-term model is a monthly retainer where the agency manages an agent's Instagram presence, shoots their listings, creates reels, builds listing pages, and improves the agent's online image.
 
