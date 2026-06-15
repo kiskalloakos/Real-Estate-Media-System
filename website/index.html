@@ -107,14 +107,29 @@
         <path d="m7 17 2.4-2.4"></path>
         <path d="m17 17-2.4-2.4"></path>
       </symbol>
+      <symbol id="icon-heart" viewBox="0 0 24 24">
+        <path d="M20.8 5.8a5.1 5.1 0 0 0-7.2 0L12 7.4l-1.6-1.6a5.1 5.1 0 0 0-7.2 7.2L12 21.3l8.8-8.3a5.1 5.1 0 0 0 0-7.2Z"></path>
+      </symbol>
+      <symbol id="icon-comment" viewBox="0 0 24 24">
+        <path d="M20 11.6a7.5 7.5 0 0 1-8 7.4 8.8 8.8 0 0 1-3.4-.7L4 20l1.5-4.1A7.4 7.4 0 1 1 20 11.6Z"></path>
+      </symbol>
+      <symbol id="icon-send" viewBox="0 0 24 24">
+        <path d="M21 3 10.7 13.3"></path>
+        <path d="m21 3-6.5 18-3.8-7.7L3 9.5 21 3Z"></path>
+      </symbol>
+      <symbol id="icon-bookmark" viewBox="0 0 24 24">
+        <path d="M6 4.5A2.5 2.5 0 0 1 8.5 2h7A2.5 2.5 0 0 1 18 4.5V21l-6-3.8L6 21V4.5Z"></path>
+      </symbol>
     </svg>
     <header class="site-header" data-header>
       <a class="brand" href="/" aria-label="RM acasă">RM</a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Meniu</button>
       <nav class="main-nav" id="main-nav" aria-label="Navigație principală">
+        <a href="#servicii">Cu ce ne ocupăm</a>
+        <a href="#pachete">Ofertele noastre</a>
         <a href="#despre-noi">Despre noi</a>
         <a href="portfolio.html" data-disabled-link aria-disabled="true">Portofoliu</a>
-        <a href="contact.html">Contact</a>
+        <a href="#contact">Contact</a>
       </nav>
       <a class="nav-cta" href="https://wa.me/40732775601" target="_blank" rel="noopener">Trimite-ne mesaj</a>
     </header>
@@ -124,6 +139,7 @@
         <video class="hero-video" src="assets/videos/drone.mp4" autoplay muted loop playsinline webkit-playsinline preload="auto"></video>
         <div class="hero-shade"></div>
         <div class="hero-content">
+          <p class="hero-social-proof">Colaborări 24/7 cu proprietăți de top în județul Cluj</p>
           <h1>Transformă Airbnb-ul tău într-un <span>brand viral.</span></h1>
           <div class="hero-features" aria-label="Servicii Realty Media">
             <div class="hero-feature">
@@ -151,54 +167,78 @@
               <span>Conținut dronă de înaltă calitate</span>
             </div>
           </div>
-          <p class="hero-social-proof">Colaborări 24/7 cu proprietăți de top în județul Cluj</p>
-          <a class="button button-gold" href="#pachete">Ofertele noastre</a>
         </div>
       </section>
 
-      <section class="services section-light">
+      <section class="services section-light" id="servicii">
         <div class="section-inner">
-          <h2>Tot ce ai nevoie pentru o prezență premium online.</h2>
+          <h2>Cu ce ne ocupăm</h2>
           <div class="service-grid">
-            <article class="service-card">
-              <svg class="service-icon"><use href="#icon-camera"></use></svg>
-              <h3>Fotografii profesionale</h3>
+            <article class="service-card service-card-cinematic">
+              <video class="service-video" src="assets/videos/drone.mp4" autoplay muted loop playsinline webkit-playsinline preload="auto"></video>
+              <div class="service-overlay"></div>
+              <div class="service-content">
+                <h3>Prezentare cinematică</h3>
+                <p>Video cinematic cu dronă, cadre de interior și montaj fluid, construit să transforme proprietatea într-o experiență clară, premium și ușor de imaginat pentru viitorii oaspeți.</p>
+              </div>
+            </article>
+            <article class="service-card service-card-photo">
               <div class="media-frame media-bedroom"></div>
-              <ul class="check-list">
-                <li>20 de imagini premium despre proprietate și împrejurimi</li>
-                <li>Editare avansată, culori vibrante și claritate impecabilă</li>
-                <li>Detalii care vând prin experiență și atmosferă</li>
-              </ul>
+              <div class="service-content">
+                <h3>Fotografii profesionale</h3>
+                <p>Fotografie HDR, culori naturale, claritate ridicată și editare atentă, pentru imagini luminoase care scot în evidență spațiul, textura și atmosfera proprietății.</p>
+              </div>
             </article>
-            <article class="service-card">
-              <svg class="service-icon"><use href="#icon-video"></use></svg>
-              <h3>Prezentare cinematică</h3>
-              <video class="media-frame service-video" src="assets/videos/drone.mp4" autoplay muted loop playsinline webkit-playsinline preload="auto"></video>
-              <ul class="check-list">
-                <li>Videoclip cinematic de 90-120 de secunde</li>
-                <li>Cadre care spun o poveste și transformă curiozitatea în dorință</li>
-                <li>Calitate înaltă, efecte cinematice și mișcări fluide</li>
-              </ul>
+            <article class="service-card service-card-social">
+              <div class="phone-preview">
+                <video class="service-video" src="assets/videos/reels.mp4" autoplay muted loop playsinline webkit-playsinline preload="auto"></video>
+                <div class="reel-overlay" aria-hidden="true">
+                  <div class="reel-top">
+                    <span class="reel-avatar">RM</span>
+                    <span class="reel-account">realtymedia</span>
+                    <span class="reel-follow">Urmărește</span>
+                  </div>
+                  <div class="reel-actions">
+                    <span><svg><use href="#icon-heart"></use></svg><small>2.4k</small></span>
+                    <span><svg><use href="#icon-comment"></use></svg><small>86</small></span>
+                    <span><svg><use href="#icon-send"></use></svg><small>Share</small></span>
+                    <span><svg><use href="#icon-bookmark"></use></svg></span>
+                  </div>
+                  <div class="reel-caption">
+                    <strong>realtymedia.ro</strong>
+                    <small>Tur cinematic pentru o proprietate premium din Cluj</small>
+                    <em>Original audio • Realty Media</em>
+                  </div>
+                </div>
+              </div>
+              <div class="service-content">
+                <h3>Social media</h3>
+                <p>Clipuri scurte, editate pentru scroll rapid, retenție bună și prezență constantă.</p>
+              </div>
             </article>
-            <article class="service-card">
-              <svg class="service-icon"><use href="#icon-reels"></use></svg>
-              <h3>Social media</h3>
-              <video class="media-frame service-video" src="assets/videos/prj-1.mp4" autoplay muted loop playsinline webkit-playsinline preload="auto"></video>
-              <ul class="check-list">
-                <li>Conținut scurt, creat să oprească scroll-ul</li>
-                <li>Conținut nou în fiecare zi</li>
-                <li>Editare în trend cu muzică, tranziții și animații personalizate</li>
-              </ul>
-            </article>
-            <article class="service-card">
-              <svg class="service-icon"><use href="#icon-web"></use></svg>
-              <h3>Site web & Airbnb</h3>
-              <div class="media-frame media-laptop"></div>
-              <ul class="check-list">
-                <li>Copywriting persuasiv, descrieri care atrag și conving</li>
-                <li>Design premium, adaptat pentru mobil</li>
-                <li>Galerie foto elegantă</li>
-              </ul>
+            <article class="service-card service-card-web">
+              <div class="service-content">
+                <h3>Site web & Airbnb</h3>
+                <p>Prezentare coerentă pe desktop și mobil, cu galerie elegantă, copywriting persuasiv și structură clară pentru ca proprietatea să pară credibilă, premium și pregătită pentru rezervări.</p>
+              </div>
+              <div class="web-showcase" aria-hidden="true">
+                <div class="desktop-preview">
+                  <div class="preview-bar"><span></span><span></span><span></span></div>
+                  <div class="preview-gallery">
+                    <div class="preview-photo preview-photo-main"></div>
+                    <div class="preview-photo preview-photo-living"></div>
+                    <div class="preview-photo preview-photo-kitchen"></div>
+                    <div class="preview-photo preview-photo-detail"></div>
+                  </div>
+                  <div class="preview-body">
+                    <div>
+                      <strong>Apartament premium, Cluj</strong>
+                      <small>Lumină naturală, design cald, poziționare centrală</small>
+                    </div>
+                    <span class="preview-price">450 RON / noapte</span>
+                  </div>
+                </div>
+              </div>
             </article>
           </div>
         </div>
@@ -206,15 +246,14 @@
 
       <section class="packages section-light" id="pachete">
         <div class="section-inner">
-          <h2 class="package-title">Alege pachetul favorit</h2>
+          <h2 class="package-title">Ofertele noastre</h2>
           <div class="package-grid">
             <article class="package-card">
               <h3>Ședință</h3>
               <div class="price"><strong>990</strong> RON</div>
               <ul class="check-list">
                 <li><strong>Video:</strong> 3 clipuri pentru Instagram</li>
-                <li><strong>Foto:</strong> 20 de imagini cu proprietatea și împrejurimile</li>
-                <li><strong>Airbnb:</strong> optimizarea anunțului</li>
+                <li><strong>Foto:</strong> 10 imagini cu proprietatea și împrejurimile</li>
               </ul>
               <a class="button button-gold" href="https://wa.me/40732775601?text=Buna%2C%20vreau%20o%20oferta%20pentru%20pachetul%20Sedinta%20Realty%20Media." target="_blank" rel="noopener">Cere ofertă</a>
             </article>
@@ -271,6 +310,45 @@
               </div>
             </article>
           </div>
+        </div>
+      </section>
+
+      <section class="contact-section section-light" id="contact" aria-label="Contact">
+        <div class="contact-layout">
+          <form class="contact-form" id="formular" action="https://formsubmit.co/contact@realtymedia.ro" method="POST">
+            <input type="hidden" name="_subject" value="Cerere nouă Realty Media">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_next" value="https://www.realtymedia.ro/?sent=true#contact">
+            <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" class="form-honey">
+            <label class="form-field">
+              Nume
+              <input name="name" type="text" placeholder="Numele tău" required>
+            </label>
+            <label class="form-field">
+              E-mail
+              <input name="email" type="email" placeholder="e-mail@exemplu.ro" required>
+            </label>
+            <label class="form-field">
+              Telefon
+              <input name="phone" type="tel" placeholder="+40 ...">
+            </label>
+            <label class="form-field">
+              Tip proprietate
+              <select name="property">
+                <option>Apartament Airbnb</option>
+                <option>Casă / vilă</option>
+                <option>Cabană</option>
+                <option>Mai multe proprietăți</option>
+              </select>
+            </label>
+            <label class="form-field form-field-wide">
+              Mesaj
+              <textarea name="message" rows="3" placeholder="Spune-ne unde este proprietatea și ce ai vrea să îmbunătățești."></textarea>
+            </label>
+            <button class="button button-gold" type="submit">Trimite cererea</button>
+            <p class="form-note form-field-wide" data-form-note></p>
+          </form>
         </div>
       </section>
     </main>
