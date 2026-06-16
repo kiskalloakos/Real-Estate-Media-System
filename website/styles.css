@@ -98,12 +98,17 @@ img, video { display: block; max-width: 100%; }
 }
 .button:hover,
 .nav-cta:hover { transform: translateY(-2px); filter: brightness(1.04); }
+.nav-cta {
+  min-height: 46px;
+  padding: 0 28px;
+}
 .button-gold,
 .nav-cta {
   background: linear-gradient(180deg, var(--gold-2), var(--gold));
   color: #11100d;
   box-shadow: 0 18px 50px rgba(217, 173, 82, .25);
 }
+.hero-mobile-cta { display: none; }
 .menu-toggle { display: none; }
 
 .hero {
@@ -1253,6 +1258,35 @@ img, video { display: block; max-width: 100%; }
   }
   .contact-form .button {
     justify-self: stretch;
+  }
+}
+
+@media (max-width: 640px) {
+  .site-header,
+  .site-header:not(.dark) {
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+  .site-header:not(.dark) {
+    left: 0;
+    right: 0;
+  }
+  .menu-toggle {
+    padding: 9px 13px;
+    font-size: 13px;
+  }
+  .hero-mobile-cta {
+    display: inline-flex;
+    min-height: 44px;
+    margin-top: 8px;
+    padding: 0 22px;
+    font-size: 14px;
+  }
+  .site-header .main-nav {
+    left: 22px;
+    right: 22px;
   }
 }
 .icon-sprite {
