@@ -19,9 +19,7 @@ website/properties/property-name/
   sections.json
   scroll.mp4
   assets/frames/frame-0001.jpg
-  assets/
-    fonts/Eczar-VariableFont_wght.ttf
-    images/property-name/
+  assets/images/property-name/
 ```
 
 ## Config Files

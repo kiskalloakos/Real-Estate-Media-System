@@ -20,6 +20,14 @@ function propertySlug() {
   return params.get("property") || document.body.dataset.property || "mountain-view-apuseni";
 }
 
+function resolveImagePath(path = "") {
+  if (!path || /^(?:https?:|data:|blob:|\/|\.\/|\.\.\/)/.test(path)) return path;
+  if (window.location.pathname.includes("/templates/property/") && path.startsWith("images/")) {
+    return `assets/${path}`;
+  }
+  return path;
+}
+
 async function loadProperty() {
   app.innerHTML = '<div class="pt-loading">Loading property template...</div>';
 
@@ -46,22 +54,37 @@ function renderNav(property) {
   `;
 }
 
+function renderReviewBadge(property) {
+  if (!property.reviews || !property.googleMapsUrl) return "";
+
+  return `
+    <a class="pt-review-badge" href="${escapeHtml(property.googleMapsUrl)}" target="_blank" rel="noopener" aria-label="${escapeHtml(property.ui?.reviewsAria || "Vezi recenziile pe Google Maps")}">
+      <span class="pt-stars" aria-hidden="true">★★★★★</span>
+      <strong>${escapeHtml(property.reviews.rating)}</strong>
+      ${property.ui?.heroReviewSuffix ? `<span>${escapeHtml(property.ui.heroReviewSuffix)}</span>` : ""}
+    </a>
+  `;
+}
+
 function renderHero(property) {
+  const mobileImage = property.hero.mobileImage || property.hero.image;
+  const heroImage = resolveImagePath(property.hero.image);
+
   return `
     <section class="pt-hero" id="top" aria-label="${escapeHtml(property.name)}">
-      <img class="pt-hero-image" src="${escapeHtml(property.hero.image)}" alt="${escapeHtml(property.hero.alt)}">
+      <picture>
+        <source media="(max-width: 760px)" srcset="${escapeHtml(resolveImagePath(mobileImage))}">
+        <img class="pt-hero-image" src="${escapeHtml(heroImage)}" alt="${escapeHtml(property.hero.alt)}">
+      </picture>
       <div class="pt-hero-shade"></div>
       <div class="pt-hero-content">
-        <p class="pt-kicker">${escapeHtml(property.hero.kicker)}</p>
+        ${renderReviewBadge(property)}
         <h1>${escapeHtml(property.hero.title)}</h1>
         <p class="pt-hero-text">${escapeHtml(property.hero.text)}</p>
         <div class="pt-hero-actions">
           <a class="pt-button" href="${escapeHtml(property.whatsapp)}" target="_blank" rel="noopener">Rezerva pe WhatsApp</a>
           <a class="pt-text-link" href="#gallery">Vezi galeria</a>
         </div>
-      </div>
-      <div class="pt-facts" aria-label="Quick property details">
-        ${property.facts.map((fact) => `<span>${escapeHtml(fact)}</span>`).join("")}
       </div>
     </section>
   `;
@@ -83,7 +106,7 @@ function renderGallery(property) {
             ${gallery.items.map((item, index) => `
               <figure class="pt-gallery-card">
                 <button class="pt-gallery-open" type="button" data-gallery-index="${index}" aria-label="Deschide imaginea: ${escapeHtml(item.caption)}">
-                  <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.alt)}" loading="lazy">
+                  <img src="${escapeHtml(resolveImagePath(item.image))}" alt="${escapeHtml(item.alt)}" loading="lazy">
                 </button>
                 <figcaption>${escapeHtml(item.caption)}</figcaption>
               </figure>
@@ -109,7 +132,7 @@ function renderLightbox(items = []) {
       <div class="pt-lightbox-thumbs" aria-label="Alege imaginea">
         ${items.map((item, index) => `
           <button class="pt-lightbox-thumb" type="button" data-lightbox-thumb="${index}" aria-label="Arata imaginea: ${escapeHtml(item.caption)}">
-            <img src="${escapeHtml(item.image)}" alt="">
+            <img src="${escapeHtml(resolveImagePath(item.image))}" alt="">
           </button>
         `).join("")}
       </div>
@@ -134,7 +157,7 @@ function renderDescription(property) {
 function renderContact(property) {
   return `
     <section class="pt-final" id="contact" aria-label="Contact">
-      <img src="${escapeHtml(property.finalCta.image)}" alt="" loading="lazy">
+      <img src="${escapeHtml(resolveImagePath(property.finalCta.image))}" alt="" loading="lazy">
       <div class="pt-rail">
         <h2>${escapeHtml(property.finalCta.title)}</h2>
         <p>${escapeHtml(property.finalCta.text)}</p>
@@ -227,7 +250,7 @@ function setupLightbox(items = []) {
   function show(index) {
     activeIndex = (index + items.length) % items.length;
     const item = items[activeIndex];
-    image.src = item.image;
+    image.src = resolveImagePath(item.image);
     image.alt = item.alt || item.caption || "";
     caption.textContent = item.caption || "";
 

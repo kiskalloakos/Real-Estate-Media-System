@@ -7,19 +7,30 @@
   "metaDescription": "Mockup website pentru Mountain View Apuseni: cabana premium in Muntii Apuseni, cu jacuzzi, cada in dormitor si galerie clara.",
   "phone": "0740 146 596",
   "whatsapp": "https://wa.me/40740146596?text=www.mountain-view-apuseni.ro%0ABuna%20ziua%2C%20as%20vrea%20mai%20multe%20detalii%20despre%20cabana%20dumneavoastra.%20Este%20disponibila%20din%20data%20X%20pana%20in%20data%20Y%3F",
+  "googleMapsUrl": "https://maps.app.goo.gl/TR5NFKU7B42H9NNb8",
+  "reviews": {
+    "rating": "5.0",
+    "source": "Google Maps",
+    "title": "Recenzii de 5 stele pe Google",
+    "text": "Oaspetii aleg Mountain View Apuseni pentru liniste, intimitate si detaliile care fac sejurul sa se simta premium."
+  },
+  "ui": {
+    "heroReviewSuffix": "din 30+ oaspeti fericiti",
+    "reviewsAria": "Vezi recenziile pe Google Maps"
+  },
   "hero": {
-    "image": "images/hero-cabin-twilight.jpg",
-    "alt": "Mountain View Apuseni cabana A-frame la apus",
+    "image": "images/hero-cabin-wide.jpg",
+    "mobileImage": "images/hero-cabin-mobile.png",
+    "alt": "Exterior Mountain View Apuseni vazut integral la apus",
     "kicker": "Dealu Negru / Muntii Apuseni",
     "title": "Mountain View Apuseni",
     "text": "O cabana pentru cupluri si grupuri mici care cauta liniste, intimitate si cateva detalii care se simt imediat premium."
   },
   "facts": [
-    "4 oaspeti",
+    "Fire pit exterior",
     "Jacuzzi exterior",
     "Cada in dormitor",
-    "Adults only",
-    "De la 900 RON"
+    "Bucatarie gourmet"
   ],
   "gallery": {
     "kicker": "Galerie",
