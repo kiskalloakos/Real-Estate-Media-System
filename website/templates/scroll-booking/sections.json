@@ -1,0 +1,43 @@
+{
+  "framePattern": "assets/frames/frame-{{index}}.jpg",
+  "frameCount": 125,
+  "scrollHeight": "760vh",
+  "sections": [
+    {
+      "id": "entrance",
+      "start": 0.04,
+      "end": 0.16,
+      "position": "left",
+      "eyebrow": "Intrare",
+      "title": "Prima impresie conteaza",
+      "text": "Un cadru cinematic care seteaza tonul proprietatii inainte ca oaspetele sa vada detaliile."
+    },
+    {
+      "id": "living",
+      "start": 0.22,
+      "end": 0.38,
+      "position": "right",
+      "eyebrow": "Living",
+      "title": "Spatiu deschis, luminos",
+      "text": "Zona principala este prezentata ca un loc primitor, premium si pregatit pentru momente memorabile."
+    },
+    {
+      "id": "bedroom",
+      "start": 0.48,
+      "end": 0.62,
+      "position": "bottom-left",
+      "eyebrow": "Dormitor",
+      "title": "Confort calm",
+      "text": "Copy scurt, emotional si clar, care transforma o camera simpla intr-un motiv de rezervare."
+    },
+    {
+      "id": "kitchen",
+      "start": 0.68,
+      "end": 0.82,
+      "position": "bottom-right",
+      "eyebrow": "Bucatarie",
+      "title": "Totul pregatit",
+      "text": "Oaspetii inteleg rapid ca proprietatea este functionala, curata si usor de locuit."
+    }
+  ]
+}

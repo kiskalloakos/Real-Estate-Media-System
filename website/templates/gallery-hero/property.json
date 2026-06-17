@@ -1,0 +1,46 @@
+{
+  "title": "Mountain View Apuseni Gallery Hero",
+  "brand": "Mountain View Apuseni",
+  "whatsappUrl": "https://wa.me/40740146596?text=www.mountain-view-apuseni.ro%0ABuna%20ziua%2C%20as%20vrea%20mai%20multe%20detalii%20despre%20cabana%20dumneavoastra.%20Este%20disponibila%20din%20data%20X%20pana%20in%20data%20Y%3F",
+  "googleMapsUrl": "https://maps.app.goo.gl/TR5NFKU7B42H9NNb8",
+  "googleMapsEmbedUrl": "https://www.google.com/maps?q=Mountain%20View%20Apuseni&output=embed",
+  "reviews": {
+    "rating": "5.0",
+    "source": "Google Maps",
+    "title": "Recenzii de 5 stele pe Google",
+    "text": "Oaspetii aleg Mountain View Apuseni pentru liniste, intimitate si detaliile care fac sejurul sa se simta premium."
+  },
+  "hero": {
+    "title": "Mountain View Apuseni",
+    "subhead": "O cabana premium pentru cupluri si grupuri mici, cu jacuzzi exterior, cada in dormitor si linistea Muntilor Apuseni.",
+    "images": [
+      {
+        "src": "../../properties/mountain-view-apuseni/images/outside-1.jpg",
+        "alt": "Mountain View Apuseni A-frame cabana vazuta frontal la apus"
+      },
+      {
+        "src": "../../properties/mountain-view-apuseni/images/kitchen-amenities.jpg",
+        "alt": "Bucatarie si zona de dining la Mountain View Apuseni"
+      },
+      {
+        "src": "../../properties/mountain-view-apuseni/images/outside-2.jpg",
+        "alt": "Mountain View Apuseni cabana in peisaj montan"
+      },
+      {
+        "src": "../../properties/mountain-view-apuseni/images/jacuzzi-sunset.jpg",
+        "alt": "Jacuzzi exterior la apus la Mountain View Apuseni"
+      },
+      {
+        "src": "../../properties/mountain-view-apuseni/images/bathtub-bedroom.jpg",
+        "alt": "Cada in dormitor la Mountain View Apuseni"
+      }
+    ]
+  },
+  "facts": [
+    "4 oaspeti",
+    "Jacuzzi exterior",
+    "Cada in dormitor",
+    "Adults only",
+    "De la 900 RON"
+  ]
+}

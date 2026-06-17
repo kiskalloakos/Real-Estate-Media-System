@@ -6,6 +6,7 @@
 *.DNG.png
 *.dng.png
 .codex/
+.codex_deps/
 .vercel
 .env*
 .agents/

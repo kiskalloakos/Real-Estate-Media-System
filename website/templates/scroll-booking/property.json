@@ -1,0 +1,82 @@
+{
+  "title": "Panoramic Villa | Scroll Booking Template",
+  "whatsappUrl": "https://wa.me/40753708147?text=Buna%2C%20vreau%20sa%20verific%20disponibilitatea.",
+  "hero": {
+    "kicker": "Airbnb cinematic",
+    "title": "Casa ta merita vazuta",
+    "subhead": "Un landing page simplu, premium si clar, construit ca o experienta de rezervare din primul scroll.",
+    "ctaUrl": "https://wa.me/40753708147?text=Buna%2C%20vreau%20sa%20verific%20disponibilitatea."
+  },
+  "property": {
+    "name": "Panoramic Villa, Muntele Rece",
+    "meta": "Cabana intre munti, aproape de Cluj-Napoca, pregatita pentru relaxare, grupuri si weekenduri memorabile."
+  },
+  "summary": {
+    "title": "Intreaga proprietate pentru grupul tau",
+    "text": "O prezentare simpla si clara: oamenii vad imediat cum arata locul, inteleg capacitatea, aleg datele si trimit o cerere fara frictiune."
+  },
+  "facts": [
+    "7 dormitoare duble",
+    "3 bai",
+    "2 bucatarii",
+    "Jacuzzi optional",
+    "Gratar acoperit"
+  ],
+  "gallery": [
+    {
+      "src": "assets/images/panoramic-villa/panoramic-villa-01.jpg",
+      "alt": "Exterior Panoramic Villa"
+    },
+    {
+      "src": "assets/images/panoramic-villa/panoramic-villa-02.jpg",
+      "alt": "Living luminos Panoramic Villa"
+    },
+    {
+      "src": "assets/images/panoramic-villa/panoramic-villa-03.jpg",
+      "alt": "Dormitor Panoramic Villa"
+    },
+    {
+      "src": "assets/images/panoramic-villa/panoramic-villa-04.jpg",
+      "alt": "Bucatarie Panoramic Villa"
+    },
+    {
+      "src": "assets/images/panoramic-villa/panoramic-villa-05.jpg",
+      "alt": "Zona de terasa Panoramic Villa"
+    },
+    {
+      "src": "assets/images/panoramic-villa/panoramic-villa-06.jpg",
+      "alt": "Vedere Panoramic Villa"
+    },
+    {
+      "src": "assets/images/panoramic-villa/panoramic-villa-07.jpg",
+      "alt": "Detalii Panoramic Villa"
+    },
+    {
+      "src": "assets/images/panoramic-villa/panoramic-villa-08.jpg",
+      "alt": "Spatiu exterior Panoramic Villa"
+    }
+  ],
+  "blockedRanges": [
+    {
+      "source": "booking",
+      "sourceName": "Airbnb",
+      "label": "Weekend booked",
+      "startDate": "2026-07-10",
+      "endDate": "2026-07-13"
+    },
+    {
+      "source": "maintenance",
+      "sourceName": "Owner",
+      "label": "Maintenance",
+      "startDate": "2026-07-22",
+      "endDate": "2026-07-25"
+    },
+    {
+      "source": "owner",
+      "sourceName": "Owner",
+      "label": "Private stay",
+      "startDate": "2026-08-01",
+      "endDate": "2026-08-04"
+    }
+  ]
+}
