@@ -1,0 +1,680 @@
+{
+  "title": "Cabana The One | Belis, Cluj",
+  "brand": "Cabana The One",
+  "defaultLocale": "ro",
+  "whatsappUrl": "https://wa.me/40746267634?text=Buna%20ziua%2C%20am%20gasit%20Cabana%20The%20One%20si%20as%20vrea%20sa%20verific%20disponibilitatea%20pentru%20un%20sejur.%20Ma%20intereseaza%20perioada%20X%20-%20Y%20pentru%20Z%20persoane.",
+  "googleMapsUrl": "https://maps.app.goo.gl/GjdkCCiYcg7az7Vg9",
+  "airbnbUrl": "https://www.airbnb.com/rooms/924462515882386562?adults=1&guests=1",
+  "bookingUrl": "https://www.booking.com/hotel/ro/cabana-the-one.ro.html",
+  "instagramUrl": "https://www.instagram.com/cabanatheone/",
+  "facebookUrl": "https://www.facebook.com/profile.php?id=61560556809227",
+  "reviews": {
+    "rating": "4.8",
+    "source": "Google",
+    "url": "https://maps.app.goo.gl/GjdkCCiYcg7az7Vg9",
+    "title": "Rating 4.8 pe Google",
+    "text": "Oaspetii apreciaza cabana pentru liniste, spatiu, pozitionare si dotarile potrivite pentru grupuri mari."
+  },
+  "locales": {
+    "ro": {
+      "title": "Cabana The One | Belis, Cluj",
+      "metaDescription": "Cabana The One in Belis, Cluj: 7 dormitoare, jacuzzi privat, sauna, panorama, bucatarie complet utilata, curte generoasa si acces rapid spre Lacul Belis.",
+      "ui": {
+        "contactCta": "Rezerva direct",
+        "heroReviewSuffix": "din 33 recenzii Google",
+        "reviewsAria": "Vezi recenziile Cabana The One pe Google",
+        "priceAction": "Verifica disponibilitatea",
+        "propertyHighlights": "Imagini reprezentative Cabana The One",
+        "quickDetails": "Detalii rapide Cabana The One"
+      },
+      "navItems": [
+        [
+          "Galerie",
+          "#gallery"
+        ],
+        [
+          "Experiente",
+          "#experiences"
+        ],
+        [
+          "Disponibilitate",
+          "#prices"
+        ],
+        [
+          "Locatie",
+          "#location"
+        ]
+      ],
+      "hero": {
+        "kicker": "Belis, jud. Cluj",
+        "title": "Cabana The One",
+        "subhead": "O cabana generoasa pentru grupuri mari, cu jacuzzi privat, sauna, panorama si curte ampla, la doar 2 km de Lacul Belis.",
+        "images": [
+          {
+            "src": "../../properties/cabana-the-one/images/hero-exterior.jpeg",
+            "alt": "Cabana The One vazuta din exterior in Belis"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/hot-tub.jpeg",
+            "alt": "Jacuzzi privat la Cabana The One"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/hot-tub.jpeg",
+            "alt": "Terasa acoperita la Cabana The One"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/dining.jpeg",
+            "alt": "Jacuzzi privat la Cabana The One"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/hero-jacuzzi-exterior.png",
+            "alt": "Cabana The One cu jacuzzi exterior in prim-plan"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/hero-yard-playground.png",
+            "alt": "Curte cu loc de joaca si trambulina la Cabana The One"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/sauna.jpeg",
+            "alt": "Sauna privata la Cabana The One"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/dining.jpeg",
+            "alt": "Zona de dining la Cabana The One"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/backyard.jpeg",
+            "alt": "Curtea generoasa a cabanei The One"
+          }
+        ]
+      },
+      "facts": [
+        "14 oaspeti",
+        "7 dormitoare",
+        "6 bai",
+        "Jacuzzi privat",
+        "Sauna privata"
+      ],
+      "experiences": {
+        "eyebrow": "Experiente",
+        "title": "Spatiu de munte pentru grupuri care vor confort",
+        "text": "Cabana The One combina capacitatea unei cabane mari cu detaliile pe care le cauti pentru un sejur relaxat: wellness privat, living generos, bucatarie complet utilata si natura aproape.",
+        "items": [
+          {
+            "eyebrow": "Wellness privat",
+            "title": "Jacuzzi si sauna, disponibile tot anul",
+            "text": "Dupa o zi pe langa lac sau prin zona Belis, te retragi in jacuzzi-ul privat sau in sauna. Este genul de ritual care transforma o iesire de weekend intr-un sejur memorabil.",
+            "points": [
+              "Jacuzzi privat",
+              "Sauna privata",
+              "Disponibil tot anul"
+            ],
+            "images": [
+              {
+                "src": "../../properties/cabana-the-one/images/bedroom-1.jpeg",
+                "alt": "Dormitor luminos la Cabana The One"
+              },
+              {
+                "src": "../../properties/cabana-the-one/images/dining.jpeg",
+                "alt": "Dining si bucatarie la Cabana The One"
+              }
+            ]
+          },
+          {
+            "eyebrow": "Grupuri mari",
+            "title": "7 dormitoare pentru pana la 14 oaspeti",
+            "text": "Cabana este gandita pentru familii extinse, prieteni si retreat-uri restranse. Cele 7 dormitoare cu paturi queen size si cele 6 bai pastreaza sejurul confortabil chiar si cand veniti multi.",
+            "points": [
+              "14 oaspeti",
+              "7 paturi queen size",
+              "6 bai"
+            ],
+            "image": {
+              "src": "../../properties/cabana-the-one/images/experience-bedroom.png",
+              "alt": "Dormitor cu pat matrimonial si vedere spre munte la Cabana The One"
+            }
+          },
+          {
+            "eyebrow": "Mese impreuna",
+            "title": "Living de 73 mp, bucatarie si BBQ",
+            "text": "Livingul spatios, bucataria complet utilata si zona de gratar fac loc pentru mese lungi, aniversari si seri fara graba. Pentru extra confort, exista si posibilitatea servirii mesei prin catering.",
+            "points": [
+              "Living 73 mp",
+              "Bucatarie complet utilata",
+              "BBQ si catering"
+            ],
+            "image": {
+              "src": "../../properties/cabana-the-one/images/experience-living-room.png",
+              "alt": "Living spatios cu canapea si zona de dining la Cabana The One"
+            }
+          },
+          {
+            "eyebrow": "Belis linistit",
+            "title": "Panorama, curte generoasa si lacul aproape",
+            "text": "Cabana este asezata intr-o zona linistita din Belis, cu vedere panoramica si o curte ampla. Lacul Belis este la aproximativ 2 km, suficient de aproape pentru plimbari si suficient de departe pentru intimitate.",
+            "points": [
+              "Vedere panoramica",
+              "Curte generoasa",
+              "2 km pana la lac"
+            ],
+            "image": {
+              "src": "../../properties/cabana-the-one/images/backyard.jpeg",
+              "alt": "Curte si zona exterioara Cabana The One"
+            }
+          }
+        ]
+      },
+      "prices": {
+        "cardLabel": "Rezervari Cabana The One",
+        "propertyLabel": "Cabana The One",
+        "propertyType": "Entire cabin in Belis",
+        "primaryUrl": "https://wa.me/40746267634?text=Buna%20ziua%2C%20am%20gasit%20Cabana%20The%20One%20si%20as%20vrea%20sa%20verific%20disponibilitatea%20pentru%20un%20sejur.%20Ma%20intereseaza%20perioada%20X%20-%20Y%20pentru%20Z%20persoane.",
+        "notes": [
+          {
+            "title": "Capacitate mare",
+            "text": "Cabana primeste pana la 14 oaspeti, cu 7 dormitoare si 6 bai."
+          },
+          {
+            "title": "Check-in si check-out",
+            "text": "Check-in dupa ora 14:00 si check-out pana la ora 11:00."
+          },
+          {
+            "title": "Pret dinamic",
+            "text": "Pretul exact depinde de date, sezon si numarul de persoane."
+          }
+        ],
+        "footnote": "Pentru disponibilitate rapida, trimite perioada dorita si numarul de oaspeti.",
+        "bookingLinksLabel": "Platforme de rezervare",
+        "bookingLinks": [
+          {
+            "label": "Airbnb",
+            "text": "Vezi listingul",
+            "url": "https://www.airbnb.com/rooms/924462515882386562?adults=1&guests=1"
+          },
+          {
+            "label": "Booking",
+            "text": "Verifica pe Booking",
+            "url": "https://www.booking.com/hotel/ro/cabana-the-one.ro.html"
+          }
+        ]
+      },
+      "location": {
+        "eyebrow": "Locatie",
+        "title": "Belis, judetul Cluj",
+        "text": "Cabana The One se afla intr-o zona linistita din Belis, aproape de Lacul Belis si de drumurile montane din zona. Deschide harta si porneste navigatia direct catre proprietate.",
+        "addressLabel": "Zona",
+        "address": "Cabana The One, Belis, Cluj County, Romania",
+        "coordinates": "46.6782009, 23.0440041",
+        "mapLabel": "Harta Cabana The One",
+        "googleMapsUrl": "https://maps.app.goo.gl/GjdkCCiYcg7az7Vg9",
+        "wazeUrl": "https://waze.com/ul?ll=46.6782009%2C23.0440041&navigate=yes&zoom=17",
+        "embedUrl": "https://www.google.com/maps?q=Cabana%20The%20One%2C%20Belis%2C%20Romania&z=14&output=embed"
+      },
+      "gallery": {
+        "eyebrow": "Galerie",
+        "title": "Vezi cabana in detaliu",
+        "text": "Exterior, living, bucatarie, dormitoare, bai si zonele de relaxare: o privire completa asupra locului in care poate sta grupul tau.",
+        "images": [
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-1.jpeg",
+            "alt": "Cabana The One galerie foto 1"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-2.jpeg",
+            "alt": "Cabana The One galerie foto 2"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-06.jpeg",
+            "alt": "Cabana The One galerie foto 3"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-07.jpeg",
+            "alt": "Cabana The One galerie foto 4"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-08.jpeg",
+            "alt": "Cabana The One galerie foto 5"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-09.jpeg",
+            "alt": "Cabana The One galerie foto 6"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-10.jpeg",
+            "alt": "Cabana The One galerie foto 7"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-11.jpeg",
+            "alt": "Cabana The One galerie foto 8"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-11.jpg",
+            "alt": "Cabana The One galerie foto 9"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-12.jpeg",
+            "alt": "Cabana The One galerie foto 10"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-13.jpeg",
+            "alt": "Cabana The One galerie foto 11"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-13.jpg",
+            "alt": "Cabana The One galerie foto 12"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-15.jpeg",
+            "alt": "Cabana The One galerie foto 13"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-16.jpeg",
+            "alt": "Cabana The One galerie foto 14"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-17.jpeg",
+            "alt": "Cabana The One galerie foto 15"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-18.jpeg",
+            "alt": "Cabana The One galerie foto 16"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-19.jpeg",
+            "alt": "Cabana The One galerie foto 17"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-21.jpeg",
+            "alt": "Cabana The One galerie foto 18"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-22.jpeg",
+            "alt": "Cabana The One galerie foto 19"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-24.jpeg",
+            "alt": "Cabana The One galerie foto 20"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-25.jpeg",
+            "alt": "Cabana The One galerie foto 21"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-27.jpeg",
+            "alt": "Cabana The One galerie foto 22"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-28.jpeg",
+            "alt": "Cabana The One galerie foto 23"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-29.jpeg",
+            "alt": "Cabana The One galerie foto 24"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-30.jpeg",
+            "alt": "Cabana The One galerie foto 25"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-31.jpeg",
+            "alt": "Cabana The One galerie foto 26"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-32.jpeg",
+            "alt": "Cabana The One galerie foto 27"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-33.jpeg",
+            "alt": "Cabana The One galerie foto 28"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-34.jpeg",
+            "alt": "Cabana The One galerie foto 29"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-35.jpeg",
+            "alt": "Cabana The One galerie foto 30"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-36.jpeg",
+            "alt": "Cabana The One galerie foto 31"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-37.jpeg",
+            "alt": "Cabana The One galerie foto 32"
+          }
+        ]
+      }
+    },
+    "en": {
+      "title": "Cabana The One | Belis, Cluj",
+      "metaDescription": "Cabana The One in Belis, Cluj: 7 bedrooms, private hot tub, sauna, panoramic views, fully equipped kitchen, generous courtyard and quick access to Belis Lake.",
+      "ui": {
+        "contactCta": "Book direct",
+        "heroReviewSuffix": "from 33 Google reviews",
+        "reviewsAria": "View Cabana The One reviews on Google",
+        "priceAction": "Check availability",
+        "propertyHighlights": "Cabana The One featured images",
+        "quickDetails": "Cabana The One quick details"
+      },
+      "navItems": [
+        [
+          "Gallery",
+          "#gallery"
+        ],
+        [
+          "Experiences",
+          "#experiences"
+        ],
+        [
+          "Availability",
+          "#prices"
+        ],
+        [
+          "Location",
+          "#location"
+        ]
+      ],
+      "hero": {
+        "kicker": "Belis, Cluj County",
+        "title": "Cabana The One",
+        "subhead": "A spacious cabin for large groups, with a private hot tub, sauna, panoramic views and a generous courtyard, just 2 km from Belis Lake.",
+        "images": [
+          {
+            "src": "../../properties/cabana-the-one/images/hero-exterior.jpeg",
+            "alt": "Exterior view of Cabana The One in Belis"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/hot-tub.jpeg",
+            "alt": "Private hot tub at Cabana The One"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/hot-tub.jpeg",
+            "alt": "Covered terrace at Cabana The One"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/dining.jpeg",
+            "alt": "Private hot tub at Cabana The One"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/hero-jacuzzi-exterior.png",
+            "alt": "Cabana The One with outdoor hot tub in the foreground"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/hero-yard-playground.png",
+            "alt": "Yard with playground and trampoline at Cabana The One"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/sauna.jpeg",
+            "alt": "Private sauna at Cabana The One"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/dining.jpeg",
+            "alt": "Dining area at Cabana The One"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/backyard.jpeg",
+            "alt": "Generous courtyard at Cabana The One"
+          }
+        ]
+      },
+      "facts": [
+        "14 guests",
+        "7 bedrooms",
+        "6 bathrooms",
+        "Private hot tub",
+        "Private sauna"
+      ],
+      "experiences": {
+        "eyebrow": "Experiences",
+        "title": "A mountain stay for groups who want comfort",
+        "text": "Cabana The One combines the capacity of a large cabin with the details that make a stay feel effortless: private wellness, a generous living room, a fully equipped kitchen and nature close by.",
+        "items": [
+          {
+            "eyebrow": "Private wellness",
+            "title": "Hot tub and sauna, available year-round",
+            "text": "After a day by the lake or around Belis, retreat to the private hot tub or sauna. It is the kind of ritual that turns a weekend away into a memorable stay.",
+            "points": [
+              "Private hot tub",
+              "Private sauna",
+              "Available year-round"
+            ],
+            "images": [
+              {
+                "src": "../../properties/cabana-the-one/images/bedroom-1.jpeg",
+                "alt": "Bright bedroom at Cabana The One"
+              },
+              {
+                "src": "../../properties/cabana-the-one/images/dining.jpeg",
+                "alt": "Dining and kitchen area at Cabana The One"
+              }
+            ]
+          },
+          {
+            "eyebrow": "Large groups",
+            "title": "7 bedrooms for up to 14 guests",
+            "text": "The cabin is designed for extended families, groups of friends and intimate retreats. The 7 queen bedrooms and 6 bathrooms keep the stay comfortable even when everyone comes along.",
+            "points": [
+              "14 guests",
+              "7 queen beds",
+              "6 bathrooms"
+            ],
+            "image": {
+              "src": "../../properties/cabana-the-one/images/experience-bedroom.png",
+              "alt": "Bedroom with queen bed and mountain view at Cabana The One"
+            }
+          },
+          {
+            "eyebrow": "Shared meals",
+            "title": "73 sqm living room, kitchen and BBQ",
+            "text": "The spacious living room, fully equipped kitchen and barbecue area make room for long meals, celebrations and unhurried evenings. Catering can also be arranged for extra comfort.",
+            "points": [
+              "73 sqm living room",
+              "Fully equipped kitchen",
+              "BBQ and catering"
+            ],
+            "image": {
+              "src": "../../properties/cabana-the-one/images/experience-living-room.png",
+              "alt": "Spacious living room with sofa and dining area at Cabana The One"
+            }
+          },
+          {
+            "eyebrow": "Quiet Belis",
+            "title": "Panoramic views, generous yard and the lake nearby",
+            "text": "The cabin sits in a quiet area of Belis, with panoramic views and a large courtyard. Belis Lake is about 2 km away, close enough for walks and far enough for privacy.",
+            "points": [
+              "Panoramic view",
+              "Generous courtyard",
+              "2 km to the lake"
+            ],
+            "image": {
+              "src": "../../properties/cabana-the-one/images/backyard.jpeg",
+              "alt": "Courtyard and outdoor area at Cabana The One"
+            }
+          }
+        ]
+      },
+      "prices": {
+        "cardLabel": "Cabana The One bookings",
+        "propertyLabel": "Cabana The One",
+        "propertyType": "Entire cabin in Belis",
+        "primaryUrl": "https://wa.me/40746267634?text=Buna%20ziua%2C%20am%20gasit%20Cabana%20The%20One%20si%20as%20vrea%20sa%20verific%20disponibilitatea%20pentru%20un%20sejur.%20Ma%20intereseaza%20perioada%20X%20-%20Y%20pentru%20Z%20persoane.",
+        "notes": [
+          {
+            "title": "Large capacity",
+            "text": "The cabin welcomes up to 14 guests, with 7 bedrooms and 6 bathrooms."
+          },
+          {
+            "title": "Check-in and check-out",
+            "text": "Check-in is after 14:00 and check-out is by 11:00."
+          },
+          {
+            "title": "Dynamic pricing",
+            "text": "The exact rate depends on dates, season and number of guests."
+          }
+        ],
+        "footnote": "For fast availability, send your preferred dates and number of guests.",
+        "bookingLinksLabel": "Booking platforms",
+        "bookingLinks": [
+          {
+            "label": "Airbnb",
+            "text": "View listing",
+            "url": "https://www.airbnb.com/rooms/924462515882386562?adults=1&guests=1"
+          },
+          {
+            "label": "Booking",
+            "text": "Check on Booking",
+            "url": "https://www.booking.com/hotel/ro/cabana-the-one.ro.html"
+          }
+        ]
+      },
+      "location": {
+        "eyebrow": "Location",
+        "title": "Belis, Cluj County",
+        "text": "Cabana The One is located in a quiet area of Belis, close to Belis Lake and the mountain roads nearby. Open the map and start navigation directly to the property.",
+        "addressLabel": "Area",
+        "address": "Cabana The One, Belis, Cluj County, Romania",
+        "coordinates": "46.6782009, 23.0440041",
+        "mapLabel": "Cabana The One map",
+        "googleMapsUrl": "https://maps.app.goo.gl/GjdkCCiYcg7az7Vg9",
+        "wazeUrl": "https://waze.com/ul?ll=46.6782009%2C23.0440041&navigate=yes&zoom=17",
+        "embedUrl": "https://www.google.com/maps?q=Cabana%20The%20One%2C%20Belis%2C%20Romania&z=14&output=embed"
+      },
+      "gallery": {
+        "eyebrow": "Gallery",
+        "title": "See the cabin in detail",
+        "text": "Exterior, living room, kitchen, bedrooms, bathrooms and relaxation areas: a complete look at the place your group can call home during the stay.",
+        "images": [
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-1.jpeg",
+            "alt": "Cabana The One photo gallery 1"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-2.jpeg",
+            "alt": "Cabana The One photo gallery 2"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-06.jpeg",
+            "alt": "Cabana The One photo gallery 3"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-07.jpeg",
+            "alt": "Cabana The One photo gallery 4"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-08.jpeg",
+            "alt": "Cabana The One photo gallery 5"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-09.jpeg",
+            "alt": "Cabana The One photo gallery 6"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-10.jpeg",
+            "alt": "Cabana The One photo gallery 7"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-11.jpeg",
+            "alt": "Cabana The One photo gallery 8"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-11.jpg",
+            "alt": "Cabana The One photo gallery 9"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-12.jpeg",
+            "alt": "Cabana The One photo gallery 10"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-13.jpeg",
+            "alt": "Cabana The One photo gallery 11"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-13.jpg",
+            "alt": "Cabana The One photo gallery 12"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-15.jpeg",
+            "alt": "Cabana The One photo gallery 13"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-16.jpeg",
+            "alt": "Cabana The One photo gallery 14"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-17.jpeg",
+            "alt": "Cabana The One photo gallery 15"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-18.jpeg",
+            "alt": "Cabana The One photo gallery 16"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-19.jpeg",
+            "alt": "Cabana The One photo gallery 17"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-21.jpeg",
+            "alt": "Cabana The One photo gallery 18"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-22.jpeg",
+            "alt": "Cabana The One photo gallery 19"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-24.jpeg",
+            "alt": "Cabana The One photo gallery 20"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-25.jpeg",
+            "alt": "Cabana The One photo gallery 21"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-27.jpeg",
+            "alt": "Cabana The One photo gallery 22"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-28.jpeg",
+            "alt": "Cabana The One photo gallery 23"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-29.jpeg",
+            "alt": "Cabana The One photo gallery 24"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-30.jpeg",
+            "alt": "Cabana The One photo gallery 25"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-31.jpeg",
+            "alt": "Cabana The One photo gallery 26"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-32.jpeg",
+            "alt": "Cabana The One photo gallery 27"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-33.jpeg",
+            "alt": "Cabana The One photo gallery 28"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-34.jpeg",
+            "alt": "Cabana The One photo gallery 29"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-35.jpeg",
+            "alt": "Cabana The One photo gallery 30"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-36.jpeg",
+            "alt": "Cabana The One photo gallery 31"
+          },
+          {
+            "src": "../../properties/cabana-the-one/images/gallery/gallery-37.jpeg",
+            "alt": "Cabana The One photo gallery 32"
+          }
+        ]
+      }
+    }
+  }
+}
