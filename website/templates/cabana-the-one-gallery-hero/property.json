@@ -60,6 +60,7 @@
           },
           {
             "src": "../../properties/cabana-the-one/images/hot-tub.jpeg",
+            "mobileSrc": "../../properties/cabana-the-one/images/hero-mobile-left-sauna.png",
             "alt": "Terasa acoperita la Cabana The One"
           },
           {
@@ -67,16 +68,17 @@
             "alt": "Jacuzzi privat la Cabana The One"
           },
           {
-            "src": "../../properties/cabana-the-one/images/hero-gallery-exterior-1.jpg",
-            "alt": "Cabana The One cu jacuzzi exterior in prim-plan"
+            "src": "../../properties/cabana-the-one/images/gallery/exterior-2-1.jpg",
+            "alt": "Cabana The One vazuta din exterior, din unghi aerian"
           },
           {
             "src": "../../properties/cabana-the-one/images/hero-yard-playground.png",
             "alt": "Curte cu loc de joaca si trambulina la Cabana The One"
           },
           {
-            "src": "../../properties/cabana-the-one/images/sauna.jpeg",
-            "alt": "Sauna privata la Cabana The One"
+            "src": "../../properties/cabana-the-one/images/living-3.jpg",
+            "mobileSrc": "../../properties/cabana-the-one/images/hero-mobile-right-jacuzzi.png",
+            "alt": "Living spatios la Cabana The One"
           },
           {
             "src": "../../properties/cabana-the-one/images/dining.jpeg",
@@ -136,16 +138,36 @@
           },
           {
             "eyebrow": "Mese impreuna",
-            "title": "Living de 73 mp, bucatarie si BBQ",
-            "text": "Livingul spatios, bucataria complet utilata si zona de gratar fac loc pentru mese lungi, aniversari si seri fara graba. Pentru extra confort, exista si posibilitatea servirii mesei prin catering.",
+            "title": "Living de 73 mp si bucatarie",
+            "text": "Livingul spatios si bucataria complet utilata fac loc pentru mese lungi, aniversari si seri fara graba. Pentru extra confort, exista si posibilitatea servirii mesei prin catering.",
             "points": [
-              "Living 73 mp",
+              "Masina de spalat vase",
               "Bucatarie complet utilata",
-              "BBQ si catering"
+              "Catering la cerere"
+            ],
+            "images": [
+              {
+                "src": "../../properties/cabana-the-one/images/living-1.jpg",
+                "alt": "Living spatios cu zona de dining la Cabana The One"
+              },
+              {
+                "src": "../../properties/cabana-the-one/images/kitchen-export.jpg",
+                "alt": "Bucatarie complet utilata la Cabana The One"
+              }
+            ]
+          },
+          {
+            "eyebrow": "La exterior",
+            "title": "Bucatarie exterioara si gratar",
+            "text": "Zona acoperita de afara este pregatita pentru gatit, gratar si mese relaxate in aer curat. Este locul potrivit pentru pranzuri lungi, seri cu grupul si stat la povesti dupa apus.",
+            "points": [
+              "Gratar",
+              "Bucatarie exterioara",
+              "Terasa acoperita"
             ],
             "image": {
-              "src": "../../properties/cabana-the-one/images/experience-living-room.png",
-              "alt": "Living spatios cu canapea si zona de dining la Cabana The One"
+              "src": "../../properties/cabana-the-one/images/outside-kitchen.jpg",
+              "alt": "Bucatarie exterioara si zona de gratar la Cabana The One"
             }
           },
           {
@@ -169,6 +191,10 @@
         "propertyLabel": "Cabana The One",
         "propertyType": "Entire cabin in Belis",
         "primaryUrl": "https://wa.me/40746267634?text=Buna%20ziua%2C%20am%20gasit%20Cabana%20The%20One%20si%20as%20vrea%20sa%20verific%20disponibilitatea%20pentru%20un%20sejur.%20Ma%20intereseaza%20perioada%20X%20-%20Y%20pentru%20Z%20persoane.",
+        "image": {
+          "src": "../../properties/cabana-the-one/images/availability-exterior-drone.jpg",
+          "alt": "Cabana The One vazuta din aer"
+        },
         "notes": [
           {
             "title": "Capacitate mare",
@@ -184,19 +210,7 @@
           }
         ],
         "footnote": "Pentru disponibilitate rapida, trimite perioada dorita si numarul de oaspeti.",
-        "bookingLinksLabel": "Platforme de rezervare",
-        "bookingLinks": [
-          {
-            "label": "Airbnb",
-            "text": "Vezi listingul",
-            "url": "https://www.airbnb.com/rooms/924462515882386562?adults=1&guests=1"
-          },
-          {
-            "label": "Booking",
-            "text": "Verifica pe Booking",
-            "url": "https://www.booking.com/hotel/ro/cabana-the-one.ro.html"
-          }
-        ]
+        "bookingLinks": []
       },
       "location": {
         "eyebrow": "Locatie",
@@ -207,7 +221,7 @@
         "coordinates": "46.6782009, 23.0440041",
         "mapLabel": "Harta Cabana The One",
         "googleMapsUrl": "https://maps.app.goo.gl/GjdkCCiYcg7az7Vg9",
-        "wazeUrl": "https://waze.com/ul?ll=46.6782009%2C23.0440041&navigate=yes&zoom=17",
+        "wazeUrl": "https://waze.com/ul?q=Cabana%20The%20One&navigate=yes",
         "embedUrl": "https://www.google.com/maps?q=Cabana%20The%20One%2C%20Belis%2C%20Romania&z=14&output=embed"
       },
       "gallery": {
@@ -216,132 +230,80 @@
         "text": "Exterior, living, bucatarie, dormitoare, bai si zonele de relaxare: o privire completa asupra locului in care poate sta grupul tau.",
         "images": [
           {
-            "src": "../../properties/cabana-the-one/images/gallery/exterior-1.jpg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-01.jpeg",
             "alt": "Cabana The One galerie foto 1"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/exterior-2-1.jpg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-02.jpeg",
             "alt": "Cabana The One galerie foto 2"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-06.jpeg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-03.jpg",
             "alt": "Cabana The One galerie foto 3"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-07.jpeg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-04.jpg",
             "alt": "Cabana The One galerie foto 4"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-08.jpeg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-05.jpeg",
             "alt": "Cabana The One galerie foto 5"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-09.jpeg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-06.jpg",
             "alt": "Cabana The One galerie foto 6"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-10.jpeg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-07.jpg",
             "alt": "Cabana The One galerie foto 7"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-11.jpeg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-08.jpg",
             "alt": "Cabana The One galerie foto 8"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-11.jpg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-09.jpg",
             "alt": "Cabana The One galerie foto 9"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-12.jpeg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-10.jpeg",
             "alt": "Cabana The One galerie foto 10"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-13.jpeg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-11.jpg",
             "alt": "Cabana The One galerie foto 11"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-13.jpg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-12.jpeg",
             "alt": "Cabana The One galerie foto 12"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-15.jpeg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-13.jpeg",
             "alt": "Cabana The One galerie foto 13"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-16.jpeg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-14.jpg",
             "alt": "Cabana The One galerie foto 14"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-17.jpeg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-15.jpg",
             "alt": "Cabana The One galerie foto 15"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-18.jpeg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-16.jpg",
             "alt": "Cabana The One galerie foto 16"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-19.jpeg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-17.jpeg",
             "alt": "Cabana The One galerie foto 17"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-21.jpeg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-18.jpg",
             "alt": "Cabana The One galerie foto 18"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-22.jpeg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-19.jpg",
             "alt": "Cabana The One galerie foto 19"
-          },
-          {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-24.jpeg",
-            "alt": "Cabana The One galerie foto 20"
-          },
-          {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-25.jpeg",
-            "alt": "Cabana The One galerie foto 21"
-          },
-          {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-27.jpeg",
-            "alt": "Cabana The One galerie foto 22"
-          },
-          {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-28.jpeg",
-            "alt": "Cabana The One galerie foto 23"
-          },
-          {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-29.jpeg",
-            "alt": "Cabana The One galerie foto 24"
-          },
-          {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-30.jpeg",
-            "alt": "Cabana The One galerie foto 25"
-          },
-          {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-31.jpeg",
-            "alt": "Cabana The One galerie foto 26"
-          },
-          {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-32.jpeg",
-            "alt": "Cabana The One galerie foto 27"
-          },
-          {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-33.jpeg",
-            "alt": "Cabana The One galerie foto 28"
-          },
-          {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-34.jpeg",
-            "alt": "Cabana The One galerie foto 29"
-          },
-          {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-35.jpeg",
-            "alt": "Cabana The One galerie foto 30"
-          },
-          {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-36.jpeg",
-            "alt": "Cabana The One galerie foto 31"
-          },
-          {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-37.jpeg",
-            "alt": "Cabana The One galerie foto 32"
           }
         ]
       }
@@ -390,6 +352,7 @@
           },
           {
             "src": "../../properties/cabana-the-one/images/hot-tub.jpeg",
+            "mobileSrc": "../../properties/cabana-the-one/images/hero-mobile-left-sauna.png",
             "alt": "Covered terrace at Cabana The One"
           },
           {
@@ -397,16 +360,17 @@
             "alt": "Private hot tub at Cabana The One"
           },
           {
-            "src": "../../properties/cabana-the-one/images/hero-gallery-exterior-1.jpg",
-            "alt": "Cabana The One with outdoor hot tub in the foreground"
+            "src": "../../properties/cabana-the-one/images/gallery/exterior-2-1.jpg",
+            "alt": "Aerial exterior view of Cabana The One"
           },
           {
             "src": "../../properties/cabana-the-one/images/hero-yard-playground.png",
             "alt": "Yard with playground and trampoline at Cabana The One"
           },
           {
-            "src": "../../properties/cabana-the-one/images/sauna.jpeg",
-            "alt": "Private sauna at Cabana The One"
+            "src": "../../properties/cabana-the-one/images/living-3.jpg",
+            "mobileSrc": "../../properties/cabana-the-one/images/hero-mobile-right-jacuzzi.png",
+            "alt": "Spacious living room at Cabana The One"
           },
           {
             "src": "../../properties/cabana-the-one/images/dining.jpeg",
@@ -466,16 +430,36 @@
           },
           {
             "eyebrow": "Shared meals",
-            "title": "73 sqm living room, kitchen and BBQ",
-            "text": "The spacious living room, fully equipped kitchen and barbecue area make room for long meals, celebrations and unhurried evenings. Catering can also be arranged for extra comfort.",
+            "title": "73 sqm living room and kitchen",
+            "text": "The spacious living room and fully equipped kitchen make room for long meals, celebrations and unhurried evenings. Catering can also be arranged for extra comfort.",
             "points": [
-              "73 sqm living room",
+              "Dishwasher available",
               "Fully equipped kitchen",
-              "BBQ and catering"
+              "Catering on request"
+            ],
+            "images": [
+              {
+                "src": "../../properties/cabana-the-one/images/living-1.jpg",
+                "alt": "Spacious living room with dining area at Cabana The One"
+              },
+              {
+                "src": "../../properties/cabana-the-one/images/kitchen-export.jpg",
+                "alt": "Fully equipped kitchen at Cabana The One"
+              }
+            ]
+          },
+          {
+            "eyebrow": "Outdoors",
+            "title": "Outdoor kitchen and BBQ",
+            "text": "The covered outdoor area is set up for cooking, barbecue and relaxed meals in fresh air. It is made for long lunches, group evenings and slow conversations after sunset.",
+            "points": [
+              "BBQ",
+              "Outdoor kitchen",
+              "Covered terrace"
             ],
             "image": {
-              "src": "../../properties/cabana-the-one/images/experience-living-room.png",
-              "alt": "Spacious living room with sofa and dining area at Cabana The One"
+              "src": "../../properties/cabana-the-one/images/outside-kitchen.jpg",
+              "alt": "Outdoor kitchen and BBQ area at Cabana The One"
             }
           },
           {
@@ -499,6 +483,10 @@
         "propertyLabel": "Cabana The One",
         "propertyType": "Entire cabin in Belis",
         "primaryUrl": "https://wa.me/40746267634?text=Buna%20ziua%2C%20am%20gasit%20Cabana%20The%20One%20si%20as%20vrea%20sa%20verific%20disponibilitatea%20pentru%20un%20sejur.%20Ma%20intereseaza%20perioada%20X%20-%20Y%20pentru%20Z%20persoane.",
+        "image": {
+          "src": "../../properties/cabana-the-one/images/availability-exterior-drone.jpg",
+          "alt": "Aerial view of Cabana The One"
+        },
         "notes": [
           {
             "title": "Large capacity",
@@ -514,19 +502,7 @@
           }
         ],
         "footnote": "For fast availability, send your preferred dates and number of guests.",
-        "bookingLinksLabel": "Booking platforms",
-        "bookingLinks": [
-          {
-            "label": "Airbnb",
-            "text": "View listing",
-            "url": "https://www.airbnb.com/rooms/924462515882386562?adults=1&guests=1"
-          },
-          {
-            "label": "Booking",
-            "text": "Check on Booking",
-            "url": "https://www.booking.com/hotel/ro/cabana-the-one.ro.html"
-          }
-        ]
+        "bookingLinks": []
       },
       "location": {
         "eyebrow": "Location",
@@ -537,7 +513,7 @@
         "coordinates": "46.6782009, 23.0440041",
         "mapLabel": "Cabana The One map",
         "googleMapsUrl": "https://maps.app.goo.gl/GjdkCCiYcg7az7Vg9",
-        "wazeUrl": "https://waze.com/ul?ll=46.6782009%2C23.0440041&navigate=yes&zoom=17",
+        "wazeUrl": "https://waze.com/ul?q=Cabana%20The%20One&navigate=yes",
         "embedUrl": "https://www.google.com/maps?q=Cabana%20The%20One%2C%20Belis%2C%20Romania&z=14&output=embed"
       },
       "gallery": {
@@ -546,132 +522,80 @@
         "text": "Exterior, living room, kitchen, bedrooms, bathrooms and relaxation areas: a complete look at the place your group can call home during the stay.",
         "images": [
           {
-            "src": "../../properties/cabana-the-one/images/gallery/exterior-1.jpg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-01.jpeg",
             "alt": "Cabana The One photo gallery 1"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/exterior-2-1.jpg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-02.jpeg",
             "alt": "Cabana The One photo gallery 2"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-06.jpeg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-03.jpg",
             "alt": "Cabana The One photo gallery 3"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-07.jpeg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-04.jpg",
             "alt": "Cabana The One photo gallery 4"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-08.jpeg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-05.jpeg",
             "alt": "Cabana The One photo gallery 5"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-09.jpeg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-06.jpg",
             "alt": "Cabana The One photo gallery 6"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-10.jpeg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-07.jpg",
             "alt": "Cabana The One photo gallery 7"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-11.jpeg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-08.jpg",
             "alt": "Cabana The One photo gallery 8"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-11.jpg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-09.jpg",
             "alt": "Cabana The One photo gallery 9"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-12.jpeg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-10.jpeg",
             "alt": "Cabana The One photo gallery 10"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-13.jpeg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-11.jpg",
             "alt": "Cabana The One photo gallery 11"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-13.jpg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-12.jpeg",
             "alt": "Cabana The One photo gallery 12"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-15.jpeg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-13.jpeg",
             "alt": "Cabana The One photo gallery 13"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-16.jpeg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-14.jpg",
             "alt": "Cabana The One photo gallery 14"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-17.jpeg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-15.jpg",
             "alt": "Cabana The One photo gallery 15"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-18.jpeg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-16.jpg",
             "alt": "Cabana The One photo gallery 16"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-19.jpeg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-17.jpeg",
             "alt": "Cabana The One photo gallery 17"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-21.jpeg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-18.jpg",
             "alt": "Cabana The One photo gallery 18"
           },
           {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-22.jpeg",
+            "src": "../../properties/cabana-the-one/images/gallery/new-gallery/new-gallery-19.jpg",
             "alt": "Cabana The One photo gallery 19"
-          },
-          {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-24.jpeg",
-            "alt": "Cabana The One photo gallery 20"
-          },
-          {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-25.jpeg",
-            "alt": "Cabana The One photo gallery 21"
-          },
-          {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-27.jpeg",
-            "alt": "Cabana The One photo gallery 22"
-          },
-          {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-28.jpeg",
-            "alt": "Cabana The One photo gallery 23"
-          },
-          {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-29.jpeg",
-            "alt": "Cabana The One photo gallery 24"
-          },
-          {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-30.jpeg",
-            "alt": "Cabana The One photo gallery 25"
-          },
-          {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-31.jpeg",
-            "alt": "Cabana The One photo gallery 26"
-          },
-          {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-32.jpeg",
-            "alt": "Cabana The One photo gallery 27"
-          },
-          {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-33.jpeg",
-            "alt": "Cabana The One photo gallery 28"
-          },
-          {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-34.jpeg",
-            "alt": "Cabana The One photo gallery 29"
-          },
-          {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-35.jpeg",
-            "alt": "Cabana The One photo gallery 30"
-          },
-          {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-36.jpeg",
-            "alt": "Cabana The One photo gallery 31"
-          },
-          {
-            "src": "../../properties/cabana-the-one/images/gallery/gallery-37.jpeg",
-            "alt": "Cabana The One photo gallery 32"
           }
         ]
       }

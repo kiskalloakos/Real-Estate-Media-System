@@ -7,6 +7,7 @@
   --gh-white: #fff;
   --gh-green: #0d241c;
   --gh-green-2: #112d23;
+  --gh-green-accent: #285a45;
   --gh-shadow: 0 24px 70px rgba(14, 16, 15, .16);
   --gh-serif: "Playfair Display", Georgia, serif;
   --gh-sans: "DM Sans", Arial, sans-serif;
@@ -397,9 +398,18 @@ body.is-ready .gh-facts {
   background: #ddd5ca;
 }
 
+.gh-card picture,
 .gh-card img {
   width: 100%;
   height: 100%;
+}
+
+.gh-card picture {
+  display: block;
+}
+
+.gh-card img {
+  display: block;
   object-fit: cover;
   filter: saturate(.94) contrast(1.02);
 }
@@ -501,17 +511,17 @@ body.is-ready .gh-facts {
 .gh-experiences-heading h2 {
   margin: 0;
   font-family: var(--gh-serif);
-  font-size: clamp(44px, 5.6vw, 84px);
+  font-size: clamp(30px, 3.2vw, 48px);
   font-weight: 700;
   letter-spacing: 0;
-  line-height: .92;
+  line-height: 1;
 }
 
 .gh-experiences-heading > p:last-child {
   max-width: 680px;
   margin: 18px auto 0;
   color: rgba(8, 8, 8, .58);
-  font-size: clamp(16px, 1.35vw, 20px);
+  font-size: clamp(14px, 1vw, 17px);
   font-weight: 650;
   line-height: 1.5;
 }
@@ -556,6 +566,18 @@ body.is-ready .gh-facts {
   filter: saturate(.96) contrast(1.04);
 }
 
+.gh-experience-card:nth-child(2) .gh-experience-media img {
+  object-position: 30% 50%;
+}
+
+.gh-experience-card:nth-child(3) .gh-experience-media--split img:first-child {
+  object-position: 42% 50%;
+}
+
+.gh-experience-card:nth-child(3) .gh-experience-media--split img:last-child {
+  object-position: 50% 50%;
+}
+
 .gh-experience-media--split {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -589,7 +611,7 @@ body.is-ready .gh-facts {
 
 .gh-experience-copy .gh-kicker {
   margin-bottom: 18px;
-  color: #c97955;
+  color: var(--gh-green-accent);
 }
 
 .gh-experience-copy h3 {
@@ -626,13 +648,14 @@ body.is-ready .gh-facts {
   align-items: center;
   justify-content: center;
   padding: 0 13px;
-  border: 1px solid rgba(8, 8, 8, .12);
+  border: 1px solid rgba(40, 90, 69, .24);
   border-radius: 999px;
-  background: rgba(255, 255, 255, .58);
-  color: rgba(8, 8, 8, .68);
+  background: rgba(40, 90, 69, .1);
+  color: var(--gh-green-accent);
   font-size: 12px;
   font-weight: 850;
   line-height: 1;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .52);
 }
 
 .gh-full-gallery {
@@ -650,17 +673,17 @@ body.is-ready .gh-facts {
 .gh-gallery-heading h2 {
   margin: 0;
   font-family: var(--gh-serif);
-  font-size: clamp(44px, 5.4vw, 78px);
+  font-size: clamp(30px, 3vw, 46px);
   font-weight: 700;
   letter-spacing: 0;
-  line-height: .95;
+  line-height: 1;
 }
 
 .gh-gallery-heading > p:last-child {
   max-width: 620px;
   margin: 18px auto 0;
   color: rgba(8, 8, 8, .54);
-  font-size: clamp(16px, 1.4vw, 21px);
+  font-size: clamp(14px, 1vw, 17px);
   font-weight: 600;
   line-height: 1.45;
 }
@@ -883,49 +906,53 @@ body.is-ready .gh-facts {
 
 .gh-location {
   scroll-margin-top: 92px;
-  padding: clamp(36px, 5vw, 64px) var(--gh-rail-offset) clamp(52px, 7vw, 86px);
-  background: #f1eee7;
+  padding: clamp(18px, 2.4vw, 32px) 0;
+  background: var(--gh-green);
+  color: var(--gh-white);
 }
 
 .gh-location-panel {
-  max-width: 880px;
+  width: 100%;
+  max-width: none;
   margin: 0 auto;
+  box-sizing: border-box;
   display: grid;
-  grid-template-columns: minmax(280px, .78fr) minmax(0, 1.22fr);
-  gap: clamp(12px, 1.4vw, 18px);
+  grid-template-columns: minmax(320px, .45fr) minmax(0, 1fr);
+  gap: clamp(22px, 3vw, 48px);
   align-items: stretch;
+  padding: 0 var(--gh-rail-offset);
 }
 
 .gh-location-copy,
 .gh-location-map {
   min-width: 0;
-  border: 1px solid rgba(8, 8, 8, .1);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, .64);
-  box-shadow: 0 26px 80px rgba(14, 16, 15, .08);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 .gh-location-copy {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: clamp(20px, 2.5vw, 30px);
+  padding: clamp(18px, 2.4vw, 34px) 0;
 }
 
 .gh-address {
   display: grid;
-  gap: 8px;
+  gap: 7px;
   margin: 0;
-  padding: 18px;
-  border: 1px solid rgba(8, 8, 8, .1);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, .7);
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
   font-style: normal;
 }
 
 .gh-address span,
 .gh-address small {
-  color: rgba(8, 8, 8, .48);
+  color: rgba(255, 255, 255, .56);
   font-size: 12px;
   font-weight: 850;
   letter-spacing: .12em;
@@ -934,8 +961,8 @@ body.is-ready .gh-facts {
 }
 
 .gh-address strong {
-  color: var(--gh-ink);
-  font-size: clamp(18px, 1.7vw, 24px);
+  color: var(--gh-white);
+  font-size: clamp(17px, 1.6vw, 23px);
   font-weight: 850;
   line-height: 1.22;
 }
@@ -947,20 +974,20 @@ body.is-ready .gh-facts {
 
 .gh-location-actions {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-  margin-top: 14px;
+  grid-template-columns: minmax(116px, 1.35fr) minmax(86px, .9fr);
+  gap: 10px;
+  margin-top: 18px;
 }
 
 .gh-location-button {
   width: 100%;
-  min-height: 58px;
+  min-height: 46px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0 22px;
+  padding: 0 16px;
   border-radius: 999px;
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 900;
   line-height: 1;
   transition: transform .2s ease, filter .2s ease;
@@ -973,9 +1000,9 @@ body.is-ready .gh-facts {
 }
 
 .gh-location-button--maps {
-  background: var(--gh-green);
-  color: var(--gh-white);
-  box-shadow: 0 18px 42px rgba(13, 36, 28, .16);
+  background: var(--gh-white);
+  color: var(--gh-green);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, .16);
 }
 
 .gh-location-button--waze {
@@ -985,7 +1012,7 @@ body.is-ready .gh-facts {
 }
 
 .gh-location-map {
-  min-height: clamp(280px, 28vw, 360px);
+  min-height: clamp(220px, 24vw, 320px);
   overflow: hidden;
 }
 
@@ -995,7 +1022,7 @@ body.is-ready .gh-facts {
   min-height: inherit;
   display: block;
   border: 0;
-  filter: saturate(.94) contrast(1.02);
+  filter: saturate(.86) contrast(1.05);
 }
 
 .gh-prices {
@@ -1005,9 +1032,12 @@ body.is-ready .gh-facts {
 }
 
 .gh-prices-shell {
-  max-width: none;
+  max-width: 1200px;
   margin: 0 auto;
-  display: block;
+  display: grid;
+  grid-template-columns: minmax(300px, .72fr) minmax(0, 1fr);
+  align-items: stretch;
+  gap: clamp(14px, 1.8vw, 24px);
 }
 
 .gh-prices-heading h2 {
@@ -1046,27 +1076,25 @@ body.is-ready .gh-facts {
 
 .gh-price-media {
   position: relative;
-  min-height: 100%;
   margin: 0;
   overflow: hidden;
-  border-radius: 6px;
-  background: rgba(13, 36, 28, .12);
+  aspect-ratio: 4 / 5;
+  border: 1px solid rgba(8, 8, 8, .09);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, .5);
+  box-shadow: 0 34px 100px rgba(14, 16, 15, .1);
 }
 
 .gh-price-media::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(180deg, rgba(13, 36, 28, .02), rgba(13, 36, 28, .34)),
-    linear-gradient(90deg, rgba(255, 255, 255, .08), transparent 44%);
+  content: none;
 }
 
 .gh-price-media img {
   width: 100%;
   height: 100%;
-  min-height: 430px;
   object-fit: cover;
+  object-position: 50% 50%;
+  filter: saturate(1.02) contrast(1.02) brightness(1.06);
 }
 
 .gh-price-content {
@@ -1400,7 +1428,8 @@ body.is-ready .gh-facts {
 
   .gh-gallery {
     height: clamp(250px, 42vw, 340px);
-    grid-template-columns: .38fr .54fr .74fr .94fr 1.1fr .94fr .74fr .54fr .38fr;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: clamp(5px, .7vw, 7px);
   }
 
   .gh-full-gallery {
@@ -1430,6 +1459,10 @@ body.is-ready .gh-facts {
 
   .gh-location-map {
     min-height: 420px;
+  }
+
+  .gh-prices-shell {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -1665,9 +1698,27 @@ body.is-ready .gh-facts {
 
   .gh-card-1,
   .gh-card-2,
+  .gh-card-4,
+  .gh-card-6,
   .gh-card-8,
   .gh-card-9 {
     display: none;
+  }
+
+  .gh-card-3 {
+    grid-column: 1;
+  }
+
+  .gh-card-5 {
+    grid-column: 2 / span 3;
+  }
+
+  .gh-card-7 {
+    grid-column: 5;
+  }
+
+  .gh-card-5 img {
+    object-position: 50% 52%;
   }
 
   .gh-gallery::before,
@@ -1778,10 +1829,18 @@ body.is-ready .gh-facts {
   }
 
   .gh-experiences-heading h2 {
-    font-size: clamp(38px, 12vw, 54px);
+    font-size: clamp(30px, 9vw, 40px);
   }
 
   .gh-experiences-heading > p:last-child {
+    font-size: 14px;
+  }
+
+  .gh-gallery-heading h2 {
+    font-size: clamp(30px, 9vw, 40px);
+  }
+
+  .gh-gallery-heading > p:last-child {
     font-size: 15px;
   }
 
@@ -1836,20 +1895,26 @@ body.is-ready .gh-facts {
 
   .gh-location {
     scroll-margin-top: 72px;
-    padding: 28px var(--gh-mobile-gutter) 56px;
+    padding: 0;
   }
 
   .gh-location-panel {
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 0;
+    padding: 0;
   }
 
   .gh-location-copy {
-    padding: 18px;
+    order: 2;
+    padding: 24px var(--gh-mobile-gutter);
+  }
+
+  .gh-location-map {
+    order: 1;
   }
 
   .gh-address {
-    padding: 15px;
+    padding: 0;
   }
 
   .gh-address strong {
@@ -1857,17 +1922,18 @@ body.is-ready .gh-facts {
   }
 
   .gh-location-actions {
+    grid-template-columns: minmax(120px, 1.35fr) minmax(84px, .85fr);
     gap: 8px;
   }
 
   .gh-location-button {
-    min-height: 52px;
-    padding: 0 16px;
-    font-size: 15px;
+    min-height: 44px;
+    padding: 0 14px;
+    font-size: 12px;
   }
 
   .gh-location-map {
-    min-height: 260px;
+    min-height: 280px;
   }
 
   .gh-prices {
@@ -1894,9 +1960,14 @@ body.is-ready .gh-facts {
     padding: 10px;
   }
 
+  .gh-price-media {
+    aspect-ratio: 16 / 10;
+  }
+
   .gh-price-media img {
-    min-height: 220px;
-    max-height: 300px;
+    height: 100%;
+    min-height: 0;
+    max-height: none;
   }
 
   .gh-price-content {
@@ -1953,11 +2024,11 @@ body.is-ready .gh-facts {
   }
 
   .gh-gallery-heading h2 {
-    font-size: clamp(38px, 12vw, 54px);
+    font-size: clamp(30px, 9vw, 40px);
   }
 
   .gh-gallery-heading > p:last-child {
-    font-size: 15px;
+    font-size: 14px;
   }
 
   .gh-gallery-grid {

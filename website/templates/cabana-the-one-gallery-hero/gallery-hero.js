@@ -197,7 +197,14 @@ function getLocaleConfig(config = {}, locale = "ro") {
 function renderImages(images = []) {
   return images.map((image, index) => `
     <figure class="gh-card gh-card-${index + 1}">
-      <img src="${escapeHtml(image.src)}" alt="${escapeHtml(image.alt)}" loading="${index < 3 ? "eager" : "lazy"}">
+      ${image.mobileSrc ? `
+        <picture>
+          <source media="(max-width: 640px)" srcset="${escapeHtml(image.mobileSrc)}">
+          <img src="${escapeHtml(image.src)}" alt="${escapeHtml(image.alt)}" loading="${index < 3 ? "eager" : "lazy"}">
+        </picture>
+      ` : `
+        <img src="${escapeHtml(image.src)}" alt="${escapeHtml(image.alt)}" loading="${index < 3 ? "eager" : "lazy"}">
+      `}
     </figure>
   `).join("");
 }
@@ -373,12 +380,17 @@ function renderPricesSection(config) {
   const prices = config.prices;
   const rates = prices?.rates || [];
   const bookingLinks = prices?.bookingLinks || [];
-  if (!rates.length && !bookingLinks.length) return "";
   const visibleNotes = prices.notes || [];
+  if (!rates.length && !bookingLinks.length && !visibleNotes.length && !prices?.image) return "";
 
   return `
     <section class="gh-prices" id="prices" aria-label="${escapeHtml(prices.cardLabel || prices.title || "")}">
       <div class="gh-prices-shell">
+        ${prices.image ? `
+          <figure class="gh-price-media">
+            <img src="${escapeHtml(prices.image.src)}" alt="${escapeHtml(prices.image.alt)}" loading="lazy">
+          </figure>
+        ` : ""}
         <div class="gh-price-card" aria-label="${escapeHtml(prices.cardLabel)}">
           <div class="gh-price-content">
             <div class="gh-price-card-header">
@@ -454,6 +466,12 @@ function renderReviewBadge(config, className = "", suffix = "") {
       ${suffix ? `<span>${escapeHtml(suffix)}</span>` : ""}
     </a>
   `;
+}
+
+function getPageScopedHref(href = "") {
+  if (!href.startsWith("#")) return href;
+
+  return `${window.location.pathname}${href}`;
 }
 
 function renderFacts(facts = [], config = {}) {
@@ -608,7 +626,7 @@ function render(config, locale = getStoredLocale(config)) {
           <span aria-hidden="true"></span>
         </button>
         <nav class="gh-nav" id="gh-navigation" aria-label="${escapeHtml(ui.navigation)}">
-          ${localeConfig.navItems.map(([label, href]) => `<a href="${escapeHtml(href)}">${escapeHtml(label)}</a>`).join("")}
+          ${localeConfig.navItems.map(([label, href]) => `<a href="${escapeHtml(getPageScopedHref(href))}">${escapeHtml(label)}</a>`).join("")}
           ${renderLanguageSwitcher(localeConfig, "mobile")}
         </nav>
         <a class="gh-reserve-card" href="${escapeHtml(localeConfig.whatsappUrl)}" target="_blank" rel="noopener">
