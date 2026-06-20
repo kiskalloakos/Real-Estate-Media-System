@@ -388,7 +388,7 @@ function renderPricesSection(config) {
       <div class="gh-prices-shell">
         ${prices.image ? `
           <figure class="gh-price-media">
-            <img src="${escapeHtml(prices.image.src)}" alt="${escapeHtml(prices.image.alt)}" loading="lazy">
+            <img src="${escapeHtml(prices.image.src)}" alt="${escapeHtml(prices.image.alt)}" loading="eager" fetchpriority="low" decoding="async">
           </figure>
         ` : ""}
         <div class="gh-price-card" aria-label="${escapeHtml(prices.cardLabel)}">
