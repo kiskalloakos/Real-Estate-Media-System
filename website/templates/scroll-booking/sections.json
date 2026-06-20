@@ -1,43 +1,43 @@
 {
   "framePattern": "assets/frames/frame-{{index}}.jpg",
-  "frameCount": 125,
+  "frameCount": 422,
   "scrollHeight": "760vh",
   "sections": [
     {
-      "id": "entrance",
-      "start": 0.04,
-      "end": 0.16,
+      "id": "piscina-exterioara",
+      "start": 0.057,
+      "end": 0.426,
       "position": "left",
-      "eyebrow": "Intrare",
-      "title": "Prima impresie conteaza",
-      "text": "Un cadru cinematic care seteaza tonul proprietatii inainte ca oaspetele sa vada detaliile."
+      "eyebrow": "Piscina exterioara",
+      "title": "Piscina exterioara",
+      "text": "Un cadru deschis, relaxat, care arata imediat zona de exterior si atmosfera de vacanta."
     },
     {
       "id": "living",
-      "start": 0.22,
-      "end": 0.38,
+      "start": 0.426,
+      "end": 0.625,
       "position": "right",
       "eyebrow": "Living",
-      "title": "Spatiu deschis, luminos",
-      "text": "Zona principala este prezentata ca un loc primitor, premium si pregatit pentru momente memorabile."
+      "title": "Living",
+      "text": "Zona principala ramane calda, primitoare si suficient de generoasa pentru timp petrecut impreuna."
     },
     {
-      "id": "bedroom",
-      "start": 0.48,
-      "end": 0.62,
+      "id": "bucatarie-si-spatiu-mare",
+      "start": 0.625,
+      "end": 0.937,
       "position": "bottom-left",
-      "eyebrow": "Dormitor",
-      "title": "Confort calm",
-      "text": "Copy scurt, emotional si clar, care transforma o camera simpla intr-un motiv de rezervare."
+      "eyebrow": "Bucatarie si dining",
+      "title": "Bucatarie si spatiu mare pentru 14 persoane",
+      "text": "Un spatiu mare pentru mese, grupuri si seri lungi, cu loc pentru pana la 14 persoane."
     },
     {
-      "id": "kitchen",
-      "start": 0.68,
-      "end": 0.82,
+      "id": "jacuzzi-si-sauna",
+      "start": 0.937,
+      "end": 1,
       "position": "bottom-right",
-      "eyebrow": "Bucatarie",
-      "title": "Totul pregatit",
-      "text": "Oaspetii inteleg rapid ca proprietatea este functionala, curata si usor de locuit."
+      "eyebrow": "Wellness",
+      "title": "Jacuzzi si sauna",
+      "text": "Finalul pune accent pe relaxare: jacuzzi, sauna si un motiv clar pentru un weekend memorabil."
     }
   ]
 }

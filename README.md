@@ -395,7 +395,7 @@ Core elements:
 - Big phone number / contact CTA
 - WhatsApp or direct contact option
 - Agent positioning
-- Portfolio of sold properties
+- Portofoliu de proprietăți finalizate
 - Active listings
 - Reviews/testimonials
 - Premium visual design
@@ -486,7 +486,7 @@ Important operational consideration:
 
 The first 30-day goal is:
 
-- Build portfolio
+- Construire portofoliu
 - Work with friendly agents/properties
 - Create case studies
 - Build a strong first landing page
@@ -496,14 +496,14 @@ The first 30-day goal is:
 
 The team already has access to friendly agents and properties for case studies.
 
-The user does not currently need help building the portfolio, but this context matters for future planning.
+The user does not currently need help building the portofoliu, but this context matters for future planning.
 
 ## Proof and Case Studies
 
 Current proof:
 
 - Some existing proof exists
-- More portfolio work is being created now
+- More portofoliu work is being created now
 - Friendly agents/properties are available
 
 Future case studies should ideally show:
