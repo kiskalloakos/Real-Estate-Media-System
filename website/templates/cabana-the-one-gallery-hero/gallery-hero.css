@@ -47,7 +47,8 @@ a {
   text-decoration: none;
 }
 
-img {
+img,
+video {
   display: block;
   max-width: 100%;
 }
@@ -495,6 +496,35 @@ body.is-ready .gh-facts {
   min-height: 0;
 }
 
+.gh-feature-video {
+  position: relative;
+  width: 100vw;
+  height: 100svh;
+  min-height: 100vh;
+  overflow: hidden;
+  background: #0d241c;
+  isolation: isolate;
+}
+
+.gh-feature-video::before,
+.gh-feature-video::after {
+  content: none;
+}
+
+.gh-feature-video-media {
+  position: absolute;
+  top: -7.5%;
+  left: 0;
+  width: 100%;
+  height: 115%;
+  max-width: none;
+  object-fit: cover;
+  object-position: 50% 50%;
+  filter: saturate(.96) contrast(1.03) brightness(.9);
+  transform: translate3d(0, 0, 0) scale(1.08);
+  will-change: transform;
+}
+
 .gh-experiences {
   scroll-margin-top: 92px;
   padding: clamp(84px, 10vw, 132px) var(--gh-rail-offset);
@@ -659,6 +689,8 @@ body.is-ready .gh-facts {
 }
 
 .gh-full-gallery {
+  position: relative;
+  z-index: 2;
   scroll-margin-top: 92px;
   padding: clamp(84px, 10vw, 132px) var(--gh-rail-offset);
   background: var(--gh-white);
@@ -1414,9 +1446,11 @@ body.is-ready .gh-facts {
   .gh-reserve-card,
   .gh-copy,
   .gh-gallery,
+  .gh-feature-video-media,
   .gh-facts {
     opacity: 1 !important;
     transform: none !important;
+    will-change: auto !important;
   }
 }
 
@@ -1435,6 +1469,15 @@ body.is-ready .gh-facts {
     height: clamp(250px, 42vw, 340px);
     grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: clamp(5px, .7vw, 7px);
+  }
+
+  .gh-full-gallery {
+    padding: 84px var(--gh-rail-offset);
+  }
+
+  .gh-feature-video {
+    height: 100svh;
+    min-height: 100vh;
   }
 
   .gh-full-gallery {
@@ -1805,6 +1848,23 @@ body.is-ready .gh-facts {
     padding: 0 12px;
   }
 
+  .gh-feature-video {
+    height: 100svh;
+    min-height: 100vh;
+  }
+
+  .gh-feature-video::before,
+  .gh-feature-video::after {
+    content: none;
+  }
+
+  .gh-feature-video-media {
+    top: -8%;
+    height: 116%;
+    object-position: 50% 50%;
+    transform: translate3d(0, 0, 0) scale(1.08);
+  }
+
   .gh-review-badge {
     min-height: 32px;
     gap: 8px;
@@ -2024,7 +2084,7 @@ body.is-ready .gh-facts {
 
   .gh-full-gallery {
     scroll-margin-top: 72px;
-    padding: 64px var(--gh-mobile-gutter) 72px;
+    padding: 104px var(--gh-mobile-gutter) 72px;
   }
 
   .gh-gallery-heading {

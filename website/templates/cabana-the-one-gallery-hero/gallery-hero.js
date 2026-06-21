@@ -3,6 +3,7 @@ const LANGUAGE_STORAGE_KEY = "galleryHeroLanguage";
 
 let activeConfig = null;
 let activeLocale = "ro";
+let cleanupFeatureVideo = null;
 
 const escapeHtml = (value = "") => String(value)
   .replaceAll("&", "&amp;")
@@ -168,6 +169,11 @@ function getLocaleConfig(config = {}, locale = "ro") {
       ...(localizedContent.hero || {}),
       images: mergeImages(config.hero?.images || [], localizedContent.hero?.images || defaultContent.hero?.images || [])
     },
+    featureVideo: {
+      ...(config.featureVideo || {}),
+      ...(defaultContent.featureVideo || {}),
+      ...(localizedContent.featureVideo || {})
+    },
     facts: localizedContent.facts || defaultContent.facts || config.facts || [],
     experiences: {
       ...(config.experiences || {}),
@@ -242,6 +248,26 @@ function renderLanguageSwitcher(config, placement = "desktop") {
         </button>
       `).join("")}
     </div>
+  `;
+}
+
+function renderFeatureVideoSection(config) {
+  const featureVideo = config.featureVideo;
+  if (!featureVideo?.src) return "";
+
+  return `
+    <section class="gh-feature-video" aria-label="${escapeHtml(featureVideo.ariaLabel || config.hero?.title || config.title || "")}" data-feature-video-section>
+      <video
+        class="gh-feature-video-media"
+        src="${escapeHtml(featureVideo.src)}"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        data-feature-video>
+      </video>
+    </section>
   `;
 }
 
@@ -534,6 +560,71 @@ function bindMobileMenu() {
   });
 }
 
+function bindFeatureVideo() {
+  cleanupFeatureVideo?.();
+  cleanupFeatureVideo = null;
+
+  const section = document.querySelector("[data-feature-video-section]");
+  const video = document.querySelector("[data-feature-video]");
+  if (!section || !video) return;
+
+  video.muted = true;
+  video.defaultMuted = true;
+  video.playsInline = true;
+  video.setAttribute("playsinline", "");
+  video.setAttribute("webkit-playsinline", "");
+
+  const playVideo = () => video.play().catch(() => {});
+  const playVideoWhenVisible = () => {
+    if (!document.hidden) playVideo();
+  };
+  const reducedMotionQuery = window.matchMedia?.("(prefers-reduced-motion: reduce)");
+  let ticking = false;
+
+  const updateParallax = () => {
+    ticking = false;
+
+    if (reducedMotionQuery?.matches) {
+      video.style.transform = "";
+      return;
+    }
+
+    const rect = section.getBoundingClientRect();
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 1;
+
+    if (rect.bottom < -120 || rect.top > viewportHeight + 120) return;
+
+    const progress = (viewportHeight - rect.top) / (viewportHeight + rect.height);
+    const clampedProgress = Math.min(1, Math.max(0, progress));
+    const translateY = (clampedProgress - .5) * -72;
+    video.style.transform = `translate3d(0, ${translateY.toFixed(2)}px, 0) scale(1.08)`;
+  };
+
+  const requestParallaxUpdate = () => {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(updateParallax);
+  };
+
+  if (video.readyState === 0) video.load();
+  video.addEventListener("loadeddata", playVideo);
+  video.addEventListener("canplay", playVideo);
+  window.addEventListener("scroll", requestParallaxUpdate, { passive: true });
+  window.addEventListener("resize", requestParallaxUpdate);
+  document.addEventListener("visibilitychange", playVideoWhenVisible);
+
+  cleanupFeatureVideo = () => {
+    video.removeEventListener("loadeddata", playVideo);
+    video.removeEventListener("canplay", playVideo);
+    window.removeEventListener("scroll", requestParallaxUpdate);
+    window.removeEventListener("resize", requestParallaxUpdate);
+    document.removeEventListener("visibilitychange", playVideoWhenVisible);
+  };
+
+  playVideo();
+  requestParallaxUpdate();
+}
+
 function bindGallery(config) {
   const images = config.gallery?.images || [];
   const lightbox = document.querySelector(".gh-lightbox");
@@ -650,6 +741,7 @@ function render(config, locale = getStoredLocale(config)) {
         </ul>
       </section>
 
+      ${renderFeatureVideoSection(localeConfig)}
       ${renderGallerySection(localeConfig)}
       ${renderExperiencesSection(localeConfig)}
       ${renderPricesSection(localeConfig)}
@@ -661,6 +753,7 @@ function render(config, locale = getStoredLocale(config)) {
     document.body.classList.add("is-ready");
     bindMobileMenu();
     bindLanguageSwitcher();
+    bindFeatureVideo();
     bindGallery(localeConfig);
 
     if (window.location.hash) {

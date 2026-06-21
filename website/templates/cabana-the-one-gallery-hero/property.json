@@ -8,6 +8,9 @@
   "bookingUrl": "https://www.booking.com/hotel/ro/cabana-the-one.ro.html",
   "instagramUrl": "https://www.instagram.com/cabanatheone/",
   "facebookUrl": "https://www.facebook.com/profile.php?id=61560556809227",
+  "featureVideo": {
+    "src": "../../assets/videos/cabana-the-one-drone-portofoliu.mov"
+  },
   "reviews": {
     "rating": "4.8",
     "source": "Google",
@@ -89,6 +92,9 @@
             "alt": "Curtea generoasa a cabanei The One"
           }
         ]
+      },
+      "featureVideo": {
+        "ariaLabel": "Video cinematic cu Cabana The One vazuta din drona"
       },
       "facts": [
         "14 oaspeti",
@@ -381,6 +387,9 @@
             "alt": "Generous courtyard at Cabana The One"
           }
         ]
+      },
+      "featureVideo": {
+        "ariaLabel": "Cinematic drone video of Cabana The One"
       },
       "facts": [
         "14 guests",
