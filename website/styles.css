@@ -57,7 +57,11 @@ img, video { display: block; max-width: 100%; }
 }
 .brand {
   font: 600 clamp(32px, 3vw, 46px)/1 var(--serif);
-  letter-spacing: -.04em;
+}
+.rm-mark {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
 }
 .main-nav {
   display: flex;
@@ -481,7 +485,7 @@ img, video { display: block; max-width: 100%; }
   background: transparent;
   font-size: 8px;
   font-weight: 900;
-  letter-spacing: .02em;
+  letter-spacing: 0;
 }
 .reel-account {
   min-width: 0;
@@ -909,6 +913,52 @@ img, video { display: block; max-width: 100%; }
   gap: 8px 18px;
   white-space: nowrap;
 }
+.footer-info-line {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  white-space: nowrap;
+}
+.footer-services {
+  position: relative;
+}
+.footer-services summary {
+  cursor: pointer;
+  color: rgba(33, 28, 21, .78);
+  font-weight: 700;
+  list-style: none;
+}
+.footer-services summary::-webkit-details-marker {
+  display: none;
+}
+.footer-services summary::after {
+  content: " +";
+}
+.footer-services[open] summary::after {
+  content: " −";
+}
+.footer-services-menu {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 10px);
+  z-index: 5;
+  display: grid;
+  gap: 8px;
+  width: 250px;
+  padding: 14px;
+  border: 1px solid rgba(33, 28, 21, .12);
+  border-radius: 6px;
+  background: #fffaf0;
+  box-shadow: 0 18px 46px rgba(33, 28, 21, .14);
+  text-align: left;
+  white-space: normal;
+}
+.footer-services-menu a {
+  color: rgba(33, 28, 21, .76);
+  font-weight: 700;
+  line-height: 1.25;
+}
 .footer-contact a:hover {
   color: var(--gold);
 }
@@ -916,6 +966,17 @@ img, video { display: block; max-width: 100%; }
   border-top-color: rgba(255, 255, 255, .08);
   background: #090d0c;
   color: rgba(255, 255, 255, .58);
+}
+.dark-footer .footer-services summary {
+  color: rgba(255, 255, 255, .72);
+}
+.dark-footer .footer-services-menu {
+  border-color: rgba(255, 255, 255, .12);
+  background: #121918;
+  box-shadow: 0 18px 46px rgba(0, 0, 0, .32);
+}
+.dark-footer .footer-services-menu a {
+  color: rgba(255, 255, 255, .72);
 }
 
 .portofoliu-page,
@@ -1348,6 +1409,16 @@ img, video { display: block; max-width: 100%; }
     flex-wrap: wrap;
     justify-content: flex-start;
     white-space: normal;
+  }
+  .footer-info-line {
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    white-space: normal;
+  }
+  .footer-services-menu {
+    left: 0;
+    right: auto;
   }
   .contact-layout {
     width: var(--content-rail);
