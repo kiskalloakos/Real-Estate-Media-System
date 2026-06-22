@@ -149,9 +149,9 @@ img, video { display: block; max-width: 100%; }
   padding-top: 80px;
 }
 .hero h1 {
-  width: min(610px, 100%);
+  width: min(820px, 100%);
   margin: 0;
-  font: 600 clamp(44px, 4.15vw, 70px)/1.02 var(--serif);
+  font: 600 clamp(44px, 4.15vw, 70px)/1.18 var(--serif);
   letter-spacing: -.045em;
 }
 .hero h1 em,
@@ -162,7 +162,7 @@ img, video { display: block; max-width: 100%; }
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px 18px;
-  width: min(620px, 100%);
+  width: min(720px, 100%);
   margin: 26px 0 18px;
 }
 .hero-feature {
@@ -250,6 +250,17 @@ img, video { display: block; max-width: 100%; }
   font: 600 clamp(32px, 3.2vw, 44px)/1.1 var(--serif);
   letter-spacing: -.035em;
 }
+.package-title {
+  margin-bottom: 12px;
+}
+.package-subtitle {
+  width: min(620px, 100%);
+  margin: 0 auto 56px;
+  color: #5d5549;
+  text-align: center;
+  font-size: 17px;
+  line-height: 1.5;
+}
 .service-grid {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -295,15 +306,39 @@ img, video { display: block; max-width: 100%; }
   display: flex;
   flex-direction: column;
 }
-.service-card-web {
-  grid-column: 1 / -1;
+.service-card-airbnb {
+  grid-column: span 6;
+  display: flex;
+  align-items: flex-end;
   min-height: 360px;
-  display: grid;
-  grid-template-columns: minmax(260px, .76fr) minmax(0, 1.24fr);
-  align-items: center;
-  gap: clamp(18px, 4vw, 54px);
-  padding: clamp(8px, 1.6vw, 18px);
-  background: rgba(255, 250, 241, .82);
+}
+.service-card-web {
+  grid-column: span 6;
+  min-height: 360px;
+  display: flex;
+  align-items: flex-end;
+}
+.service-card-photo,
+.service-card-social,
+.service-card-airbnb,
+.service-card-web {
+  border-color: rgba(255, 255, 255, .08);
+  background:
+    radial-gradient(circle at 14% 0%, rgba(217, 173, 82, .1), transparent 38%),
+    linear-gradient(145deg, #101a16, #050807 78%);
+  color: var(--white);
+}
+.service-card-photo p,
+.service-card-social p,
+.service-card-airbnb p,
+.service-card-web p {
+  color: rgba(255, 255, 255, .76);
+}
+.service-card-photo h3,
+.service-card-social h3,
+.service-card-airbnb h3,
+.service-card-web h3 {
+  color: var(--white);
 }
 .service-card-cinematic .service-video,
 .service-card-cinematic .service-overlay {
@@ -322,17 +357,49 @@ img, video { display: block; max-width: 100%; }
     linear-gradient(180deg, rgba(0, 0, 0, .06), rgba(0, 0, 0, .22) 38%, rgba(0, 0, 0, .82)),
     radial-gradient(circle at 24% 18%, rgba(217, 173, 82, .2), transparent 35%);
 }
+.service-card-drone {
+  grid-column: 1 / -1;
+  min-height: 260px;
+  display: flex;
+  align-items: flex-end;
+  border: 0;
+  background: #0c100d;
+  color: var(--white);
+}
+.service-card-drone .service-video,
+.service-card-drone .service-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.service-card-drone .service-video {
+  object-fit: cover;
+  filter: saturate(.95) contrast(1.08);
+}
+.service-card-drone .service-overlay {
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, .02), rgba(0, 0, 0, .18) 34%, rgba(0, 0, 0, .88)),
+    radial-gradient(circle at 18% 18%, rgba(217, 173, 82, .16), transparent 34%);
+}
 .service-card-cinematic .service-content {
   width: min(560px, 100%);
   padding: clamp(28px, 4vw, 46px);
 }
 .service-card-cinematic p,
+.service-card-drone p,
 .service-card-cinematic .check-list li {
   color: rgba(255, 255, 255, .84);
 }
-.service-card-cinematic h3 {
+.service-card-cinematic h3,
+.service-card-drone h3 {
   max-width: 470px;
   color: var(--white);
+}
+.service-card-drone .service-content {
+  width: min(980px, 100%);
+  padding: clamp(28px, 4vw, 42px);
 }
 .media-frame {
   width: 100%;
@@ -357,11 +424,12 @@ img, video { display: block; max-width: 100%; }
   grid-template-rows: repeat(2, 106px);
   gap: 5px;
   padding: 5px;
-  border-bottom: 1px solid rgba(20, 20, 18, .08);
-  background: #f6efe3;
+  border-bottom: 1px solid rgba(255, 255, 255, .08);
+  background: #050807;
 }
 .service-card-photo .service-content,
-.service-card-social .service-content {
+.service-card-social .service-content,
+.service-card-airbnb .service-content {
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -373,10 +441,10 @@ img, video { display: block; max-width: 100%; }
   aspect-ratio: 9 / 16;
   margin: 22px auto 0;
   overflow: hidden;
-  border: 5px solid #151915;
+  border: 5px solid rgba(255, 255, 255, .88);
   border-radius: 24px;
   background: #151915;
-  box-shadow: 0 18px 42px rgba(29, 22, 15, .22);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, .34);
 }
 .phone-preview .service-video {
   width: 100%;
@@ -515,35 +583,27 @@ img, video { display: block; max-width: 100%; }
 .service-card-cinematic .check-list li {
   color: rgba(255, 255, 255, .84);
 }
-.web-showcase {
-  position: relative;
-  display: flex;
+.service-card-airbnb .service-content,
+.service-card-web .service-content {
+  width: min(560px, 100%);
+  padding: clamp(30px, 4vw, 46px);
+}
+.service-text-link {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  min-height: 308px;
-  padding: 18px 0 12px;
+  gap: 8px;
+  margin-top: 22px;
+  color: rgba(255, 255, 255, .76);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
 }
-.desktop-preview {
-  overflow: hidden;
-  border: 1px solid rgba(20, 20, 18, .12);
-  background: var(--ivory-2);
-  box-shadow: 0 18px 48px rgba(29, 22, 15, .14);
+.service-text-link span {
+  transition: transform .2s ease;
 }
-.desktop-preview {
-  width: min(760px, 100%);
-  border-radius: 8px;
-}
-.preview-bar {
-  display: flex;
-  gap: 7px;
-  padding: 13px 16px;
-  background: #171b17;
-}
-.preview-bar span {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, .34);
+.service-text-link:hover span {
+  transform: translateX(3px);
 }
 .preview-gallery {
   display: grid;
@@ -584,37 +644,6 @@ img, video { display: block; max-width: 100%; }
 }
 .service-photo-gallery .preview-photo-detail {
   grid-column: auto;
-}
-.preview-body {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px;
-  padding: 18px 20px 20px;
-}
-.preview-body strong {
-  display: block;
-  color: var(--ink);
-  font: 600 22px/1.05 var(--serif);
-  letter-spacing: -.025em;
-}
-.preview-body small {
-  display: block;
-  margin-top: 6px;
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.35;
-}
-.preview-price {
-  flex: 0 0 auto;
-  padding: 10px 14px;
-  border: 1px solid rgba(20, 20, 18, .12);
-  border-radius: 7px;
-  background: rgba(255, 255, 255, .72);
-  color: var(--muted);
-  font-size: 12.5px;
-  font-weight: 600;
-  line-height: 1;
 }
 .check-list {
   list-style: none;
@@ -669,7 +698,7 @@ img, video { display: block; max-width: 100%; }
   display: flex;
   flex-direction: column;
   min-height: 455px;
-  padding: 34px 32px 30px;
+  padding: 32px 32px 28px;
   border-radius: 10px;
   color: var(--white);
   background:
@@ -678,6 +707,7 @@ img, video { display: block; max-width: 100%; }
   box-shadow: 0 18px 45px rgba(19, 30, 24, .24);
 }
 .package-card.featured {
+  border: 1px solid rgba(239, 197, 110, .34);
   background:
     radial-gradient(circle at 30% 0%, rgba(217, 173, 82, .18), transparent 46%),
     linear-gradient(145deg, #111514, #07100f 70%);
@@ -703,9 +733,16 @@ img, video { display: block; max-width: 100%; }
   font: 600 34px/1.02 var(--serif);
   letter-spacing: -.04em;
 }
+.package-fit {
+  min-height: 84px;
+  margin: 13px 0 0;
+  color: rgba(255, 255, 255, .7);
+  font-size: 13.5px;
+  line-height: 1.42;
+}
 .price {
-  margin-top: 24px;
-  padding-bottom: 19px;
+  margin-top: 20px;
+  padding-bottom: 17px;
   border-bottom: 1px solid rgba(255, 255, 255, .28);
   color: var(--gold);
   font-weight: 800;
@@ -715,15 +752,24 @@ img, video { display: block; max-width: 100%; }
   letter-spacing: .04em;
 }
 .price span { color: rgba(255, 255, 255, .82); font-weight: 600; }
+.package-includes {
+  margin: 18px 0 0;
+  color: rgba(239, 197, 110, .86);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .14em;
+  line-height: 1;
+  text-transform: uppercase;
+}
 .package-card .check-list {
-  margin: 22px 0 26px;
+  margin: 15px 0 24px;
   color: rgba(255, 255, 255, .92);
-  gap: 9px;
-  font-size: 14px;
+  gap: 8px;
+  font-size: 13.5px;
 }
 .package-card .check-list li {
   padding-left: 24px;
-  line-height: 1.34;
+  line-height: 1.3;
 }
 .package-card .check-list li::before {
   width: 14px;
@@ -738,9 +784,9 @@ img, video { display: block; max-width: 100%; }
 }
 .package-card .button {
   width: 100%;
-  min-height: 50px;
-  padding: 0 24px;
-  font-size: 15px;
+  min-height: 46px;
+  padding: 0 20px;
+  font-size: 14px;
   margin-top: auto;
 }
 
@@ -803,11 +849,20 @@ img, video { display: block; max-width: 100%; }
 }
 .founder-meta span {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
   color: #a67b30;
   font-size: 12px;
   font-weight: 800;
   letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.founder-meta small {
+  display: block;
+  margin-bottom: 8px;
+  color: #70665a;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .08em;
   text-transform: uppercase;
 }
 .founder-meta h3 {
@@ -948,13 +1003,13 @@ img, video { display: block; max-width: 100%; }
 }
 .property-copy p {
   max-width: 760px;
-  margin: 12px 0 0;
-  color: rgba(255,255,255,.78);
-  font-size: clamp(12px, 1.1vw, 15px);
-  font-weight: 800;
-  letter-spacing: .08em;
-  line-height: 1.55;
-  text-transform: uppercase;
+  margin: 10px 0 0;
+  color: rgba(255,255,255,.72);
+  font-size: clamp(13px, 1vw, 15px);
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.5;
+  text-transform: none;
 }
 
 .contact-layout {
@@ -1167,6 +1222,15 @@ img, video { display: block; max-width: 100%; }
     line-height: 1.08;
     overflow-wrap: break-word;
   }
+  .package-title {
+    margin-bottom: 10px;
+  }
+  .package-subtitle {
+    margin: 0 0 34px;
+    text-align: left;
+    font-size: 15px;
+    line-height: 1.5;
+  }
   .service-grid,
   .package-grid,
   .about-founders-inner,
@@ -1199,11 +1263,20 @@ img, video { display: block; max-width: 100%; }
     grid-column: 1 / -1;
     min-height: auto;
   }
+  .service-card-drone { order: 1; }
+  .service-card-cinematic { order: 2; }
+  .service-card-photo { order: 3; }
+  .service-card-social { order: 4; }
+  .service-card-airbnb { order: 5; }
+  .service-card-web { order: 6; }
   .service-card h3 {
     min-height: 0;
   }
   .service-card-cinematic {
     min-height: 540px;
+  }
+  .service-card-drone {
+    min-height: 300px;
   }
   .service-card-cinematic .service-content {
     padding: 30px 24px;
@@ -1215,24 +1288,7 @@ img, video { display: block; max-width: 100%; }
     width: min(62%, 250px);
   }
   .service-card-web {
-    grid-template-columns: 1fr;
-    gap: 8px;
-    padding: 0;
-  }
-  .web-showcase {
-    min-height: 0;
-    padding: 0 16px 24px;
-  }
-  .desktop-preview {
-    width: 100%;
-  }
-  .desktop-preview .preview-body {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .desktop-preview .preview-body strong {
-    font-size: 19px;
+    min-height: 300px;
   }
   .preview-gallery {
     grid-template-columns: 1fr 1fr;
@@ -1244,9 +1300,6 @@ img, video { display: block; max-width: 100%; }
   }
   .preview-photo-detail {
     grid-column: 1 / -1;
-  }
-  .preview-price {
-    align-self: flex-start;
   }
   .media-frame {
     aspect-ratio: 16 / 11;
@@ -1261,6 +1314,9 @@ img, video { display: block; max-width: 100%; }
   .package-card h3 {
     font-size: 32px;
     line-height: 1.02;
+  }
+  .package-fit {
+    min-height: 0;
   }
   .price {
     margin-top: 22px;
