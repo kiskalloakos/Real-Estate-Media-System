@@ -799,6 +799,9 @@ img, video { display: block; max-width: 100%; }
   overflow: hidden;
   background: var(--ivory);
 }
+.about-founders[hidden] {
+  display: none;
+}
 .about-founders-inner {
   padding-top: 72px;
   padding-bottom: 86px;
@@ -1110,6 +1113,15 @@ img, video { display: block; max-width: 100%; }
   align-items: center;
   justify-content: center;
   gap: 18px;
+}
+.contact-soma-avatar {
+  width: clamp(58px, 6vw, 74px);
+  height: clamp(58px, 6vw, 74px);
+  border: 2px solid rgba(239, 197, 110, .88);
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: 50% 18%;
+  box-shadow: 0 16px 38px rgba(13, 36, 28, .18);
 }
 .contact-whatsapp-cta {
   min-height: 64px;
