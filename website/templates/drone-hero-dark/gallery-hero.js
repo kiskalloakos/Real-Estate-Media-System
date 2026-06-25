@@ -410,6 +410,12 @@ function renderReviewBadge(config, className = "", suffix = "") {
   `;
 }
 
+function getPageScopedHref(href = "") {
+  if (!href.startsWith("#")) return href;
+
+  return `${window.location.pathname}${href}`;
+}
+
 function renderFacts(facts = [], config = {}) {
   const factItems = facts.map((fact) => `<li>${escapeHtml(fact)}</li>`);
   const reviewIndex = Math.min(2, factItems.length);
@@ -562,7 +568,7 @@ function render(config, locale = getStoredLocale(config)) {
           <span aria-hidden="true"></span>
         </button>
         <nav class="gh-nav" id="gh-navigation" aria-label="${escapeHtml(ui.navigation)}">
-          ${localeConfig.navItems.map(([label, href]) => `<a href="${escapeHtml(href)}">${escapeHtml(label)}</a>`).join("")}
+          ${localeConfig.navItems.map(([label, href]) => `<a href="${escapeHtml(getPageScopedHref(href))}">${escapeHtml(label)}</a>`).join("")}
           ${renderLanguageSwitcher(localeConfig, "mobile")}
         </nav>
         <a class="gh-reserve-card" href="${escapeHtml(localeConfig.whatsappUrl)}" target="_blank" rel="noopener">
