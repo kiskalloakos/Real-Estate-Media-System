@@ -218,7 +218,7 @@ img {
 .gh-copy,
 .gh-gallery,
 .gh-facts {
-  opacity: 0;
+  opacity: 1;
 }
 
 body.is-ready .gh-language-switcher--desktop {

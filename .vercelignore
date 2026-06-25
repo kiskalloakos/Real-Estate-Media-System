@@ -1,4 +1,10 @@
 .agents/
+.codex/
+.codex_deps/
+.git/
+.venv-whisper/
+.env*
+.vercel/cache/
 CONTENT/
 HDR CONVERTING/
 VIDEO EDITING/
