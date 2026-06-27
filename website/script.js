@@ -97,12 +97,12 @@ const portfolioModalSets = {
     slides: makeImageSlides("properties/cabana-the-one/images/gallery/ordered-gallery/ordered-gallery", cabanaPhotoCaptions, "Cabana The One fotografie")
   },
   "cabana-videos": {
-    title: "Showreel",
+    title: "Video de prezentare",
     slides: [
       {
         type: "video",
         src: "assets/videos/cabana-the-one-website.mp4",
-        caption: "Showreel"
+        caption: "Video de prezentare"
       },
       {
         type: "video",
@@ -135,12 +135,12 @@ const portfolioModalSets = {
     }))
   },
   "mountain-videos": {
-    title: "Showreel",
+    title: "Video de prezentare",
     slides: [
       {
         type: "video",
         src: "portofoliu/mountain-view-apuseni/assets/videos/drone-hero.mp4",
-        caption: "Showreel"
+        caption: "Video de prezentare"
       }
     ]
   },
