@@ -102,12 +102,14 @@ const portfolioModalSets = {
       {
         type: "video",
         src: "assets/videos/cabana-the-one-website.mp4",
-        caption: "Video de prezentare"
+        caption: "Video de prezentare",
+        aspect: "16x9"
       },
       {
         type: "video",
         src: "assets/videos/cabana-the-one-drone-portofoliu.mp4",
-        caption: "Cadre dronă"
+        caption: "Cadre dronă",
+        aspect: "16x9"
       }
     ]
   },
@@ -129,7 +131,7 @@ const portfolioModalSets = {
     title: "Fotografii",
     slides: mountainViewPhotoCaptions.map((caption, index) => ({
       type: "image",
-      src: `portofoliu/mountain-view-apuseni/assets/gallery/drive-${String(index + 1).padStart(2, "0")}.jpg`,
+      src: `portofoliu/mountain-view-apuseni/assets/gallery/drive-${String(index + 1).padStart(2, "0")}.jpg?v=20260628-1`,
       alt: `Mountain View Apuseni fotografie ${index + 1}`,
       caption
     }))
@@ -140,12 +142,13 @@ const portfolioModalSets = {
       {
         type: "video",
         src: "portofoliu/mountain-view-apuseni/assets/videos/drone-hero.mp4",
-        caption: "Video de prezentare"
+        caption: "Video de prezentare",
+        aspect: "16x9"
       }
     ]
   },
   "mountain-social-clips": {
-    title: "",
+    title: "Clipuri Social Media",
     slides: [
       {
         type: "blank",
@@ -157,6 +160,8 @@ const portfolioModalSets = {
 
 let activePortfolioSet = null;
 let activePortfolioIndex = 0;
+let portfolioSwipeStart = null;
+let suppressPortfolioImageClick = false;
 
 disabledLinks.forEach((link) => {
   link.addEventListener("click", (event) => {
@@ -183,6 +188,10 @@ const renderPortfolioModal = () => {
   portfolioModalTitle.textContent = activePortfolioSet.title;
   portfolioModalCaption.textContent = slide.caption || "";
   portfolioModalFrame.innerHTML = "";
+  portfolioModalFrame.className = "portfolio-modal-frame";
+  portfolioModalFrame.classList.add(`is-${slide.type}`);
+  if (slide.aspect === "16x9") portfolioModalFrame.classList.add("is-video-16x9");
+  if (slide.aspect === "9x16") portfolioModalFrame.classList.add("is-video-9x16");
 
   if (portfolioModalAction) {
     const action = activePortfolioSet.action;
@@ -198,6 +207,10 @@ const renderPortfolioModal = () => {
     image.src = slide.src;
     image.alt = slide.alt || "";
     image.addEventListener("click", () => {
+      if (suppressPortfolioImageClick) {
+        suppressPortfolioImageClick = false;
+        return;
+      }
       image.classList.toggle("is-zoomed");
     });
     image.addEventListener("mousemove", (event) => {
@@ -214,9 +227,11 @@ const renderPortfolioModal = () => {
     const video = document.createElement("video");
     video.src = slide.src;
     video.controls = true;
+    video.setAttribute("controls", "");
     video.autoplay = true;
     video.muted = true;
     video.playsInline = true;
+    video.preload = "metadata";
     video.setAttribute("playsinline", "");
     portfolioModalFrame.append(video);
     playVideo(video);
@@ -273,6 +288,13 @@ const renderPortfolioModal = () => {
   }
 };
 
+const goToPortfolioSlide = (direction) => {
+  if (!activePortfolioSet || activePortfolioSet.slides.length < 2) return;
+
+  activePortfolioIndex = (activePortfolioIndex + direction + activePortfolioSet.slides.length) % activePortfolioSet.slides.length;
+  renderPortfolioModal();
+};
+
 const openPortfolioModal = (setKey) => {
   activePortfolioSet = portfolioModalSets[setKey];
   if (!portfolioModal || !activePortfolioSet) return;
@@ -306,22 +328,65 @@ portfolioModalCloseButtons.forEach((button) => {
 });
 
 portfolioModalPrev?.addEventListener("click", () => {
-  if (!activePortfolioSet) return;
-  activePortfolioIndex = (activePortfolioIndex - 1 + activePortfolioSet.slides.length) % activePortfolioSet.slides.length;
-  renderPortfolioModal();
+  goToPortfolioSlide(-1);
 });
 
 portfolioModalNext?.addEventListener("click", () => {
-  if (!activePortfolioSet) return;
-  activePortfolioIndex = (activePortfolioIndex + 1) % activePortfolioSet.slides.length;
-  renderPortfolioModal();
+  goToPortfolioSlide(1);
+});
+
+portfolioModalFrame?.addEventListener("pointerdown", (event) => {
+  if (!activePortfolioSet || activePortfolioSet.slides.length < 2) return;
+  if (activePortfolioSet.slides[activePortfolioIndex]?.type !== "image") return;
+
+  portfolioSwipeStart = {
+    id: event.pointerId,
+    x: event.clientX,
+    y: event.clientY,
+    time: Date.now()
+  };
+  portfolioModalFrame.setPointerCapture?.(event.pointerId);
+});
+
+portfolioModalFrame?.addEventListener("pointermove", (event) => {
+  if (!portfolioSwipeStart) return;
+  if (event.pointerId !== portfolioSwipeStart.id) return;
+
+  const deltaX = event.clientX - portfolioSwipeStart.x;
+  const deltaY = event.clientY - portfolioSwipeStart.y;
+  if (Math.abs(deltaX) > 18 && Math.abs(deltaX) > Math.abs(deltaY)) {
+    event.preventDefault();
+  }
+});
+
+portfolioModalFrame?.addEventListener("pointerup", (event) => {
+  if (!portfolioSwipeStart) return;
+  if (event.pointerId !== portfolioSwipeStart.id) return;
+
+  const deltaX = event.clientX - portfolioSwipeStart.x;
+  const deltaY = event.clientY - portfolioSwipeStart.y;
+  const elapsed = Date.now() - portfolioSwipeStart.time;
+  portfolioModalFrame.releasePointerCapture?.(portfolioSwipeStart.id);
+  portfolioSwipeStart = null;
+
+  if (elapsed > 700 || Math.abs(deltaX) < 48 || Math.abs(deltaX) < Math.abs(deltaY) * 1.25) return;
+
+  suppressPortfolioImageClick = true;
+  window.setTimeout(() => {
+    suppressPortfolioImageClick = false;
+  }, 0);
+  goToPortfolioSlide(deltaX < 0 ? 1 : -1);
+});
+
+portfolioModalFrame?.addEventListener("pointercancel", () => {
+  portfolioSwipeStart = null;
 });
 
 document.addEventListener("keydown", (event) => {
   if (!activePortfolioSet) return;
   if (event.key === "Escape") closePortfolioModal();
-  if (event.key === "ArrowLeft") portfolioModalPrev?.click();
-  if (event.key === "ArrowRight") portfolioModalNext?.click();
+  if (event.key === "ArrowLeft") goToPortfolioSlide(-1);
+  if (event.key === "ArrowRight") goToPortfolioSlide(1);
 });
 
 if (menuButton) {

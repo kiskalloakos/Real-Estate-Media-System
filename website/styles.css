@@ -1186,9 +1186,9 @@ img, video { display: block; max-width: 100%; }
   z-index: 1;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto;
-  gap: 14px;
-  width: min(1180px, 100%);
-  max-height: min(850px, calc(100svh - 34px));
+  gap: 16px;
+  width: min(1120px, 100%);
+  max-height: min(820px, calc(100svh - 72px));
   padding: clamp(14px, 2vw, 22px);
   border: 1px solid rgba(239, 197, 110, .24);
   border-radius: 18px;
@@ -1274,6 +1274,9 @@ img, video { display: block; max-width: 100%; }
   cursor: zoom-in;
   transition: transform .24s ease;
 }
+.portfolio-modal-frame.is-image {
+  touch-action: pan-y;
+}
 .portfolio-modal-frame img.is-zoomed {
   cursor: zoom-out;
   transform: scale(1.75);
@@ -1281,6 +1284,27 @@ img, video { display: block; max-width: 100%; }
 .portfolio-modal-frame video {
   object-fit: contain;
   background: #000;
+}
+.portfolio-modal-frame.is-video {
+  justify-self: center;
+  width: min(100%, 980px);
+  min-height: 0;
+  aspect-ratio: 16 / 9;
+}
+.portfolio-modal-frame.is-video-16x9 {
+  width: auto;
+  height: min(52svh, 551px);
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+}
+.portfolio-modal-frame.is-video-9x16 {
+  width: auto;
+  height: min(58svh, 640px);
+  max-width: 100%;
+  aspect-ratio: 9 / 16;
+}
+.portfolio-modal-frame.is-video video {
+  min-height: 0;
 }
 .portfolio-modal-frame iframe {
   min-height: min(62svh, 650px);
@@ -1636,7 +1660,15 @@ img, video { display: block; max-width: 100%; }
   }
   .service-card {
     grid-column: 1 / -1;
-    min-height: 300px;
+    min-height: 260px;
+    border-radius: 16px;
+  }
+  .service-content {
+    display: flex;
+    min-height: inherit;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: clamp(24px, 7vw, 30px);
   }
   .service-card-cinematic { order: 1; }
   .service-card-photo { order: 2; }
@@ -1646,14 +1678,40 @@ img, video { display: block; max-width: 100%; }
   .service-card-web { order: 6; }
   .service-card h3 {
     min-height: 0;
+    font-size: clamp(31px, 9.2vw, 38px);
+    line-height: 1;
+  }
+  .service-card p {
+    max-width: 100%;
+    margin-top: 14px;
+    font-size: 15px;
+    line-height: 1.48;
   }
   .service-card-cinematic,
   .service-card-drone,
   .service-card-web {
-    min-height: 300px;
+    min-height: 260px;
+  }
+  .service-text-link {
+    position: static;
+    width: fit-content;
+    margin-top: 24px;
+    font-size: 15px;
+  }
+  .service-card::after {
+    background:
+      linear-gradient(180deg, rgba(0, 0, 0, .02), rgba(0, 0, 0, .2) 28%, rgba(0, 0, 0, .9)),
+      radial-gradient(circle at 18% 18%, rgba(217, 173, 82, .14), transparent 34%);
   }
   .service-card-photo .media-frame {
     aspect-ratio: 16 / 11;
+  }
+  .service-photo-gallery {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+  }
+  .service-card-photo .preview-photo:not(.preview-photo-main) {
+    display: none;
   }
   .preview-gallery {
     grid-template-columns: 1fr 1fr;
@@ -1767,9 +1825,18 @@ img, video { display: block; max-width: 100%; }
   .portfolio-modal-frame {
     min-height: 54svh;
   }
+  .portfolio-modal-frame.is-video,
+  .portfolio-modal-frame.is-video-16x9,
+  .portfolio-modal-frame.is-video-9x16 {
+    min-height: 0;
+    max-height: calc(100svh - 164px);
+  }
   .portfolio-modal-frame img,
   .portfolio-modal-frame video {
     max-height: 54svh;
+  }
+  .portfolio-modal-frame.is-video video {
+    max-height: none;
   }
   .portfolio-modal-frame iframe {
     min-height: 54svh;
