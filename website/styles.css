@@ -255,7 +255,9 @@ img, video { display: block; max-width: 100%; }
   letter-spacing: -.035em;
 }
 .package-title {
+  width: min(1120px, 100%);
   margin-bottom: 12px;
+  white-space: nowrap;
 }
 .package-subtitle {
   width: min(620px, 100%);
@@ -1697,9 +1699,6 @@ img, video { display: block; max-width: 100%; }
   font-weight: 700;
   text-decoration: none;
 }
-.contact-email-link {
-  font-size: clamp(18px, 1.9vw, 22px);
-}
 .contact-call-link:hover,
 .contact-email-link:hover {
   color: var(--gold);
@@ -1853,6 +1852,7 @@ img, video { display: block; max-width: 100%; }
   }
   .package-title {
     margin-bottom: 10px;
+    white-space: normal;
   }
   .package-subtitle {
     margin: 0 0 34px;

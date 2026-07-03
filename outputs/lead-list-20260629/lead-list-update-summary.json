@@ -1,0 +1,14 @@
+{
+  "savedTo": "/Users/kiskalloakos/Downloads/REALTY MEDIA/lead-list.xlsx",
+  "existingRows": 49,
+  "newRows": 13,
+  "finalRows": 61,
+  "dedupeRejected": [
+    {
+      "name": "Pe Dealul Mieilor - Cabane Măguri, Cluj",
+      "listing": "https://www.airbnb.com/rooms/1321001043331986276",
+      "reason": "duplicate phone/name combination"
+    }
+  ],
+  "skippedResearchSource": "/Users/kiskalloakos/Downloads/REALTY MEDIA/outputs/lead-list-20260629/csp-cluj-research.json"
+}

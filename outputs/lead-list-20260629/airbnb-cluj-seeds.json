@@ -1,0 +1,545 @@
+{
+  "pageSummaries": [
+    {
+      "file": "airbnb-cluj-offset-0.html",
+      "offset": 0,
+      "bytes": 1290739,
+      "roomIds": 18,
+      "structuredCards": 18
+    },
+    {
+      "file": "airbnb-clujnapoca-city.html",
+      "offset": 0,
+      "bytes": 1254065,
+      "roomIds": 18,
+      "structuredCards": 18
+    },
+    {
+      "file": "airbnb-cluj-offset-18.html",
+      "offset": 18,
+      "bytes": 1300492,
+      "roomIds": 18,
+      "structuredCards": 18
+    },
+    {
+      "file": "airbnb-clujnapoca-city-18.html",
+      "offset": 18,
+      "bytes": 1263232,
+      "roomIds": 18,
+      "structuredCards": 18
+    },
+    {
+      "file": "airbnb-cluj-offset-36.html",
+      "offset": 36,
+      "bytes": 1279990,
+      "roomIds": 18,
+      "structuredCards": 18
+    },
+    {
+      "file": "airbnb-clujnapoca-city-36.html",
+      "offset": 36,
+      "bytes": 1289665,
+      "roomIds": 18,
+      "structuredCards": 18
+    },
+    {
+      "file": "airbnb-cluj-offset-54.html",
+      "offset": 54,
+      "bytes": 1290289,
+      "roomIds": 18,
+      "structuredCards": 18
+    },
+    {
+      "file": "airbnb-clujnapoca-city-54.html",
+      "offset": 54,
+      "bytes": 1258942,
+      "roomIds": 18,
+      "structuredCards": 18
+    },
+    {
+      "file": "airbnb-cluj-offset-72.html",
+      "offset": 72,
+      "bytes": 1306420,
+      "roomIds": 18,
+      "structuredCards": 18
+    },
+    {
+      "file": "airbnb-cluj-offset-90.html",
+      "offset": 90,
+      "bytes": 1276510,
+      "roomIds": 18,
+      "structuredCards": 18
+    },
+    {
+      "file": "airbnb-cluj-offset-108.html",
+      "offset": 108,
+      "bytes": 1306438,
+      "roomIds": 18,
+      "structuredCards": 18
+    },
+    {
+      "file": "airbnb-cluj-offset-126.html",
+      "offset": 126,
+      "bytes": 1290937,
+      "roomIds": 18,
+      "structuredCards": 18
+    },
+    {
+      "file": "airbnb-cluj-offset-144.html",
+      "offset": 144,
+      "bytes": 1308517,
+      "roomIds": 18,
+      "structuredCards": 18
+    },
+    {
+      "file": "airbnb-cluj-offset-162.html",
+      "offset": 162,
+      "bytes": 1310572,
+      "roomIds": 18,
+      "structuredCards": 18
+    },
+    {
+      "file": "airbnb-cluj-offset-180.html",
+      "offset": 180,
+      "bytes": 1280358,
+      "roomIds": 18,
+      "structuredCards": 18
+    },
+    {
+      "file": "airbnb-cluj-offset-198.html",
+      "offset": 198,
+      "bytes": 1281632,
+      "roomIds": 18,
+      "structuredCards": 18
+    },
+    {
+      "file": "airbnb-cluj-offset-216.html",
+      "offset": 216,
+      "bytes": 1298674,
+      "roomIds": 18,
+      "structuredCards": 18
+    },
+    {
+      "file": "airbnb-cluj-offset-234.html",
+      "offset": 234,
+      "bytes": 1279829,
+      "roomIds": 18,
+      "structuredCards": 18
+    },
+    {
+      "file": "airbnb-cluj-offset-252.html",
+      "offset": 252,
+      "bytes": 1281802,
+      "roomIds": 18,
+      "structuredCards": 18
+    },
+    {
+      "file": "airbnb-cluj-offset-270.html",
+      "offset": 270,
+      "bytes": 1300036,
+      "roomIds": 18,
+      "structuredCards": 18
+    },
+    {
+      "file": "airbnb-cluj-offset-288.html",
+      "offset": 288,
+      "bytes": 1303558,
+      "roomIds": 18,
+      "structuredCards": 18
+    },
+    {
+      "file": "airbnb-cluj-offset-306.html",
+      "offset": 306,
+      "bytes": 1286811,
+      "roomIds": 18,
+      "structuredCards": 18
+    },
+    {
+      "file": "airbnb-cluj-offset-324.html",
+      "offset": 324,
+      "bytes": 1295978,
+      "roomIds": 18,
+      "structuredCards": 18
+    },
+    {
+      "file": "airbnb-cluj-offset-342.html",
+      "offset": 342,
+      "bytes": 1282186,
+      "roomIds": 18,
+      "structuredCards": 18
+    },
+    {
+      "file": "airbnb-cluj-offset-360.html",
+      "offset": 360,
+      "bytes": 1301439,
+      "roomIds": 18,
+      "structuredCards": 18
+    }
+  ],
+  "seeds": [
+    {
+      "roomId": "1035833228636155286",
+      "url": "https://www.airbnb.com/rooms/1035833228636155286",
+      "name": "Urban Nest Central Apartment",
+      "position": 5,
+      "firstOffset": 0
+    },
+    {
+      "roomId": "1063473907548495211",
+      "url": "https://www.airbnb.com/rooms/1063473907548495211",
+      "name": "Nestree",
+      "position": 12,
+      "firstOffset": 0
+    },
+    {
+      "roomId": "1141739674997894301",
+      "url": "https://www.airbnb.com/rooms/1141739674997894301",
+      "name": "Luxury one-bedroom apartment",
+      "position": 11,
+      "firstOffset": 0
+    },
+    {
+      "roomId": "1275318661335565994",
+      "url": "https://www.airbnb.com/rooms/1275318661335565994",
+      "name": "Pacha Dome: Cosy Rural Skyline",
+      "position": 3,
+      "firstOffset": 0
+    },
+    {
+      "roomId": "1278256764705124283",
+      "url": "https://www.airbnb.com/rooms/1278256764705124283",
+      "name": "Hobbit House Arieșeni",
+      "position": 13,
+      "firstOffset": 0
+    },
+    {
+      "roomId": "1365786233756147347",
+      "url": "https://www.airbnb.com/rooms/1365786233756147347",
+      "name": "Saltwood A-Frame - Free Parking, near Turda",
+      "position": 10,
+      "firstOffset": 0
+    },
+    {
+      "roomId": "1396413024746013944",
+      "url": "https://www.airbnb.com/rooms/1396413024746013944",
+      "name": "Cloud Nine Airport Residence- Free Parking, king",
+      "position": 5,
+      "firstOffset": 0
+    },
+    {
+      "roomId": "1420165913380481387",
+      "url": "https://www.airbnb.com/rooms/1420165913380481387",
+      "name": "Bonjour modern apartment - Parking, Kingsize bed",
+      "position": 17,
+      "firstOffset": 0
+    },
+    {
+      "roomId": "1444147255423475409",
+      "url": "https://www.airbnb.com/rooms/1444147255423475409",
+      "name": "Rustic cabin near Cluj",
+      "position": 7,
+      "firstOffset": 0
+    },
+    {
+      "roomId": "1495604077287504609",
+      "url": "https://www.airbnb.com/rooms/1495604077287504609",
+      "name": "The Nest on the Hill | Hot Tub • Forest• Sleeps 10",
+      "position": 17,
+      "firstOffset": 0
+    },
+    {
+      "roomId": "1507103832100268947",
+      "url": "https://www.airbnb.com/rooms/1507103832100268947",
+      "name": "Romantic cabin with a view of the mountains",
+      "position": 6,
+      "firstOffset": 0
+    },
+    {
+      "roomId": "1508077096485198351",
+      "url": "https://www.airbnb.com/rooms/1508077096485198351",
+      "name": "Ultra-Central Loft on Eroilor Boulevard",
+      "position": 16,
+      "firstOffset": 0
+    },
+    {
+      "roomId": "1534692400939087767",
+      "url": "https://www.airbnb.com/rooms/1534692400939087767",
+      "name": "Central Jungle Studio",
+      "position": 18,
+      "firstOffset": 0
+    },
+    {
+      "roomId": "1547837854851184078",
+      "url": "https://www.airbnb.com/rooms/1547837854851184078",
+      "name": "Ultra Central Boho Apartment 3",
+      "position": 3,
+      "firstOffset": 0
+    },
+    {
+      "roomId": "1635517752616005515",
+      "url": "https://www.airbnb.com/rooms/1635517752616005515",
+      "name": "NUA | Adults Only",
+      "position": 10,
+      "firstOffset": 0
+    },
+    {
+      "roomId": "1643333736378438026",
+      "url": "https://www.airbnb.com/rooms/1643333736378438026",
+      "name": "Relaxing studio, downtown, Cluj",
+      "position": 16,
+      "firstOffset": 0
+    },
+    {
+      "roomId": "1658774529476048712",
+      "url": "https://www.airbnb.com/rooms/1658774529476048712",
+      "name": "Aeroluxe Airport Apartament - Private Parking",
+      "position": 8,
+      "firstOffset": 0
+    },
+    {
+      "roomId": "1682006491203238770",
+      "url": "https://www.airbnb.com/rooms/1682006491203238770",
+      "name": "High ceiling loft with terrace near old town",
+      "position": 2,
+      "firstOffset": 0
+    },
+    {
+      "roomId": "1695013320073347962",
+      "url": "https://www.airbnb.com/rooms/1695013320073347962",
+      "name": "Private Cozy Flat Near City Center",
+      "position": 6,
+      "firstOffset": 0
+    },
+    {
+      "roomId": "1695408274991695034",
+      "url": "https://www.airbnb.com/rooms/1695408274991695034",
+      "name": "Cremene Garden Apartments",
+      "position": 3,
+      "firstOffset": 0
+    },
+    {
+      "roomId": "1701277316999384621",
+      "url": "https://www.airbnb.com/rooms/1701277316999384621",
+      "name": "Classy Cozy Flat",
+      "position": 13,
+      "firstOffset": 0
+    },
+    {
+      "roomId": "20335104",
+      "url": "https://www.airbnb.com/rooms/20335104",
+      "name": "🌻🌷 Remote 🐢 Tiny House 🐸🦉",
+      "position": 1,
+      "firstOffset": 0
+    },
+    {
+      "roomId": "30117085",
+      "url": "https://www.airbnb.com/rooms/30117085",
+      "name": "Studio RHAPSODY 20 🎶",
+      "position": 14,
+      "firstOffset": 0
+    },
+    {
+      "roomId": "34937482",
+      "url": "https://www.airbnb.com/rooms/34937482",
+      "name": "Casa Pasteur- small single room loft, en suite",
+      "position": 16,
+      "firstOffset": 0
+    },
+    {
+      "roomId": "39932937",
+      "url": "https://www.airbnb.com/rooms/39932937",
+      "name": "MAIN SQUARE MINI APARTMENT",
+      "position": 7,
+      "firstOffset": 0
+    },
+    {
+      "roomId": "52167865",
+      "url": "https://www.airbnb.com/rooms/52167865",
+      "name": "Inima Pustei Cabin",
+      "position": 11,
+      "firstOffset": 0
+    },
+    {
+      "roomId": "633353412676426584",
+      "url": "https://www.airbnb.com/rooms/633353412676426584",
+      "name": "Forestia - Modern cabin with hot tub and sauna",
+      "position": 17,
+      "firstOffset": 0
+    },
+    {
+      "roomId": "674210791897274649",
+      "url": "https://www.airbnb.com/rooms/674210791897274649",
+      "name": "Relaxing Flat",
+      "position": 16,
+      "firstOffset": 0
+    },
+    {
+      "roomId": "721639059294914797",
+      "url": "https://www.airbnb.com/rooms/721639059294914797",
+      "name": "Vinicius home 1",
+      "position": 8,
+      "firstOffset": 0
+    },
+    {
+      "roomId": "783984101705414909",
+      "url": "https://www.airbnb.com/rooms/783984101705414909",
+      "name": "Cabin A",
+      "position": 12,
+      "firstOffset": 0
+    },
+    {
+      "roomId": "820273543486260569",
+      "url": "https://www.airbnb.com/rooms/820273543486260569",
+      "name": "Udo Glamping • Luxury Dome & Hot Tub • Apuseni",
+      "position": 5,
+      "firstOffset": 0
+    },
+    {
+      "roomId": "885922836387178463",
+      "url": "https://www.airbnb.com/rooms/885922836387178463",
+      "name": "Chic Urban Studio Cozy in Gruia, Near CFR Stadium",
+      "position": 18,
+      "firstOffset": 0
+    },
+    {
+      "roomId": "886159745316604022",
+      "url": "https://www.airbnb.com/rooms/886159745316604022",
+      "name": "Hambar Belis",
+      "position": 4,
+      "firstOffset": 0
+    },
+    {
+      "roomId": "1211537992370151627",
+      "url": "https://www.airbnb.com/rooms/1211537992370151627",
+      "name": "Narakka House",
+      "position": 9,
+      "firstOffset": 36
+    },
+    {
+      "roomId": "1302669075736974381",
+      "url": "https://www.airbnb.com/rooms/1302669075736974381",
+      "name": "Cozynest Cipariu",
+      "position": 11,
+      "firstOffset": 36
+    },
+    {
+      "roomId": "1318709976606140968",
+      "url": "https://www.airbnb.com/rooms/1318709976606140968",
+      "name": "Cluj Central Stay",
+      "position": 18,
+      "firstOffset": 36
+    },
+    {
+      "roomId": "1668003885022140973",
+      "url": "https://www.airbnb.com/rooms/1668003885022140973",
+      "name": "Intimate Luxury private Jacuzzi: panoramic terrace",
+      "position": 6,
+      "firstOffset": 36
+    },
+    {
+      "roomId": "1684232727005487232",
+      "url": "https://www.airbnb.com/rooms/1684232727005487232",
+      "name": "Apartament 1 dormitor, balcon Iulius Mall",
+      "position": 14,
+      "firstOffset": 36
+    },
+    {
+      "roomId": "32104544",
+      "url": "https://www.airbnb.com/rooms/32104544",
+      "name": "Cipariu Apartment",
+      "position": 15,
+      "firstOffset": 36
+    },
+    {
+      "roomId": "38205919",
+      "url": "https://www.airbnb.com/rooms/38205919",
+      "name": "Designer Flat in Historic Area next to Museum Sq",
+      "position": 11,
+      "firstOffset": 36
+    },
+    {
+      "roomId": "48273937",
+      "url": "https://www.airbnb.com/rooms/48273937",
+      "name": "Dumbrava Apartment",
+      "position": 17,
+      "firstOffset": 36
+    },
+    {
+      "roomId": "1193182628369053169",
+      "url": "https://www.airbnb.com/rooms/1193182628369053169",
+      "name": "5* Luxury Studio-Old Town Center",
+      "position": 9,
+      "firstOffset": 54
+    },
+    {
+      "roomId": "1604923801879402943",
+      "url": "https://www.airbnb.com/rooms/1604923801879402943",
+      "name": "Elegant 1BR by Cometei Residence | Calm & Private",
+      "position": 17,
+      "firstOffset": 54
+    },
+    {
+      "roomId": "1698785367653506169",
+      "url": "https://www.airbnb.com/rooms/1698785367653506169",
+      "name": "T. Apartment | Central area",
+      "position": 7,
+      "firstOffset": 54
+    },
+    {
+      "roomId": "1710680581665421764",
+      "url": "https://www.airbnb.com/rooms/1710680581665421764",
+      "name": "2Bd apartment + living room with kitchen",
+      "position": 16,
+      "firstOffset": 54
+    },
+    {
+      "roomId": "34937027",
+      "url": "https://www.airbnb.com/rooms/34937027",
+      "name": "Casa Pasteur- double studio loft",
+      "position": 15,
+      "firstOffset": 54
+    },
+    {
+      "roomId": "43984825",
+      "url": "https://www.airbnb.com/rooms/43984825",
+      "name": "City Center Festival Apartment",
+      "position": 14,
+      "firstOffset": 54
+    },
+    {
+      "roomId": "804883264722490228",
+      "url": "https://www.airbnb.com/rooms/804883264722490228",
+      "name": "Excello Attic Apartment 100 m²",
+      "position": 6,
+      "firstOffset": 54
+    },
+    {
+      "roomId": "841047470801503527",
+      "url": "https://www.airbnb.com/rooms/841047470801503527",
+      "name": "Thome Vlaicu 170 Jacuzzi",
+      "position": 11,
+      "firstOffset": 54
+    },
+    {
+      "roomId": "911202678721756485",
+      "url": "https://www.airbnb.com/rooms/911202678721756485",
+      "name": "DD Boutique Studio 5",
+      "position": 13,
+      "firstOffset": 54
+    },
+    {
+      "roomId": "996089413958523536",
+      "url": "https://www.airbnb.com/rooms/996089413958523536",
+      "name": "Enjoy Apartments – Central Villa Retreat",
+      "position": 10,
+      "firstOffset": 54
+    },
+    {
+      "roomId": "32825618",
+      "url": "https://www.airbnb.com/rooms/32825618",
+      "name": "MAIN SQUARE APARTMENT",
+      "position": 18,
+      "firstOffset": 198
+    }
+  ]
+}
