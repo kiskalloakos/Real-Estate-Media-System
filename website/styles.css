@@ -47,7 +47,7 @@ img, video { display: block; max-width: 100%; }
   min-height: 62px;
   gap: clamp(16px, 2vw, 28px);
   padding: 8px 10px 8px clamp(16px, 1.8vw, 24px);
-  border: 1px solid rgba(255, 255, 255, .18);
+  border: 0;
   border-radius: 22px;
   color: var(--white);
   background:
@@ -55,8 +55,6 @@ img, video { display: block; max-width: 100%; }
     linear-gradient(180deg, rgba(15, 21, 17, .62), rgba(7, 9, 8, .48)),
     rgba(10, 13, 11, .38);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, .22),
-    inset 0 -1px 0 rgba(255, 255, 255, .08),
     0 20px 70px rgba(0, 0, 0, .28);
   backdrop-filter: blur(24px) saturate(1.35);
   transform: translateX(-50%);
@@ -84,23 +82,9 @@ img, video { display: block; max-width: 100%; }
   font-weight: 600;
 }
 .main-nav a {
-  position: relative;
+  transition: color .2s ease;
 }
-.main-nav a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -8px;
-  height: 1px;
-  background: currentColor;
-  transform: scaleX(0);
-  transition: transform .2s ease;
-}
-.main-nav a:hover::after,
-.main-nav a[aria-current="page"]::after { transform: scaleX(1); }
-.main-nav a:hover,
-.main-nav a[aria-current="page"] { color: var(--white); }
+.main-nav a:hover { color: var(--white); }
 .nav-cta { justify-self: end; }
 .button,
 .nav-cta {
@@ -362,7 +346,10 @@ img, video { display: block; max-width: 100%; }
 .service-card-cinematic .service-overlay,
 .service-card-drone .service-video,
 .service-card-drone .service-overlay,
-.service-card-photo .service-photo-gallery {
+.service-card-photo .service-photo-gallery,
+.service-card-social .service-social-preview,
+.service-card-airbnb .service-booking-preview,
+.service-card-web .service-video {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -395,6 +382,184 @@ img, video { display: block; max-width: 100%; }
   background:
     linear-gradient(180deg, rgba(0, 0, 0, .02), rgba(0, 0, 0, .12) 30%, rgba(0, 0, 0, .9)),
     radial-gradient(circle at 18% 18%, rgba(217, 173, 82, .12), transparent 34%);
+}
+.service-card-social .service-social-preview {
+  object-fit: cover;
+  object-position: center top;
+  filter: saturate(.95) contrast(1.04);
+}
+.service-card-social::after {
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, .04), rgba(0, 0, 0, .16) 34%, rgba(0, 0, 0, .9)),
+    radial-gradient(circle at 18% 18%, rgba(217, 173, 82, .12), transparent 34%);
+}
+.service-card-airbnb .service-booking-preview {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: clamp(18px, 2.6vw, 28px);
+  background:
+    radial-gradient(circle at 78% 14%, rgba(239, 197, 110, .16), transparent 30%),
+    linear-gradient(135deg, #0f1714, #050807 78%);
+}
+.booking-shell {
+  width: min(960px, 100%);
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 18px;
+  background: rgba(249, 246, 239, .94);
+  color: #171614;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, .34);
+  transform: rotate(-1.2deg);
+}
+.booking-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 34px;
+  padding: 0 8px 10px;
+  color: rgba(20, 20, 18, .68);
+  font-size: 12px;
+  font-weight: 800;
+}
+.booking-layout {
+  display: grid;
+  grid-template-columns: 1.35fr .85fr .9fr;
+  gap: 12px;
+  align-items: stretch;
+}
+.booking-listing-card,
+.booking-proof-card,
+.booking-calendar-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid rgba(20, 20, 18, .09);
+  border-radius: 14px;
+  background: var(--white);
+  box-shadow: 0 12px 35px rgba(29, 22, 15, .08);
+}
+.booking-listing-card {
+  display: grid;
+  grid-template-columns: .88fr 1fr;
+}
+.booking-photo {
+  min-height: 148px;
+  background-size: cover;
+  background-position: center;
+}
+.booking-photo-main {
+  background-image: url("portofoliu/mountain-view-apuseni/images/hero-cabin-twilight.jpg");
+}
+.booking-listing-copy,
+.booking-proof-card,
+.booking-calendar-card {
+  padding: 18px;
+}
+.booking-listing-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 9px;
+}
+.booking-listing-copy strong,
+.booking-proof-card strong,
+.booking-calendar-head strong {
+  font-size: 16px;
+  line-height: 1.15;
+}
+.booking-listing-copy span,
+.booking-calendar-head span {
+  color: rgba(20, 20, 18, .66);
+  font-size: 12px;
+  font-weight: 800;
+}
+.booking-listing-copy small {
+  color: #9a6b14;
+  font-size: 12px;
+  font-weight: 900;
+}
+.booking-proof-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.booking-pill {
+  width: max-content;
+  margin-bottom: 13px;
+  padding: 6px 9px;
+  border-radius: 999px;
+  background: rgba(217, 173, 82, .18);
+  color: #805400;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.booking-proof-card p {
+  margin: 9px 0 0;
+  color: rgba(20, 20, 18, .7);
+  font-size: 12px;
+  line-height: 1.35;
+}
+.booking-calendar-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+}
+.booking-calendar-head,
+.booking-price-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.booking-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+}
+.booking-calendar-grid span {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  background: #f0e8dc;
+  color: rgba(20, 20, 18, .68);
+  font-size: 11px;
+  font-weight: 900;
+}
+.booking-calendar-grid .is-booked {
+  background: #151915;
+  color: var(--gold-2);
+}
+.booking-price-row strong {
+  color: #946100;
+  font-size: 22px;
+  line-height: 1;
+}
+.booking-price-row span {
+  color: rgba(20, 20, 18, .62);
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1.2;
+  text-align: right;
+}
+.service-card-airbnb::after {
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, .08), rgba(0, 0, 0, .18) 34%, rgba(0, 0, 0, .9)),
+    radial-gradient(circle at 18% 18%, rgba(217, 173, 82, .1), transparent 34%);
+}
+.service-card-web .service-website-video {
+  object-fit: cover;
+  object-position: center center;
+  filter: saturate(.95) contrast(1.05);
+}
+.service-card-web::after {
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, .02), rgba(0, 0, 0, .16) 36%, rgba(0, 0, 0, .92)),
+    radial-gradient(circle at 18% 18%, rgba(217, 173, 82, .1), transparent 34%);
 }
 .service-card-cinematic p,
 .service-card-drone p,
@@ -775,6 +940,32 @@ img, video { display: block; max-width: 100%; }
   color: var(--white);
   font-weight: 800;
   white-space: nowrap;
+}
+.package-options {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 5px;
+  margin: 14px 0 22px;
+  padding: 0;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+.package-options li {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  min-height: 24px;
+  padding: 5px 7px;
+  box-sizing: border-box;
+  border: 1px solid rgba(239, 197, 110, .28);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .055);
+  color: rgba(255, 255, 255, .86);
+  font-size: 10.5px;
+  font-weight: 700;
+  line-height: 1.15;
+  text-align: left;
 }
 .package-card .button {
   width: 100%;
@@ -1582,7 +1773,6 @@ img, video { display: block; max-width: 100%; }
   .site-header .main-nav a:hover {
     background: rgba(255,255,255,.08);
   }
-  .site-header .main-nav a::after { display: none; }
   .site-header .nav-cta {
     display: none;
   }
@@ -1699,7 +1889,7 @@ img, video { display: block; max-width: 100%; }
   }
   .service-card {
     grid-column: 1 / -1;
-    min-height: 260px;
+    min-height: 285px;
     border-radius: 16px;
   }
   .service-content {
@@ -1717,8 +1907,8 @@ img, video { display: block; max-width: 100%; }
   .service-card-web { order: 6; }
   .service-card h3 {
     min-height: 0;
-    font-size: clamp(31px, 9.2vw, 38px);
-    line-height: 1;
+    font-size: clamp(28px, 7.8vw, 34px);
+    line-height: 1.03;
   }
   .service-card p {
     max-width: 100%;
@@ -1726,10 +1916,74 @@ img, video { display: block; max-width: 100%; }
     font-size: 15px;
     line-height: 1.48;
   }
+  .service-card-airbnb h3,
+  .service-card-web h3 {
+    max-width: 92%;
+    font-size: clamp(24px, 6.4vw, 30px);
+  }
+  .service-card-airbnb .service-booking-preview {
+    align-items: flex-start;
+    justify-content: center;
+    padding: 20px 18px 0;
+  }
+  .service-card-airbnb .booking-shell {
+    width: min(330px, calc(100% - 18px));
+    max-width: none;
+    padding: 10px;
+    opacity: .58;
+    transform: none;
+  }
+  .service-card-airbnb .booking-topbar {
+    min-height: 28px;
+    padding: 0 2px 8px;
+    font-size: 10px;
+  }
+  .service-card-airbnb .booking-topbar span:last-child,
+  .service-card-airbnb .booking-proof-card,
+  .service-card-airbnb .booking-calendar-card {
+    display: none;
+  }
+  .service-card-airbnb .booking-layout {
+    display: block;
+  }
+  .service-card-airbnb .booking-listing-card {
+    display: block;
+  }
+  .service-card-airbnb .booking-photo {
+    min-height: 118px;
+  }
+  .service-card-airbnb .booking-listing-copy {
+    padding: 12px;
+    gap: 6px;
+  }
+  .service-card-airbnb .booking-listing-copy strong {
+    font-size: 14px;
+  }
+  .service-card-airbnb .booking-listing-copy span,
+  .service-card-airbnb .booking-listing-copy small {
+    font-size: 10px;
+  }
   .service-card-cinematic,
   .service-card-drone,
   .service-card-web {
-    min-height: 260px;
+    min-height: 285px;
+  }
+  .service-card-airbnb::after {
+    background:
+      linear-gradient(180deg, rgba(0, 0, 0, .18), rgba(0, 0, 0, .36) 36%, rgba(0, 0, 0, .94)),
+      linear-gradient(90deg, rgba(0, 0, 0, .28), rgba(0, 0, 0, .04) 48%, rgba(0, 0, 0, .7));
+  }
+  .service-card-web .service-website-video {
+    object-fit: contain;
+    object-position: center top;
+    background: #050807;
+    transform: translateY(18px) scale(.94);
+    filter: saturate(.92) contrast(1.04) brightness(.88);
+  }
+  .service-card-web::after {
+    background:
+      linear-gradient(180deg, rgba(0, 0, 0, .1), rgba(0, 0, 0, .32) 36%, rgba(0, 0, 0, .94)),
+      linear-gradient(90deg, rgba(0, 0, 0, .2), rgba(0, 0, 0, .05) 48%, rgba(0, 0, 0, .62));
   }
   .service-text-link {
     position: static;
@@ -1946,6 +2200,12 @@ img, video { display: block; max-width: 100%; }
   .site-header .main-nav {
     left: 22px;
     right: 22px;
+  }
+  .service-card-airbnb .booking-shell {
+    width: min(310px, calc(100% - 12px));
+  }
+  .service-card-web .service-website-video {
+    transform: translateY(22px) scale(.9);
   }
   .contact-section,
   .contact-section .section-title,
