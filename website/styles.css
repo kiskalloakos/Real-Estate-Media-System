@@ -348,8 +348,7 @@ img, video { display: block; max-width: 100%; }
 .service-card-drone .service-overlay,
 .service-card-photo .service-photo-gallery,
 .service-card-social .service-social-preview,
-.service-card-airbnb .service-booking-preview,
-.service-card-web .service-video {
+.service-card-airbnb .service-booking-preview {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -550,11 +549,6 @@ img, video { display: block; max-width: 100%; }
   background:
     linear-gradient(180deg, rgba(0, 0, 0, .08), rgba(0, 0, 0, .18) 34%, rgba(0, 0, 0, .9)),
     radial-gradient(circle at 18% 18%, rgba(217, 173, 82, .1), transparent 34%);
-}
-.service-card-web .service-website-video {
-  object-fit: cover;
-  object-position: center center;
-  filter: saturate(.95) contrast(1.05);
 }
 .service-card-web::after {
   background:
@@ -1973,13 +1967,6 @@ img, video { display: block; max-width: 100%; }
       linear-gradient(180deg, rgba(0, 0, 0, .18), rgba(0, 0, 0, .36) 36%, rgba(0, 0, 0, .94)),
       linear-gradient(90deg, rgba(0, 0, 0, .28), rgba(0, 0, 0, .04) 48%, rgba(0, 0, 0, .7));
   }
-  .service-card-web .service-website-video {
-    object-fit: contain;
-    object-position: center top;
-    background: #050807;
-    transform: translateY(18px) scale(.94);
-    filter: saturate(.92) contrast(1.04) brightness(.88);
-  }
   .service-card-web::after {
     background:
       linear-gradient(180deg, rgba(0, 0, 0, .1), rgba(0, 0, 0, .32) 36%, rgba(0, 0, 0, .94)),
@@ -2203,9 +2190,6 @@ img, video { display: block; max-width: 100%; }
   }
   .service-card-airbnb .booking-shell {
     width: min(310px, calc(100% - 12px));
-  }
-  .service-card-web .service-website-video {
-    transform: translateY(22px) scale(.9);
   }
   .contact-section,
   .contact-section .section-title,
