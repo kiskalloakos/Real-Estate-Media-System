@@ -1690,19 +1690,26 @@ img, video { display: block; max-width: 100%; }
   text-align: center;
   box-shadow: 0 20px 54px rgba(194, 141, 42, .26);
 }
-.contact-call-link {
+.contact-call-link,
+.contact-email-link {
   color: var(--muted);
   font-size: clamp(16px, 1.7vw, 20px);
   font-weight: 700;
   text-decoration: none;
 }
-.contact-call-link:hover {
+.contact-email-link {
+  font-size: clamp(18px, 1.9vw, 22px);
+}
+.contact-call-link:hover,
+.contact-email-link:hover {
   color: var(--gold);
 }
-.contact-page .contact-call-link {
+.contact-page .contact-call-link,
+.contact-page .contact-email-link {
   color: rgba(255,255,255,.74);
 }
-.contact-page .contact-call-link:hover {
+.contact-page .contact-call-link:hover,
+.contact-page .contact-email-link:hover {
   color: var(--gold);
 }
 @media (max-width: 900px) {
