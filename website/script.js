@@ -141,7 +141,7 @@ const portfolioModalSets = {
     slides: [
       {
         type: "video",
-        src: "portofoliu/mountain-view-apuseni/assets/videos/drone-hero.mp4",
+        src: "portofoliu/mountain-view-apuseni/assets/videos/video-prezentare.mp4?v=20260707-1",
         caption: "Video de prezentare",
         aspect: "16x9"
       }
@@ -151,8 +151,16 @@ const portfolioModalSets = {
     title: "Clipuri Social Media",
     slides: [
       {
-        type: "blank",
-        caption: ""
+        type: "video",
+        src: "portofoliu/mountain-view-apuseni/assets/videos/clip-social-1.mp4?v=20260707-1",
+        caption: "Clip social media 1",
+        aspect: "9x16"
+      },
+      {
+        type: "video",
+        src: "portofoliu/mountain-view-apuseni/assets/videos/clip-social-2.mp4?v=20260707-1",
+        caption: "Clip social media 2",
+        aspect: "9x16"
       }
     ]
   }

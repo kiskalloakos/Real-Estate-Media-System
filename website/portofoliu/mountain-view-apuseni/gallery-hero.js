@@ -578,7 +578,7 @@ function render(config, locale = getStoredLocale(config)) {
 
       <section class="gh-hero" id="top" aria-label="${escapeHtml(localeConfig.hero?.title)}">
         <video class="gh-hero-video" autoplay muted loop playsinline aria-hidden="true">
-          <source src="${escapeHtml(localeConfig.hero?.videoSrc || "./assets/videos/drone-hero.mp4")}" type="video/mp4">
+          <source src="${escapeHtml(localeConfig.hero?.videoSrc || "./assets/videos/video-prezentare.mp4")}" type="video/mp4">
         </video>
         <div class="gh-hero-overlay" aria-hidden="true"></div>
 
