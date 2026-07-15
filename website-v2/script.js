@@ -1,9 +1,6 @@
 import Lenis from "./assets/vendor/lenis/lenis.mjs";
 
 const header = document.querySelector("[data-site-header]");
-const menuToggle = document.querySelector("[data-menu-toggle]");
-const menuLabel = document.querySelector("[data-menu-label]");
-const mobileNavigation = document.querySelector("[data-mobile-nav]");
 const desktopBreakpoint = window.matchMedia("(min-width: 56.01rem)");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 let lenis = null;
@@ -29,47 +26,10 @@ function syncSmoothScroll() {
   }
 }
 
-function setMenuState(isOpen, { returnFocus = false } = {}) {
-  if (!header || !menuToggle || !mobileNavigation || !menuLabel) return;
-
-  header.dataset.menuOpen = String(isOpen);
-  menuToggle.setAttribute("aria-expanded", String(isOpen));
-  mobileNavigation.setAttribute("aria-hidden", String(!isOpen));
-  mobileNavigation.inert = !isOpen;
-  menuLabel.textContent = isOpen ? "ÎNCHIDE" : "MENU";
-
-  if (returnFocus) menuToggle.focus();
-}
-
-menuToggle?.addEventListener("click", () => {
-  const isOpen = menuToggle.getAttribute("aria-expanded") !== "true";
-  setMenuState(isOpen);
-});
-
-mobileNavigation?.querySelectorAll("a").forEach((link) => {
-  link.addEventListener("click", () => setMenuState(false));
-});
-
-document.addEventListener("pointerdown", (event) => {
-  if (menuToggle?.getAttribute("aria-expanded") !== "true") return;
-  if (header?.contains(event.target)) return;
-  setMenuState(false);
-});
-
-document.addEventListener("keydown", (event) => {
-  if (event.key !== "Escape") return;
-  if (menuToggle?.getAttribute("aria-expanded") !== "true") return;
-  setMenuState(false, { returnFocus: true });
-});
-
-desktopBreakpoint.addEventListener("change", (event) => {
-  if (event.matches) setMenuState(false);
-  syncSmoothScroll();
-});
+desktopBreakpoint.addEventListener("change", syncSmoothScroll);
 
 reducedMotion.addEventListener("change", syncSmoothScroll);
 
-window.addEventListener("pageshow", () => setMenuState(false));
 syncSmoothScroll();
 
 const portfolio = document.querySelector("[data-portfolio]");

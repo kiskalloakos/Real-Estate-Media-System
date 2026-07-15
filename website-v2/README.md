@@ -32,7 +32,7 @@ The legacy `#servicii` and `#portofoliu` targets remain in the document for dire
 
 The active hero headline is: `Doar niște cărămizi daca nu ai storytelling`, followed by the subheadline `Cele mai corecte prețuri pentru cea mai bună calitate`.
 
-Desktop scrolling uses the established [Lenis](https://github.com/darkroomengineering/lenis) `1.3.23` library with a low `0.075` interpolation value for a deliberate, weighty inertial feel. Lenis is self-hosted in `assets/vendor/lenis/`, with its MIT license retained beside the runtime. Sticky-header anchor offsets remain correct. Mobile and reduced-motion users keep native scrolling and immediate reduced-motion anchor behavior. At mobile sizes, `MENU` opens the glass navigation panel; selection, Escape, an outside click, or returning to desktop width closes it.
+Desktop scrolling uses the established [Lenis](https://github.com/darkroomengineering/lenis) `1.3.23` library with a low `0.075` interpolation value for a deliberate, weighty inertial feel. Lenis is self-hosted in `assets/vendor/lenis/`, with its MIT license retained beside the runtime. Sticky-header anchor offsets remain correct. Mobile and reduced-motion users keep native scrolling and immediate reduced-motion anchor behavior. At mobile sizes, the fixed header exposes a compact Contact CTA directly beside the wordmark; no expandable menu is rendered.
 
 ## Client logo assets
 
@@ -68,7 +68,7 @@ The previously tested Unicorn Studio runtime remains archived in `assets/vendor/
 
 ## Portfolio experience
 
-The portfolio begins with the full-height pinned dark chapter where `Conținut care oprește scroll-ul.` sits above two projects scrolling inside the supplied iPhone mockup. Continued page scrolling snaps the phone reel stack to exact full-video positions and updates the project and format metadata on both sides. The device stage is constrained by the remaining viewport height so it stays clear of the heading and metadata. Only the visible active reel plays, and playback pauses when the chapter leaves the viewport.
+The portfolio begins with the full-height pinned dark chapter where `Conținut care oprește scroll-ul.` sits above two projects scrolling inside the supplied iPhone mockup. Continued page scrolling snaps the phone reel stack to exact full-video positions and updates the Social Media project and view-count metadata on both sides. The first reel shows `5,400` views and the second `26,000`, while their existing descriptive sublines remain unchanged. The device stage is constrained by the remaining viewport height so it stays clear of the heading and metadata. Only the visible active reel plays, and playback pauses when the chapter leaves the viewport.
 
 After the second phone reel, the sequence moves to the brand paper colour `#F3EFE7` with the single italic headline `O experiență.` and the supplied Mac Studio mockup playing the complete landscape reel without CSS cropping. The video surface extends beneath the monitor bezel, allowing the PNG frame to mask its edges cleanly, and the monitor is sized to keep the complete stand and feet visible. The Mac video also pauses when its chapter leaves the viewport.
 

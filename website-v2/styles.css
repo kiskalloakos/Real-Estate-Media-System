@@ -190,8 +190,7 @@ a:focus-visible {
   gap: clamp(1.5rem, 2.9vw, 2.75rem);
 }
 
-.nav-link,
-.mobile-nav-link {
+.nav-link {
   position: relative;
   color: rgba(243, 239, 231, 0.9);
   font-size: 0.94rem;
@@ -201,8 +200,7 @@ a:focus-visible {
   transition: color 180ms ease-out;
 }
 
-.nav-link:hover,
-.mobile-nav-link:hover {
+.nav-link:hover {
   color: #ffffff;
 }
 
@@ -255,56 +253,8 @@ a:focus-visible {
   transform: rotate(18deg) scale(1.12);
 }
 
-.menu-toggle {
+.contact-link--header-mobile {
   display: none;
-  align-items: center;
-  justify-content: center;
-  min-width: 4.75rem;
-  min-height: 2.75rem;
-  padding: 0 0.9rem;
-  border: 1px solid var(--hairline);
-  border-radius: 999px;
-  background: rgba(243, 239, 231, 0.04);
-  color: var(--paper);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.09em;
-  transition:
-    border-color 180ms ease-out,
-    background-color 180ms ease-out;
-}
-
-.menu-toggle:hover,
-.menu-toggle[aria-expanded="true"] {
-  border-color: rgba(243, 239, 231, 0.34);
-  background: rgba(243, 239, 231, 0.08);
-}
-
-.mobile-nav {
-  position: absolute;
-  z-index: 90;
-  top: 100%;
-  right: 0;
-  left: 0;
-  display: none;
-  grid-template-columns: 1fr;
-  gap: 0;
-  max-height: 0;
-  padding: 0 var(--gutter);
-  overflow: hidden;
-  visibility: hidden;
-  border-bottom: 1px solid transparent;
-  background: rgba(10, 10, 10, 0.88);
-  box-shadow: 0 20px 38px rgba(0, 0, 0, 0.28);
-  opacity: 0;
-  backdrop-filter: blur(20px) saturate(130%);
-  -webkit-backdrop-filter: blur(20px) saturate(130%);
-  transition:
-    max-height 260ms ease-out,
-    padding 260ms ease-out,
-    opacity 180ms ease-out,
-    visibility 180ms linear,
-    border-color 180ms ease-out;
 }
 
 .hero {
@@ -931,12 +881,6 @@ a:focus-visible {
   color: var(--paper);
 }
 
-.site-header.is-over-portfolio .menu-toggle {
-  border-color: rgba(243, 239, 231, 0.22);
-  background: rgba(10, 10, 10, 0.72);
-  color: var(--paper);
-}
-
 .site-header.is-over-portfolio-intro .wordmark,
 .site-header.is-over-portfolio-intro .desktop-nav .nav-link {
   color: var(--black);
@@ -944,12 +888,6 @@ a:focus-visible {
 
 .site-header.is-over-portfolio-intro .desktop-nav .nav-link:hover {
   color: var(--carmine);
-}
-
-.site-header.is-over-portfolio-intro .menu-toggle {
-  border-color: rgba(10, 10, 10, 0.2);
-  background: rgba(215, 208, 197, 0.78);
-  color: var(--black);
 }
 
 .contact-footer {
@@ -1059,36 +997,25 @@ a:focus-visible {
     display: none;
   }
 
-  .menu-toggle,
-  .mobile-nav {
-    display: flex;
+  .contact-link--header-mobile {
+    position: relative;
+    display: inline-flex;
+    min-height: 1.5rem;
+    gap: 0.28rem;
+    padding: 0.08rem 0.45rem 0.06rem 0.55rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.065em;
   }
 
-  .mobile-nav {
-    display: grid;
+  .contact-link--header-mobile::before {
+    position: absolute;
+    inset: -0.625rem;
+    content: "";
   }
 
-  .site-header[data-menu-open="true"] .mobile-nav {
-    max-height: 17rem;
-    padding-top: 0.55rem;
-    padding-bottom: 1rem;
-    visibility: visible;
-    border-bottom-color: var(--hairline);
-    opacity: 1;
-  }
-
-  .mobile-nav-link {
-    display: flex;
-    align-items: center;
-    min-height: 3.55rem;
-    border-bottom: 1px solid rgba(243, 239, 231, 0.1);
-    font-size: 0.86rem;
-  }
-
-  .contact-link--mobile {
-    width: 100%;
-    min-height: 3rem;
-    margin-top: 0.9rem;
+  .contact-link--header-mobile img {
+    width: 0.625rem;
+    height: 0.625rem;
   }
 
   .hero-copy {
@@ -1293,11 +1220,6 @@ a:focus-visible {
 
   .wordmark {
     font-size: 1.52rem;
-  }
-
-  .menu-toggle {
-    min-width: 4.4rem;
-    padding-inline: 0.75rem;
   }
 
   .hero-copy {
@@ -1505,8 +1427,7 @@ a:focus-visible {
 }
 
 @media (forced-colors: active) {
-  .contact-link,
-  .menu-toggle {
+  .contact-link {
     border: 1px solid ButtonText;
   }
 }
