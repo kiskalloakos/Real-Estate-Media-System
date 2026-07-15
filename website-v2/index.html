@@ -41,8 +41,6 @@
         </a>
 
         <nav class="desktop-nav" aria-label="Navigație principală">
-          <a class="nav-link" href="#servicii">SERVICII</a>
-          <a class="nav-link" href="#portofoliu">PORTOFOLIU</a>
           <a class="contact-link" href="#contact">
             <span>CONTACT</span>
             <img
@@ -74,8 +72,6 @@
         inert
         data-mobile-nav
       >
-        <a class="mobile-nav-link" href="#servicii">SERVICII</a>
-        <a class="mobile-nav-link" href="#portofoliu">PORTOFOLIU</a>
         <a class="contact-link contact-link--mobile" href="#contact">
           <span>CONTACT</span>
           <img
@@ -107,6 +103,7 @@
               <span class="logo-slot"><img src="./assets/images/client-logos/transilvania-fashion-white.png" width="160" height="48" alt="Transilvania Fashion" /></span>
               <span class="logo-slot"><img src="./assets/images/client-logos/elite-city-white.png" width="160" height="48" alt="Elite City" /></span>
               <span class="logo-slot"><img src="./assets/images/client-logos/alpine-car-meet-white.png" width="160" height="48" alt="Alpine Car Meet" /></span>
+              <span class="logo-slot"><img src="./assets/images/client-logos/famescale logo final.png" width="160" height="48" alt="FameScale" /></span>
               <span class="logo-slot"><img src="./assets/images/client-logos/UBB.png" width="160" height="48" alt="Facultatea de Teatru și Film, UBB" /></span>
               <span class="logo-slot logo-slot--brick"><img src="./assets/images/client-logos/brick depot.png" width="160" height="48" alt="Brick Depot" /></span>
               <span class="logo-slot logo-slot--tiff"><img src="./assets/images/client-logos/tiff-logo-centered.png" width="160" height="48" alt="TIFF" /></span>
@@ -117,6 +114,7 @@
               <span class="logo-slot"><img src="./assets/images/client-logos/transilvania-fashion-white.png" width="160" height="48" alt="" /></span>
               <span class="logo-slot"><img src="./assets/images/client-logos/elite-city-white.png" width="160" height="48" alt="" /></span>
               <span class="logo-slot"><img src="./assets/images/client-logos/alpine-car-meet-white.png" width="160" height="48" alt="" /></span>
+              <span class="logo-slot"><img src="./assets/images/client-logos/famescale logo final.png" width="160" height="48" alt="" /></span>
               <span class="logo-slot"><img src="./assets/images/client-logos/UBB.png" width="160" height="48" alt="" /></span>
               <span class="logo-slot logo-slot--brick"><img src="./assets/images/client-logos/brick depot.png" width="160" height="48" alt="" /></span>
               <span class="logo-slot logo-slot--tiff"><img src="./assets/images/client-logos/tiff-logo-centered.png" width="160" height="48" alt="" /></span>
@@ -126,7 +124,7 @@
         </div>
       </section>
 
-      <section class="services-section" id="servicii" aria-labelledby="servicii-intro-title" data-services>
+      <section class="services-section" id="servicii" aria-labelledby="servicii-intro-title">
         <div class="services-intro">
           <h2 class="services-intro-title" id="servicii-intro-title">Cu ce ne ocupăm</h2>
           <p class="services-intro-body">
@@ -134,66 +132,50 @@
           </p>
         </div>
 
-        <div class="services-layout">
-          <div class="services-copy" data-services-copy>
-            <div class="services-copy-main">
-              <p class="services-eyebrow">Serviciile noastre</p>
+        <div class="service-hold service-hold--photography" data-header-theme="light">
+          <div class="services-layout services-layout--photography service-hold-sticky">
+            <div class="services-copy">
+              <div class="services-copy-main">
+                <p class="services-eyebrow">Serviciile noastre</p>
 
-              <h3 class="services-title" aria-live="polite">
-                <span class="services-title-stage" data-service-title-stage>
-                  <span class="services-title-text" data-service-title-text>Fotografie</span>
-                </span>
-              </h3>
+                <h3 class="services-title">
+                  <span class="services-title-stage">
+                    <span class="services-title-text">Fotografie</span>
+                  </span>
+                </h3>
+              </div>
             </div>
 
-            <div class="services-progress" aria-hidden="true">
-              <span class="services-progress-current" data-service-progress>01</span>
-              <span class="services-progress-rule"><span data-service-progress-fill></span></span>
-              <span>04</span>
-            </div>
+            <ol class="services-list" aria-label="Serviciile Realty Media">
+              <li class="service-step is-active">
+                <div class="service-mobile-copy">
+                  <h3>Fotografie</h3>
+                </div>
+                <figure class="service-artboard" data-artwork-slot>
+                  <img
+                    src="./assets/images/services/fotografie.jpg"
+                    width="2560"
+                    height="1922"
+                    loading="lazy"
+                    decoding="async"
+                    alt="Cabană A-frame fotografiată la apus, înconjurată de brazi"
+                  />
+                </figure>
+              </li>
+            </ol>
           </div>
-
-          <ol class="services-list" aria-label="Serviciile Realty Media">
-            <li class="service-step is-active" data-service-step data-service-title="Fotografie">
-              <div class="service-mobile-copy">
-                <p>01 / 04</p>
-                <h3>Fotografie</h3>
-              </div>
-              <figure class="service-artboard" aria-label="Spațiu rezervat pentru vizualul serviciului Fotografie" data-service-artboard data-artwork-slot></figure>
-            </li>
-
-            <li class="service-step" data-service-step data-service-title="Social Media">
-              <div class="service-mobile-copy">
-                <p>02 / 04</p>
-                <h3>Social Media</h3>
-              </div>
-              <figure class="service-artboard" aria-label="Spațiu rezervat pentru vizualul serviciului Social Media" data-service-artboard data-artwork-slot></figure>
-            </li>
-
-            <li class="service-step" data-service-step data-service-title="Documentar">
-              <div class="service-mobile-copy">
-                <p>03 / 04</p>
-                <h3>Documentar</h3>
-              </div>
-              <figure class="service-artboard" aria-label="Spațiu rezervat pentru vizualul serviciului Documentar" data-service-artboard data-artwork-slot></figure>
-            </li>
-
-            <li class="service-step" data-service-step data-service-title="Web design">
-              <div class="service-mobile-copy">
-                <p>04 / 04</p>
-                <h3>Web design</h3>
-              </div>
-              <figure class="service-artboard" aria-label="Spațiu rezervat pentru vizualul serviciului Web design" data-service-artboard data-artwork-slot></figure>
-            </li>
-          </ol>
         </div>
       </section>
 
-      <section class="portfolio-section" id="portofoliu" aria-labelledby="portofoliu-title" data-portfolio>
+      <section
+        class="portfolio-section"
+        id="portofoliu"
+        aria-labelledby="portofoliu-title"
+        data-portfolio
+      >
         <div class="portfolio-sticky">
           <header class="portfolio-heading">
             <h2 id="portofoliu-title">Conținut care <em>oprește</em> scroll-ul.</h2>
-            <p class="portfolio-subtitle">Dăm volum proprietății tale pe platformele care contează.</p>
           </header>
 
           <div class="portfolio-showcase">
@@ -208,18 +190,11 @@
                 <h3>Documentar</h3>
                 <span>Tururi de proprietate</span>
               </article>
-              <article class="portfolio-case" data-portfolio-case data-case-index="2" aria-hidden="true">
-                <p>Proiect</p>
-                <h3>Cabana The One</h3>
-                <span>Film de prezentare</span>
-              </article>
             </div>
 
             <div
               class="portfolio-device-stage"
-              aria-label="Selecție de proiecte video Realty Media prezentate pe telefon și monitor"
-              data-portfolio-device-stage
-              data-portfolio-device="phone"
+              aria-label="Selecție de proiecte video Realty Media prezentate pe telefon"
             >
               <div class="portfolio-device portfolio-device--phone">
                 <div class="portfolio-phone-screen">
@@ -259,31 +234,6 @@
                   aria-hidden="true"
                 />
               </div>
-
-              <div class="portfolio-device portfolio-device--mac" aria-hidden="true">
-                <div class="portfolio-mac-screen">
-                  <figure class="portfolio-reel" data-portfolio-reel>
-                    <video
-                      muted
-                      loop
-                      playsinline
-                      preload="metadata"
-                      poster="./assets/videos/portfolio/mac-be-reel-poster.jpg"
-                      aria-label="Exemplu video prezentat într-un mockup de monitor"
-                    >
-                      <source src="./assets/videos/portfolio/mac-be-reel.mp4" type="video/mp4" />
-                    </video>
-                  </figure>
-                </div>
-                <img
-                  class="portfolio-device-frame"
-                  src="./assets/images/portfolio/mac-studio-mockup.png"
-                  width="1000"
-                  height="741"
-                  alt=""
-                  aria-hidden="true"
-                />
-              </div>
             </div>
 
             <div class="portfolio-data portfolio-data--right" aria-live="polite">
@@ -297,14 +247,90 @@
                 <h3>4K</h3>
                 <span>Imagine cinematică</span>
               </article>
-              <article class="portfolio-case" data-portfolio-case data-case-index="2" aria-hidden="true">
-                <p>Format</p>
-                <h3>Drone</h3>
-                <span>Perspectivă aeriană</span>
-              </article>
             </div>
           </div>
+        </div>
+      </section>
 
+      <section
+        class="portfolio-intro"
+        aria-labelledby="portfolio-mac-title"
+        data-portfolio-intro
+        data-header-theme="light"
+      >
+        <div class="portfolio-intro-sticky">
+          <header class="portfolio-intro-heading">
+            <h2 id="portfolio-mac-title"><em>O experiență.</em></h2>
+          </header>
+
+          <div
+            class="portfolio-mac-showcase"
+            aria-label="Proiect video Realty Media prezentat pe monitor"
+          >
+            <div class="portfolio-mac-showcase-screen">
+              <video
+                muted
+                loop
+                playsinline
+                preload="metadata"
+                poster="./assets/videos/portfolio/mac-be-reel-poster.jpg"
+                aria-label="Exemplu de film de prezentare Realty Media"
+                data-portfolio-intro-video
+              >
+                <source src="./assets/videos/portfolio/mac-be-reel.mp4" type="video/mp4" />
+              </video>
+            </div>
+            <img
+              src="./assets/images/portfolio/mac-studio-mockup.png"
+              width="1000"
+              height="741"
+              alt=""
+              aria-hidden="true"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section class="services-section services-section--continuation" aria-labelledby="web-design-title">
+        <div class="service-hold service-hold--web-design">
+          <div class="services-layout services-layout--continuation service-hold-sticky">
+            <div class="services-copy">
+              <div class="services-copy-main">
+                <p class="services-eyebrow">Serviciile noastre</p>
+
+                <h2 class="services-title" id="web-design-title">
+                  <span class="services-title-stage">
+                    <span class="services-title-text">Web design</span>
+                  </span>
+                </h2>
+              </div>
+            </div>
+
+            <ol class="services-list" aria-label="Serviciile Realty Media, continuare">
+              <li class="service-step is-active">
+                <div class="service-mobile-copy">
+                  <h3>Web design</h3>
+                </div>
+                <figure
+                  class="service-artboard service-artboard--video"
+                  aria-label="Previzualizare video a unui website Realty Media"
+                  data-artwork-slot
+                >
+                  <video
+                    muted
+                    loop
+                    playsinline
+                    preload="metadata"
+                    poster="./assets/videos/services/web-design-preview-poster.jpg"
+                    aria-label="Înregistrare a website-ului Mountain View Apuseni"
+                    data-web-design-video
+                  >
+                    <source src="./assets/videos/services/web-design-preview.mp4" type="video/mp4" />
+                  </video>
+                </figure>
+              </li>
+            </ol>
+          </div>
         </div>
       </section>
 

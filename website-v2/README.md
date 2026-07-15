@@ -23,12 +23,12 @@ The existing Python localhost server reads file changes on refresh; no build ste
 
 ## One-page structure
 
-The website has no secondary pages. The sticky navbar uses these anchors:
+The website has no secondary pages. The sticky navbar exposes the Realty Media wordmark/home link and Contact only:
 
 - `#acasa` — hero/home
-- `#servicii` — four-part services scroll sequence
-- `#portofoliu` — pinned, three-project portfolio reel
 - `#contact` — combined contact and footer chapter
+
+The legacy `#servicii` and `#portofoliu` targets remain in the document for direct links, but they are intentionally absent from desktop and mobile navigation. The combined work sequence runs from `Cu ce ne ocupăm` through Fotografie, the pinned two-project phone reel, the light Mac Studio feature, and Web design before reaching Contact.
 
 The active hero headline is: `Doar niște cărămizi daca nu ai storytelling`, followed by the subheadline `Cele mai corecte prețuri pentru cea mai bună calitate`.
 
@@ -56,17 +56,23 @@ At desktop sizes the hero deliberately leaves roughly `9svh` visible for the top
 
 ## Services experience
 
-The section immediately after the hero opens with a two-column editorial introduction: `Cu ce ne ocupăm` in Instrument Serif on the left and a large Romanian studio statement on the right. It then becomes a four-part editorial scroll sequence inspired by the supplied Vivid Motion reference. On desktop, the copy column remains sticky while the visual artboards move independently on the right. The incoming artboard stays dim until it crosses the section's 52% activation line; at that point the previous artboard dims, the new one brightens, and the service title sweeps vertically into place. A small `01–04` progress rail replaces the reference's portfolio client badge.
+The section immediately after the hero opens with a two-column editorial introduction: `Cu ce ne ocupăm` in Instrument Serif on the left and a large Romanian studio statement on the right. Fotografie follows in the established desktop service layout, now using the same paper-white and Carmine treatment as the Mac chapter, with the supplied property photograph on the right. The phone and Mac chapters then interrupt the service presentation before Web design returns in the same visual setup as a closing bookend. The obsolete Social Media service card and numeric service progress rail are not rendered.
 
-The concise live labels are `Fotografie`, `Social Media`, `Documentar`, and `Web design`. Each artboard is intentionally an open, solid-colour artwork slot marked with `data-artwork-slot`, ready for the user's final imagery without a temporary fake visual. At tablet and mobile sizes the sticky choreography becomes a clear stacked sequence with each title kept beside its own artboard. Reduced-motion users receive immediate title and focus changes without sweep or surface transitions.
+Fotografie, the Mac showcase, and Web design each receive a modest sticky hold after entering the viewport, giving the scroll narrative time to settle without adding hard snap points. At tablet and mobile sizes each service bookend becomes a clear stacked title-and-artboard presentation with a shorter hold. Reduced-motion users receive the same document order without sticky holds, service-title motion, or artboard transitions.
 
-Every desktop title change atomically replaces the stage with one outgoing and one incoming layer. Animation completion plus a timeout fallback settles it back to a single layer, so interrupted rapid up/down scrolling cannot leave stale titles behind.
+The `Fotografie` artboard uses the optimized `assets/images/services/fotografie.jpg` property photograph. The original 4472px source is preserved outside the site; the 2560px website copy is lazy-loaded and cover-cropped around the central A-frame cabin. No hover effect is applied to the image.
+
+The Web design artboard plays the supplied Mountain View Apuseni website capture only while visible. Its browser-optimized H.264 MP4 and poster live in `assets/videos/services/`; reduced-motion users receive the poster frame without autoplay.
+
+The previously tested Unicorn Studio runtime remains archived in `assets/vendor/unicorn-studio/`, but the page does not reference or load it.
 
 ## Portfolio experience
 
-The portfolio is a full-height pinned dark chapter with a centered device stage and three real video samples. The first two projects scroll inside the supplied iPhone mockup; the third state morphs the phone out and a supplied Mac Studio display in for the landscape reel. Once the chapter reaches the viewport, continued page scrolling snaps the reel stack to exact full-video positions and updates the project and format metadata on both sides. Each reel receives a long hold zone before the next threshold, and the device transitions use the same deliberate editorial easing. On desktop, the entire showcase is lifted by 1.5rem to preserve a visible bottom gap on shorter laptop viewports. Only the active reel plays; all other reels pause, and playback stops when the chapter leaves the viewport.
+The portfolio begins with the full-height pinned dark chapter where `Conținut care oprește scroll-ul.` sits above two projects scrolling inside the supplied iPhone mockup. Continued page scrolling snaps the phone reel stack to exact full-video positions and updates the project and format metadata on both sides. The device stage is constrained by the remaining viewport height so it stays clear of the heading and metadata. Only the visible active reel plays, and playback pauses when the chapter leaves the viewport.
 
-The supplied `iphone-mockup.png` and `mac-studio-mockup.png` are stored in `assets/images/portfolio/`. The optimized videos and matching posters live in `assets/videos/portfolio/`. Tablet and mobile layouts keep the active device centered and move the paired metadata beneath it. Reduced-motion users receive the first reel as a static, non-pinned portfolio view with all scroll-driven transforms disabled.
+After the second phone reel, the sequence moves to the brand paper colour `#F3EFE7` with the single italic headline `O experiență.` and the supplied Mac Studio mockup playing the complete landscape reel without CSS cropping. The video surface extends beneath the monitor bezel, allowing the PNG frame to mask its edges cleanly, and the monitor is sized to keep the complete stand and feet visible. The Mac video also pauses when its chapter leaves the viewport.
+
+The supplied `iphone-mockup.png` and `mac-studio-mockup.png` are stored in `assets/images/portfolio/`. The optimized videos and matching posters live in `assets/videos/portfolio/`. Tablet and mobile layouts keep each device centered and move the phone metadata beneath it. Reduced-motion users receive the first phone reel as a static, non-pinned portfolio view with all scroll-driven transforms disabled.
 
 The hero display headline is `145.53px` at the 1470px QA viewport. The fixed navigation has no surface, blur, shadow, or lower rule, and the hero canvas begins at the top of the page so Liquid Ether remains visible beneath it even at scroll position zero. The hero copy retains a navigation-height inset to avoid obscuring its opening line. The desktop Contact CTA is a compact `40.8px` high and keeps its translucent Carmine treatment with a small sparkle icon.
 

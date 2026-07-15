@@ -72,125 +72,18 @@ reducedMotion.addEventListener("change", syncSmoothScroll);
 window.addEventListener("pageshow", () => setMenuState(false));
 syncSmoothScroll();
 
-const services = document.querySelector("[data-services]");
-const serviceSteps = services ? [...services.querySelectorAll("[data-service-step]")] : [];
-const serviceTitleStage = services?.querySelector("[data-service-title-stage]");
-const serviceProgress = services?.querySelector("[data-service-progress]");
-const serviceProgressFill = services?.querySelector("[data-service-progress-fill]");
-let activeServiceIndex = 0;
-let servicesFrame = null;
-let serviceTitleAnimationId = 0;
-let serviceTitleCleanupTimer = null;
-
-function formatServiceIndex(index) {
-  return String(index + 1).padStart(2, "0");
-}
-
-function animateServiceTitle(nextIndex, previousIndex) {
-  if (!serviceTitleStage) return;
-
-  const title = serviceSteps[nextIndex]?.dataset.serviceTitle;
-  const previousTitle = serviceSteps[previousIndex]?.dataset.serviceTitle;
-  if (!title || !previousTitle || title === previousTitle) return;
-
-  serviceTitleAnimationId += 1;
-  const animationId = serviceTitleAnimationId;
-  if (serviceTitleCleanupTimer !== null) {
-    window.clearTimeout(serviceTitleCleanupTimer);
-    serviceTitleCleanupTimer = null;
-  }
-
-  const createTitleElement = (text, stateClass = "") => {
-    const element = document.createElement("span");
-    element.className = `services-title-text${stateClass ? ` ${stateClass}` : ""}`;
-    element.dataset.serviceTitleText = "";
-    element.textContent = text;
-    return element;
-  };
-
-  if (reducedMotion.matches) {
-    serviceTitleStage.replaceChildren(createTitleElement(title));
-    return;
-  }
-
-  const direction = nextIndex > previousIndex ? "up" : "down";
-  const outgoingTitle = createTitleElement(previousTitle, `is-leaving-${direction}`);
-  const incomingTitle = createTitleElement(title, `is-entering-${direction}`);
-  serviceTitleStage.replaceChildren(outgoingTitle, incomingTitle);
-
-  const settleTitle = () => {
-    if (animationId !== serviceTitleAnimationId || !incomingTitle.isConnected) return;
-
-    incomingTitle.className = "services-title-text";
-    serviceTitleStage.replaceChildren(incomingTitle);
-    if (serviceTitleCleanupTimer !== null) {
-      window.clearTimeout(serviceTitleCleanupTimer);
-      serviceTitleCleanupTimer = null;
-    }
-  };
-
-  incomingTitle.addEventListener("animationend", settleTitle, { once: true });
-  serviceTitleCleanupTimer = window.setTimeout(settleTitle, 760);
-}
-
-function setActiveService(nextIndex) {
-  const clampedIndex = Math.max(0, Math.min(serviceSteps.length - 1, nextIndex));
-  const previousIndex = activeServiceIndex;
-
-  serviceSteps.forEach((step, index) => {
-    step.classList.toggle("is-active", index === clampedIndex);
-    step.classList.toggle("is-before", index < clampedIndex);
-    step.classList.toggle("is-after", index > clampedIndex);
-  });
-
-  if (clampedIndex !== previousIndex) animateServiceTitle(clampedIndex, previousIndex);
-
-  activeServiceIndex = clampedIndex;
-  if (serviceProgress) serviceProgress.textContent = formatServiceIndex(clampedIndex);
-  if (serviceProgressFill) {
-    serviceProgressFill.style.transform = `scaleX(${(clampedIndex + 1) / serviceSteps.length})`;
-  }
-}
-
-function updateActiveService() {
-  servicesFrame = null;
-  if (!services || serviceSteps.length === 0 || !desktopBreakpoint.matches) return;
-
-  const activationLine = window.innerHeight * 0.52;
-  let nextIndex = 0;
-
-  serviceSteps.forEach((step, index) => {
-    if (step.getBoundingClientRect().top <= activationLine) nextIndex = index;
-  });
-
-  setActiveService(nextIndex);
-}
-
-function scheduleServicesUpdate() {
-  if (servicesFrame !== null) return;
-  servicesFrame = window.requestAnimationFrame(updateActiveService);
-}
-
-if (services && serviceSteps.length > 0) {
-  setActiveService(0);
-  window.addEventListener("scroll", scheduleServicesUpdate, { passive: true });
-  window.addEventListener("resize", scheduleServicesUpdate, { passive: true });
-  desktopBreakpoint.addEventListener("change", scheduleServicesUpdate);
-  reducedMotion.addEventListener("change", scheduleServicesUpdate);
-  scheduleServicesUpdate();
-}
-
 const portfolio = document.querySelector("[data-portfolio]");
+const portfolioIntro = document.querySelector("[data-portfolio-intro]");
+const portfolioIntroVideo = portfolioIntro?.querySelector("[data-portfolio-intro-video]");
+const lightHeaderSurfaces = [...document.querySelectorAll('[data-header-theme="light"]')];
 const portfolioReelTrack = portfolio?.querySelector("[data-portfolio-reel-track]");
-const portfolioDeviceStage = portfolio?.querySelector("[data-portfolio-device-stage]");
-const portfolioPhoneDevice = portfolioDeviceStage?.querySelector(".portfolio-device--phone");
-const portfolioMacDevice = portfolioDeviceStage?.querySelector(".portfolio-device--mac");
 const portfolioReels = portfolio ? [...portfolio.querySelectorAll("[data-portfolio-reel]")] : [];
 const portfolioCases = portfolio ? [...portfolio.querySelectorAll("[data-portfolio-case]")] : [];
 const portfolioVideos = portfolioReels.map((reel) => reel.querySelector("video")).filter(Boolean);
 let activePortfolioIndex = 0;
 let portfolioFrame = null;
 let portfolioVisible = false;
+let portfolioIntroVisible = false;
 
 function syncPortfolioVideoPlayback() {
   portfolioVideos.forEach((video, index) => {
@@ -205,13 +98,6 @@ function syncPortfolioVideoPlayback() {
 
 function setActivePortfolioCase(nextIndex) {
   const clampedIndex = Math.max(0, Math.min(portfolioReels.length - 1, nextIndex));
-  const activeDevice = clampedIndex === 2 ? "mac" : "phone";
-
-  if (portfolioDeviceStage) {
-    portfolioDeviceStage.dataset.portfolioDevice = activeDevice;
-  }
-  portfolioPhoneDevice?.setAttribute("aria-hidden", String(activeDevice !== "phone"));
-  portfolioMacDevice?.setAttribute("aria-hidden", String(activeDevice !== "mac"));
 
   if (clampedIndex === activePortfolioIndex && portfolioCases.length > 0) return;
 
@@ -232,7 +118,12 @@ function updatePortfolio() {
   const rect = portfolio.getBoundingClientRect();
   const navHeight = header?.getBoundingClientRect().height || 0;
   const isUnderHeader = rect.top <= navHeight + 2 && rect.bottom > navHeight;
+  const isOverIntro = lightHeaderSurfaces.some((surface) => {
+    const surfaceRect = surface.getBoundingClientRect();
+    return surfaceRect.top <= navHeight + 2 && surfaceRect.bottom > navHeight;
+  });
   header?.classList.toggle("is-over-portfolio", isUnderHeader);
+  header?.classList.toggle("is-over-portfolio-intro", isOverIntro);
 
   if (reducedMotion.matches) {
     portfolioReelTrack.style.setProperty("--portfolio-reel-offset", "0%");
@@ -252,6 +143,57 @@ function updatePortfolio() {
     `${Math.min(nextIndex, 1) * -100}%`,
   );
   setActivePortfolioCase(nextIndex);
+}
+
+function syncPortfolioIntroVideoPlayback() {
+  if (!portfolioIntroVideo) return;
+
+  if (portfolioIntroVisible && !reducedMotion.matches) {
+    const playRequest = portfolioIntroVideo.play();
+    playRequest?.catch(() => {});
+  } else {
+    portfolioIntroVideo.pause();
+  }
+}
+
+if (portfolioIntroVideo && portfolioIntro) {
+  const portfolioIntroObserver = new IntersectionObserver(
+    ([entry]) => {
+      portfolioIntroVisible = entry.isIntersecting;
+      syncPortfolioIntroVideoPlayback();
+    },
+    { threshold: 0.08 },
+  );
+
+  portfolioIntroObserver.observe(portfolioIntro);
+  reducedMotion.addEventListener("change", syncPortfolioIntroVideoPlayback);
+}
+
+const webDesignVideo = document.querySelector("[data-web-design-video]");
+let webDesignVideoVisible = false;
+
+function syncWebDesignVideoPlayback() {
+  if (!webDesignVideo) return;
+
+  if (webDesignVideoVisible && !reducedMotion.matches) {
+    const playRequest = webDesignVideo.play();
+    playRequest?.catch(() => {});
+  } else {
+    webDesignVideo.pause();
+  }
+}
+
+if (webDesignVideo) {
+  const webDesignVideoObserver = new IntersectionObserver(
+    ([entry]) => {
+      webDesignVideoVisible = entry.isIntersecting;
+      syncWebDesignVideoPlayback();
+    },
+    { threshold: 0.08 },
+  );
+
+  webDesignVideoObserver.observe(webDesignVideo);
+  reducedMotion.addEventListener("change", syncWebDesignVideoPlayback);
 }
 
 function schedulePortfolioUpdate() {
