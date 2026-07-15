@@ -80,6 +80,8 @@ The final chapter merges contact and footer content into one Liquid Ether surfac
 
 `Realty Media is operated by Mint Studios Agency SRL © All Rights Reserved 2026`
 
+On standard phone widths, all four contact links and the legal copy remain centered on one line. Screens narrower than `21rem` stack the contact links vertically and allow the legal copy to wrap so nothing clips.
+
 An oversized `Realty Media` wordmark anchors the bottom edge without a copyright mark.
 
 ## Archived brand board

@@ -1270,14 +1270,29 @@ a:focus-visible {
   }
 
   .contact-actions {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, max-content));
-    gap: 1.35rem clamp(2rem, 9vw, 4rem);
+    width: 100%;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: clamp(0.5rem, 2.5vw, 0.85rem);
+    text-align: center;
+  }
+
+  .contact-actions a {
+    flex: 0 0 auto;
+    font-size: clamp(0.62rem, 2.55vw, 0.72rem);
+    letter-spacing: 0.045em;
+    white-space: nowrap;
   }
 
   .contact-legal {
-    max-width: 20rem;
-    margin-top: 2.35rem;
+    align-self: center;
+    max-width: none;
+    margin-top: 1.65rem;
+    font-size: clamp(0.5rem, 2.2vw, 0.64rem);
+    line-height: 1;
+    letter-spacing: -0.012em;
+    text-align: center;
+    white-space: nowrap;
   }
 
   .contact-wordmark {
@@ -1286,6 +1301,23 @@ a:focus-visible {
     line-height: 0.76;
     letter-spacing: -0.055em;
     transform: none;
+  }
+}
+
+@media (max-width: 21rem) {
+  .contact-actions {
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+
+  .contact-actions a {
+    font-size: 0.7rem;
+  }
+
+  .contact-legal {
+    max-width: 18rem;
+    line-height: 1.2;
+    white-space: normal;
   }
 }
 
