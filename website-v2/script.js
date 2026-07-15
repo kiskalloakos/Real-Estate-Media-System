@@ -182,6 +182,9 @@ if (services && serviceSteps.length > 0) {
 
 const portfolio = document.querySelector("[data-portfolio]");
 const portfolioReelTrack = portfolio?.querySelector("[data-portfolio-reel-track]");
+const portfolioDeviceStage = portfolio?.querySelector("[data-portfolio-device-stage]");
+const portfolioPhoneDevice = portfolioDeviceStage?.querySelector(".portfolio-device--phone");
+const portfolioMacDevice = portfolioDeviceStage?.querySelector(".portfolio-device--mac");
 const portfolioReels = portfolio ? [...portfolio.querySelectorAll("[data-portfolio-reel]")] : [];
 const portfolioCases = portfolio ? [...portfolio.querySelectorAll("[data-portfolio-case]")] : [];
 const portfolioVideos = portfolioReels.map((reel) => reel.querySelector("video")).filter(Boolean);
@@ -202,6 +205,14 @@ function syncPortfolioVideoPlayback() {
 
 function setActivePortfolioCase(nextIndex) {
   const clampedIndex = Math.max(0, Math.min(portfolioReels.length - 1, nextIndex));
+  const activeDevice = clampedIndex === 2 ? "mac" : "phone";
+
+  if (portfolioDeviceStage) {
+    portfolioDeviceStage.dataset.portfolioDevice = activeDevice;
+  }
+  portfolioPhoneDevice?.setAttribute("aria-hidden", String(activeDevice !== "phone"));
+  portfolioMacDevice?.setAttribute("aria-hidden", String(activeDevice !== "mac"));
+
   if (clampedIndex === activePortfolioIndex && portfolioCases.length > 0) return;
 
   activePortfolioIndex = clampedIndex;
@@ -236,7 +247,10 @@ function updatePortfolio() {
     Math.floor(progress * portfolioReels.length),
   );
 
-  portfolioReelTrack.style.setProperty("--portfolio-reel-offset", `${nextIndex * -100}%`);
+  portfolioReelTrack.style.setProperty(
+    "--portfolio-reel-offset",
+    `${Math.min(nextIndex, 1) * -100}%`,
+  );
   setActivePortfolioCase(nextIndex);
 }
 
