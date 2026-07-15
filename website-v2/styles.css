@@ -631,8 +631,14 @@ a:focus-visible {
 }
 
 .service-artboard--video > video {
-  object-fit: contain;
+  object-fit: cover;
   background: var(--black);
+}
+
+.service-artboard--video {
+  height: auto;
+  min-height: 0;
+  aspect-ratio: 1600 / 1022;
 }
 
 .portfolio-intro {
@@ -1016,6 +1022,26 @@ a:focus-visible {
 }
 
 @media (min-width: 56.01rem) {
+  .service-hold-sticky .services-copy {
+    min-height: 0;
+    padding-block: var(--nav-height);
+  }
+
+  .service-hold-sticky .services-copy-main {
+    transform: none;
+  }
+
+  .service-hold-sticky .services-title-stage {
+    min-height: 0;
+  }
+
+  .service-hold-sticky .service-step,
+  .service-hold-sticky .service-step:last-child {
+    align-items: center;
+    min-height: 100svh;
+    padding-block: var(--nav-height);
+  }
+
   .contact-wordmark {
     padding-bottom: clamp(4rem, 5vw, 6.25rem);
     font-size: clamp(5.6rem, 17.4vw, 28rem);
@@ -1159,6 +1185,10 @@ a:focus-visible {
     opacity: 1;
     filter: none;
     transform: translateY(-0.18em);
+  }
+
+  .service-artboard--video {
+    aspect-ratio: 1600 / 1022;
   }
 
   .portfolio-intro {
