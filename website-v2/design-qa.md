@@ -1,48 +1,46 @@
-# Desktop footer design QA
+# Mobile hero headline spacing design QA
 
 final result: passed
 
 ## Comparison target
 
-- Source visual truth: `qa/desktop-footer-target-vivid.png`
-- Supplied current-state screenshot: `qa/desktop-footer-before-user.png`
-- Browser-rendered implementation: `qa/desktop-footer-after-1960x1067.png`
-- Full-view comparison: `qa/desktop-footer-target-after.jpg`
-- Focused wordmark comparison: `qa/desktop-footer-wordmark-focus.jpg`
-- Viewport: 1960 × 1067 for the matched browser-content comparison, with additional checks at 1470 × 803 and 390 × 844.
-- State: final page position, contact/footer visible, desktop navigation present, Liquid Ether active.
+- Source visual truth: `qa/hero-mobile-before-390x844.png` plus the requested increase in phone headline line spacing.
+- Browser-rendered implementation: `qa/hero-mobile-after-390x844.png`
+- Full-view comparison: `qa/hero-mobile-spacing-comparison.png`
+- Focused typography comparison: `qa/hero-mobile-spacing-focus.png`
+- Viewport: 390 × 844 for the matched comparison, with responsive checks at 320 × 700 and 430 × 932.
+- State: top of page, mobile menu closed, hero visible, Liquid Ether active.
 
 ## Findings
 
-No actionable P0, P1, or P2 differences remain for the requested desktop wordmark adjustment.
+No actionable P0, P1, or P2 differences remain for the requested phone headline adjustment.
 
-- Fonts and typography: the existing Instrument Serif wordmark remains unchanged. Its desktop treatment now measures about 93.3% of the viewport width, matching the oversized editorial scale of the supplied Vivid Motion reference.
-- Spacing and layout rhythm: the wordmark is anchored to the footer's lower edge instead of floating above it. The contact links and legal sentence retain their established position and spacing above the wordmark.
-- Colors and visual tokens: the paper-white wordmark, muted contact copy, Carmine Liquid Ether surface, and black background remain consistent with the existing Realty Media design system.
-- Image quality and asset fidelity: no replacement artwork was introduced. The existing brand typography and interactive background remain intact.
-- Copy and content: WhatsApp, Instagram, Email, `+40 732 775 601`, the legal sentence, and the `Realty Media` wordmark are unchanged.
-- Responsiveness and accessibility: the desktop treatment is isolated above 56rem. The previously approved mobile layout remains unchanged. No horizontal overflow was found at any tested viewport.
-- Interaction and runtime: all anchors remain interactive and no browser console errors were reported.
+- Fonts and typography: the Instrument Serif family, weight, font size, letter spacing, wrapping, and copy remain unchanged. The phone line-height increases from `0.9` to `1.04`, changing the measured 390px line box from 61.425px to 70.98px and giving the four visible lines a clearly more comfortable rhythm.
+- Spacing and layout rhythm: only the phone headline's internal line spacing changes. The heading remains aligned to the existing gutter, the subtitle follows naturally below it, and the hero retains ample vertical room.
+- Colors and visual tokens: paper-white typography, muted subtitle, Carmine Liquid Ether surface, and black background remain unchanged.
+- Image quality and asset fidelity: no imagery or asset changes were required. The existing interactive hero background and client-logo marquee remain intact.
+- Copy and content: `Doar niște cărămizi daca nu ai storytelling` and its subheadline remain unchanged.
+- Responsiveness and accessibility: checks at 320px, 390px, and 430px show readable wrapping with no horizontal overflow. Desktop styles are unaffected because the adjustment is scoped to the existing `max-width: 30rem` phone breakpoint.
+- Interaction and runtime: the menu and page interactions remain functional, and no browser console errors were reported.
 
 ## Comparison history
 
-1. The supplied current-state screenshot showed a P2 composition issue: the wordmark was oversized but floated roughly 200px above the bottom edge and did not fill the available width like the reference.
-2. A literal zero-clearance baseline moved the wordmark too low and clipped the serif glyphs, so the optical baseline clearance was restored at a smaller responsive value.
-3. The desktop font scale and horizontal transform were refined to `17.4vw` and `scaleX(1.34)`, with `clamp(4rem, 5vw, 6.25rem)` baseline clearance.
-4. Final browser measurements show 93.3% viewport-width coverage, optical bottom alignment, no horizontal overflow, no console errors, and unchanged mobile behavior.
+1. The live 390px capture showed a P2 typography issue: the 68.25px display type used a 61.425px line-height (`0.9`), causing adjacent serif lines to appear crowded.
+2. The phone-only line-height was increased to `1.04` without changing type size, wrapping, alignment, or content.
+3. The revised 390px capture measures a 70.98px line-height, and the focused side-by-side comparison confirms clearer separation between all four visible lines.
+4. Additional 320px and 430px captures show no clipping or horizontal overflow, and the browser console remains clear.
 
 ## Focused comparison evidence
 
-The focused crop isolates the lower wordmark area because its baseline and horizontal coverage are the requested details. `qa/desktop-footer-wordmark-focus.jpg` shows the Vivid Motion reference beside the final Realty Media implementation at the same viewport scale.
+`qa/hero-mobile-spacing-focus.png` isolates the headline region so the before-and-after baseline rhythm can be judged without the rest of the hero composition competing for attention.
 
 ## Primary interactions tested
 
-- WhatsApp, Instagram, email, and telephone anchors remained present and interactive.
-- Desktop responsive behavior checked at 1960px and 1470px widths.
-- Mobile regression checked at 390px width.
+- Mobile menu control remained present and visually unchanged.
+- Phone responsive behavior checked at 320px, 390px, and 430px widths.
 - Horizontal overflow checked: none.
 - Browser console errors checked: none.
 
 ## Follow-up polish
 
-- None required for this desktop footer adjustment.
+- None required for this phone hero typography adjustment.

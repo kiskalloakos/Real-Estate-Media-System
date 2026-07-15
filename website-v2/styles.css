@@ -1218,7 +1218,7 @@ a:focus-visible {
 
   .hero h1 {
     font-size: clamp(4rem, 17.5vw, 5.1rem);
-    line-height: 0.9;
+    line-height: 1.04;
   }
 
   .hero-subtitle {
