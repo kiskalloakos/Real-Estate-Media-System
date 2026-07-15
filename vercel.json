@@ -1,5 +1,5 @@
 {
-  "outputDirectory": "website",
+  "outputDirectory": "website-v2",
   "headers": [
     {
       "source": "/(.*).html",

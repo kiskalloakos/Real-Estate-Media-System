@@ -1066,7 +1066,11 @@ a:focus-visible {
   }
 
   .services-section--continuation .services-layout {
-    padding-top: calc(var(--nav-height) + clamp(2.5rem, 6vh, 4rem));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: var(--nav-height);
+    padding-bottom: var(--nav-height);
   }
 
   .service-hold--photography .services-layout {
@@ -1105,6 +1109,10 @@ a:focus-visible {
     text-wrap: balance;
   }
 
+  .service-hold--web-design .service-mobile-copy {
+    margin-bottom: clamp(0.875rem, 2vh, 1.25rem);
+  }
+
   .service-artboard {
     height: auto;
     min-height: 0;
@@ -1124,8 +1132,9 @@ a:focus-visible {
   }
 
   .portfolio-intro-sticky {
-    padding-top: calc(var(--nav-height) + 2.5rem);
-    padding-bottom: clamp(4rem, 9vh, 6rem);
+    justify-content: center;
+    padding-top: var(--nav-height);
+    padding-bottom: var(--nav-height);
   }
 
   .portfolio-intro-heading h2 {
@@ -1135,7 +1144,7 @@ a:focus-visible {
 
   .portfolio-mac-showcase {
     width: min(90vw, 48rem);
-    margin-top: clamp(2.5rem, 6vh, 4rem);
+    margin-top: clamp(1rem, 2.5vh, 1.5rem);
   }
 
   .portfolio-section {
