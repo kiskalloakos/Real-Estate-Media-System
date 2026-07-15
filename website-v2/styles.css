@@ -975,6 +975,14 @@ a:focus-visible {
   transform-origin: left bottom;
 }
 
+@media (min-width: 56.01rem) {
+  .contact-wordmark {
+    padding-bottom: clamp(4rem, 5vw, 6.25rem);
+    font-size: clamp(5.6rem, 17.4vw, 28rem);
+    transform: scaleX(1.34);
+  }
+}
+
 @media (max-width: 56rem) {
   :root {
     --nav-height: 4rem;

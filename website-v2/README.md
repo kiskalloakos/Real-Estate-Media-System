@@ -83,6 +83,7 @@ The final chapter merges contact and footer content into one Liquid Ether surfac
 On standard phone widths, all four contact links and the legal copy remain centered on one line. Screens narrower than `21rem` stack the contact links vertically and allow the legal copy to wrap so nothing clips.
 
 An oversized `Realty Media` wordmark anchors the bottom edge without a copyright mark.
+On desktop, the wordmark spans nearly the full viewport width and sits directly on the lower edge, following the supplied Vivid Motion reference.
 
 ## Archived brand board
 

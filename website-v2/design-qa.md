@@ -1,46 +1,48 @@
-# Mobile footer design QA
+# Desktop footer design QA
 
 final result: passed
 
 ## Comparison target
 
-- Source visual truth: `qa/mobile-footer-before-user.png`
-- Browser-rendered implementation: `qa/mobile-footer-after-390x732.png`
-- Full-view comparison: `qa/mobile-footer-before-after.jpg`
-- Focused contact comparison: `qa/mobile-footer-contact-focus.jpg`
-- Viewport: 390 × 732 for the matched browser-content comparison, plus responsive checks at 390 × 844, 360 × 780, and 320 × 700.
-- State: final page position, contact/footer visible, mobile menu closed, Liquid Ether active.
+- Source visual truth: `qa/desktop-footer-target-vivid.png`
+- Supplied current-state screenshot: `qa/desktop-footer-before-user.png`
+- Browser-rendered implementation: `qa/desktop-footer-after-1960x1067.png`
+- Full-view comparison: `qa/desktop-footer-target-after.jpg`
+- Focused wordmark comparison: `qa/desktop-footer-wordmark-focus.jpg`
+- Viewport: 1960 × 1067 for the matched browser-content comparison, with additional checks at 1470 × 803 and 390 × 844.
+- State: final page position, contact/footer visible, desktop navigation present, Liquid Ether active.
 
 ## Findings
 
-No actionable P0, P1, or P2 differences remain.
+No actionable P0, P1, or P2 differences remain for the requested desktop wordmark adjustment.
 
-- Fonts and typography: the contact links retain IBM Plex Sans Condensed and are large enough to remain readable while fitting on one centered row at standard phone widths. The legal sentence uses the same family at a smaller optical size and remains on one line.
-- Spacing and layout rhythm: the original two-column contact grid and wrapped legal copy have been replaced by a centered single-row contact strip with tighter, even gaps. The legal copy is centered directly below it. The large footer wordmark and the rest of the chapter remain unchanged.
-- Colors and visual tokens: the muted paper text, black surface, and Carmine Liquid Ether background remain consistent with the existing Realty Media system.
-- Image quality and asset fidelity: no asset changes were required. The existing WebGL background and real brand typography remain intact; no replacement artwork or code-drawn asset was introduced.
-- Copy and content: WhatsApp, Instagram, Email, `+40 732 775 601`, and the full legal sentence remain unchanged.
-- Responsiveness and accessibility: 390px and 360px viewports keep the four links on one centered row. At 320px the links stack vertically and each is centered. All tested widths keep the legal copy on one line, stay within the viewport, and have no horizontal overflow.
-- Interaction and runtime: all four anchors remain interactive, the footer canvas renders, and no browser console errors were reported.
+- Fonts and typography: the existing Instrument Serif wordmark remains unchanged. Its desktop treatment now measures about 93.3% of the viewport width, matching the oversized editorial scale of the supplied Vivid Motion reference.
+- Spacing and layout rhythm: the wordmark is anchored to the footer's lower edge instead of floating above it. The contact links and legal sentence retain their established position and spacing above the wordmark.
+- Colors and visual tokens: the paper-white wordmark, muted contact copy, Carmine Liquid Ether surface, and black background remain consistent with the existing Realty Media design system.
+- Image quality and asset fidelity: no replacement artwork was introduced. The existing brand typography and interactive background remain intact.
+- Copy and content: WhatsApp, Instagram, Email, `+40 732 775 601`, the legal sentence, and the `Realty Media` wordmark are unchanged.
+- Responsiveness and accessibility: the desktop treatment is isolated above 56rem. The previously approved mobile layout remains unchanged. No horizontal overflow was found at any tested viewport.
+- Interaction and runtime: all anchors remain interactive and no browser console errors were reported.
 
 ## Comparison history
 
-1. The supplied screenshot showed a P2 mobile layout issue: the four actions formed a loose two-by-two grid and the legal sentence wrapped to a second line.
-2. The mobile rules were changed to a centered no-wrap flex row with smaller type and tighter spacing; the legal copy received a centered no-wrap mobile treatment.
-3. The first browser pass proved the layout fit but showed the action text could safely be slightly larger. The mobile link size was increased for readability.
-4. The final matched comparison and responsive measurements show a one-row contact strip at 390px and 360px, a centered vertical fallback at 320px, one-line legal copy, and no clipping or overflow.
+1. The supplied current-state screenshot showed a P2 composition issue: the wordmark was oversized but floated roughly 200px above the bottom edge and did not fill the available width like the reference.
+2. A literal zero-clearance baseline moved the wordmark too low and clipped the serif glyphs, so the optical baseline clearance was restored at a smaller responsive value.
+3. The desktop font scale and horizontal transform were refined to `17.4vw` and `scaleX(1.34)`, with `clamp(4rem, 5vw, 6.25rem)` baseline clearance.
+4. Final browser measurements show 93.3% viewport-width coverage, optical bottom alignment, no horizontal overflow, no console errors, and unchanged mobile behavior.
 
 ## Focused comparison evidence
 
-The focused crop was required because the contact and legal text are too small to judge precisely in the full footer view. `qa/mobile-footer-contact-focus.jpg` shows the original two-row grid and wrapped legal sentence beside the final centered single-row links and one-line legal copy.
+The focused crop isolates the lower wordmark area because its baseline and horizontal coverage are the requested details. `qa/desktop-footer-wordmark-focus.jpg` shows the Vivid Motion reference beside the final Realty Media implementation at the same viewport scale.
 
 ## Primary interactions tested
 
 - WhatsApp, Instagram, email, and telephone anchors remained present and interactive.
-- Mobile responsive behavior checked at 390px, 360px, and 320px widths.
+- Desktop responsive behavior checked at 1960px and 1470px widths.
+- Mobile regression checked at 390px width.
 - Horizontal overflow checked: none.
 - Browser console errors checked: none.
 
 ## Follow-up polish
 
-- None required for this footer adjustment.
+- None required for this desktop footer adjustment.
