@@ -1139,7 +1139,7 @@ a:focus-visible {
 
   .portfolio-intro-heading h2 {
     max-width: none;
-    font-size: clamp(2.8rem, 9.5vw, 4.35rem);
+    font-size: clamp(2.4rem, 8vw, 4.35rem);
   }
 
   .portfolio-mac-showcase {
@@ -1263,7 +1263,14 @@ a:focus-visible {
   }
 
   .portfolio-intro-heading h2 {
-    font-size: clamp(2.55rem, 12vw, 3.5rem);
+    max-width: 100%;
+    font-size: clamp(1.9rem, 9.5vw, 3rem);
+    line-height: 0.96;
+    white-space: normal;
+  }
+
+  .portfolio-intro-line {
+    display: block;
   }
 
   .portfolio-mac-showcase {
