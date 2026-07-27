@@ -947,13 +947,16 @@ a:focus-visible {
 }
 
 .contact-legal {
-  max-width: 48rem;
+  width: 100%;
+  max-width: none;
   margin: clamp(1.8rem, 3.5vh, 2.75rem) 0 0;
   color: var(--muted);
   font-size: clamp(0.78rem, 0.96vw, 0.94rem);
   font-weight: 400;
   line-height: 1.35;
   letter-spacing: 0.025em;
+  text-align: justify;
+  text-align-last: justify;
 }
 
 .contact-wordmark {
@@ -1353,12 +1356,14 @@ a:focus-visible {
 
   .contact-legal {
     align-self: center;
-    max-width: 24rem;
+    width: 100%;
+    max-width: none;
     margin-top: 1.65rem;
     font-size: clamp(0.58rem, 2.35vw, 0.68rem);
     line-height: 1.25;
     letter-spacing: -0.012em;
-    text-align: center;
+    text-align: justify;
+    text-align-last: justify;
     white-space: normal;
   }
 
@@ -1382,7 +1387,8 @@ a:focus-visible {
   }
 
   .contact-legal {
-    max-width: 18rem;
+    width: 100%;
+    max-width: none;
     line-height: 1.2;
     white-space: normal;
   }
