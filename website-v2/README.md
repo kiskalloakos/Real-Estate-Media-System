@@ -1,6 +1,6 @@
-# realty media — website v2
+# Realty Media — Digital Marketing & Development
 
-This folder contains the new one-page realty media website. The current production website remains separate in `../website` and is not modified by this prototype.
+This folder contains the new one-page Realty Media — Digital Marketing & Development website. The current production website remains separate in `../website` and is not modified by this prototype.
 
 ## Locked brand direction
 
@@ -35,7 +35,7 @@ brandmark/home link and contact only:
 
 The legacy `#servicii` and `#portofoliu` targets remain in the document for direct links, but they are intentionally absent from desktop and mobile navigation. The combined work sequence runs from `Cu ce ne ocupăm` through Fotografie, the pinned two-project phone reel, the light Mac Studio feature, Web design, and the mirrored Dezvoltare aplicații panel before reaching Contact.
 
-The active hero headline is: `Doar niște cărămizi Daca nu ai storytelling`,
+The active hero headline is: `Doar niște cărămizi daca nu ai storytelling`,
 followed by the subheadline `Cele mai corecte prețuri pentru cea mai bună
 calitate`.
 
@@ -98,7 +98,7 @@ The Contact sparkle is an official [Phosphor Icons](https://phosphoricons.com/) 
 
 The final chapter merges contact and footer content into one Liquid Ether surface. It contains WhatsApp, Instagram, email, and telephone links, followed by:
 
-`realty media is operated by Mint Studios Agency SRL © All Rights Reserved 2026`
+`Realty Media — Digital Marketing & Development is operated by Mint Studios Agency SRL © All Rights Reserved 2026`
 
 On standard phone widths, all four contact links and the legal copy remain centered on one line. Screens narrower than `21rem` stack the contact links vertically and allow the legal copy to wrap so nothing clips.
 

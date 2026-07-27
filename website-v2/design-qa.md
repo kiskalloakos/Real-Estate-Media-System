@@ -1,45 +1,60 @@
-# Dezvoltare aplicații service panel design QA
+# Realty Media responsive brand corrections design QA
 
 final result: passed
 
 ## Comparison target
 
-- Source visual truth: `/var/folders/bx/rq_p_44d63d1x6wwfzqyw85m0000gn/T/TemporaryItems/NSIRD_screencaptureui_x3Dh11/Screenshot 2026-07-27 at 15.51.44.png`.
-- Browser-rendered implementation: `qa/app-development-desktop.png`.
-- Responsive implementation: `qa/app-development-mobile.png`.
-- Full-view comparison evidence: `qa/app-development-reference-comparison.png`.
-- Source pixels: 2940 × 1912.
-- Desktop implementation pixels and CSS viewport: 1280 × 720 at browser density 1.
-- Mobile implementation pixels and CSS viewport: 390 × 844 at browser density 1.
-- Normalization: the source and desktop implementation were each proportionally fitted inside a 1280 × 800 frame before being placed side by side. Browser chrome and the intentional dark-theme continuation were excluded from fidelity findings.
-- State: the new service panel is active immediately after Web design, with the admin dashboard on the left and service copy on the right.
+- Source visual truth, mobile hero and Contact button: `/Users/kiskalloakos/Downloads/realty media — Conținut imobiliar.png`.
+- Source visual truth, desktop footer overflow: `/var/folders/bx/rq_p_44d63d1x6wwfzqyw85m0000gn/T/TemporaryItems/NSIRD_screencaptureui_45FbkD/Screenshot 2026-07-27 at 15.58.04.png`.
+- Source component truth, mobile application panel: the existing Web design mobile treatment captured at `qa/web-design-mobile-reference.png`.
+- Browser-rendered mobile hero: `qa/hero-mobile-brand-revised.png`.
+- Browser-rendered mobile application panel: `qa/app-development-mobile-revised.png`.
+- Browser-rendered mobile footer: `qa/footer-mobile-overflow-fixed.png`.
+- Browser-rendered desktop hero: `qa/hero-desktop-brand-revised.png`.
+- Browser-rendered desktop footer: `qa/footer-desktop-overflow-fixed.png`.
+- Full-view comparison evidence: `qa/hero-mobile-before-after.png`, `qa/footer-desktop-before-after.png`, `qa/app-development-mobile-before-after.png`, and `qa/web-and-app-mobile-comparison.png`.
+- Source pixels: 1179 × 2556 mobile capture and 2940 × 1912 desktop capture.
+- Implementation pixels and CSS viewports: 390 × 844 mobile and 1280 × 720 desktop at browser density 1.
+- Normalization: the mobile source website region was cropped below device chrome and proportionally scaled to 390 px. The desktop source website region was cropped below browser chrome and scaled to 1280 × 700. Before/after pairs were placed side by side at equal visible widths.
+- State: hero at page start, application-development service active, and footer wordmark at the lower edge.
 
 ## Findings
 
 No actionable P0, P1, or P2 differences remain.
 
-- Fonts and typography: the panel reuses the existing self-hosted Satoshi display face and established service eyebrow styles. “Dezvoltare aplicații” wraps into two balanced lines on desktop and mobile without clipping.
-- Spacing and layout rhythm: the reference’s wide two-column service composition is mirrored as requested. The dashboard occupies the larger left track, while the copy is vertically centered in the right track with the established gutter, radius, and sticky-section rhythm.
-- Colors and visual tokens: the panel continues the existing Web design chapter’s black, paper, muted-gray, and carmine system. This is an intentional theme continuation rather than a recreation of the older light photography panel.
-- Image quality and asset fidelity: the actual 1280 × 720 RealtyMedia owner-dashboard capture is used directly, at its native 16:9 ratio, without stretching, placeholder treatment, or generated UI.
-- Copy and content: the eyebrow reads “Serviciile noastre” and the service title reads “Dezvoltare aplicații,” with Romanian diacritics and useful alternative text.
-- Responsiveness: the desktop layout is reversed exactly as requested; on mobile the service copy appears above the dashboard for a natural reading order. The 390 px viewport has no horizontal overflow.
-- Runtime and accessibility: the new region has an associated heading, the image has descriptive alternative text, the direct section anchor works, and the browser console reports no errors or warnings.
+- Fonts and typography: the hero now has exactly one initial capital letter—“Doar niște cărămizi daca nu ai storytelling”—on desktop and mobile. The app-development mobile title is a single horizontal line in Satoshi, matching the Web design section’s visual behavior.
+- Spacing and layout rhythm: the mobile app-development eyebrow was removed. Its title-to-artboard margin is 16.88 px, exactly matching Web design, and both artboards render at 350 × 223.56 px in the 390 px viewport.
+- Colors and visual tokens: all changes preserve the existing black, paper, muted-gray, and carmine system. The larger mobile Contact button keeps the established glass-red treatment.
+- Image quality and asset fidelity: the real 1280 × 720 RealtyMedia admin dashboard remains the source asset. On mobile it is displayed inside the same 1600:1022 horizontal frame as the Web design preview, with no distortion.
+- Copy and content: “Realty Media — Digital Marketing & Development” is now the document title, application name, metadata description, logo accessible name, visible footer identity, and README title. The desktop service eyebrow remains unchanged.
+- Responsive controls: the mobile Contact button increased from the earlier compact treatment to approximately 96 × 38 CSS px, with a larger icon and preserved touch focus area.
+- Overflow: page `scrollWidth` equals `clientWidth` at both 390 px and 1280 px. The footer wordmark’s own `scrollWidth` now equals its `clientWidth` on mobile and desktop, retaining the oversized look without cutting off letters.
+- Runtime and accessibility: the new company identity is exposed through the page title and home-link accessible label. The in-app browser reports no console errors or warnings.
 
 ## Focused region comparison
 
-No additional focused crop was needed. The desktop comparison keeps both the title treatment and the complete dashboard large enough to judge alignment, scale, crop, typography, and image quality. The separate mobile capture verifies responsive wrapping and image treatment.
+Focused comparisons were required and are included:
+
+- `qa/hero-mobile-before-after.png` isolates capitalization and Contact-button scale.
+- `qa/footer-desktop-before-after.png` isolates the overflowing wordmark before and after the fix.
+- `qa/app-development-mobile-before-after.png` isolates the removed eyebrow, one-line title, and horizontal dashboard frame.
+- `qa/web-and-app-mobile-comparison.png` verifies that Web design and Dezvoltare aplicații now share the same 350 × 223.56 px horizontal artwork frame and title-to-frame spacing.
 
 ## Comparison history
 
-1. Initial browser capture showed the requested inverse composition with no P0, P1, or P2 mismatch.
-2. Mobile verification confirmed the heading and dashboard remain legible, ordered correctly, and free of horizontal overflow.
-3. No visual fixes were required after the first comparison.
+1. Earlier mobile application capture showed a redundant “Serviciile noastre” eyebrow, a two-line oversized heading, and a shallow 16:9 frame that did not share Web design’s mobile proportions (P2).
+2. The eyebrow was removed, the heading was fitted to one line, and the dashboard frame was changed to the existing Web design ratio. Post-fix measurements confirm identical artboard size and title margin.
+3. Earlier desktop and mobile footer captures showed the transformed wordmark extending beyond its content box and clipping the final letters (P1).
+4. Horizontal scaling was removed and responsive font sizes were reduced. Post-fix browser measurements confirm no element or page overflow at either tested viewport.
+5. The first mobile footer correction still left the wordmark text 10 px wider than its content box (P2). The mobile size was reduced from 19vw to 17.5vw; its final `scrollWidth` and `clientWidth` are both 350 px.
+6. The existing mobile Contact control measured roughly 55 × 24 CSS px and was visually undersized (P2). The revised control measures approximately 96 × 38 CSS px.
 
 ## Primary interactions tested
 
-- Opened the direct `#dezvoltare-aplicatii` anchor.
-- Verified desktop and 390 × 844 mobile layouts.
-- Confirmed the sticky section and adjacent Web design chapter remain intact.
-- Checked page-level horizontal overflow at 390 px: none.
+- Opened the page start, application-development anchor, and contact/footer anchor.
+- Verified mobile navigation and Contact target remain present.
+- Verified the hero copy on desktop and mobile.
+- Verified the application panel at 390 × 844.
+- Verified the footer at 390 × 844 and 1280 × 720.
+- Checked horizontal overflow and wordmark internal overflow at both breakpoints.
 - Checked browser console errors and warnings: none.

@@ -957,7 +957,7 @@ a:focus-visible {
 }
 
 .contact-wordmark {
-  width: max-content;
+  width: 100%;
   max-width: 100%;
   margin: auto 0 0;
   padding-bottom: clamp(8rem, 8vw, 10rem);
@@ -969,8 +969,7 @@ a:focus-visible {
   letter-spacing: -0.055em;
   white-space: nowrap;
   pointer-events: none;
-  transform: translateY(-0.28em) scaleX(1.3);
-  transform-origin: left bottom;
+  transform: translateY(-0.18em);
 }
 
 @media (min-width: 56.01rem) {
@@ -996,8 +995,8 @@ a:focus-visible {
 
   .contact-wordmark {
     padding-bottom: clamp(4rem, 5vw, 6.25rem);
-    font-size: clamp(5.6rem, 17.4vw, 28rem);
-    transform: scaleX(1.34);
+    font-size: clamp(5.6rem, 16.2vw, 24rem);
+    transform: none;
   }
 }
 
@@ -1014,10 +1013,10 @@ a:focus-visible {
   .contact-link--header-mobile {
     position: relative;
     display: inline-flex;
-    min-height: 1.5rem;
-    gap: 0.28rem;
-    padding: 0.08rem 0.45rem 0.06rem 0.55rem;
-    font-size: 0.6rem;
+    min-height: 2.4rem;
+    gap: 0.4rem;
+    padding: 0.12rem 0.85rem 0.1rem 0.95rem;
+    font-size: 0.78rem;
     letter-spacing: 0.065em;
   }
 
@@ -1028,8 +1027,8 @@ a:focus-visible {
   }
 
   .contact-link--header-mobile img {
-    width: 0.625rem;
-    height: 0.625rem;
+    width: 0.8rem;
+    height: 0.8rem;
   }
 
   .hero-copy {
@@ -1135,8 +1134,11 @@ a:focus-visible {
     margin-bottom: clamp(0.875rem, 2vh, 1.25rem);
   }
 
-  .service-hold--app-development .service-mobile-copy .services-eyebrow {
-    margin-bottom: clamp(1rem, 2.5vh, 1.5rem);
+  .service-hold--app-development .service-mobile-copy h3 {
+    max-width: none;
+    font-size: clamp(2.5rem, 11vw, 4.5rem);
+    line-height: 0.9;
+    white-space: nowrap;
   }
 
   .service-artboard {
@@ -1153,7 +1155,7 @@ a:focus-visible {
   }
 
   .service-artboard--dashboard {
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 1600 / 1022;
   }
 
   .portfolio-intro {
@@ -1293,6 +1295,10 @@ a:focus-visible {
     font-size: clamp(3.8rem, 17vw, 5.25rem);
   }
 
+  .service-hold--app-development .service-mobile-copy h3 {
+    font-size: clamp(2.2rem, 10.8vw, 3.25rem);
+  }
+
   .portfolio-intro-heading h2 {
     font-size: clamp(2.55rem, 12vw, 3.5rem);
   }
@@ -1347,18 +1353,18 @@ a:focus-visible {
 
   .contact-legal {
     align-self: center;
-    max-width: none;
+    max-width: 24rem;
     margin-top: 1.65rem;
-    font-size: clamp(0.5rem, 2.2vw, 0.64rem);
-    line-height: 1;
+    font-size: clamp(0.58rem, 2.35vw, 0.68rem);
+    line-height: 1.25;
     letter-spacing: -0.012em;
     text-align: center;
-    white-space: nowrap;
+    white-space: normal;
   }
 
   .contact-wordmark {
     padding-bottom: 3.25rem;
-    font-size: clamp(4.4rem, 24vw, 9rem);
+    font-size: clamp(4rem, 17.5vw, 7.5rem);
     line-height: 0.76;
     letter-spacing: -0.055em;
     transform: none;
