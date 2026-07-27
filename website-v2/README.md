@@ -100,11 +100,11 @@ The final chapter merges contact and footer content into one Liquid Ether surfac
 
 `Realty Media is operated by Mint Studios Agency SRL © All Rights Reserved 2026`
 
-The legal copy spans the full available footer width on desktop and mobile. Screens narrower than `21rem` stack the contact links vertically and allow the legal copy to wrap so nothing clips.
+The legal copy remains centered and constrained for readability. Screens narrower than `21rem` stack the contact links vertically and allow the legal copy to wrap so nothing clips.
 
 An oversized lowercase `realty media` Satoshi wordmark anchors the bottom edge.
-On desktop, the text spans the lower composition and sits directly on the lower
-edge.
+The wordmark is sized from its available container width so it spans the lower
+composition on desktop and mobile while sitting directly on the lower edge.
 
 ## Archived brand board
 

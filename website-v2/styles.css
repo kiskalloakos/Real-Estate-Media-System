@@ -947,16 +947,13 @@ a:focus-visible {
 }
 
 .contact-legal {
-  width: 100%;
-  max-width: none;
+  max-width: 48rem;
   margin: clamp(1.8rem, 3.5vh, 2.75rem) 0 0;
   color: var(--muted);
   font-size: clamp(0.78rem, 0.96vw, 0.94rem);
   font-weight: 400;
   line-height: 1.35;
   letter-spacing: 0.025em;
-  text-align: justify;
-  text-align-last: justify;
 }
 
 .contact-wordmark {
@@ -966,7 +963,7 @@ a:focus-visible {
   padding-bottom: clamp(8rem, 8vw, 10rem);
   color: #ffffff;
   font-family: var(--font-display);
-  font-size: clamp(5.6rem, 16.5vw, 28rem);
+  font-size: calc((100vw - (2 * var(--gutter))) / 4.853);
   font-weight: 500;
   line-height: 0.72;
   letter-spacing: -0.055em;
@@ -998,7 +995,6 @@ a:focus-visible {
 
   .contact-wordmark {
     padding-bottom: clamp(4rem, 5vw, 6.25rem);
-    font-size: clamp(5.6rem, 16.2vw, 24rem);
     transform: none;
   }
 }
@@ -1356,20 +1352,17 @@ a:focus-visible {
 
   .contact-legal {
     align-self: center;
-    width: 100%;
-    max-width: none;
+    max-width: 24rem;
     margin-top: 1.65rem;
     font-size: clamp(0.58rem, 2.35vw, 0.68rem);
     line-height: 1.25;
     letter-spacing: -0.012em;
-    text-align: justify;
-    text-align-last: justify;
+    text-align: center;
     white-space: normal;
   }
 
   .contact-wordmark {
     padding-bottom: 3.25rem;
-    font-size: clamp(4rem, 17.5vw, 7.5rem);
     line-height: 0.76;
     letter-spacing: -0.055em;
     transform: none;
@@ -1387,8 +1380,7 @@ a:focus-visible {
   }
 
   .contact-legal {
-    width: 100%;
-    max-width: none;
+    max-width: 18rem;
     line-height: 1.2;
     white-space: normal;
   }
