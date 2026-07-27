@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Four-petal cross logo concept</title>
+  <desc id="desc">Four identical rounded geometric petals face inward around a small diamond.</desc>
+  <defs>
+    <path id="petal" d="M64 58L44 38C35 29 41 8 64 8C87 8 93 29 84 38Z"/>
+  </defs>
+  <g fill="#10100E">
+    <use href="#petal"/>
+    <use href="#petal" transform="rotate(90 64 64)"/>
+    <use href="#petal" transform="rotate(180 64 64)"/>
+    <use href="#petal" transform="rotate(270 64 64)"/>
+  </g>
+</svg>

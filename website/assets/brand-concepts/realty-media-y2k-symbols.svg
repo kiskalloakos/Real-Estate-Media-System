@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 1000" role="img" aria-labelledby="title desc">
+  <title id="title">Realty Media flat Y2K symbol concepts</title>
+  <desc id="desc">Five flat black symbol studies combining a four-point star with property and media geometry.</desc>
+  <defs>
+    <path id="sheet-window-tile" d="M10 10H58V28C58 46 46 58 28 58H10Z"/>
+    <g id="sheet-window-star" fill="currentColor">
+      <use href="#sheet-window-tile"/>
+      <use href="#sheet-window-tile" transform="rotate(90 64 64)"/>
+      <use href="#sheet-window-tile" transform="rotate(180 64 64)"/>
+      <use href="#sheet-window-tile" transform="rotate(270 64 64)"/>
+    </g>
+
+    <g id="sheet-orbit-star" fill="currentColor">
+      <path d="M58 28C24 28 4 42 4 64C4 86 24 100 58 100C32 91 18 78 18 64C18 50 32 37 58 28Z"/>
+      <path d="M70 28C104 28 124 42 124 64C124 86 104 100 70 100C96 91 110 78 110 64C110 50 96 37 70 28Z"/>
+      <path d="M64 14C62 42 54 59 22 64C54 69 62 86 64 114C66 86 74 69 106 64C74 59 66 42 64 14Z"/>
+    </g>
+
+    <mask id="sheet-portal-cut">
+      <rect width="128" height="128" fill="white"/>
+      <path fill="black" d="M92 18C90 38 84 47 62 50C84 53 90 62 92 82C94 62 100 53 122 50C100 47 94 38 92 18Z"/>
+    </mask>
+    <g id="sheet-portal-star">
+      <path d="M18 118V62C18 31 38 14 64 14C90 14 110 31 110 62V118" fill="none" stroke="currentColor" stroke-width="24" mask="url(#sheet-portal-cut)"/>
+    </g>
+
+    <path id="sheet-nova-tile" d="M14 28C28 14 46 8 60 10C48 26 46 42 58 58C42 46 26 48 10 60C8 46 10 34 14 28Z"/>
+    <mask id="sheet-nova-star-cut">
+      <rect width="128" height="128" fill="white"/>
+      <path fill="black" d="M64 36C62 52 56 62 36 64C56 66 62 76 64 92C66 76 72 66 92 64C72 62 66 52 64 36Z"/>
+    </mask>
+    <g id="sheet-nova-tiles" fill="currentColor" mask="url(#sheet-nova-star-cut)">
+      <use href="#sheet-nova-tile"/>
+      <use href="#sheet-nova-tile" transform="rotate(90 64 64)"/>
+      <use href="#sheet-nova-tile" transform="rotate(180 64 64)"/>
+      <use href="#sheet-nova-tile" transform="rotate(270 64 64)"/>
+    </g>
+
+    <g id="sheet-star-lens" fill="currentColor">
+      <path d="M59 8C28 12 12 33 12 64C12 95 28 116 59 120C38 103 28 84 28 64C28 44 38 25 59 8Z"/>
+      <path d="M69 8C100 12 116 33 116 64C116 95 100 116 69 120C90 103 100 84 100 64C100 44 90 25 69 8Z"/>
+      <path d="M64 20C62 45 54 59 30 64C54 69 62 83 64 108C66 83 74 69 98 64C74 59 66 45 64 20Z"/>
+    </g>
+  </defs>
+
+  <rect width="1500" height="1000" fill="#F5EFE4"/>
+  <text x="70" y="64" fill="#10100E" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" letter-spacing="3">REALTY MEDIA — FLAT Y2K SYMBOL STUDY</text>
+  <line x1="70" y1="94" x2="1430" y2="94" stroke="#CFC2AE"/>
+
+  <g transform="translate(105 145)" color="#10100E">
+    <text x="0" y="0" fill="#10100E" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">01 — WINDOW STAR</text>
+    <use href="#sheet-window-star" transform="translate(58 56) scale(2.05)"/>
+    <use href="#sheet-window-star" transform="translate(58 350) scale(.25)"/>
+    <text x="108" y="372" fill="#6F6558" font-family="Arial, Helvetica, sans-serif" font-size="14">32 px</text>
+  </g>
+
+  <g transform="translate(565 145)" color="#10100E">
+    <text x="0" y="0" fill="#10100E" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">02 — ORBIT STAR</text>
+    <use href="#sheet-orbit-star" transform="translate(58 56) scale(2.05)"/>
+    <use href="#sheet-orbit-star" transform="translate(58 350) scale(.25)"/>
+    <text x="108" y="372" fill="#6F6558" font-family="Arial, Helvetica, sans-serif" font-size="14">32 px</text>
+  </g>
+
+  <g transform="translate(1025 145)" color="#10100E">
+    <text x="0" y="0" fill="#10100E" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">03 — PORTAL STAR</text>
+    <use href="#sheet-portal-star" transform="translate(58 56) scale(2.05)"/>
+    <use href="#sheet-portal-star" transform="translate(58 350) scale(.25)"/>
+    <text x="108" y="372" fill="#6F6558" font-family="Arial, Helvetica, sans-serif" font-size="14">32 px</text>
+  </g>
+
+  <line x1="70" y1="545" x2="1430" y2="545" stroke="#CFC2AE"/>
+
+  <g transform="translate(335 615)" color="#10100E">
+    <text x="0" y="0" fill="#10100E" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">04 — NOVA TILES</text>
+    <use href="#sheet-nova-tiles" transform="translate(58 56) scale(2.05)"/>
+    <use href="#sheet-nova-tiles" transform="translate(58 350) scale(.25)"/>
+    <text x="108" y="372" fill="#6F6558" font-family="Arial, Helvetica, sans-serif" font-size="14">32 px</text>
+  </g>
+
+  <g transform="translate(875 615)" color="#10100E">
+    <text x="0" y="0" fill="#10100E" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">05 — STAR LENS</text>
+    <use href="#sheet-star-lens" transform="translate(58 56) scale(2.05)"/>
+    <use href="#sheet-star-lens" transform="translate(58 350) scale(.25)"/>
+    <text x="108" y="372" fill="#6F6558" font-family="Arial, Helvetica, sans-serif" font-size="14">32 px</text>
+  </g>
+</svg>

@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Realty Media symbol exploration, round two</title>
+  <desc id="desc">Four-petal cross and broken ring logo marks shown large, inverse, and at favicon size.</desc>
+  <defs>
+    <mask id="ring-cut-sheet">
+      <rect width="128" height="128" fill="white"/>
+      <circle cx="64" cy="64" r="32" fill="black"/>
+      <rect x="96" y="52" width="32" height="24" fill="black"/>
+    </mask>
+  </defs>
+  <rect width="1200" height="760" fill="#F5EFE4"/>
+
+  <text x="72" y="70" fill="#10100E" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" letter-spacing="3">REALTY MEDIA — SYMBOL STUDY</text>
+  <line x1="72" y1="100" x2="1128" y2="100" stroke="#CFC2AE"/>
+  <line x1="600" y1="144" x2="600" y2="680" stroke="#CFC2AE"/>
+
+  <g transform="translate(72 150)">
+    <text x="0" y="0" fill="#10100E" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">FOUR-PETAL CROSS</text>
+    <g transform="translate(106 70) scale(2.25)">
+      <defs>
+        <path id="petal-a" d="M64 58L44 38C35 29 41 8 64 8C87 8 93 29 84 38Z"/>
+      </defs>
+      <g fill="#10100E">
+        <use href="#petal-a"/>
+        <use href="#petal-a" transform="rotate(90 64 64)"/>
+        <use href="#petal-a" transform="rotate(180 64 64)"/>
+        <use href="#petal-a" transform="rotate(270 64 64)"/>
+      </g>
+    </g>
+
+    <g transform="translate(0 410)">
+      <rect width="96" height="96" fill="#10100E"/>
+      <g transform="translate(16 16) scale(.5)">
+        <g fill="#F5EFE4">
+          <use href="#petal-a"/>
+          <use href="#petal-a" transform="rotate(90 64 64)"/>
+          <use href="#petal-a" transform="rotate(180 64 64)"/>
+          <use href="#petal-a" transform="rotate(270 64 64)"/>
+        </g>
+      </g>
+      <text x="122" y="42" fill="#10100E" font-family="Arial, Helvetica, sans-serif" font-size="16">Inverse</text>
+      <text x="122" y="68" fill="#6F6558" font-family="Arial, Helvetica, sans-serif" font-size="14">same silhouette, no container required</text>
+    </g>
+
+    <g transform="translate(0 540)">
+      <g transform="scale(.25)">
+        <g fill="#10100E">
+          <use href="#petal-a"/>
+          <use href="#petal-a" transform="rotate(90 64 64)"/>
+          <use href="#petal-a" transform="rotate(180 64 64)"/>
+          <use href="#petal-a" transform="rotate(270 64 64)"/>
+        </g>
+      </g>
+      <text x="52" y="22" fill="#6F6558" font-family="Arial, Helvetica, sans-serif" font-size="14">32 px</text>
+    </g>
+  </g>
+
+  <g transform="translate(672 150)">
+    <text x="0" y="0" fill="#10100E" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">BROKEN RING</text>
+    <g transform="translate(106 70) scale(2.25)">
+      <circle cx="64" cy="64" r="56" fill="#10100E" mask="url(#ring-cut-sheet)"/>
+    </g>
+
+    <g transform="translate(0 410)">
+      <rect width="96" height="96" fill="#10100E"/>
+      <g transform="translate(16 16) scale(.5)">
+        <circle cx="64" cy="64" r="56" fill="#F5EFE4" mask="url(#ring-cut-sheet)"/>
+      </g>
+      <text x="122" y="42" fill="#10100E" font-family="Arial, Helvetica, sans-serif" font-size="16">Inverse</text>
+      <text x="122" y="68" fill="#6F6558" font-family="Arial, Helvetica, sans-serif" font-size="14">one controlled rectangular break</text>
+    </g>
+
+    <g transform="translate(0 540)">
+      <g transform="scale(.25)">
+        <circle cx="64" cy="64" r="56" fill="#10100E" mask="url(#ring-cut-sheet)"/>
+      </g>
+      <text x="52" y="22" fill="#6F6558" font-family="Arial, Helvetica, sans-serif" font-size="14">32 px</text>
+    </g>
+  </g>
+</svg>

@@ -1,52 +1,39 @@
-# Portfolio device and media design QA
+# Final FameScale marquee asset design QA
 
 final result: passed
 
 ## Comparison target
 
-- Source visual truth: `assets/images/portfolio/iphone-mockup.png`, `assets/images/portfolio/mac-studio-mockup.png`, the supplied `Reel 1.mp4`, and the supplied `Mac-be.mov`.
-- Browser-rendered implementation: `qa/portfolio-after-state-2-phone.png`, `qa/portfolio-after-state-3-mac.png`, `qa/portfolio-mobile-phone.png`, and `qa/portfolio-mobile-mac.png`.
-- Full-view comparisons: `qa/portfolio-state-2-before-after.png` and `qa/portfolio-state-3-before-after.png`.
-- Focused asset comparisons: `qa/portfolio-phone-asset-comparison.png` and `qa/portfolio-mac-asset-comparison.png`.
-- Transition evidence: `qa/portfolio-phone-to-mac-transition.png`.
-- Viewports: 1470 × 803 desktop and 390 × 844 phone.
-- State: portfolio pinned chapter at reels two and three, mobile menu closed, active media playing.
+- Source visual truth: `assets/images/client-logos/famescale logo final.png`.
+- Browser-rendered implementation: `qa/hero-famescale-final-asset.png`.
+- Full-view comparison evidence: `qa/hero-famescale-final-full-comparison.png`.
+- Focused region comparison evidence: `qa/hero-famescale-final-focused-comparison.png`.
+- Viewport: 1280 × 720 desktop in the Codex in-app browser.
+- State: FameScale visible between Alpine Car Meet and UBB in the animated hero marquee.
 
 ## Findings
 
-No actionable P0, P1, or P2 differences remain for the requested portfolio media update.
+No actionable P0, P1, or P2 differences remain.
 
-- Fonts and typography: the existing Instrument Serif project metadata, IBM Plex Sans Condensed labels, hierarchy, line height, wrapping, and copy remain unchanged.
-- Spacing and layout rhythm: the first two projects remain centered in a portrait device. The third project expands into a centered landscape Mac display while retaining balanced gaps to the metadata columns. The complete Mac bezel now fits at phone width.
-- Colors and visual tokens: the black portfolio surface, paper typography, muted metadata, Carmine heading accent, and device shadows remain consistent with the existing Realty Media system.
-- Image quality and asset fidelity: the supplied 1882 × 3878 iPhone and 1000 × 741 Mac PNGs are used directly with their transparency intact. The screen masks align with the real frame openings and retain the supplied Dynamic Island and Mac bezel details. No replacement or code-drawn device artwork was introduced.
-- Copy and content: visible project and format copy remains unchanged. Reel two now uses the supplied vertical video; reel three uses the supplied landscape video inside the Mac mockup.
-- Responsiveness and accessibility: desktop and 390px phone checks show no horizontal overflow. Device-specific screen crops remain within their real frame openings. Video labels describe the updated media while the visible copy stays unchanged.
-- Interaction and runtime: all three scroll states activate the correct video. Only the active video plays; measured playback advanced in every state. Reel two resolves to `documentar-reel.mp4`, reel three resolves to `mac-be-reel.mp4`, and no browser console or failed-response errors were reported.
+- Fonts and typography: the final FameScale wordmark is used directly from the supplied image; its typography is not recreated or transformed.
+- Spacing and layout rhythm: the final 658 × 174 horizontal asset fits the standard marquee slot naturally, with balanced visual weight and clear gaps to Alpine and UBB. The previous logo-specific scale correction has been removed.
+- Colors and visual tokens: the standard monochrome logo filter and opacity match the neighboring client marks over the black/red hero.
+- Image quality and asset fidelity: the exact final transparent PNG is used in both loop groups at its natural aspect ratio. It is sharp, uncropped, and free of visible transparency artifacts.
+- Copy and content: the primary image retains the accessible name `FameScale`; the duplicated loop image remains decorative.
+- Interaction and motion: both marquee groups reference the same final asset in the same order, retaining the seamless 41-second loop.
+- Responsiveness and runtime: the marquee remains clipped to its container with no page-level horizontal overflow. The image loads at 658 × 174 natural resolution and the browser reports no console errors.
 
 ## Comparison history
 
-1. The current production capture showed the old phone frame and old video in reel two, while reel three remained a portrait phone presentation.
-2. The supplied iPhone frame replaced the old device art, reel two received the optimized supplied vertical video, and reel three received a dedicated Mac device layer with the optimized supplied landscape video.
-3. The first responsive pass found a P2 phone-width issue: the Mac display was intentionally oversized but cropped its outer bezel by roughly 29px per side.
-4. The phone-width Mac rule was reduced from `115vw` to `98vw`. The final 390 × 844 capture shows the full bezel and stand with no horizontal overflow.
-5. The transition capture measured the phone at 0.15 opacity and the Mac at 0.85 opacity during the morph, confirming the devices crossfade, scale, blur, and settle rather than abruptly swapping.
-
-## Focused comparison evidence
-
-- `qa/portfolio-phone-asset-comparison.png` places the supplied transparent iPhone frame beside the implemented video-filled result at matched proportions.
-- `qa/portfolio-mac-asset-comparison.png` places the supplied transparent Mac frame beside the implemented landscape video result at matched proportions.
+1. The earlier square FameScale file contained the wrong, cramped artwork and required corrective sizing (P2).
+2. The user supplied `famescale logo final.png`, a correctly proportioned horizontal 658 × 174 logo.
+3. Both loop groups were switched to the final file, the temporary cropped derivative was removed, and the FameScale-specific transform was deleted.
+4. The final full-view and focused comparisons show the source logo reproduced at its native proportions and balanced against the surrounding clients.
 
 ## Primary interactions tested
 
-- Scroll state one: original Social Media reel plays inside the new iPhone frame.
-- Scroll state two: supplied vertical video plays inside the new iPhone frame while visible copy remains `Documentar` / `4K`.
-- Scroll transition two to three: phone exits and Mac enters with an interpolated transform and opacity transition.
-- Scroll state three: supplied landscape video plays inside the Mac frame while existing visible copy remains unchanged.
-- Phone layout checked for both the iPhone and Mac states at 390px width.
-- Horizontal overflow checked: none.
-- Browser console errors and failed media responses checked: none.
-
-## Follow-up polish
-
-- None required for this asset and device transition update.
+- Observed the final FameScale logo moving through the visible marquee.
+- Confirmed both loop groups reference the final asset.
+- Confirmed the image loads at 658 × 174 natural resolution.
+- Checked page-level horizontal overflow: none.
+- Checked browser console errors: none.

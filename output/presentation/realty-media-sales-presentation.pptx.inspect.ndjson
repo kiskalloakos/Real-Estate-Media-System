@@ -1,0 +1,107 @@
+{"kind":"deck","id":"pr/cpabny","name":"Deck"}
+{"kind":"layout","layoutId":"3491cf3d-20e8-4edf-914f-e6850acb59d7","name":"Master","type":"master"}
+{"kind":"layout","layoutId":"5db3ef08-171f-4608-94a4-3f836c3b62e0","name":"Title Slide","type":"title"}
+{"kind":"slide","id":"sl/pqgskj","slide":1,"title":"Realty Media ©","textShapes":6}
+{"kind":"textbox","id":"sh/idkrqp0z","slide":1,"name":"wordmark","text":"Realty Media ©","textPreview":"Realty Media ©","textChars":14,"textLines":1,"bbox":[52,42,255,38]}
+{"kind":"textbox","id":"sh/5gvq14za","slide":1,"text":"SALES PRESENTATION","textPreview":"SALES PRESENTATION","textChars":18,"textLines":1,"bbox":[52,112,250,28]}
+{"kind":"textbox","id":"sh/4fm9szip","slide":1,"name":"cover-title-1","text":"Povestea ta prin","textPreview":"Povestea ta prin","textChars":16,"textLines":1,"bbox":[52,230,890,115]}
+{"kind":"textbox","id":"sh/rids3uhg","slide":1,"name":"cover-title-2","text":"film.","textPreview":"film.","textChars":5,"textLines":1,"bbox":[52,335,520,130]}
+{"kind":"shape","id":"sh/6h4rup0v","slide":1,"bbox":[52,590,1176,2]}
+{"kind":"textbox","id":"sh/tkva54zm","slide":1,"text":"REALTYMEDIA.RO","textPreview":"REALTYMEDIA.RO","textChars":14,"textLines":1,"bbox":[52,620,260,28]}
+{"kind":"textbox","id":"sh/sjm9wzi1","slide":1,"name":"page-1","text":"01 / 08","textPreview":"01 / 08","textChars":7,"textLines":1,"bbox":[1080,674,145,22]}
+{"kind":"notes","id":"nt/pqgskj","slide":1,"text":""}
+{"kind":"slide","id":"sl/kgaqpq","slide":2,"title":"Realty Media ©","textShapes":8}
+{"kind":"textbox","id":"sh/fq1wr2p4","slide":2,"name":"wordmark","text":"Realty Media ©","textPreview":"Realty Media ©","textChars":14,"textLines":1,"bbox":[38,26,235,38]}
+{"kind":"textbox","id":"sh/grad0n6p","slide":2,"text":"DE CE STORYTELLING","textPreview":"DE CE STORYTELLING","textChars":18,"textLines":1,"bbox":[52,104,300,28]}
+{"kind":"textbox","id":"sh/1sjets7a","slide":2,"text":"Doar niște cărămizi","textPreview":"Doar niște cărămizi","textChars":19,"textLines":1,"bbox":[52,145,610,82]}
+{"kind":"textbox","id":"sh/6l8vudon","slide":2,"text":"dacă nu ai storytelling","textPreview":"dacă nu ai storytelling","textChars":23,"textLines":1,"bbox":[52,225,700,88]}
+{"kind":"textbox","id":"sh/rmhwnip8","slide":2,"text":"Cele mai corecte prețuri pentru cea mai bună calitate","textPreview":"Cele mai corecte prețuri pentru cea mai bună calitate","textChars":53,"textLines":1,"bbox":[52,332,600,42]}
+{"kind":"textbox","id":"sh/snqdwn6t","slide":2,"text":"Ajutăm orice proprietate să își dezvolte prezența online, să transforme cu ușurință vizualizările în clienți plătitori și să își construiască un brand complet, prin implementarea sistemului nostru inedit.","textPreview":"Ajutăm orice proprietate să își dezvolte prezența online, să transforme cu ușurință vizualizările în clienți plătitori și să își construi...","textChars":204,"textLines":1,"bbox":[760,152,440,205]}
+{"kind":"textbox","id":"sh/tojeps7e","slide":2,"text":"CLIENȚI REALTY MEDIA","textPreview":"CLIENȚI REALTY MEDIA","textChars":20,"textLines":1,"bbox":[52,438,280,28]}
+{"kind":"shape","id":"sh/ix8vqd8r","slide":2,"bbox":[52,477,1176,1]}
+{"kind":"textbox","id":"sh/c3e5cvmh","slide":2,"name":"page-2","text":"02 / 08","textPreview":"02 / 08","textChars":7,"textLines":1,"bbox":[1080,674,145,22]}
+{"kind":"image","id":"im/qhcjadwr","slide":2,"name":"","alt":"Logo client transilvania-fashion-white.png","bbox":[104,520,104,80]}
+{"kind":"image","id":"im/wj2to3a5","slide":2,"name":"","alt":"Logo client elite-city-white.png","bbox":[234,520,78,80]}
+{"kind":"image","id":"im/hkbux8ba","slide":2,"name":"","alt":"Logo client alpine-car-meet-white.png","bbox":[338,520,88,80]}
+{"kind":"image","id":"im/uhkbmtsz","slide":2,"name":"","alt":"Logo client famescale logo final.png","bbox":[452,520,142,80]}
+{"kind":"image","id":"im/vitcvytk","slide":2,"name":"","alt":"Logo client UBB.png","bbox":[620,520,132,80]}
+{"kind":"image","id":"im/47mds3a1","slide":2,"name":"","alt":"Logo client brick depot.png","bbox":[778,520,112,80]}
+{"kind":"image","id":"im/58vu18bm","slide":2,"name":"","alt":"Logo client tiff-logo-centered.png","bbox":[916,520,108,80]}
+{"kind":"image","id":"im/ilkbqdsv","slide":2,"name":"","alt":"Logo client tvr cluj.png","bbox":[1050,520,126,80]}
+{"kind":"notes","id":"nt/kgaqpq","slide":2,"text":""}
+{"kind":"slide","id":"sl/y724iy","slide":3,"title":"Realty Media ©","textShapes":6}
+{"kind":"textbox","id":"sh/69or25of","slide":3,"name":"wordmark","text":"Realty Media ©","textPreview":"Realty Media ©","textChars":14,"textLines":1,"bbox":[38,26,235,38]}
+{"kind":"textbox","id":"sh/twfad0nq","slide":3,"text":"SERVICIILE NOASTRE","textPreview":"SERVICIILE NOASTRE","textChars":18,"textLines":1,"bbox":[52,124,280,28]}
+{"kind":"textbox","id":"sh/8v694v65","slide":3,"text":"Fotografie","textPreview":"Fotografie","textChars":10,"textLines":1,"bbox":[52,190,500,120]}
+{"kind":"textbox","id":"sh/vyxsfa5w","slide":3,"text":"Cadre care surprind atmosfera, lumina și detaliile care fac o proprietate ușor de ales.","textPreview":"Cadre care surprind atmosfera, lumina și detaliile care fac o proprietate ușor de ales.","textChars":87,"textLines":1,"bbox":[56,350,440,118]}
+{"kind":"textbox","id":"sh/uxor65ob","slide":3,"text":"IMAGINI PENTRU LISTARE, SOCIAL MEDIA ȘI WEBSITE","textPreview":"IMAGINI PENTRU LISTARE, SOCIAL MEDIA ȘI WEBSITE","textChars":47,"textLines":1,"bbox":[56,548,450,44]}
+{"kind":"textbox","id":"sh/gzqt8f6h","slide":3,"name":"page-3","text":"03 / 08","textPreview":"03 / 08","textChars":7,"textLines":1,"bbox":[1080,674,145,22]}
+{"kind":"image","id":"im/ozmpgrad","slide":3,"name":"","alt":"Cabană A-frame fotografiată la apus","bbox":[560,0,720,720]}
+{"kind":"notes","id":"nt/y724iy","slide":3,"text":""}
+{"kind":"slide","id":"sl/hguwap","slide":4,"title":"Realty Media ©","textShapes":11}
+{"kind":"textbox","id":"sh/a5ojix43","slide":4,"name":"wordmark","text":"Realty Media ©","textPreview":"Realty Media ©","textChars":14,"textLines":1,"bbox":[38,26,235,38]}
+{"kind":"textbox","id":"sh/x8f2ts3e","slide":4,"text":"Conținut care","textPreview":"Conținut care","textChars":13,"textLines":1,"bbox":[390,54,500,62]}
+{"kind":"textbox","id":"sh/w761k7m9","slide":4,"text":"oprește","textPreview":"oprește","textChars":7,"textLines":1,"bbox":[378,111,280,72]}
+{"kind":"textbox","id":"sh/nid0nilc","slide":4,"text":"scroll-ul.","textPreview":"scroll-ul.","textChars":10,"textLines":1,"bbox":[618,111,300,72]}
+{"kind":"textbox","id":"sh/mh4jed4r","slide":4,"text":"PROIECT","textPreview":"PROIECT","textChars":7,"textLines":1,"bbox":[118,312,250,22]}
+{"kind":"textbox","id":"sh/94vips3i","slide":4,"text":"Social Media","textPreview":"Social Media","textChars":12,"textLines":1,"bbox":[118,346,250,66]}
+{"kind":"textbox","id":"sh/8jm1gnmx","slide":4,"text":"Reels imobiliare","textPreview":"Reels imobiliare","textChars":16,"textLines":1,"bbox":[118,409,250,35]}
+{"kind":"textbox","id":"sh/rehkzmlw","slide":4,"text":"VIEWS","textPreview":"VIEWS","textChars":5,"textLines":1,"bbox":[910,312,250,22]}
+{"kind":"textbox","id":"sh/6d8jqh4b","slide":4,"text":"5,400","textPreview":"5,400","textChars":5,"textLines":1,"bbox":[910,346,250,66]}
+{"kind":"textbox","id":"sh/kvelcbip","slide":4,"text":"Conținut vertical","textPreview":"Conținut vertical","textChars":17,"textLines":1,"bbox":[910,409,250,35]}
+{"kind":"textbox","id":"sh/5wn2lgza","slide":4,"name":"page-4","text":"04 / 08","textPreview":"04 / 08","textChars":7,"textLines":1,"bbox":[1080,674,145,22]}
+{"kind":"image","id":"im/5cn69sfu","slide":4,"name":"","geometry":"roundRect","alt":"Cadru vertical din portofoliul Realty Media","bbox":[537.55,212.57,203,443.21]}
+{"kind":"image","id":"im/4bep0ne9","slide":4,"name":"","alt":"Mockup iPhone","bbox":[525,198,228.09,470]}
+{"kind":"notes","id":"nt/hguwap","slide":4,"text":""}
+{"kind":"slide","id":"sl/j2sxeu","slide":5,"title":"Realty Media ©","textShapes":10}
+{"kind":"textbox","id":"sh/hwva1gfe","slide":5,"name":"wordmark","text":"Realty Media ©","textPreview":"Realty Media ©","textChars":14,"textLines":1,"bbox":[38,26,235,38]}
+{"kind":"textbox","id":"sh/ut4bq1g3","slide":5,"text":"Tururi care fac proprietatea","textPreview":"Tururi care fac proprietatea","textChars":28,"textLines":1,"bbox":[300,70,680,66]}
+{"kind":"textbox","id":"sh/vudsz6x8","slide":5,"text":"ușor de înțeles.","textPreview":"ușor de înțeles.","textChars":16,"textLines":1,"bbox":[390,128,500,72]}
+{"kind":"textbox","id":"sh/872tobyx","slide":5,"text":"PROIECT","textPreview":"PROIECT","textChars":7,"textLines":1,"bbox":[118,326,250,22]}
+{"kind":"textbox","id":"sh/98baxwfi","slide":5,"text":"Documentar","textPreview":"Documentar","textChars":10,"textLines":1,"bbox":[118,360,250,66]}
+{"kind":"textbox","id":"sh/m5kbm1gr","slide":5,"text":"Tururi de proprietate","textPreview":"Tururi de proprietate","textChars":21,"textLines":1,"bbox":[118,423,250,35]}
+{"kind":"textbox","id":"sh/76tsv6xc","slide":5,"text":"VIEWS","textPreview":"VIEWS","textChars":5,"textLines":1,"bbox":[910,326,250,22]}
+{"kind":"textbox","id":"sh/k32tkryl","slide":5,"text":"26,000","textPreview":"26,000","textChars":6,"textLines":1,"bbox":[910,360,250,66]}
+{"kind":"textbox","id":"sh/l4batwf6","slide":5,"text":"Imagine cinematică","textPreview":"Imagine cinematică","textChars":18,"textLines":1,"bbox":[910,423,250,35]}
+{"kind":"textbox","id":"sh/tsbqxs3a","slide":5,"name":"page-5","text":"05 / 08","textPreview":"05 / 08","textChars":7,"textLines":1,"bbox":[1080,674,145,22]}
+{"kind":"image","id":"im/f6t0ral4","slide":5,"name":"","geometry":"roundRect","alt":"Cadru vertical din portofoliul Realty Media","bbox":[537.28,222.26,198.68,433.78]}
+{"kind":"image","id":"im/g72hkf2p","slide":5,"name":"","alt":"Mockup iPhone","bbox":[525,208,223.24,460]}
+{"kind":"notes","id":"nt/j2sxeu","slide":5,"text":""}
+{"kind":"slide","id":"sl/5wqsft","slide":6,"title":"Realty Media ©","textShapes":9}
+{"kind":"textbox","id":"sh/obipob69","slide":6,"name":"wordmark","text":"Realty Media ©","textPreview":"Realty Media ©","textChars":14,"textLines":1,"bbox":[38,26,235,38]}
+{"kind":"textbox","id":"sh/3a98v6po","slide":6,"text":"O experiență.","textPreview":"O experiență.","textChars":13,"textLines":1,"bbox":[380,70,520,90]}
+{"kind":"textbox","id":"sh/2p07m183","slide":6,"text":"PROIECT","textPreview":"PROIECT","textChars":7,"textLines":1,"bbox":[22,330,320,22]}
+{"kind":"textbox","id":"sh/1orqtg7i","slide":6,"text":"Cabana The One","textPreview":"Cabana The One","textChars":14,"textLines":1,"bbox":[22,364,320,66]}
+{"kind":"textbox","id":"sh/gnypkbqx","slide":6,"text":"Film de prezentare","textPreview":"Film de prezentare","textChars":18,"textLines":1,"bbox":[22,427,320,35]}
+{"kind":"textbox","id":"sh/fmp8r6pc","slide":6,"text":"FORMAT","textPreview":"FORMAT","textChars":6,"textLines":1,"bbox":[968,330,250,22]}
+{"kind":"textbox","id":"sh/elg7i18r","slide":6,"text":"Drone","textPreview":"Drone","textChars":5,"textLines":1,"bbox":[968,364,250,66]}
+{"kind":"textbox","id":"sh/lkbq507m","slide":6,"text":"Perspectivă aeriană","textPreview":"Perspectivă aeriană","textChars":19,"textLines":1,"bbox":[968,427,250,35]}
+{"kind":"textbox","id":"sh/kj29wv6h","slide":6,"name":"page-6","text":"06 / 08","textPreview":"06 / 08","textChars":7,"textLines":1,"bbox":[1080,674,145,22]}
+{"kind":"image","id":"im/xgbm1wri","slide":6,"name":"","alt":"Cadru cinematic din filmul de prezentare Realty Media","bbox":[370.2,234.73,539.6,303.04]}
+{"kind":"image","id":"im/wv25srax","slide":6,"name":"","alt":"Mockup monitor","bbox":[356,220,568,420.89]}
+{"kind":"notes","id":"nt/5wqsft","slide":6,"text":""}
+{"kind":"slide","id":"sl/dmg7ft","slide":7,"title":"Realty Media ©","textShapes":6}
+{"kind":"textbox","id":"sh/vql8fyh4","slide":7,"name":"wordmark","text":"Realty Media ©","textPreview":"Realty Media ©","textChars":14,"textLines":1,"bbox":[38,26,235,38]}
+{"kind":"textbox","id":"sh/wru9ojyp","slide":7,"text":"SERVICIILE NOASTRE","textPreview":"SERVICIILE NOASTRE","textChars":18,"textLines":1,"bbox":[52,118,280,28]}
+{"kind":"textbox","id":"sh/xsnqhoza","slide":7,"text":"Web design","textPreview":"Web design","textChars":10,"textLines":1,"bbox":[52,180,430,108]}
+{"kind":"textbox","id":"sh/mlcri9gn","slide":7,"text":"Un spațiu propriu pentru fotografie, film, detalii și contact direct - construit în jurul proprietății.","textPreview":"Un spațiu propriu pentru fotografie, film, detalii și contact direct - construit în jurul proprietății.","textChars":103,"textLines":1,"bbox":[56,330,390,144]}
+{"kind":"textbox","id":"sh/nml8beh8","slide":7,"text":"MOUNTAIN VIEW APUSENI","textPreview":"MOUNTAIN VIEW APUSENI","textChars":21,"textLines":1,"bbox":[56,540,340,35]}
+{"kind":"shape","id":"sh/8nu9kjyt","slide":7,"bbox":[500,112,720,485]}
+{"kind":"textbox","id":"sh/yxs7e9gr","slide":7,"name":"page-7","text":"07 / 08","textPreview":"07 / 08","textChars":7,"textLines":1,"bbox":[1080,674,145,22]}
+{"kind":"image","id":"im/w7290zyl","slide":7,"name":"","alt":"Website Mountain View Apuseni","bbox":[516,128,688,453]}
+{"kind":"notes","id":"nt/dmg7ft","slide":7,"text":""}
+{"kind":"slide","id":"sl/q4fg3p","slide":8,"title":"HAI SĂ CONSTRUIM POVESTEA PROPRIETĂȚII TALE","textShapes":12}
+{"kind":"textbox","id":"sh/h8v2lsv6","slide":8,"text":"HAI SĂ CONSTRUIM POVESTEA PROPRIETĂȚII TALE","textPreview":"HAI SĂ CONSTRUIM POVESTEA PROPRIETĂȚII TALE","textChars":43,"textLines":1,"bbox":[52,60,560,28]}
+{"kind":"textbox","id":"sh/u54jaxwf","slide":8,"text":"WHATSAPP","textPreview":"WHATSAPP","textChars":8,"textLines":1,"bbox":[52,132,260,25]}
+{"kind":"textbox","id":"sh/v6dkj2d0","slide":8,"text":"+40 732 775 601","textPreview":"+40 732 775 601","textChars":15,"textLines":1,"bbox":[52,170,260,42]}
+{"kind":"textbox","id":"sh/83218nep","slide":8,"text":"INSTAGRAM","textPreview":"INSTAGRAM","textChars":9,"textLines":1,"bbox":[322,132,260,25]}
+{"kind":"textbox","id":"sh/t4v2hsvu","slide":8,"text":"@realtymedia.ro","textPreview":"@realtymedia.ro","textChars":15,"textLines":1,"bbox":[322,170,260,42]}
+{"kind":"textbox","id":"sh/61kj6dwj","slide":8,"text":"EMAIL","textPreview":"EMAIL","textChars":5,"textLines":1,"bbox":[592,132,330,25]}
+{"kind":"textbox","id":"sh/72tkfid4","slide":8,"text":"contact@realtymedia.ro","textPreview":"contact@realtymedia.ro","textChars":22,"textLines":1,"bbox":[592,170,330,42]}
+{"kind":"textbox","id":"sh/kf2143ed","slide":8,"text":"WEBSITE","textPreview":"WEBSITE","textChars":7,"textLines":1,"bbox":[932,132,260,25]}
+{"kind":"textbox","id":"sh/lgb2d8vy","slide":8,"text":"realtymedia.ro","textPreview":"realtymedia.ro","textChars":14,"textLines":1,"bbox":[932,170,260,42]}
+{"kind":"shape","id":"sh/9g3idgvi","slide":8,"bbox":[52,250,1176,2]}
+{"kind":"textbox","id":"sh/8fu14vex","slide":8,"text":"Realty Media is operated by Mint Studios Agency SRL © All Rights Reserved 2026","textPreview":"Realty Media is operated by Mint Studios Agency SRL © All Rights Reserved 2026","textChars":78,"textLines":1,"bbox":[52,282,800,32]}
+{"kind":"textbox","id":"sh/7el0bqdc","slide":8,"name":"contact-wordmark","text":"Realty Media","textPreview":"Realty Media","textChars":12,"textLines":1,"bbox":[36,408,1200,250]}
+{"kind":"textbox","id":"sh/mdcj2lwr","slide":8,"name":"page-8","text":"08 / 08","textPreview":"08 / 08","textChars":7,"textLines":1,"bbox":[1080,674,145,22]}
+{"kind":"notes","id":"nt/q4fg3p","slide":8,"text":""}

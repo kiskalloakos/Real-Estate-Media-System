@@ -1,0 +1,893 @@
+{
+  "desktop": {
+    "metrics": {
+      "viewport": [
+        1470,
+        803
+      ],
+      "overflow": 0,
+      "fluid": "ready",
+      "pointerFine": true,
+      "reducedMotion": false,
+      "fonts": {
+        "instrument": true,
+        "plex": true,
+        "headingFamily": "\"Instrument Serif\", Georgia, serif"
+      },
+      "header": {
+        "height": 80,
+        "position": "sticky",
+        "backdrop": "blur(20px) saturate(1.3)"
+      },
+      "hero": {
+        "height": 723,
+        "top": 80
+      },
+      "canvas": {
+        "state": "ready",
+        "width": 1470,
+        "height": 723
+      },
+      "marqueeAnimation": "logo-marquee",
+      "footerText": "Realty Media Romania operated by Mint Studios Agency SRL © All Rights Reserved 2026",
+      "populatedLogos": [
+        {
+          "src": "./assets/images/client-logos/transilvania-fashion-white.png",
+          "alt": "Transilvania Fashion",
+          "naturalSize": [
+            1500,
+            1180
+          ]
+        },
+        {
+          "src": "./assets/images/client-logos/elite-city-white.png",
+          "alt": "Elite City",
+          "naturalSize": [
+            300,
+            390
+          ]
+        },
+        {
+          "src": "./assets/images/client-logos/alpine-car-meet-white.png",
+          "alt": "Alpine Car Meet",
+          "naturalSize": [
+            300,
+            250
+          ]
+        },
+        {
+          "src": "./assets/images/client-logos/logo-04.svg",
+          "alt": "",
+          "naturalSize": [
+            300,
+            90
+          ]
+        },
+        {
+          "src": "./assets/images/client-logos/logo-05.svg",
+          "alt": "",
+          "naturalSize": [
+            300,
+            90
+          ]
+        },
+        {
+          "src": "./assets/images/client-logos/logo-06.svg",
+          "alt": "",
+          "naturalSize": [
+            300,
+            90
+          ]
+        },
+        {
+          "src": "./assets/images/client-logos/logo-07.svg",
+          "alt": "",
+          "naturalSize": [
+            300,
+            90
+          ]
+        },
+        {
+          "src": "./assets/images/client-logos/logo-08.svg",
+          "alt": "",
+          "naturalSize": [
+            300,
+            90
+          ]
+        },
+        {
+          "src": "./assets/images/client-logos/logo-09.svg",
+          "alt": "",
+          "naturalSize": [
+            300,
+            90
+          ]
+        }
+      ]
+    },
+    "initialScreenshot": "/Users/kiskalloakos/Downloads/REALTY MEDIA/website-v2/qa/desktop-1470x803-initial.png",
+    "fluidScreenshot": "/Users/kiskalloakos/Downloads/REALTY MEDIA/website-v2/qa/desktop-1470x803-fluid.png",
+    "fluidCompositedScreenshot": "/Users/kiskalloakos/Downloads/REALTY MEDIA/website-v2/qa/desktop-1470x803-fluid-composited.png"
+  },
+  "responsive": {
+    "390x844": {
+      "metrics": {
+        "viewport": [
+          390,
+          844
+        ],
+        "overflow": 0,
+        "fluid": "ready",
+        "pointerFine": true,
+        "reducedMotion": false,
+        "fonts": {
+          "instrument": true,
+          "plex": true,
+          "headingFamily": "\"Instrument Serif\", Georgia, serif"
+        },
+        "header": {
+          "height": 64,
+          "position": "sticky",
+          "backdrop": "blur(20px) saturate(1.3)"
+        },
+        "hero": {
+          "height": 780,
+          "top": 64
+        },
+        "canvas": {
+          "state": "ready",
+          "width": 390,
+          "height": 780
+        },
+        "marqueeAnimation": "logo-marquee",
+        "footerText": "Realty Media Romania operated by Mint Studios Agency SRL © All Rights Reserved 2026",
+        "populatedLogos": [
+          {
+            "src": "./assets/images/client-logos/transilvania-fashion-white.png",
+            "alt": "Transilvania Fashion",
+            "naturalSize": [
+              1500,
+              1180
+            ]
+          },
+          {
+            "src": "./assets/images/client-logos/elite-city-white.png",
+            "alt": "Elite City",
+            "naturalSize": [
+              300,
+              390
+            ]
+          },
+          {
+            "src": "./assets/images/client-logos/alpine-car-meet-white.png",
+            "alt": "Alpine Car Meet",
+            "naturalSize": [
+              300,
+              250
+            ]
+          },
+          {
+            "src": "./assets/images/client-logos/logo-04.svg",
+            "alt": "",
+            "naturalSize": [
+              300,
+              90
+            ]
+          },
+          {
+            "src": "./assets/images/client-logos/logo-05.svg",
+            "alt": "",
+            "naturalSize": [
+              300,
+              90
+            ]
+          },
+          {
+            "src": "./assets/images/client-logos/logo-06.svg",
+            "alt": "",
+            "naturalSize": [
+              300,
+              90
+            ]
+          },
+          {
+            "src": "./assets/images/client-logos/logo-07.svg",
+            "alt": "",
+            "naturalSize": [
+              300,
+              90
+            ]
+          },
+          {
+            "src": "./assets/images/client-logos/logo-08.svg",
+            "alt": "",
+            "naturalSize": [
+              300,
+              90
+            ]
+          },
+          {
+            "src": "./assets/images/client-logos/logo-09.svg",
+            "alt": "",
+            "naturalSize": [
+              300,
+              90
+            ]
+          }
+        ]
+      },
+      "screenshot": "/Users/kiskalloakos/Downloads/REALTY MEDIA/website-v2/qa/390x844.png"
+    },
+    "768x900": {
+      "metrics": {
+        "viewport": [
+          768,
+          900
+        ],
+        "overflow": 0,
+        "fluid": "ready",
+        "pointerFine": true,
+        "reducedMotion": false,
+        "fonts": {
+          "instrument": true,
+          "plex": true,
+          "headingFamily": "\"Instrument Serif\", Georgia, serif"
+        },
+        "header": {
+          "height": 64,
+          "position": "sticky",
+          "backdrop": "blur(20px) saturate(1.3)"
+        },
+        "hero": {
+          "height": 836,
+          "top": 64
+        },
+        "canvas": {
+          "state": "ready",
+          "width": 768,
+          "height": 836
+        },
+        "marqueeAnimation": "logo-marquee",
+        "footerText": "Realty Media Romania operated by Mint Studios Agency SRL © All Rights Reserved 2026",
+        "populatedLogos": [
+          {
+            "src": "./assets/images/client-logos/transilvania-fashion-white.png",
+            "alt": "Transilvania Fashion",
+            "naturalSize": [
+              1500,
+              1180
+            ]
+          },
+          {
+            "src": "./assets/images/client-logos/elite-city-white.png",
+            "alt": "Elite City",
+            "naturalSize": [
+              300,
+              390
+            ]
+          },
+          {
+            "src": "./assets/images/client-logos/alpine-car-meet-white.png",
+            "alt": "Alpine Car Meet",
+            "naturalSize": [
+              300,
+              250
+            ]
+          },
+          {
+            "src": "./assets/images/client-logos/logo-04.svg",
+            "alt": "",
+            "naturalSize": [
+              300,
+              90
+            ]
+          },
+          {
+            "src": "./assets/images/client-logos/logo-05.svg",
+            "alt": "",
+            "naturalSize": [
+              300,
+              90
+            ]
+          },
+          {
+            "src": "./assets/images/client-logos/logo-06.svg",
+            "alt": "",
+            "naturalSize": [
+              300,
+              90
+            ]
+          },
+          {
+            "src": "./assets/images/client-logos/logo-07.svg",
+            "alt": "",
+            "naturalSize": [
+              300,
+              90
+            ]
+          },
+          {
+            "src": "./assets/images/client-logos/logo-08.svg",
+            "alt": "",
+            "naturalSize": [
+              300,
+              90
+            ]
+          },
+          {
+            "src": "./assets/images/client-logos/logo-09.svg",
+            "alt": "",
+            "naturalSize": [
+              300,
+              90
+            ]
+          }
+        ]
+      },
+      "screenshot": "/Users/kiskalloakos/Downloads/REALTY MEDIA/website-v2/qa/768x900.png"
+    },
+    "1024x768": {
+      "metrics": {
+        "viewport": [
+          1024,
+          768
+        ],
+        "overflow": 0,
+        "fluid": "ready",
+        "pointerFine": true,
+        "reducedMotion": false,
+        "fonts": {
+          "instrument": true,
+          "plex": true,
+          "headingFamily": "\"Instrument Serif\", Georgia, serif"
+        },
+        "header": {
+          "height": 80,
+          "position": "sticky",
+          "backdrop": "blur(20px) saturate(1.3)"
+        },
+        "hero": {
+          "height": 688,
+          "top": 80
+        },
+        "canvas": {
+          "state": "ready",
+          "width": 1024,
+          "height": 688
+        },
+        "marqueeAnimation": "logo-marquee",
+        "footerText": "Realty Media Romania operated by Mint Studios Agency SRL © All Rights Reserved 2026",
+        "populatedLogos": [
+          {
+            "src": "./assets/images/client-logos/transilvania-fashion-white.png",
+            "alt": "Transilvania Fashion",
+            "naturalSize": [
+              1500,
+              1180
+            ]
+          },
+          {
+            "src": "./assets/images/client-logos/elite-city-white.png",
+            "alt": "Elite City",
+            "naturalSize": [
+              300,
+              390
+            ]
+          },
+          {
+            "src": "./assets/images/client-logos/alpine-car-meet-white.png",
+            "alt": "Alpine Car Meet",
+            "naturalSize": [
+              300,
+              250
+            ]
+          },
+          {
+            "src": "./assets/images/client-logos/logo-04.svg",
+            "alt": "",
+            "naturalSize": [
+              300,
+              90
+            ]
+          },
+          {
+            "src": "./assets/images/client-logos/logo-05.svg",
+            "alt": "",
+            "naturalSize": [
+              300,
+              90
+            ]
+          },
+          {
+            "src": "./assets/images/client-logos/logo-06.svg",
+            "alt": "",
+            "naturalSize": [
+              300,
+              90
+            ]
+          },
+          {
+            "src": "./assets/images/client-logos/logo-07.svg",
+            "alt": "",
+            "naturalSize": [
+              300,
+              90
+            ]
+          },
+          {
+            "src": "./assets/images/client-logos/logo-08.svg",
+            "alt": "",
+            "naturalSize": [
+              300,
+              90
+            ]
+          },
+          {
+            "src": "./assets/images/client-logos/logo-09.svg",
+            "alt": "",
+            "naturalSize": [
+              300,
+              90
+            ]
+          }
+        ]
+      },
+      "screenshot": "/Users/kiskalloakos/Downloads/REALTY MEDIA/website-v2/qa/1024x768.png"
+    },
+    "1440x900": {
+      "metrics": {
+        "viewport": [
+          1440,
+          900
+        ],
+        "overflow": 0,
+        "fluid": "ready",
+        "pointerFine": true,
+        "reducedMotion": false,
+        "fonts": {
+          "instrument": true,
+          "plex": true,
+          "headingFamily": "\"Instrument Serif\", Georgia, serif"
+        },
+        "header": {
+          "height": 80,
+          "position": "sticky",
+          "backdrop": "blur(20px) saturate(1.3)"
+        },
+        "hero": {
+          "height": 820,
+          "top": 80
+        },
+        "canvas": {
+          "state": "ready",
+          "width": 1440,
+          "height": 820
+        },
+        "marqueeAnimation": "logo-marquee",
+        "footerText": "Realty Media Romania operated by Mint Studios Agency SRL © All Rights Reserved 2026",
+        "populatedLogos": [
+          {
+            "src": "./assets/images/client-logos/transilvania-fashion-white.png",
+            "alt": "Transilvania Fashion",
+            "naturalSize": [
+              1500,
+              1180
+            ]
+          },
+          {
+            "src": "./assets/images/client-logos/elite-city-white.png",
+            "alt": "Elite City",
+            "naturalSize": [
+              300,
+              390
+            ]
+          },
+          {
+            "src": "./assets/images/client-logos/alpine-car-meet-white.png",
+            "alt": "Alpine Car Meet",
+            "naturalSize": [
+              300,
+              250
+            ]
+          },
+          {
+            "src": "./assets/images/client-logos/logo-04.svg",
+            "alt": "",
+            "naturalSize": [
+              300,
+              90
+            ]
+          },
+          {
+            "src": "./assets/images/client-logos/logo-05.svg",
+            "alt": "",
+            "naturalSize": [
+              300,
+              90
+            ]
+          },
+          {
+            "src": "./assets/images/client-logos/logo-06.svg",
+            "alt": "",
+            "naturalSize": [
+              300,
+              90
+            ]
+          },
+          {
+            "src": "./assets/images/client-logos/logo-07.svg",
+            "alt": "",
+            "naturalSize": [
+              300,
+              90
+            ]
+          },
+          {
+            "src": "./assets/images/client-logos/logo-08.svg",
+            "alt": "",
+            "naturalSize": [
+              300,
+              90
+            ]
+          },
+          {
+            "src": "./assets/images/client-logos/logo-09.svg",
+            "alt": "",
+            "naturalSize": [
+              300,
+              90
+            ]
+          }
+        ]
+      },
+      "screenshot": "/Users/kiskalloakos/Downloads/REALTY MEDIA/website-v2/qa/1440x900.png"
+    }
+  },
+  "interactions": {
+    "mobileBefore": {
+      "expanded": "false",
+      "hidden": "true",
+      "inert": true
+    },
+    "mobileOpen": {
+      "expanded": "true",
+      "hidden": "false",
+      "inert": false
+    },
+    "mobileOpenScreenshot": "/Users/kiskalloakos/Downloads/REALTY MEDIA/website-v2/qa/mobile-390x844-menu-open.png",
+    "mobileAfterEscape": {
+      "expanded": "false",
+      "focused": true
+    },
+    "anchor": {
+      "hash": "#servicii",
+      "scrollY": 779,
+      "targetTop": 65,
+      "headerHeight": 64
+    }
+  },
+  "fallbacks": {
+    "reducedMotion": {
+      "viewport": [
+        1470,
+        803
+      ],
+      "overflow": 0,
+      "fluid": "disabled",
+      "pointerFine": true,
+      "reducedMotion": true,
+      "fonts": {
+        "instrument": true,
+        "plex": true,
+        "headingFamily": "\"Instrument Serif\", Georgia, serif"
+      },
+      "header": {
+        "height": 80,
+        "position": "sticky",
+        "backdrop": "blur(20px) saturate(1.3)"
+      },
+      "hero": {
+        "height": 723,
+        "top": 80
+      },
+      "canvas": {
+        "state": "disabled",
+        "width": 300,
+        "height": 150
+      },
+      "marqueeAnimation": "none",
+      "footerText": "Realty Media Romania operated by Mint Studios Agency SRL © All Rights Reserved 2026",
+      "populatedLogos": [
+        {
+          "src": "./assets/images/client-logos/transilvania-fashion-white.png",
+          "alt": "Transilvania Fashion",
+          "naturalSize": [
+            1500,
+            1180
+          ]
+        },
+        {
+          "src": "./assets/images/client-logos/elite-city-white.png",
+          "alt": "Elite City",
+          "naturalSize": [
+            300,
+            390
+          ]
+        },
+        {
+          "src": "./assets/images/client-logos/alpine-car-meet-white.png",
+          "alt": "Alpine Car Meet",
+          "naturalSize": [
+            300,
+            250
+          ]
+        },
+        {
+          "src": "./assets/images/client-logos/logo-04.svg",
+          "alt": "",
+          "naturalSize": [
+            300,
+            90
+          ]
+        },
+        {
+          "src": "./assets/images/client-logos/logo-05.svg",
+          "alt": "",
+          "naturalSize": [
+            300,
+            90
+          ]
+        },
+        {
+          "src": "./assets/images/client-logos/logo-06.svg",
+          "alt": "",
+          "naturalSize": [
+            300,
+            90
+          ]
+        },
+        {
+          "src": "./assets/images/client-logos/logo-07.svg",
+          "alt": "",
+          "naturalSize": [
+            300,
+            90
+          ]
+        },
+        {
+          "src": "./assets/images/client-logos/logo-08.svg",
+          "alt": "",
+          "naturalSize": [
+            300,
+            90
+          ]
+        },
+        {
+          "src": "./assets/images/client-logos/logo-09.svg",
+          "alt": "",
+          "naturalSize": [
+            300,
+            90
+          ]
+        }
+      ]
+    },
+    "coarsePointer": {
+      "viewport": [
+        390,
+        844
+      ],
+      "overflow": 0,
+      "fluid": "disabled",
+      "pointerFine": false,
+      "reducedMotion": false,
+      "fonts": {
+        "instrument": true,
+        "plex": true,
+        "headingFamily": "\"Instrument Serif\", Georgia, serif"
+      },
+      "header": {
+        "height": 64,
+        "position": "sticky",
+        "backdrop": "blur(20px) saturate(1.3)"
+      },
+      "hero": {
+        "height": 780,
+        "top": 64
+      },
+      "canvas": {
+        "state": "disabled",
+        "width": 300,
+        "height": 150
+      },
+      "marqueeAnimation": "logo-marquee",
+      "footerText": "Realty Media Romania operated by Mint Studios Agency SRL © All Rights Reserved 2026",
+      "populatedLogos": [
+        {
+          "src": "./assets/images/client-logos/transilvania-fashion-white.png",
+          "alt": "Transilvania Fashion",
+          "naturalSize": [
+            1500,
+            1180
+          ]
+        },
+        {
+          "src": "./assets/images/client-logos/elite-city-white.png",
+          "alt": "Elite City",
+          "naturalSize": [
+            300,
+            390
+          ]
+        },
+        {
+          "src": "./assets/images/client-logos/alpine-car-meet-white.png",
+          "alt": "Alpine Car Meet",
+          "naturalSize": [
+            300,
+            250
+          ]
+        },
+        {
+          "src": "./assets/images/client-logos/logo-04.svg",
+          "alt": "",
+          "naturalSize": [
+            300,
+            90
+          ]
+        },
+        {
+          "src": "./assets/images/client-logos/logo-05.svg",
+          "alt": "",
+          "naturalSize": [
+            300,
+            90
+          ]
+        },
+        {
+          "src": "./assets/images/client-logos/logo-06.svg",
+          "alt": "",
+          "naturalSize": [
+            300,
+            90
+          ]
+        },
+        {
+          "src": "./assets/images/client-logos/logo-07.svg",
+          "alt": "",
+          "naturalSize": [
+            300,
+            90
+          ]
+        },
+        {
+          "src": "./assets/images/client-logos/logo-08.svg",
+          "alt": "",
+          "naturalSize": [
+            300,
+            90
+          ]
+        },
+        {
+          "src": "./assets/images/client-logos/logo-09.svg",
+          "alt": "",
+          "naturalSize": [
+            300,
+            90
+          ]
+        }
+      ]
+    },
+    "noWebgl": {
+      "viewport": [
+        1470,
+        803
+      ],
+      "overflow": 0,
+      "fluid": "disabled",
+      "pointerFine": true,
+      "reducedMotion": false,
+      "fonts": {
+        "instrument": true,
+        "plex": true,
+        "headingFamily": "\"Instrument Serif\", Georgia, serif"
+      },
+      "header": {
+        "height": 80,
+        "position": "sticky",
+        "backdrop": "blur(20px) saturate(1.3)"
+      },
+      "hero": {
+        "height": 723,
+        "top": 80
+      },
+      "canvas": {
+        "state": "disabled",
+        "width": 300,
+        "height": 150
+      },
+      "marqueeAnimation": "logo-marquee",
+      "footerText": "Realty Media Romania operated by Mint Studios Agency SRL © All Rights Reserved 2026",
+      "populatedLogos": [
+        {
+          "src": "./assets/images/client-logos/transilvania-fashion-white.png",
+          "alt": "Transilvania Fashion",
+          "naturalSize": [
+            1500,
+            1180
+          ]
+        },
+        {
+          "src": "./assets/images/client-logos/elite-city-white.png",
+          "alt": "Elite City",
+          "naturalSize": [
+            300,
+            390
+          ]
+        },
+        {
+          "src": "./assets/images/client-logos/alpine-car-meet-white.png",
+          "alt": "Alpine Car Meet",
+          "naturalSize": [
+            300,
+            250
+          ]
+        },
+        {
+          "src": "./assets/images/client-logos/logo-04.svg",
+          "alt": "",
+          "naturalSize": [
+            300,
+            90
+          ]
+        },
+        {
+          "src": "./assets/images/client-logos/logo-05.svg",
+          "alt": "",
+          "naturalSize": [
+            300,
+            90
+          ]
+        },
+        {
+          "src": "./assets/images/client-logos/logo-06.svg",
+          "alt": "",
+          "naturalSize": [
+            300,
+            90
+          ]
+        },
+        {
+          "src": "./assets/images/client-logos/logo-07.svg",
+          "alt": "",
+          "naturalSize": [
+            300,
+            90
+          ]
+        },
+        {
+          "src": "./assets/images/client-logos/logo-08.svg",
+          "alt": "",
+          "naturalSize": [
+            300,
+            90
+          ]
+        },
+        {
+          "src": "./assets/images/client-logos/logo-09.svg",
+          "alt": "",
+          "naturalSize": [
+            300,
+            90
+          ]
+        }
+      ]
+    }
+  },
+  "errors": {
+    "consoleErrors": [],
+    "exceptions": [],
+    "failedRequests": [],
+    "responseErrors": []
+  },
+  "externalRequests": []
+}

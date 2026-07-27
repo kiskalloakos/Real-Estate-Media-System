@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Interactive Realty Media brand direction board for color and typography selection."
+    />
+    <meta name="theme-color" content="#0a0a0a" />
+    <title>Realty Media — Brand Direction</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./script.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to brand direction</a>
+
+    <header class="site-header">
+      <a class="header-wordmark" href="#overview" aria-label="Realty Media brand direction home">
+        Realty Media <sup>©</sup>
+      </a>
+
+      <nav class="header-nav" aria-label="Brand board sections">
+        <a href="#colors">Colour</a>
+        <a href="#typography">Type</a>
+        <a href="#direction">Current direction</a>
+      </nav>
+
+      <div class="header-choice" role="status" aria-live="polite">
+        <span class="choice-dot" aria-hidden="true"></span>
+        <span id="header-choice-text">R1 × F1</span>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <section class="hero section-shell" id="overview" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <div class="eyebrow-row">
+            <p class="eyebrow">Dark mode / single accent / editorial type</p>
+            <p class="eyebrow index-label">01 / Direction</p>
+          </div>
+
+          <h1 id="hero-title">Choose the <em>signal.</em></h1>
+          <p class="hero-intro">
+            Realty Media will live on a dark canvas, led by one unmistakable colour and two
+            complementary typefaces.
+          </p>
+
+          <div class="hero-actions">
+            <a class="primary-link" href="#colors">Explore the system</a>
+            <button class="text-button" id="hero-reset" type="button">Reset to suggested</button>
+          </div>
+        </div>
+
+        <aside class="hero-specimen" aria-label="Live Realty Media logo specimen">
+          <div class="specimen-topline">
+            <span>Live logo test</span>
+            <span id="hero-choice-id">R1 / F1</span>
+          </div>
+          <p class="specimen-logo">Realty<br />Media<sup>©</sup></p>
+          <div class="specimen-bottomline">
+            <span id="hero-color-name">Studio Vermilion</span>
+            <span id="hero-font-name">Cormorant Garamond</span>
+          </div>
+        </aside>
+      </section>
+
+      <section class="content-section section-shell" id="colors" aria-labelledby="colors-title">
+        <header class="section-heading">
+          <div>
+            <p class="eyebrow">01 / Brand colour</p>
+            <h2 id="colors-title">Red energy or<br /><em>gold restraint?</em></h2>
+          </div>
+          <p class="section-lede">
+            Ten candidates, tested as a wordmark, interface accent and display surface. Select a
+            card to update the entire board.
+          </p>
+        </header>
+
+        <div class="color-family">
+          <div class="family-heading">
+            <h3>Red / Signal</h3>
+            <p>Reinvention, motion and visual confidence.</p>
+          </div>
+
+          <div class="color-grid" role="group" aria-label="Red brand color candidates">
+            <button
+              class="color-card is-selected"
+              type="button"
+              data-choice="R1"
+              data-name="Studio Vermilion"
+              data-color="#FF4D3D"
+              aria-pressed="true"
+            >
+              <span class="color-field" style="--swatch: #ff4d3d">
+                <span class="swatch-wordmark">Realty Media <sup>©</sup></span>
+                <span class="swatch-ratio">6.02:1</span>
+              </span>
+              <span class="color-card-body">
+                <span class="card-kicker"><span>R1</span><span>Recommended</span></span>
+                <strong>Studio Vermilion</strong>
+                <span class="hex-row"><span>#FF4D3D</span><span>Contemporary / cinematic</span></span>
+                <span class="selected-label">Selected</span>
+              </span>
+            </button>
+
+            <button
+              class="color-card"
+              type="button"
+              data-choice="R2"
+              data-name="Editorial Scarlet"
+              data-color="#E83F35"
+              aria-pressed="false"
+            >
+              <span class="color-field" style="--swatch: #e83f35">
+                <span class="swatch-wordmark">Realty Media <sup>©</sup></span>
+                <span class="swatch-ratio">4.90:1</span>
+              </span>
+              <span class="color-card-body">
+                <span class="card-kicker"><span>R2</span><span>Accessible</span></span>
+                <strong>Editorial Scarlet</strong>
+                <span class="hex-row"><span>#E83F35</span><span>Confident / restrained</span></span>
+                <span class="selected-label">Selected</span>
+              </span>
+            </button>
+
+            <button
+              class="color-card color-card--light-text"
+              type="button"
+              data-choice="R3"
+              data-name="Gallery Carmine"
+              data-color="#D62828"
+              aria-pressed="false"
+            >
+              <span class="color-field" style="--swatch: #d62828">
+                <span class="swatch-wordmark">Realty Media <sup>©</sup></span>
+                <span class="swatch-ratio">3.95:1</span>
+              </span>
+              <span class="color-card-body">
+                <span class="card-kicker"><span>R3</span><span>Large text only</span></span>
+                <strong>Gallery Carmine</strong>
+                <span class="hex-row"><span>#D62828</span><span>Cultured / classic</span></span>
+                <span class="selected-label">Selected</span>
+              </span>
+            </button>
+
+            <button
+              class="color-card"
+              type="button"
+              data-choice="R4"
+              data-name="Coral Signal"
+              data-color="#FF6B5C"
+              aria-pressed="false"
+            >
+              <span class="color-field" style="--swatch: #ff6b5c">
+                <span class="swatch-wordmark">Realty Media <sup>©</sup></span>
+                <span class="swatch-ratio">7.08:1</span>
+              </span>
+              <span class="color-card-body">
+                <span class="card-kicker"><span>R4</span><span>Accessible</span></span>
+                <strong>Coral Signal</strong>
+                <span class="hex-row"><span>#FF6B5C</span><span>Warm / approachable</span></span>
+                <span class="selected-label">Selected</span>
+              </span>
+            </button>
+
+            <button
+              class="color-card color-card--light-text"
+              type="button"
+              data-choice="R5"
+              data-name="Brick Ember"
+              data-color="#C9362B"
+              aria-pressed="false"
+            >
+              <span class="color-field" style="--swatch: #c9362b">
+                <span class="swatch-wordmark">Realty Media <sup>©</sup></span>
+                <span class="swatch-ratio">3.81:1</span>
+              </span>
+              <span class="color-card-body">
+                <span class="card-kicker"><span>R5</span><span>Large text only</span></span>
+                <strong>Brick Ember</strong>
+                <span class="hex-row"><span>#C9362B</span><span>Architectural / grounded</span></span>
+                <span class="selected-label">Selected</span>
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <div class="color-family">
+          <div class="family-heading">
+            <h3>Gold / Prestige</h3>
+            <p>Continuity, restraint and premium warmth.</p>
+          </div>
+
+          <div class="color-grid" role="group" aria-label="Gold brand color candidates">
+            <button
+              class="color-card"
+              type="button"
+              data-choice="G1"
+              data-name="Satin Gold"
+              data-color="#D8B45A"
+              aria-pressed="false"
+            >
+              <span class="color-field" style="--swatch: #d8b45a">
+                <span class="swatch-wordmark">Realty Media <sup>©</sup></span>
+                <span class="swatch-ratio">9.99:1</span>
+              </span>
+              <span class="color-card-body">
+                <span class="card-kicker"><span>G1</span><span>Best gold</span></span>
+                <strong>Satin Gold</strong>
+                <span class="hex-row"><span>#D8B45A</span><span>Refined / premium</span></span>
+                <span class="selected-label">Selected</span>
+              </span>
+            </button>
+
+            <button
+              class="color-card"
+              type="button"
+              data-choice="G2"
+              data-name="Burnished Brass"
+              data-color="#C89B3C"
+              aria-pressed="false"
+            >
+              <span class="color-field" style="--swatch: #c89b3c">
+                <span class="swatch-wordmark">Realty Media <sup>©</sup></span>
+                <span class="swatch-ratio">7.74:1</span>
+              </span>
+              <span class="color-card-body">
+                <span class="card-kicker"><span>G2</span><span>Accessible</span></span>
+                <strong>Burnished Brass</strong>
+                <span class="hex-row"><span>#C89B3C</span><span>Editorial / heritage</span></span>
+                <span class="selected-label">Selected</span>
+              </span>
+            </button>
+
+            <button
+              class="color-card"
+              type="button"
+              data-choice="G3"
+              data-name="Champagne Gold"
+              data-color="#E0C06A"
+              aria-pressed="false"
+            >
+              <span class="color-field" style="--swatch: #e0c06a">
+                <span class="swatch-wordmark">Realty Media <sup>©</sup></span>
+                <span class="swatch-ratio">11.24:1</span>
+              </span>
+              <span class="color-card-body">
+                <span class="card-kicker"><span>G3</span><span>Accessible</span></span>
+                <strong>Champagne Gold</strong>
+                <span class="hex-row"><span>#E0C06A</span><span>Soft / luminous</span></span>
+                <span class="selected-label">Selected</span>
+              </span>
+            </button>
+
+            <button
+              class="color-card"
+              type="button"
+              data-choice="G4"
+              data-name="Antique Ochre"
+              data-color="#B8892D"
+              aria-pressed="false"
+            >
+              <span class="color-field" style="--swatch: #b8892d">
+                <span class="swatch-wordmark">Realty Media <sup>©</sup></span>
+                <span class="swatch-ratio">6.27:1</span>
+              </span>
+              <span class="color-card-body">
+                <span class="card-kicker"><span>G4</span><span>Accessible</span></span>
+                <strong>Antique Ochre</strong>
+                <span class="hex-row"><span>#B8892D</span><span>Understated / architectural</span></span>
+                <span class="selected-label">Selected</span>
+              </span>
+            </button>
+
+            <button
+              class="color-card"
+              type="button"
+              data-choice="G5"
+              data-name="Solar Gold"
+              data-color="#F0C75E"
+              aria-pressed="false"
+            >
+              <span class="color-field" style="--swatch: #f0c75e">
+                <span class="swatch-wordmark">Realty Media <sup>©</sup></span>
+                <span class="swatch-ratio">12.29:1</span>
+              </span>
+              <span class="color-card-body">
+                <span class="card-kicker"><span>G5</span><span>Accessible</span></span>
+                <strong>Solar Gold</strong>
+                <span class="hex-row"><span>#F0C75E</span><span>Bright / expressive</span></span>
+                <span class="selected-label">Selected</span>
+              </span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="content-section section-shell typography-section"
+        id="typography"
+        aria-labelledby="typography-title"
+      >
+        <header class="section-heading">
+          <div>
+            <p class="eyebrow">02 / Type systems</p>
+            <h2 id="typography-title">Editorial voice,<br /><em>studio precision.</em></h2>
+          </div>
+          <p class="section-lede">
+            Each pair combines a high-character display face with a precise sans serif for
+            navigation, captions and body copy.
+          </p>
+        </header>
+
+        <div class="font-list" role="group" aria-label="Font pairing candidates">
+          <button
+            class="font-card is-selected"
+            type="button"
+            data-choice="F1"
+            data-name="Cormorant Garamond + Inter Tight"
+            data-display='"Cormorant Garamond", Georgia, serif'
+            data-ui='"Inter Tight", Arial, sans-serif'
+            data-licensed="true"
+            aria-pressed="true"
+          >
+            <span class="font-index"><span>F1</span><span>Recommended / free</span></span>
+            <span class="font-specimen font-cormorant">Realty Media <sup>©</sup></span>
+            <span class="font-details font-inter">
+              <strong>Cormorant Garamond<br />+ Inter Tight</strong>
+              <span>Property deserves a point of view.</span>
+              <span class="font-services">Strategy · Photography · Film · Campaigns</span>
+              <span class="selected-label">Selected</span>
+            </span>
+          </button>
+
+          <button
+            class="font-card font-card--licensed"
+            type="button"
+            data-choice="F2"
+            data-name="PP Editorial New + Inter Tight"
+            data-display='Georgia, "Times New Roman", serif'
+            data-ui='"Inter Tight", Arial, sans-serif'
+            data-licensed="false"
+            aria-pressed="false"
+          >
+            <span class="font-index"><span>F2</span><span>Closest reference / licensed</span></span>
+            <span class="font-unavailable">
+              <strong>Specimen unavailable</strong>
+              <span>PP Editorial New is not embedded until a commercial font file is licensed.</span>
+            </span>
+            <span class="font-details font-inter">
+              <strong>PP Editorial New<br />+ Inter Tight</strong>
+              <span>Commercial web and logo licences required.</span>
+              <span class="font-services">Exact Vivid Motion display direction</span>
+              <span class="selected-label">Selected</span>
+            </span>
+          </button>
+
+          <button
+            class="font-card"
+            type="button"
+            data-choice="F3"
+            data-name="Newsreader + Space Grotesk"
+            data-display='"Newsreader", Georgia, serif'
+            data-ui='"Space Grotesk", Arial, sans-serif'
+            data-licensed="true"
+            aria-pressed="false"
+          >
+            <span class="font-index"><span>F3</span><span>Editorial / distinctive</span></span>
+            <span class="font-specimen font-newsreader">Realty Media <sup>©</sup></span>
+            <span class="font-details font-space">
+              <strong>Newsreader<br />+ Space Grotesk</strong>
+              <span>Property deserves a point of view.</span>
+              <span class="font-services">Strategy · Photography · Film · Campaigns</span>
+              <span class="selected-label">Selected</span>
+            </span>
+          </button>
+
+          <button
+            class="font-card"
+            type="button"
+            data-choice="F4"
+            data-name="Bodoni Moda + Archivo"
+            data-display='"Bodoni Moda", Didot, serif'
+            data-ui='"Archivo", Arial, sans-serif'
+            data-licensed="true"
+            aria-pressed="false"
+          >
+            <span class="font-index"><span>F4</span><span>Sharp / high-fashion</span></span>
+            <span class="font-specimen font-bodoni">Realty Media <sup>©</sup></span>
+            <span class="font-details font-archivo">
+              <strong>Bodoni Moda<br />+ Archivo</strong>
+              <span>Property deserves a point of view.</span>
+              <span class="font-services">Strategy · Photography · Film · Campaigns</span>
+              <span class="selected-label">Selected</span>
+            </span>
+          </button>
+
+          <button
+            class="font-card"
+            type="button"
+            data-choice="F5"
+            data-name="Instrument Serif + IBM Plex Sans Condensed"
+            data-display='"Instrument Serif", Georgia, serif'
+            data-ui='"IBM Plex Sans Condensed", Arial, sans-serif'
+            data-licensed="true"
+            aria-pressed="false"
+          >
+            <span class="font-index"><span>F5</span><span>Contemporary / studio-led</span></span>
+            <span class="font-specimen font-instrument">Realty Media <sup>©</sup></span>
+            <span class="font-details font-ibm">
+              <strong>Instrument Serif<br />+ IBM Plex Sans Condensed</strong>
+              <span>Property deserves a point of view.</span>
+              <span class="font-services">Strategy · Photography · Film · Campaigns</span>
+              <span class="selected-label">Selected</span>
+            </span>
+          </button>
+        </div>
+      </section>
+
+      <section class="direction-section section-shell" id="direction" aria-labelledby="direction-title">
+        <header class="section-heading direction-heading">
+          <div>
+            <p class="eyebrow">03 / Current direction</p>
+            <h2 id="direction-title">Your Realty Media<br /><em>system.</em></h2>
+          </div>
+          <div class="current-selection-copy">
+            <span id="direction-color">Studio Vermilion · #FF4D3D</span>
+            <span id="direction-font">Cormorant Garamond + Inter Tight</span>
+            <span class="license-warning" id="license-warning" hidden>
+              Display specimen unavailable until PP Editorial New is licensed.
+            </span>
+          </div>
+        </header>
+
+        <div class="website-preview" aria-label="Live Realty Media hero preview">
+          <div class="preview-glow" aria-hidden="true"></div>
+          <div class="preview-nav">
+            <p class="preview-wordmark">Realty Media <sup>©</sup></p>
+            <div class="preview-links" aria-label="Example navigation">
+              <span>Work</span>
+              <span>Services</span>
+              <span>About</span>
+            </div>
+            <span class="preview-cta-small">Start a project</span>
+          </div>
+
+          <div class="preview-content">
+            <p class="preview-eyebrow">Premium listing media / Cluj-Napoca</p>
+            <h3>Turn every listing into a full content <em>campaign.</em></h3>
+            <div class="preview-lower">
+              <p>
+                We shoot, edit, post, and build the landing pages. You focus on clients and deals.
+              </p>
+              <span class="preview-button">Start a project</span>
+            </div>
+          </div>
+
+          <div class="preview-service-strip" aria-label="Example service categories">
+            <span>Strategy</span>
+            <span>Photography</span>
+            <span>Film</span>
+            <span>Drone</span>
+            <span>Campaigns</span>
+          </div>
+        </div>
+
+        <div class="direction-actions">
+          <button class="primary-button" id="copy-choice" type="button">Copy chosen direction</button>
+          <button class="secondary-button" id="direction-reset" type="button">
+            Reset to suggested
+          </button>
+          <p class="copy-status" id="copy-status" role="status" aria-live="polite"></p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer section-shell">
+      <p>Realty Media Romania operated by 2026 Mint Studios Agency SRL © All Rights Reserved</p>
+      <a href="#overview">Back to top</a>
+    </footer>
+
+    <aside class="selection-tray" aria-label="Current brand direction">
+      <div class="tray-label">
+        <span class="choice-dot" aria-hidden="true"></span>
+        <span>Current direction</span>
+      </div>
+      <div class="tray-value">
+        <strong id="tray-color">Studio Vermilion · #FF4D3D</strong>
+        <span id="tray-font">Cormorant Garamond + Inter Tight</span>
+      </div>
+      <a href="#direction">View preview</a>
+    </aside>
+  </body>
+</html>

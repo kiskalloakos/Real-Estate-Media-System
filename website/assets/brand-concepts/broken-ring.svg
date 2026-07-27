@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Broken ring logo concept</title>
+  <desc id="desc">A heavy circular ring with one precise rectangular opening.</desc>
+  <defs>
+    <mask id="ring-cut">
+      <rect width="128" height="128" fill="white"/>
+      <circle cx="64" cy="64" r="32" fill="black"/>
+      <rect x="96" y="52" width="32" height="24" fill="black"/>
+    </mask>
+  </defs>
+  <circle cx="64" cy="64" r="56" fill="#10100E" mask="url(#ring-cut)"/>
+</svg>

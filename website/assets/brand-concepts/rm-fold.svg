@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Realty Media RM fold concept</title>
+  <desc id="desc">A continuous folded line that suggests the letters R and M.</desc>
+  <path d="M24 106V24H56C76 24 86 33 86 49C86 65 76 74 57 74H24L57 74L80 106L103 74V106"
+        fill="none" stroke="#F5EFE4" stroke-width="13" stroke-linecap="square" stroke-linejoin="miter"/>
+</svg>

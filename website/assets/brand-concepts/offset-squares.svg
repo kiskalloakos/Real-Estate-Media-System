@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Offset squares logo concept</title>
+  <desc id="desc">Two identical square frames overlap on a diagonal.</desc>
+  <g fill="none" stroke="#10100E" stroke-width="16">
+    <rect x="12" y="34" width="82" height="82"/>
+    <rect x="34" y="12" width="82" height="82"/>
+  </g>
+</svg>

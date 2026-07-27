@@ -1,0 +1,23 @@
+{
+  "savedTo": "/Users/kiskalloakos/Downloads/REALTY MEDIA/special lead list.xlsx",
+  "rows": 7,
+  "headers": [
+    "Research Name of OWNER",
+    "County",
+    "Location",
+    "Phone number",
+    "Website",
+    "Instagram",
+    "Facebook",
+    "TikTok",
+    "Listing link",
+    "Status",
+    "Source list"
+  ],
+  "blankPhoneRows": [
+    "Cabana Ce La Vie",
+    "Chalet Valisoaracluj",
+    "R&B Travel Stays & Experiences"
+  ],
+  "sourceHtmlDirectory": "/Users/kiskalloakos/Downloads/REALTY MEDIA/outputs/special-lead-list-20260717"
+}

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">Lens glint mark</title>
+  <desc id="desc">A minimal white circular camera-lens outline with a four-point glint inside its upper-right edge.</desc>
+
+  <g fill="white">
+    <circle cx="128" cy="128" r="80" fill="none" stroke="white" stroke-width="10"/>
+    <path d="M173 71
+             C175.5 81 179 86.5 191 89
+             C179 91.5 175.5 97 173 107
+             C170.5 97 167 91.5 155 89
+             C167 86.5 170.5 81 173 71Z"/>
+  </g>
+</svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Portal Star symbol</title>
+  <desc id="desc">A four-point star cuts through the upper side of a heavy architectural portal.</desc>
+  <defs>
+    <mask id="portal-star-cut">
+      <rect width="128" height="128" fill="white"/>
+      <path fill="black" d="M92 18C90 38 84 47 62 50C84 53 90 62 92 82C94 62 100 53 122 50C100 47 94 38 92 18Z"/>
+    </mask>
+  </defs>
+  <path d="M18 118V62C18 31 38 14 64 14C90 14 110 31 110 62V118" fill="none" stroke="#10100E" stroke-width="24" mask="url(#portal-star-cut)"/>
+</svg>
