@@ -33,7 +33,7 @@ brandmark/home link and contact only:
 - `#acasa` — hero/home
 - `#contact` — combined contact and footer chapter
 
-The legacy `#servicii` and `#portofoliu` targets remain in the document for direct links, but they are intentionally absent from desktop and mobile navigation. The combined work sequence runs from `Cu ce ne ocupăm` through Fotografie, the pinned two-project phone reel, the light Mac Studio feature, and Web design before reaching Contact.
+The legacy `#servicii` and `#portofoliu` targets remain in the document for direct links, but they are intentionally absent from desktop and mobile navigation. The combined work sequence runs from `Cu ce ne ocupăm` through Fotografie, the pinned two-project phone reel, the light Mac Studio feature, Web design, and the mirrored Dezvoltare aplicații panel before reaching Contact.
 
 The active hero headline is: `Doar niște cărămizi Daca nu ai storytelling`,
 followed by the subheadline `Cele mai corecte prețuri pentru cea mai bună

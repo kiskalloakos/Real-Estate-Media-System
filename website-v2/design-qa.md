@@ -1,39 +1,45 @@
-# Final FameScale marquee asset design QA
+# Dezvoltare aplicații service panel design QA
 
 final result: passed
 
 ## Comparison target
 
-- Source visual truth: `assets/images/client-logos/famescale logo final.png`.
-- Browser-rendered implementation: `qa/hero-famescale-final-asset.png`.
-- Full-view comparison evidence: `qa/hero-famescale-final-full-comparison.png`.
-- Focused region comparison evidence: `qa/hero-famescale-final-focused-comparison.png`.
-- Viewport: 1280 × 720 desktop in the Codex in-app browser.
-- State: FameScale visible between Alpine Car Meet and UBB in the animated hero marquee.
+- Source visual truth: `/var/folders/bx/rq_p_44d63d1x6wwfzqyw85m0000gn/T/TemporaryItems/NSIRD_screencaptureui_x3Dh11/Screenshot 2026-07-27 at 15.51.44.png`.
+- Browser-rendered implementation: `qa/app-development-desktop.png`.
+- Responsive implementation: `qa/app-development-mobile.png`.
+- Full-view comparison evidence: `qa/app-development-reference-comparison.png`.
+- Source pixels: 2940 × 1912.
+- Desktop implementation pixels and CSS viewport: 1280 × 720 at browser density 1.
+- Mobile implementation pixels and CSS viewport: 390 × 844 at browser density 1.
+- Normalization: the source and desktop implementation were each proportionally fitted inside a 1280 × 800 frame before being placed side by side. Browser chrome and the intentional dark-theme continuation were excluded from fidelity findings.
+- State: the new service panel is active immediately after Web design, with the admin dashboard on the left and service copy on the right.
 
 ## Findings
 
 No actionable P0, P1, or P2 differences remain.
 
-- Fonts and typography: the final FameScale wordmark is used directly from the supplied image; its typography is not recreated or transformed.
-- Spacing and layout rhythm: the final 658 × 174 horizontal asset fits the standard marquee slot naturally, with balanced visual weight and clear gaps to Alpine and UBB. The previous logo-specific scale correction has been removed.
-- Colors and visual tokens: the standard monochrome logo filter and opacity match the neighboring client marks over the black/red hero.
-- Image quality and asset fidelity: the exact final transparent PNG is used in both loop groups at its natural aspect ratio. It is sharp, uncropped, and free of visible transparency artifacts.
-- Copy and content: the primary image retains the accessible name `FameScale`; the duplicated loop image remains decorative.
-- Interaction and motion: both marquee groups reference the same final asset in the same order, retaining the seamless 41-second loop.
-- Responsiveness and runtime: the marquee remains clipped to its container with no page-level horizontal overflow. The image loads at 658 × 174 natural resolution and the browser reports no console errors.
+- Fonts and typography: the panel reuses the existing self-hosted Satoshi display face and established service eyebrow styles. “Dezvoltare aplicații” wraps into two balanced lines on desktop and mobile without clipping.
+- Spacing and layout rhythm: the reference’s wide two-column service composition is mirrored as requested. The dashboard occupies the larger left track, while the copy is vertically centered in the right track with the established gutter, radius, and sticky-section rhythm.
+- Colors and visual tokens: the panel continues the existing Web design chapter’s black, paper, muted-gray, and carmine system. This is an intentional theme continuation rather than a recreation of the older light photography panel.
+- Image quality and asset fidelity: the actual 1280 × 720 RealtyMedia owner-dashboard capture is used directly, at its native 16:9 ratio, without stretching, placeholder treatment, or generated UI.
+- Copy and content: the eyebrow reads “Serviciile noastre” and the service title reads “Dezvoltare aplicații,” with Romanian diacritics and useful alternative text.
+- Responsiveness: the desktop layout is reversed exactly as requested; on mobile the service copy appears above the dashboard for a natural reading order. The 390 px viewport has no horizontal overflow.
+- Runtime and accessibility: the new region has an associated heading, the image has descriptive alternative text, the direct section anchor works, and the browser console reports no errors or warnings.
+
+## Focused region comparison
+
+No additional focused crop was needed. The desktop comparison keeps both the title treatment and the complete dashboard large enough to judge alignment, scale, crop, typography, and image quality. The separate mobile capture verifies responsive wrapping and image treatment.
 
 ## Comparison history
 
-1. The earlier square FameScale file contained the wrong, cramped artwork and required corrective sizing (P2).
-2. The user supplied `famescale logo final.png`, a correctly proportioned horizontal 658 × 174 logo.
-3. Both loop groups were switched to the final file, the temporary cropped derivative was removed, and the FameScale-specific transform was deleted.
-4. The final full-view and focused comparisons show the source logo reproduced at its native proportions and balanced against the surrounding clients.
+1. Initial browser capture showed the requested inverse composition with no P0, P1, or P2 mismatch.
+2. Mobile verification confirmed the heading and dashboard remain legible, ordered correctly, and free of horizontal overflow.
+3. No visual fixes were required after the first comparison.
 
 ## Primary interactions tested
 
-- Observed the final FameScale logo moving through the visible marquee.
-- Confirmed both loop groups reference the final asset.
-- Confirmed the image loads at 658 × 174 natural resolution.
-- Checked page-level horizontal overflow: none.
-- Checked browser console errors: none.
+- Opened the direct `#dezvoltare-aplicatii` anchor.
+- Verified desktop and 390 × 844 mobile layouts.
+- Confirmed the sticky section and adjacent Web design chapter remain intact.
+- Checked page-level horizontal overflow at 390 px: none.
+- Checked browser console errors and warnings: none.

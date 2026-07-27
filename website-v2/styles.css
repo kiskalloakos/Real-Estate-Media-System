@@ -582,6 +582,25 @@ a:focus-visible {
   aspect-ratio: 1600 / 1022;
 }
 
+.services-layout--inverse {
+  grid-template-columns: minmax(31rem, 1.28fr) minmax(18rem, 0.72fr);
+}
+
+.service-artboard--dashboard {
+  height: auto;
+  min-height: 0;
+  aspect-ratio: 16 / 9;
+  background: #0a0708;
+}
+
+.service-artboard--dashboard > img {
+  object-position: 50% 50%;
+}
+
+.service-hold--app-development .services-copy {
+  padding-left: clamp(1rem, 2vw, 2.5rem);
+}
+
 .portfolio-intro {
   position: relative;
   height: 155svh;
@@ -1108,6 +1127,18 @@ a:focus-visible {
     margin-bottom: clamp(0.875rem, 2vh, 1.25rem);
   }
 
+  .service-hold--app-development .services-copy {
+    padding-left: 0;
+  }
+
+  .service-hold--app-development .service-mobile-copy {
+    margin-bottom: clamp(0.875rem, 2vh, 1.25rem);
+  }
+
+  .service-hold--app-development .service-mobile-copy .services-eyebrow {
+    margin-bottom: clamp(1rem, 2.5vh, 1.5rem);
+  }
+
   .service-artboard {
     height: auto;
     min-height: 0;
@@ -1119,6 +1150,10 @@ a:focus-visible {
 
   .service-artboard--video {
     aspect-ratio: 1600 / 1022;
+  }
+
+  .service-artboard--dashboard {
+    aspect-ratio: 16 / 9;
   }
 
   .portfolio-intro {
