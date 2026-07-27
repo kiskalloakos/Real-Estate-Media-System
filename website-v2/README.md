@@ -8,10 +8,13 @@ This folder contains the new one-page Realty Media website. The current producti
 - Canvas: `#0A0A0A`
 - Primary text: `#F3EFE7`
 - Muted text: `#A7A198`
-- Display typography and wordmark: **Instrument Serif**
+- Display typography: **Satoshi**
 - Navigation and interface typography: **IBM Plex Sans Condensed**
+- Brandmark, favicon, and footer mark: supplied lowercase **m®** artwork
 
-Both font families are open-source and self-hosted in `assets/fonts/`. Their SIL Open Font License notices are stored beside the font files.
+Both font families are self-hosted in `assets/fonts/`, and they are the only two
+font families shipped by the site. Their license notices are stored beside the
+font files.
 
 ## Local preview
 
@@ -23,14 +26,17 @@ The existing Python localhost server reads file changes on refresh; no build ste
 
 ## One-page structure
 
-The website has no secondary pages. The sticky navbar exposes the Realty Media wordmark/home link and Contact only:
+The website has no secondary pages. The sticky navbar exposes the Realty Media
+brandmark/home link and contact only:
 
 - `#acasa` — hero/home
 - `#contact` — combined contact and footer chapter
 
 The legacy `#servicii` and `#portofoliu` targets remain in the document for direct links, but they are intentionally absent from desktop and mobile navigation. The combined work sequence runs from `Cu ce ne ocupăm` through Fotografie, the pinned two-project phone reel, the light Mac Studio feature, and Web design before reaching Contact.
 
-The active hero headline is: `Doar niște cărămizi daca nu ai storytelling`, followed by the subheadline `Cele mai corecte prețuri pentru cea mai bună calitate`.
+The active hero headline is: `doar niște cărămizi daca nu ai storytelling`,
+followed by the subheadline `cele mai corecte prețuri pentru cea mai bună
+calitate`.
 
 Desktop scrolling uses the established [Lenis](https://github.com/darkroomengineering/lenis) `1.3.23` library with a low `0.075` interpolation value for a deliberate, weighty inertial feel. Lenis is self-hosted in `assets/vendor/lenis/`, with its MIT license retained beside the runtime. Sticky-header anchor offsets remain correct. Mobile and reduced-motion users keep native scrolling and immediate reduced-motion anchor behavior. At mobile sizes, the fixed header exposes a compact Contact CTA directly beside the wordmark; no expandable menu is rendered.
 
@@ -56,7 +62,14 @@ At desktop sizes the hero deliberately leaves roughly `9svh` visible for the top
 
 ## Services experience
 
-The section immediately after the hero opens with a two-column editorial introduction: `Cu ce ne ocupăm` in Instrument Serif on the left and a large Romanian studio statement on the right. Fotografie follows in the established desktop service layout, now using the same paper-white and Carmine treatment as the Mac chapter, with the supplied property photograph on the right. The phone and Mac chapters then interrupt the service presentation before Web design returns in the same visual setup as a closing bookend. The obsolete Social Media service card and numeric service progress rail are not rendered.
+The section immediately after the hero opens with a two-column editorial
+introduction: `cu ce ne ocupăm` in Satoshi on the left and a large Romanian
+studio statement on the right. Fotografie follows in the established desktop
+service layout, now using the same paper-white and Carmine treatment as the Mac
+chapter, with the supplied property photograph on the right. The phone and Mac
+chapters then interrupt the service presentation before Web design returns in
+the same visual setup as a closing bookend. The obsolete Social Media service
+card and numeric service progress rail are not rendered.
 
 Fotografie, the Mac showcase, and Web design each receive a modest sticky hold after entering the viewport, giving the scroll narrative time to settle without adding hard snap points. At tablet and mobile sizes each service bookend becomes a clear stacked title-and-artboard presentation with a shorter hold. Reduced-motion users receive the same document order without sticky holds, service-title motion, or artboard transitions.
 
@@ -88,8 +101,9 @@ The final chapter merges contact and footer content into one Liquid Ether surfac
 
 On standard phone widths, all four contact links and the legal copy remain centered on one line. Screens narrower than `21rem` stack the contact links vertically and allow the legal copy to wrap so nothing clips.
 
-An oversized `Realty Media` wordmark anchors the bottom edge without a copyright mark.
-On desktop, the wordmark spans nearly the full viewport width and sits directly on the lower edge, following the supplied Vivid Motion reference.
+An oversized version of the supplied lowercase `m®` brandmark anchors the
+bottom edge. On desktop, the mark spans the lower composition and sits directly
+on the lower edge.
 
 ## Archived brand board
 
