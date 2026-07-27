@@ -1,6 +1,6 @@
-# Realty Media — website v2
+# realty media — website v2
 
-This folder contains the new one-page Realty Media website. The current production website remains separate in `../website` and is not modified by this prototype.
+This folder contains the new one-page realty media website. The current production website remains separate in `../website` and is not modified by this prototype.
 
 ## Locked brand direction
 
@@ -10,7 +10,8 @@ This folder contains the new one-page Realty Media website. The current producti
 - Muted text: `#A7A198`
 - Display typography: **Satoshi**
 - Navigation and interface typography: **IBM Plex Sans Condensed**
-- Brandmark, favicon, and footer mark: supplied lowercase **m®** artwork
+- Brandmark and favicon: supplied lowercase **m** PNG artwork
+- Footer wordmark: lowercase **realty media** set in Satoshi
 
 Both font families are self-hosted in `assets/fonts/`, and they are the only two
 font families shipped by the site. Their license notices are stored beside the
@@ -26,7 +27,7 @@ The existing Python localhost server reads file changes on refresh; no build ste
 
 ## One-page structure
 
-The website has no secondary pages. The sticky navbar exposes the Realty Media
+The website has no secondary pages. The sticky navbar exposes the realty media
 brandmark/home link and contact only:
 
 - `#acasa` — hero/home
@@ -34,8 +35,8 @@ brandmark/home link and contact only:
 
 The legacy `#servicii` and `#portofoliu` targets remain in the document for direct links, but they are intentionally absent from desktop and mobile navigation. The combined work sequence runs from `Cu ce ne ocupăm` through Fotografie, the pinned two-project phone reel, the light Mac Studio feature, and Web design before reaching Contact.
 
-The active hero headline is: `doar niște cărămizi daca nu ai storytelling`,
-followed by the subheadline `cele mai corecte prețuri pentru cea mai bună
+The active hero headline is: `Doar niște cărămizi Daca nu ai storytelling`,
+followed by the subheadline `Cele mai corecte prețuri pentru cea mai bună
 calitate`.
 
 Desktop scrolling uses the established [Lenis](https://github.com/darkroomengineering/lenis) `1.3.23` library with a low `0.075` interpolation value for a deliberate, weighty inertial feel. Lenis is self-hosted in `assets/vendor/lenis/`, with its MIT license retained beside the runtime. Sticky-header anchor offsets remain correct. Mobile and reduced-motion users keep native scrolling and immediate reduced-motion anchor behavior. At mobile sizes, the fixed header exposes a compact Contact CTA directly beside the wordmark; no expandable menu is rendered.
@@ -56,7 +57,7 @@ The populated slots use:
 
 The hero and combined contact/footer use the selected [React Bits Liquid Ether](https://www.reactbits.dev/backgrounds/liquid-ether) background, adapted locally from the published component into a framework-free module at `assets/js/liquid-ether.js`. The complete unmodified source snapshot and its license are retained in `assets/vendor/react-bits-liquid-ether/`. Its Three.js `0.179.1` renderer is also self-hosted in `assets/vendor/three/`, with the Three.js MIT license kept beside it.
 
-The interaction follows the published Liquid Ether demo, with a restrained Realty Media tuning: mouse force `24`, cursor size `104`, simulation step `0.011`, resolution `0.5`, BFECC enabled, and automatic motion at `0.58` speed / `2.45` intensity. The output keeps a quiet low-velocity Carmine afterglow so the liquid field settles more gradually after a gesture without adding a separate trail layer. Only its palette changes to Realty Media's `#7A1111`, `#D62828`, and `#FF3B3B`. Device pixel ratio is capped at `1.5` for stable full-hero performance. No font, animation, or runtime file is requested from an external origin.
+The interaction follows the published Liquid Ether demo, with a restrained realty media tuning: mouse force `24`, cursor size `104`, simulation step `0.011`, resolution `0.5`, BFECC enabled, and automatic motion at `0.58` speed / `2.45` intensity. The output keeps a quiet low-velocity Carmine afterglow so the liquid field settles more gradually after a gesture without adding a separate trail layer. Only its palette changes to realty media's `#7A1111`, `#D62828`, and `#FF3B3B`. Device pixel ratio is capped at `1.5` for stable full-hero performance. No font, animation, or runtime file is requested from an external origin.
 
 At desktop sizes the hero deliberately leaves roughly `9svh` visible for the top of the next section, matching the approved reference composition.
 
@@ -97,13 +98,13 @@ The Contact sparkle is an official [Phosphor Icons](https://phosphoricons.com/) 
 
 The final chapter merges contact and footer content into one Liquid Ether surface. It contains WhatsApp, Instagram, email, and telephone links, followed by:
 
-`Realty Media is operated by Mint Studios Agency SRL © All Rights Reserved 2026`
+`realty media is operated by Mint Studios Agency SRL © All Rights Reserved 2026`
 
 On standard phone widths, all four contact links and the legal copy remain centered on one line. Screens narrower than `21rem` stack the contact links vertically and allow the legal copy to wrap so nothing clips.
 
-An oversized version of the supplied lowercase `m®` brandmark anchors the
-bottom edge. On desktop, the mark spans the lower composition and sits directly
-on the lower edge.
+An oversized lowercase `realty media` Satoshi wordmark anchors the bottom edge.
+On desktop, the text spans the lower composition and sits directly on the lower
+edge.
 
 ## Archived brand board
 

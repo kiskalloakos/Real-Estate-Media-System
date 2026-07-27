@@ -87,7 +87,6 @@ body {
   font-family: var(--font-ui);
   font-size: 1rem;
   line-height: 1.4;
-  text-transform: lowercase;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   scrollbar-color: rgba(243, 239, 231, 0.32) var(--black);
@@ -132,7 +131,7 @@ a:focus-visible {
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.08em;
-  text-transform: lowercase;
+  text-transform: uppercase;
   transition: transform 180ms ease-out;
 }
 
@@ -173,7 +172,6 @@ a:focus-visible {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  filter: invert(1);
   transition: filter 180ms ease-out;
 }
 
@@ -851,7 +849,7 @@ a:focus-visible {
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.12em;
-  text-transform: lowercase;
+  text-transform: uppercase;
 }
 
 .portfolio-case h3 {
@@ -880,7 +878,7 @@ a:focus-visible {
 }
 
 .site-header.is-over-portfolio-intro .wordmark img {
-  filter: none;
+  filter: invert(1);
 }
 
 .site-header.is-over-portfolio-intro .desktop-nav .nav-link:hover {
@@ -920,7 +918,7 @@ a:focus-visible {
   font-weight: 500;
   line-height: 1;
   letter-spacing: 0.085em;
-  text-transform: lowercase;
+  text-transform: uppercase;
   transition: color 180ms ease-out;
 }
 
@@ -940,16 +938,20 @@ a:focus-visible {
 }
 
 .contact-wordmark {
-  width: min(64rem, 72vw);
+  width: max-content;
+  max-width: 100%;
   margin: auto 0 0;
   padding-bottom: clamp(8rem, 8vw, 10rem);
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-size: clamp(5.6rem, 16.5vw, 28rem);
+  font-weight: 500;
+  line-height: 0.72;
+  letter-spacing: -0.055em;
+  white-space: nowrap;
   pointer-events: none;
-}
-
-.contact-wordmark img {
-  width: 100%;
-  height: auto;
-  filter: invert(1);
+  transform: translateY(-0.28em) scaleX(1.3);
+  transform-origin: left bottom;
 }
 
 @media (min-width: 56.01rem) {
@@ -975,6 +977,8 @@ a:focus-visible {
 
   .contact-wordmark {
     padding-bottom: clamp(4rem, 5vw, 6.25rem);
+    font-size: clamp(5.6rem, 17.4vw, 28rem);
+    transform: scaleX(1.34);
   }
 }
 
@@ -1318,8 +1322,11 @@ a:focus-visible {
   }
 
   .contact-wordmark {
-    width: 100%;
     padding-bottom: 3.25rem;
+    font-size: clamp(4.4rem, 24vw, 9rem);
+    line-height: 0.76;
+    letter-spacing: -0.055em;
+    transform: none;
   }
 }
 

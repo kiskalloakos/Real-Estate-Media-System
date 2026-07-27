@@ -80,7 +80,7 @@ function updatePortfolio() {
   const isUnderHeader = rect.top <= navHeight + 2 && rect.bottom > navHeight;
   const isOverIntro = lightHeaderSurfaces.some((surface) => {
     const surfaceRect = surface.getBoundingClientRect();
-    return surfaceRect.top <= navHeight + 2 && surfaceRect.bottom > navHeight;
+    return surfaceRect.top <= -navHeight + 2 && surfaceRect.bottom > navHeight;
   });
   header?.classList.toggle("is-over-portfolio", isUnderHeader);
   header?.classList.toggle("is-over-portfolio-intro", isOverIntro);
