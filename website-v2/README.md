@@ -33,7 +33,7 @@ brandmark/home link and contact only:
 - `#acasa` — hero/home
 - `#contact` — combined contact and footer chapter
 
-The legacy `#servicii` and `#portofoliu` targets remain in the document for direct links, but they are intentionally absent from desktop and mobile navigation. The combined work sequence runs from `Cu ce ne ocupăm` through Fotografie, the pinned two-project phone reel, the light Mac Studio feature, Web design, and the mirrored Dezvoltare aplicații panel before reaching Contact.
+The legacy `#servicii` and `#portofoliu` targets remain in the document for direct links, but they are intentionally absent from desktop and mobile navigation. The combined work sequence runs from `Cu ce ne ocupăm` through Fotografie, the pinned two-project phone reel, the light Mac Studio feature, Web design, and the mirrored Platformă imobiliară panel before reaching Contact.
 
 The active hero headline is: `Doar niște cărămizi daca nu ai storytelling`,
 followed by the subheadline `Cele mai corecte prețuri pentru cea mai bună
@@ -88,7 +88,7 @@ After the second phone reel, the sequence moves to the brand paper colour `#F3EF
 
 The supplied `iphone-mockup.png` and `mac-studio-mockup.png` are stored in `assets/images/portfolio/`. The optimized videos and matching posters live in `assets/videos/portfolio/`. Tablet and mobile layouts keep each device centered and move the phone metadata beneath it. Reduced-motion users receive the first phone reel as a static, non-pinned portfolio view with all scroll-driven transforms disabled.
 
-The hero display headline is `145.53px` at the 1470px QA viewport. The fixed navigation has no surface, blur, shadow, or lower rule, and the hero canvas begins at the top of the page so Liquid Ether remains visible beneath it even at scroll position zero. The hero copy retains a navigation-height inset to avoid obscuring its opening line. The desktop Contact CTA is a compact `40.8px` high and keeps its translucent Carmine treatment with a small sparkle icon.
+The hero display headline is `145.53px` at the 1470px QA viewport. The fixed navigation has no surface, blur, shadow, or lower rule, and the hero canvas begins at the top of the page so Liquid Ether remains visible beneath it even at scroll position zero. The hero copy retains a navigation-height inset to avoid obscuring its opening line. The desktop Contact CTA is approximately `48px` high and keeps its translucent Carmine treatment with a larger sparkle icon.
 
 Rendering pauses when the hero leaves the viewport or the browser tab is hidden. The original Liquid Ether touch interaction remains available on touch/coarse-pointer devices. Reduced-motion users and browsers without the required WebGL support receive the intended pure black hero instead.
 
