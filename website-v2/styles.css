@@ -420,8 +420,8 @@ a:focus-visible {
 }
 
 .services-copy {
-  position: sticky;
-  top: var(--nav-height);
+  position: relative;
+  top: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -535,19 +535,20 @@ a:focus-visible {
 
 .service-hold {
   position: relative;
-  height: 155svh;
+  height: auto;
 }
 
 .service-hold-sticky {
-  position: sticky;
-  top: 0;
+  position: relative;
+  top: auto;
   min-height: 100svh;
 }
 
 .service-hold-sticky .services-copy {
   position: relative;
   top: auto;
-  height: 100svh;
+  height: auto;
+  min-height: 100svh;
 }
 
 .service-hold--photography {
@@ -604,18 +605,18 @@ a:focus-visible {
 
 .portfolio-intro {
   position: relative;
-  height: 155svh;
+  min-height: 100svh;
   background: var(--portfolio-light);
   color: var(--black);
 }
 
 .portfolio-intro-sticky {
-  position: sticky;
-  top: 0;
+  position: relative;
+  top: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100svh;
+  min-height: 100svh;
   padding: calc(var(--nav-height) + clamp(2rem, 5vh, 4rem)) var(--gutter) clamp(3rem, 7vh, 5rem);
   overflow: hidden;
   border-top: 1px solid rgba(10, 10, 10, 0.14);
@@ -688,21 +689,20 @@ a:focus-visible {
 
 .portfolio-section {
   position: relative;
-  height: 300svh;
+  min-height: 100svh;
   border-top: 1px solid var(--hairline);
   background: var(--black);
   color: var(--paper);
 }
 
 .portfolio-sticky {
-  position: sticky;
-  top: 0;
+  position: relative;
+  top: auto;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
   row-gap: clamp(1rem, 2vh, 1.5rem);
   width: 100%;
-  height: 100svh;
-  min-height: 0;
+  min-height: 100svh;
   padding: calc(var(--nav-height) + 1rem) var(--gutter) clamp(2rem, 4vh, 3rem);
   overflow: hidden;
   isolation: isolate;
@@ -778,14 +778,6 @@ a:focus-visible {
   box-shadow:
     0 0 0 1px rgba(243, 239, 231, 0.2),
     0 1.5rem 4rem rgba(0, 0, 0, 0.42);
-}
-
-.portfolio-reel-track {
-  width: 100%;
-  height: 100%;
-  transform: translate3d(0, var(--portfolio-reel-offset, 0%), 0);
-  transition: transform 1150ms cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform;
 }
 
 .portfolio-reel {
@@ -1071,7 +1063,7 @@ a:focus-visible {
   }
 
   .service-hold {
-    height: 145svh;
+    height: auto;
   }
 
   .service-hold-sticky {
@@ -1159,7 +1151,6 @@ a:focus-visible {
   }
 
   .portfolio-intro {
-    height: 145svh;
     min-height: 100svh;
   }
 
@@ -1180,11 +1171,11 @@ a:focus-visible {
   }
 
   .portfolio-section {
-    height: 280svh;
+    min-height: 100svh;
   }
 
   .portfolio-sticky {
-    min-height: 0;
+    min-height: 100svh;
     padding-top: calc(var(--nav-height) + 0.8rem);
     padding-bottom: 1.25rem;
   }
@@ -1462,15 +1453,6 @@ a:focus-visible {
 
   .portfolio-showcase {
     min-height: min(65rem, 70svh);
-  }
-
-  .portfolio-reel-track {
-    transform: none !important;
-  }
-
-  .portfolio-reel:not(:first-child),
-  .portfolio-case:not([data-case-index="0"]) {
-    display: none;
   }
 
 }

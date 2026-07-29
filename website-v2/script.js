@@ -36,73 +36,37 @@ const portfolio = document.querySelector("[data-portfolio]");
 const portfolioIntro = document.querySelector("[data-portfolio-intro]");
 const portfolioIntroVideo = portfolioIntro?.querySelector("[data-portfolio-intro-video]");
 const lightHeaderSurfaces = [...document.querySelectorAll('[data-header-theme="light"]')];
-const portfolioReelTrack = portfolio?.querySelector("[data-portfolio-reel-track]");
-const portfolioReels = portfolio ? [...portfolio.querySelectorAll("[data-portfolio-reel]")] : [];
-const portfolioCases = portfolio ? [...portfolio.querySelectorAll("[data-portfolio-case]")] : [];
-const portfolioVideos = portfolioReels.map((reel) => reel.querySelector("video")).filter(Boolean);
-let activePortfolioIndex = 0;
-let portfolioFrame = null;
+const portfolioVideo = portfolio?.querySelector("[data-portfolio-video]");
+let headerThemeFrame = null;
 let portfolioVisible = false;
 let portfolioIntroVisible = false;
 
 function syncPortfolioVideoPlayback() {
-  portfolioVideos.forEach((video, index) => {
-    if (portfolioVisible && index === activePortfolioIndex) {
-      const playRequest = video.play();
-      playRequest?.catch(() => {});
-    } else {
-      video.pause();
-    }
-  });
+  if (!portfolioVideo) return;
+
+  if (portfolioVisible && !reducedMotion.matches) {
+    const playRequest = portfolioVideo.play();
+    playRequest?.catch(() => {});
+  } else {
+    portfolioVideo.pause();
+  }
 }
 
-function setActivePortfolioCase(nextIndex) {
-  const clampedIndex = Math.max(0, Math.min(portfolioReels.length - 1, nextIndex));
-
-  if (clampedIndex === activePortfolioIndex && portfolioCases.length > 0) return;
-
-  activePortfolioIndex = clampedIndex;
-  portfolioCases.forEach((item) => {
-    const isActive = Number(item.dataset.caseIndex) === clampedIndex;
-    item.classList.toggle("is-active", isActive);
-    item.setAttribute("aria-hidden", String(!isActive));
-  });
-
-  syncPortfolioVideoPlayback();
-}
-
-function updatePortfolio() {
-  portfolioFrame = null;
-  if (!portfolio || !portfolioReelTrack || portfolioReels.length === 0) return;
-
-  const rect = portfolio.getBoundingClientRect();
+function updateHeaderTheme() {
+  headerThemeFrame = null;
   const navHeight = header?.getBoundingClientRect().height || 0;
-  const isUnderHeader = rect.top <= navHeight + 2 && rect.bottom > navHeight;
+  const portfolioRect = portfolio?.getBoundingClientRect();
+  const isUnderHeader = Boolean(
+    portfolioRect &&
+      portfolioRect.top <= navHeight + 2 &&
+      portfolioRect.bottom > navHeight,
+  );
   const isOverIntro = lightHeaderSurfaces.some((surface) => {
     const surfaceRect = surface.getBoundingClientRect();
     return surfaceRect.top <= -navHeight + 2 && surfaceRect.bottom > navHeight;
   });
   header?.classList.toggle("is-over-portfolio", isUnderHeader);
   header?.classList.toggle("is-over-portfolio-intro", isOverIntro);
-
-  if (reducedMotion.matches) {
-    portfolioReelTrack.style.setProperty("--portfolio-reel-offset", "0%");
-    setActivePortfolioCase(0);
-    return;
-  }
-
-  const scrollDistance = Math.max(1, portfolio.offsetHeight - window.innerHeight);
-  const progress = Math.max(0, Math.min(1, -rect.top / scrollDistance));
-  const nextIndex = Math.min(
-    portfolioReels.length - 1,
-    Math.floor(progress * portfolioReels.length),
-  );
-
-  portfolioReelTrack.style.setProperty(
-    "--portfolio-reel-offset",
-    `${Math.min(nextIndex, 1) * -100}%`,
-  );
-  setActivePortfolioCase(nextIndex);
 }
 
 function syncPortfolioIntroVideoPlayback() {
@@ -156,12 +120,12 @@ if (webDesignVideo) {
   reducedMotion.addEventListener("change", syncWebDesignVideoPlayback);
 }
 
-function schedulePortfolioUpdate() {
-  if (portfolioFrame !== null) return;
-  portfolioFrame = window.requestAnimationFrame(updatePortfolio);
+function scheduleHeaderThemeUpdate() {
+  if (headerThemeFrame !== null) return;
+  headerThemeFrame = window.requestAnimationFrame(updateHeaderTheme);
 }
 
-if (portfolio && portfolioReels.length > 0) {
+if (portfolio && portfolioVideo) {
   const portfolioObserver = new IntersectionObserver(
     ([entry]) => {
       portfolioVisible = entry.isIntersecting;
@@ -171,12 +135,12 @@ if (portfolio && portfolioReels.length > 0) {
   );
 
   portfolioObserver.observe(portfolio);
-  setActivePortfolioCase(0);
-  window.addEventListener("scroll", schedulePortfolioUpdate, { passive: true });
-  window.addEventListener("resize", schedulePortfolioUpdate, { passive: true });
-  reducedMotion.addEventListener("change", schedulePortfolioUpdate);
-  schedulePortfolioUpdate();
+  reducedMotion.addEventListener("change", syncPortfolioVideoPlayback);
 }
+
+window.addEventListener("scroll", scheduleHeaderThemeUpdate, { passive: true });
+window.addEventListener("resize", scheduleHeaderThemeUpdate, { passive: true });
+scheduleHeaderThemeUpdate();
 
 const liquidEtherLayers = [...document.querySelectorAll("[data-liquid-ether]")];
 

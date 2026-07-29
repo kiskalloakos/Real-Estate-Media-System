@@ -33,7 +33,7 @@ brandmark/home link and contact only:
 - `#acasa` — hero/home
 - `#contact` — combined contact and footer chapter
 
-The legacy `#servicii` and `#portofoliu` targets remain in the document for direct links, but they are intentionally absent from desktop and mobile navigation. The combined work sequence runs from `Cu ce ne ocupăm` through Fotografie, the pinned two-project phone reel, the light Mac Studio feature, Web design, and the mirrored Platformă imobiliară panel before reaching Contact.
+The legacy `#servicii` and `#portofoliu` targets remain in the document for direct links, but they are intentionally absent from desktop and mobile navigation. The combined work sequence runs from `Cu ce ne ocupăm` through Fotografie, the single-phone Social Media reel, the light Mac Studio feature, Web design, and the mirrored Platformă imobiliară panel before reaching Contact.
 
 The active hero headline is: `Doar niște cărămizi daca nu ai storytelling`,
 followed by the subheadline `Cele mai corecte prețuri pentru cea mai bună
@@ -72,7 +72,7 @@ chapters then interrupt the service presentation before Web design returns in
 the same visual setup as a closing bookend. The obsolete Social Media service
 card and numeric service progress rail are not rendered.
 
-Fotografie, the Mac showcase, and Web design each receive a modest sticky hold after entering the viewport, giving the scroll narrative time to settle without adding hard snap points. At tablet and mobile sizes each service bookend becomes a clear stacked title-and-artboard presentation with a shorter hold. Reduced-motion users receive the same document order without sticky holds, service-title motion, or artboard transitions.
+Fotografie, the phone showcase, the Mac showcase, Web design, and Platformă imobiliară now remain in normal document flow without sticky holds or extended scroll distances. Each composition keeps enough vertical space to read clearly while moving immediately with the page. Tablet and mobile sizes retain the same stacked title-and-artboard presentation.
 
 The `Fotografie` artboard uses the optimized `assets/images/services/fotografie.jpg` property photograph. The original 4472px source is preserved outside the site; the 2560px website copy is lazy-loaded and cover-cropped around the central A-frame cabin. No hover effect is applied to the image.
 
@@ -82,11 +82,11 @@ The previously tested Unicorn Studio runtime remains archived in `assets/vendor/
 
 ## Portfolio experience
 
-The portfolio begins with the full-height pinned dark chapter where `Conținut care oprește scroll-ul.` sits above two projects scrolling inside the supplied iPhone mockup. Continued page scrolling snaps the phone reel stack to exact full-video positions and updates the Social Media project and view-count metadata on both sides. The first reel shows `5,400` views and the second `26,000`, while their existing descriptive sublines remain unchanged. The device stage is constrained by the remaining viewport height so it stays clear of the heading and metadata. Only the visible active reel plays, and playback pauses when the chapter leaves the viewport.
+The portfolio begins with a full-height dark chapter where `Conținut care oprește scroll-ul.` sits above one Social Media project inside the supplied iPhone mockup. The phone displays a single vertical reel with `5,400` views and no scroll-driven reel switching. The device stage is constrained by the remaining viewport height so it stays clear of the heading and metadata. Playback pauses when the chapter leaves the viewport.
 
-After the second phone reel, the sequence moves to the brand paper colour `#F3EFE7` with the single italic headline `O experiență.` and the supplied Mac Studio mockup playing the complete landscape reel without CSS cropping. The video surface extends beneath the monitor bezel, allowing the PNG frame to mask its edges cleanly, and the monitor is sized to keep the complete stand and feet visible. The Mac video also pauses when its chapter leaves the viewport.
+After the phone reel, the sequence moves naturally to the brand paper colour `#F3EFE7` with the single italic headline `O experiență.` and the supplied Mac Studio mockup playing the complete landscape reel without CSS cropping. The video surface extends beneath the monitor bezel, allowing the PNG frame to mask its edges cleanly, and the monitor is sized to keep the complete stand and feet visible. The Mac video also pauses when its chapter leaves the viewport.
 
-The supplied `iphone-mockup.png` and `mac-studio-mockup.png` are stored in `assets/images/portfolio/`. The optimized videos and matching posters live in `assets/videos/portfolio/`. Tablet and mobile layouts keep each device centered and move the phone metadata beneath it. Reduced-motion users receive the first phone reel as a static, non-pinned portfolio view with all scroll-driven transforms disabled.
+The supplied `iphone-mockup.png` and `mac-studio-mockup.png` are stored in `assets/images/portfolio/`. The optimized videos and matching posters live in `assets/videos/portfolio/`. Tablet and mobile layouts keep each device centered and move the phone metadata beneath it. Reduced-motion users receive the same normal-flow layout with video autoplay disabled.
 
 The hero display headline is `145.53px` at the 1470px QA viewport. The fixed navigation has no surface, blur, shadow, or lower rule, and the hero canvas begins at the top of the page so Liquid Ether remains visible beneath it even at scroll position zero. The hero copy retains a navigation-height inset to avoid obscuring its opening line. The desktop Contact CTA is approximately `48px` high and keeps its translucent Carmine treatment with a larger sparkle icon.
 
