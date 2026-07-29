@@ -135,7 +135,7 @@ a:focus-visible {
   transition: transform 180ms ease-out;
 }
 
-.skip-link:focus {
+.skip-link:focus-visible {
   transform: translateY(0);
 }
 
@@ -588,10 +588,10 @@ a:focus-visible {
 }
 
 .service-artboard--dashboard {
-  width: min(100%, 62rem);
+  width: min(100%, 54rem);
   height: auto;
   min-height: 0;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 1912 / 1080;
   align-self: center;
   background: #0a0708;
 }
@@ -1152,7 +1152,8 @@ a:focus-visible {
   }
 
   .service-artboard--dashboard {
-    aspect-ratio: auto;
+    width: 100%;
+    aspect-ratio: 1912 / 1080;
   }
 
   .portfolio-intro {
@@ -1249,7 +1250,8 @@ a:focus-visible {
   }
 
   .service-artboard--dashboard {
-    aspect-ratio: auto;
+    width: 100%;
+    aspect-ratio: 1912 / 1080;
   }
 }
 
