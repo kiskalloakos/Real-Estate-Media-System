@@ -38,7 +38,7 @@ Focused comparisons were required and are included:
 - `qa/hero-mobile-before-after.png` isolates capitalization and Contact-button scale.
 - `qa/footer-desktop-before-after.png` isolates the overflowing wordmark before and after the fix.
 - `qa/app-development-mobile-before-after.png` isolates the removed eyebrow, one-line title, and horizontal dashboard frame.
-- `qa/web-and-app-mobile-comparison.png` documents the earlier mobile comparison. Platformă imobiliară now uses a true 16:9 frame so its complete dashboard remains visible without cropping.
+- `qa/web-and-app-mobile-comparison.png` documents the earlier mobile comparison. Portal clienți now renders the dashboard at its native image ratio, without cropping or stretching.
 - `qa/platforma-imobiliara-desktop-1440x900.jpg` verifies the larger desktop Contact CTA, updated service name, and populated Client Portal dashboard.
 - `qa/platforma-imobiliara-mobile-390x844.jpg` verifies that the complete 16:9 dashboard remains visible at phone width without horizontal overflow.
 

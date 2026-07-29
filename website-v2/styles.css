@@ -590,13 +590,16 @@ a:focus-visible {
 .service-artboard--dashboard {
   height: auto;
   min-height: 0;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: auto;
   background: #0a0708;
 }
 
 .service-artboard--dashboard > img {
-  object-fit: contain;
-  object-position: 50% 50%;
+  position: relative;
+  inset: auto;
+  width: 100%;
+  height: auto;
+  object-fit: initial;
 }
 
 .service-hold--app-development .services-copy {
@@ -1147,7 +1150,7 @@ a:focus-visible {
   }
 
   .service-artboard--dashboard {
-    aspect-ratio: 16 / 9;
+    aspect-ratio: auto;
   }
 
   .portfolio-intro {
@@ -1244,7 +1247,7 @@ a:focus-visible {
   }
 
   .service-artboard--dashboard {
-    aspect-ratio: 16 / 9;
+    aspect-ratio: auto;
   }
 }
 

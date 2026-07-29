@@ -33,7 +33,7 @@ brandmark/home link and contact only:
 - `#acasa` — hero/home
 - `#contact` — combined contact and footer chapter
 
-The legacy `#servicii` and `#portofoliu` targets remain in the document for direct links, but they are intentionally absent from desktop and mobile navigation. The combined work sequence runs from `Cu ce ne ocupăm` through Fotografie, the single-phone Social Media reel, the light Mac Studio feature, Web design, and the mirrored Platformă imobiliară panel before reaching Contact.
+The legacy `#servicii` and `#portofoliu` targets remain in the document for direct links, but they are intentionally absent from desktop and mobile navigation. The combined work sequence runs from `Cu ce ne ocupăm` through Fotografie, the single-phone Social Media reel, the light Mac Studio feature, Web design, and the mirrored Portal clienți panel before reaching Contact.
 
 The active hero headline is: `Doar niște cărămizi daca nu ai storytelling`,
 followed by the subheadline `Cele mai corecte prețuri pentru cea mai bună
@@ -72,7 +72,7 @@ chapters then interrupt the service presentation before Web design returns in
 the same visual setup as a closing bookend. The obsolete Social Media service
 card and numeric service progress rail are not rendered.
 
-Fotografie, the phone showcase, the Mac showcase, Web design, and Platformă imobiliară now remain in normal document flow without sticky holds or extended scroll distances. Each composition keeps enough vertical space to read clearly while moving immediately with the page. Tablet and mobile sizes retain the same stacked title-and-artboard presentation.
+Fotografie, the phone showcase, the Mac showcase, Web design, and Portal clienți now remain in normal document flow without sticky holds or extended scroll distances. Each composition keeps enough vertical space to read clearly while moving immediately with the page. Tablet and mobile sizes retain the same stacked title-and-artboard presentation.
 
 The `Fotografie` artboard uses the optimized `assets/images/services/fotografie.jpg` property photograph. The original 4472px source is preserved outside the site; the 2560px website copy is lazy-loaded and cover-cropped around the central A-frame cabin. No hover effect is applied to the image.
 
