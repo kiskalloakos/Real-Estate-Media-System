@@ -45,15 +45,9 @@
       "permanent": true
     },
     {
-      "source": "/portofoliu.html",
-      "destination": "/portofoliu",
-      "permanent": true
-    }
-  ],
-  "rewrites": [
-    {
       "source": "/portofoliu",
-      "destination": "/portofoliu.html"
+      "destination": "/#portofoliu",
+      "permanent": true
     }
   ]
 }

@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
-  <title id="title">Orbit Star symbol</title>
-  <desc id="desc">A central four-point star crosses two heavy opposing orbital crescents.</desc>
-  <g fill="#10100E">
-    <path d="M58 28C24 28 4 42 4 64C4 86 24 100 58 100C32 91 18 78 18 64C18 50 32 37 58 28Z"/>
-    <path d="M70 28C104 28 124 42 124 64C124 86 104 100 70 100C96 91 110 78 110 64C110 50 96 37 70 28Z"/>
-    <path d="M64 14C62 42 54 59 22 64C54 69 62 86 64 114C66 86 74 69 106 64C74 59 66 42 64 14Z"/>
-  </g>
-</svg>

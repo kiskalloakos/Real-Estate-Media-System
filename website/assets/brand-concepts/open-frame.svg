@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
-  <title id="title">Realty Media open frame concept</title>
-  <desc id="desc">Two opposing framing corners surrounding a central focus point.</desc>
-  <path d="M58 20H20V58" fill="none" stroke="#F5EFE4" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter"/>
-  <path d="M70 108H108V70" fill="none" stroke="#F5EFE4" stroke-width="14" stroke-linecap="square" stroke-linejoin="miter"/>
-  <circle cx="64" cy="64" r="9" fill="#D9AD52"/>
-</svg>

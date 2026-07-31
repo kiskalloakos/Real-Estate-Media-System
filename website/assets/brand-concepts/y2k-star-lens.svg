@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
-  <title id="title">Star Lens symbol</title>
-  <desc id="desc">A tall lens splits into two mirrored halves around a central four-point star.</desc>
-  <g fill="#10100E">
-    <path d="M59 8C28 12 12 33 12 64C12 95 28 116 59 120C38 103 28 84 28 64C28 44 38 25 59 8Z"/>
-    <path d="M69 8C100 12 116 33 116 64C116 95 100 116 69 120C90 103 100 84 100 64C100 44 90 25 69 8Z"/>
-    <path d="M64 20C62 45 54 59 30 64C54 69 62 83 64 108C66 83 74 69 98 64C74 59 66 45 64 20Z"/>
-  </g>
-</svg>

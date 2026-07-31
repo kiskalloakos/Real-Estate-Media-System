@@ -17,7 +17,7 @@ export function initLiquidEther({
   BFECC = true,
   resolution = 0.5,
   isBounce = false,
-  colors = ['#5227FF', '#FF9FFC', '#B497CF'],
+  colors = ['#5256E0'],
   autoDemo = true,
   autoSpeed = 0.5,
   autoIntensity = 2.2,
@@ -49,7 +49,10 @@ export function initLiquidEther({
       const w = arr.length;
       const data = new Uint8Array(w * 4);
       for (let i = 0; i < w; i++) {
-        const c = new THREE.Color(arr[i]);
+        // This custom shader outputs the palette directly, so store sRGB bytes
+        // rather than Three's default linear channels. That keeps #5256E0
+        // visually identical to the brand token used by the CTA.
+        const c = new THREE.Color(arr[i]).convertLinearToSRGB();
         data[i * 4 + 0] = Math.round(c.r * 255);
         data[i * 4 + 1] = Math.round(c.g * 255);
         data[i * 4 + 2] = Math.round(c.b * 255);
@@ -405,7 +408,7 @@ export function initLiquidEther({
     varying vec2 uv;
     void main(){
     vec2 vel = texture2D(velocity, uv).xy;
-    // Preserve a quiet Carmine afterglow as velocity settles, without adding a trail layer.
+    // Preserve a quiet blue afterglow as velocity settles, without adding a trail layer.
     float lenv = pow(clamp(length(vel) * 1.35, 0.0, 1.0), 0.72);
     vec3 c = texture2D(palette, vec2(lenv, 0.5)).rgb;
     vec3 outRGB = mix(bgColor.rgb, c, lenv);

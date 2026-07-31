@@ -160,7 +160,7 @@ if (liquidEtherLayers.length > 0 && !reducedMotion.matches) {
           BFECC: true,
           resolution: 0.5,
           isBounce: false,
-          colors: ["#7A1111", "#D62828", "#FF3B3B"],
+          colors: ["#5256E0"],
           autoDemo: true,
           autoSpeed: 0.58,
           autoIntensity: 2.45,
