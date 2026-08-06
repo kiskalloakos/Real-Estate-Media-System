@@ -760,6 +760,8 @@ a:focus-visible {
 }
 
 .service-card--button {
+  position: relative;
+  padding-right: clamp(3.2rem, 4vw, 4.25rem);
   font: inherit;
   text-align: left;
   cursor: pointer;
@@ -768,6 +770,35 @@ a:focus-visible {
     background-color 180ms ease,
     box-shadow 180ms ease,
     transform 180ms ease;
+}
+
+.service-card--button::before,
+.service-card--button::after {
+  position: absolute;
+  right: clamp(1rem, 1.5vw, 1.35rem);
+  bottom: clamp(1rem, 1.5vw, 1.35rem);
+  display: block;
+  content: "";
+  pointer-events: none;
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.service-card--button::before {
+  width: 1.45rem;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--blue);
+  transform-origin: right center;
+}
+
+.service-card--button::after {
+  width: 0.62rem;
+  height: 0.62rem;
+  border-top: 2px solid var(--blue);
+  border-right: 2px solid var(--blue);
+  transform: translateY(calc(50% - 1px)) rotate(45deg);
 }
 
 .service-card--button:hover,
@@ -779,6 +810,16 @@ a:focus-visible {
     inset 0 1px 0 color-mix(in srgb, var(--white) 96%, transparent),
     inset 0 -1px 0 color-mix(in srgb, var(--white) 44%, transparent);
   transform: translateY(-1px);
+}
+
+.service-card--button:hover::before,
+.service-card--button:focus-visible::before {
+  transform: translateX(0.18rem);
+}
+
+.service-card--button:hover::after,
+.service-card--button:focus-visible::after {
+  transform: translate(0.18rem, calc(50% - 1px)) rotate(45deg);
 }
 
 .service-card--wide {

@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta
       name="description"
-      content="Conținut, website și marketing digital pentru agenți imobiliari."
+      content="Foto, video, website și social media pentru agenți imobiliari care vor listări greu de ignorat."
     />
     <meta name="application-name" content="Realty Media — Digital Marketing &amp; Development" />
-    <meta name="theme-color" content="#ffffff" />
-    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="color-scheme" content="dark" />
     <title>Agenți imobiliari — Realty Media</title>
 
     <link rel="icon" href="/favicon.png?v=20260806" type="image/png" sizes="600x600" />
@@ -23,45 +23,75 @@
     <script type="module" src="./script.js"></script>
   </head>
 
-  <body class="solution-page">
+  <body>
     <a class="skip-link" href="#main-content">Sari la conținut</a>
 
     <header class="site-header" data-site-header>
       <div class="nav-shell">
         <div class="nav-brand">
-          <a class="wordmark" href="/" aria-label="Realty Media, înapoi la început">
-            <img src="./assets/images/brand/realty-media-brandmark.png" width="600" height="600" alt="" aria-hidden="true" />
+          <a class="wordmark" href="#acasa" aria-label="Realty Media — Digital Marketing &amp; Development, înapoi la început">
+            <img
+              src="./assets/images/brand/realty-media-brandmark.png"
+              width="600"
+              height="600"
+              alt=""
+              aria-hidden="true"
+            />
           </a>
         </div>
 
         <nav class="desktop-nav" aria-label="Navigație principală">
-          <a class="nav-link" href="/#fotografie">Servicii</a>
+          <a class="nav-link" href="#fotografie">Servicii</a>
           <div class="nav-dropdown" data-solutions-dropdown>
-            <button class="nav-link nav-dropdown-toggle" type="button" aria-expanded="false" aria-haspopup="true" aria-controls="solutions-menu" data-solutions-toggle>
+            <button
+              class="nav-link nav-dropdown-toggle"
+              type="button"
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-controls="solutions-menu"
+              data-solutions-toggle
+            >
               <span>Soluții</span>
-              <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                <path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
             </button>
             <div class="solutions-menu" id="solutions-menu" role="menu" data-solutions-menu>
-              <a href="/cabane.html" role="menuitem"><span>Cabane</span></a>
-              <a href="/agenti-imobiliari.html" role="menuitem"><span>Agenți imobiliari</span></a>
-              <a href="/dezvoltatori.html" role="menuitem"><span>Dezvoltatori</span></a>
+              <a href="/cabane.html" role="menuitem">
+                <span>Cabane</span>
+              </a>
+              <a href="/agenti-imobiliari.html" role="menuitem">
+                <span>Agenți imobiliari</span>
+              </a>
+              <a href="/dezvoltatori.html" role="menuitem">
+                <span>Dezvoltatori</span>
+              </a>
             </div>
           </div>
         </nav>
 
         <div class="nav-actions">
           <a class="nav-phone" href="tel:+40732775601">+40 732 775 601</a>
-          <a class="contact-link contact-link--header" href="/#contact"><span>Contact</span></a>
+          <a class="contact-link contact-link--header" href="#contact">
+            <span>Contact</span>
+          </a>
         </div>
 
-        <button class="mobile-menu-toggle" type="button" aria-label="Deschide meniul" aria-expanded="false" aria-controls="mobile-menu" data-mobile-menu-toggle>
+        <button
+          class="mobile-menu-toggle"
+          type="button"
+          aria-label="Deschide meniul"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+          data-mobile-menu-toggle
+        >
           <span></span>
           <span></span>
         </button>
       </div>
 
       <nav class="mobile-menu" id="mobile-menu" aria-label="Navigație mobilă" data-mobile-menu aria-hidden="true">
-        <a href="/#fotografie">Servicii</a>
+        <a href="#fotografie">Servicii</a>
         <a href="/cabane.html">Cabane</a>
         <a href="/agenti-imobiliari.html">Agenți imobiliari</a>
         <a href="/dezvoltatori.html">Dezvoltatori</a>
@@ -69,29 +99,172 @@
       </nav>
     </header>
 
-    <main class="solution-main" id="main-content">
-      <section class="solution-hero">
-        <div class="solution-hero-inner">
-          <p class="solution-eyebrow">Soluții pentru agenți imobiliari</p>
-          <h1>Un portofoliu care inspiră încredere.</h1>
-          <p>Îți transformăm listările și imaginea personală într-un sistem coerent: materiale foto-video, pagini de prezentare, social media și campanii pentru proprietăți greu de ignorat.</p>
-          <div class="solution-cta-row">
-            <a class="contact-link" href="/#contact"><span>Contact</span><img src="./assets/icons/sparkle.svg" width="17" height="17" alt="" aria-hidden="true" /></a>
-            <a class="solution-secondary-link" href="/#fotografie">Vezi serviciile</a>
+    <main id="main-content">
+      <section class="hero" id="acasa" aria-labelledby="hero-title" data-liquid-ether-hero>
+        <div class="liquid-ether-layer" aria-hidden="true" data-liquid-ether></div>
+
+        <div class="hero-copy">
+          <h1 id="hero-title">
+            <span class="hero-line">Listări care inspiră</span>
+            <span class="hero-line">încredere rapid</span>
+          </h1>
+          <p class="hero-subtitle">Foto, video, website și social media pentru agenți care vor proprietăți greu de ignorat.</p>
+          <div class="hero-proof" aria-label="Dovadă socială Realty Media">
+            <a class="contact-link contact-link--hero" href="#contact">Contact</a>
+            <div class="hero-proof-clients" aria-label="Exemple de clienți">
+              <img
+                src="./assets/images/hero-proof/arizona-ranch.png"
+                width="96"
+                height="96"
+                alt="Arizona Ranch"
+              />
+              <img
+                src="./assets/images/hero-proof/a-frame-cabin.png"
+                width="96"
+                height="96"
+                alt="Cabană A-frame"
+              />
+              <img
+                src="./assets/images/hero-proof/drone-house.png"
+                width="96"
+                height="96"
+                alt="Proprietate filmată aerian"
+              />
+            </div>
+            <div class="hero-proof-rating" aria-label="5 stele, 17 clienți">
+              <span aria-hidden="true">★★★★★</span>
+              <small>5 stele / 17 clienți</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="logo-marquee" aria-label="Clienți realty media">
+          <div class="logo-track">
+            <div class="logo-group">
+              <span class="logo-slot"><img src="./assets/images/client-logos/transilvania-fashion-white.png" width="160" height="48" alt="Transilvania Fashion" /></span>
+              <span class="logo-slot"><img src="./assets/images/client-logos/elite-city-white.png" width="160" height="48" alt="Elite City" /></span>
+              <span class="logo-slot"><img src="./assets/images/client-logos/alpine-car-meet-white.png" width="160" height="48" alt="Alpine Car Meet" /></span>
+              <span class="logo-slot"><img src="./assets/images/client-logos/famescale logo final.png" width="160" height="48" alt="FameScale" /></span>
+              <span class="logo-slot"><img src="./assets/images/client-logos/UBB.png" width="160" height="48" alt="Facultatea de Teatru și Film, UBB" /></span>
+              <span class="logo-slot logo-slot--brick"><img src="./assets/images/client-logos/brick depot.png" width="160" height="48" alt="Brick Depot" /></span>
+              <span class="logo-slot logo-slot--tiff"><img src="./assets/images/client-logos/tiff-logo-centered.png" width="160" height="48" alt="TIFF" /></span>
+              <span class="logo-slot"><img src="./assets/images/client-logos/tvr cluj.png" width="160" height="48" alt="TVR Cluj" /></span>
+            </div>
+
+            <div class="logo-group" aria-hidden="true">
+              <span class="logo-slot"><img src="./assets/images/client-logos/transilvania-fashion-white.png" width="160" height="48" alt="" /></span>
+              <span class="logo-slot"><img src="./assets/images/client-logos/elite-city-white.png" width="160" height="48" alt="" /></span>
+              <span class="logo-slot"><img src="./assets/images/client-logos/alpine-car-meet-white.png" width="160" height="48" alt="" /></span>
+              <span class="logo-slot"><img src="./assets/images/client-logos/famescale logo final.png" width="160" height="48" alt="" /></span>
+              <span class="logo-slot"><img src="./assets/images/client-logos/UBB.png" width="160" height="48" alt="" /></span>
+              <span class="logo-slot logo-slot--brick"><img src="./assets/images/client-logos/brick depot.png" width="160" height="48" alt="" /></span>
+              <span class="logo-slot logo-slot--tiff"><img src="./assets/images/client-logos/tiff-logo-centered.png" width="160" height="48" alt="" /></span>
+              <span class="logo-slot"><img src="./assets/images/client-logos/tvr cluj.png" width="160" height="48" alt="" /></span>
+            </div>
           </div>
         </div>
       </section>
 
-      <section class="solution-section">
-        <div class="solution-section-inner">
-          <h2>Mai mult decât poze bune: o prezență care vinde consecvent.</h2>
-          <ul class="solution-points">
-            <li>Conținut vizual premium pentru apartamente, case și proprietăți speciale.</li>
-            <li>Landing pages și materiale digitale care explică rapid valoarea fiecărei listări.</li>
-            <li>Campanii social media gândite pentru recunoaștere, lead-uri și conversații directe.</li>
-          </ul>
+      <section class="services-section" id="fotografie" aria-labelledby="servicii-title" data-header-theme="light">
+        <div class="services-shell">
+          <header class="services-header">
+            <p class="services-kicker">Serviciile noastre</p>
+            <h2 id="servicii-title">Servicii pentru proprietăți care trebuie să arate impecabil online.</h2>
+          </header>
+
+          <div class="services-grid" aria-label="Serviciile Realty Media">
+            <button
+              class="service-card service-card--button"
+              type="button"
+              aria-haspopup="dialog"
+              aria-controls="photography-gallery-modal"
+              data-gallery-open
+            >
+              <span>01</span>
+              <span class="service-card-title">Fotografie</span>
+              <span class="service-card-copy">Cadre curate, luminoase și coerente pentru proprietăți, spații comerciale și branduri locale.</span>
+            </button>
+
+            <article class="service-card">
+              <span>02</span>
+              <h3>Web Design</h3>
+              <p>Pagini rapide și elegante, construite pentru încredere, cereri directe și prezentare premium.</p>
+            </article>
+
+            <article class="service-card service-card--wide">
+              <span>03</span>
+              <h3>Filmare cu drona</h3>
+              <p>Perspective aeriene care arată contextul, amplasarea și atmosfera unei proprietăți.</p>
+            </article>
+
+            <article class="service-card service-card--phone">
+              <span>04</span>
+              <h3>Social Media</h3>
+              <p>Conținut scurt, calendare de postare și materiale pregătite pentru campanii constante.</p>
+            </article>
+          </div>
         </div>
       </section>
+
     </main>
+
+    <div
+      class="gallery-modal"
+      id="photography-gallery-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Galerie fotografie Realty Media"
+      aria-hidden="true"
+      data-gallery-modal
+      inert
+    >
+      <div class="gallery-modal-backdrop" data-gallery-close></div>
+      <section class="gallery-modal-panel" aria-label="Colaj fotografie Realty Media">
+        <header class="gallery-modal-header">
+          <button class="gallery-modal-close" type="button" aria-label="Închide galeria" data-gallery-close>
+            <span></span>
+            <span></span>
+          </button>
+        </header>
+
+        <div class="photography-collage" aria-label="Exemple fotografie proprietăți">
+          <figure class="collage-item collage-item--hero">
+            <img src="./assets/images/services/photography-collage/a-frame-exterior.jpg" width="1800" height="1351" loading="lazy" decoding="async" alt="Cabană A-frame fotografiată la apus" />
+          </figure>
+          <figure class="collage-item collage-item--wide">
+            <img src="./assets/images/services/photography-collage/drone-house.jpg" width="1800" height="1012" loading="lazy" decoding="async" alt="Casă fotografiată aerian cu drona" />
+          </figure>
+          <figure class="collage-item collage-item--tall">
+            <img src="./assets/images/services/photography-collage/cabin-detail.jpg" width="1351" height="1800" loading="lazy" decoding="async" alt="Detaliu interior din lemn într-o cabană" />
+          </figure>
+          <figure class="collage-item collage-item--medium">
+            <img src="./assets/images/services/photography-collage/window-dining.jpg" width="1800" height="1200" loading="lazy" decoding="async" alt="Zonă de dining cu ferestre mari și vedere spre pădure" />
+          </figure>
+          <figure class="collage-item collage-item--panorama">
+            <img src="./assets/images/services/photography-collage/a-frame-drone.jpg" width="1800" height="1012" loading="lazy" decoding="async" alt="Cabană A-frame surprinsă din aer printre brazi" />
+          </figure>
+        </div>
+      </section>
+    </div>
+
+    <footer class="contact-footer" id="contact" aria-labelledby="contact-title">
+      <div class="liquid-ether-layer" aria-hidden="true" data-liquid-ether></div>
+
+      <div class="contact-footer-inner">
+        <nav class="contact-actions" aria-label="Date de contact și rețele sociale">
+          <a href="https://wa.me/40732775601" target="_blank" rel="noopener">WhatsApp</a>
+          <a href="https://www.tiktok.com/@realtymedia.ro" target="_blank" rel="noopener">TikTok</a>
+          <a href="https://www.instagram.com/realtymedia.ro/" target="_blank" rel="noopener">Instagram</a>
+          <a href="mailto:contact@realtymedia.ro">Email</a>
+          <a href="tel:+40732775601">+40 732 775 601</a>
+        </nav>
+
+        <p class="contact-legal">
+          Realty Media is operated by Mint Studios Agency SRL © All Rights Reserved 2026
+        </p>
+
+        <h2 class="contact-wordmark" id="contact-title">realty media</h2>
+      </div>
+    </footer>
   </body>
 </html>
