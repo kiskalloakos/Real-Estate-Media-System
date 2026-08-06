@@ -12,7 +12,9 @@
     <meta name="color-scheme" content="dark" />
     <title>Realty Media — Digital Marketing &amp; Development</title>
 
-    <link rel="icon" href="./favicon.png" type="image/png" />
+    <link rel="icon" href="/favicon.png?v=20260806" type="image/png" sizes="600x600" />
+    <link rel="shortcut icon" href="/favicon.png?v=20260806" type="image/png" />
+    <link rel="apple-touch-icon" href="/favicon.png?v=20260806" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&amp;display=swap" rel="stylesheet" />
@@ -26,40 +28,75 @@
 
     <header class="site-header" data-site-header>
       <div class="nav-shell">
-        <a class="wordmark" href="#acasa" aria-label="Realty Media — Digital Marketing &amp; Development, înapoi la început">
-          <img
-            src="./assets/images/brand/realty-media-brandmark.png"
-            width="600"
-            height="600"
-            alt=""
-            aria-hidden="true"
-          />
-        </a>
-
-        <nav class="desktop-nav" aria-label="Navigație principală">
-          <a class="contact-link" href="#contact">
-            <span>Contact</span>
+        <div class="nav-brand">
+          <a class="wordmark" href="#acasa" aria-label="Realty Media — Digital Marketing &amp; Development, înapoi la început">
             <img
-              src="./assets/icons/sparkle.svg"
-              width="17"
-              height="17"
+              src="./assets/images/brand/realty-media-brandmark.png"
+              width="600"
+              height="600"
               alt=""
               aria-hidden="true"
             />
           </a>
+        </div>
+
+        <nav class="desktop-nav" aria-label="Navigație principală">
+          <a class="nav-link" href="#fotografie">Servicii</a>
+          <div class="nav-dropdown" data-solutions-dropdown>
+            <button
+              class="nav-link nav-dropdown-toggle"
+              type="button"
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-controls="solutions-menu"
+              data-solutions-toggle
+            >
+              <span>Soluții</span>
+              <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                <path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+            <div class="solutions-menu" id="solutions-menu" role="menu" data-solutions-menu>
+              <a href="/cabane.html" role="menuitem">
+                <span>Cabane</span>
+              </a>
+              <a href="/agenti-imobiliari.html" role="menuitem">
+                <span>Agenți imobiliari</span>
+              </a>
+              <a href="/dezvoltatori.html" role="menuitem">
+                <span>Dezvoltatori</span>
+              </a>
+            </div>
+          </div>
         </nav>
 
-        <a class="contact-link contact-link--header-mobile" href="#contact">
-          <span>Contact</span>
-          <img
-            src="./assets/icons/sparkle.svg"
-            width="17"
-            height="17"
-            alt=""
-            aria-hidden="true"
-          />
-        </a>
+        <div class="nav-actions">
+          <a class="nav-phone" href="tel:+40732775601">+40 732 775 601</a>
+          <a class="contact-link contact-link--header" href="#contact">
+            <span>Contact</span>
+          </a>
+        </div>
+
+        <button
+          class="mobile-menu-toggle"
+          type="button"
+          aria-label="Deschide meniul"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+          data-mobile-menu-toggle
+        >
+          <span></span>
+          <span></span>
+        </button>
       </div>
+
+      <nav class="mobile-menu" id="mobile-menu" aria-label="Navigație mobilă" data-mobile-menu aria-hidden="true">
+        <a href="#fotografie">Servicii</a>
+        <a href="/cabane.html">Cabane</a>
+        <a href="/agenti-imobiliari.html">Agenți imobiliari</a>
+        <a href="/dezvoltatori.html">Dezvoltatori</a>
+        <a class="mobile-phone-link" href="tel:+40732775601">+40 732 775 601</a>
+      </nav>
     </header>
 
     <main id="main-content">
@@ -72,6 +109,33 @@
             <span class="hero-line">pentru proprietatea ta</span>
           </h1>
           <p class="hero-subtitle">Cele mai corecte prețuri pentru cea mai bună calitate</p>
+          <div class="hero-proof" aria-label="Dovadă socială Realty Media">
+            <a class="contact-link contact-link--hero" href="#contact">Contact</a>
+            <div class="hero-proof-clients" aria-label="Exemple de clienți">
+              <img
+                src="./assets/images/hero-proof/arizona-ranch.png"
+                width="96"
+                height="96"
+                alt="Arizona Ranch"
+              />
+              <img
+                src="./assets/images/hero-proof/a-frame-cabin.png"
+                width="96"
+                height="96"
+                alt="Cabană A-frame"
+              />
+              <img
+                src="./assets/images/hero-proof/drone-house.png"
+                width="96"
+                height="96"
+                alt="Proprietate filmată aerian"
+              />
+            </div>
+            <div class="hero-proof-rating" aria-label="5 stele, 17 clienți">
+              <span aria-hidden="true">★★★★★</span>
+              <small>5 stele / 17 clienți</small>
+            </div>
+          </div>
         </div>
 
         <div class="logo-marquee" aria-label="Clienți realty media">
@@ -109,7 +173,7 @@
           </p>
         </div>
 
-        <div class="service-hold service-hold--photography" data-header-theme="light">
+        <div class="service-hold service-hold--photography" id="fotografie" data-header-theme="light">
           <div class="services-layout services-layout--photography service-hold-sticky">
             <div class="services-copy">
               <div class="services-copy-main">

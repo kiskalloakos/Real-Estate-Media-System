@@ -3,7 +3,55 @@ import Lenis from "./assets/vendor/lenis/lenis.mjs";
 const header = document.querySelector("[data-site-header]");
 const desktopBreakpoint = window.matchMedia("(min-width: 56.01rem)");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+const solutionsDropdown = document.querySelector("[data-solutions-dropdown]");
+const solutionsToggle = document.querySelector("[data-solutions-toggle]");
+const mobileMenuToggle = document.querySelector("[data-mobile-menu-toggle]");
+const mobileMenu = document.querySelector("[data-mobile-menu]");
 let lenis = null;
+
+function closeSolutionsDropdown() {
+  solutionsDropdown?.classList.remove("is-open");
+  solutionsToggle?.setAttribute("aria-expanded", "false");
+}
+
+solutionsToggle?.addEventListener("click", () => {
+  const isOpen = solutionsDropdown?.classList.toggle("is-open");
+  solutionsToggle.setAttribute("aria-expanded", String(Boolean(isOpen)));
+});
+
+document.addEventListener("click", (event) => {
+  if (!solutionsDropdown?.contains(event.target)) {
+    closeSolutionsDropdown();
+  }
+});
+
+function closeMobileMenu() {
+  header?.classList.remove("is-mobile-menu-open");
+  mobileMenuToggle?.setAttribute("aria-expanded", "false");
+  mobileMenu?.setAttribute("aria-hidden", "true");
+}
+
+mobileMenuToggle?.addEventListener("click", () => {
+  const isOpen = header?.classList.toggle("is-mobile-menu-open");
+  mobileMenuToggle.setAttribute("aria-expanded", String(Boolean(isOpen)));
+  mobileMenu?.setAttribute("aria-hidden", String(!isOpen));
+});
+
+mobileMenu?.addEventListener("click", (event) => {
+  if (event.target instanceof Element && event.target.closest("a")) {
+    closeMobileMenu();
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key !== "Escape") return;
+  closeSolutionsDropdown();
+  closeMobileMenu();
+});
+
+desktopBreakpoint.addEventListener("change", () => {
+  closeMobileMenu();
+});
 
 function syncSmoothScroll() {
   const shouldSmooth = desktopBreakpoint.matches && !reducedMotion.matches;

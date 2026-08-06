@@ -38,6 +38,20 @@
       ]
     }
   ],
+  "rewrites": [
+    {
+      "source": "/cabane",
+      "destination": "/cabane.html"
+    },
+    {
+      "source": "/agenti-imobiliari",
+      "destination": "/agenti-imobiliari.html"
+    },
+    {
+      "source": "/dezvoltatori",
+      "destination": "/dezvoltatori.html"
+    }
+  ],
   "redirects": [
     {
       "source": "/index.html",
