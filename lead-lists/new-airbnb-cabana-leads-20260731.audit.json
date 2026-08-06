@@ -1,0 +1,523 @@
+{
+  "startedAt": "2026-07-31T11:47:52.710Z",
+  "welLinksFound": 66,
+  "skipped": [
+    {
+      "name": "Amonte Mountain Resort",
+      "link": "https://wel.ro/cazare-inedita/amonte-mountain-resort/",
+      "reason": "not clearly cabana"
+    },
+    {
+      "name": "Apusenity",
+      "link": "https://wel.ro/cazare-inedita/apusenity/",
+      "reason": "forbidden property type wording"
+    },
+    {
+      "name": "Cabana A-casă",
+      "link": "https://wel.ro/cazare-inedita/cabana-a-casa/",
+      "reason": "forbidden property type wording"
+    },
+    {
+      "name": "Cabana A-NA Băișoara",
+      "link": "https://wel.ro/cazare-inedita/cabana-a-na-baisoara/",
+      "reason": "missing specific location"
+    },
+    {
+      "name": "Cabana Alma",
+      "link": "https://wel.ro/cazare-inedita/cabana-alma/",
+      "reason": "already delivered in previous batch"
+    },
+    {
+      "name": "Cabana Backyard",
+      "link": "https://wel.ro/cazare-inedita/cabana-backyard/",
+      "reason": "forbidden property type wording"
+    },
+    {
+      "name": "Cabana Balu",
+      "link": "https://wel.ro/cazare-inedita/cabana-balu/",
+      "phone": "+40 754 327 876",
+      "reason": "duplicate phone in master"
+    },
+    {
+      "name": "Cabana DenZ",
+      "link": "https://wel.ro/cazare-inedita/cabana-denz/",
+      "phone": "+40 754 327 876",
+      "reason": "duplicate phone in master"
+    },
+    {
+      "name": "Cabana Neagră",
+      "link": "https://wel.ro/cazare-inedita/cabana-neagra/",
+      "reason": "forbidden property type wording"
+    },
+    {
+      "name": "Cabana Nord Side",
+      "link": "https://wel.ro/cazare-inedita/cabana-nord-side/",
+      "reason": "forbidden property type wording"
+    },
+    {
+      "name": "Cabana Refugio",
+      "link": "https://wel.ro/cazare-inedita/cabana-refugio/",
+      "reason": "forbidden property type wording"
+    },
+    {
+      "name": "Cabana Refugiul Montan Beliș",
+      "link": "https://wel.ro/cazare-inedita/cabana-refugiul-montan-belis/",
+      "reason": "duplicate inside new batch"
+    },
+    {
+      "name": "Cabana Ruku",
+      "link": "https://wel.ro/cazare-inedita/cabana-ruku/",
+      "reason": "forbidden property type wording"
+    },
+    {
+      "name": "Casa din Deal",
+      "link": "https://wel.ro/cazare-inedita/casa-din-deal/",
+      "phone": "+40 787 829 118",
+      "reason": "duplicate phone in master"
+    },
+    {
+      "name": "Casa Valeria",
+      "link": "https://wel.ro/cazare-inedita/casa-valeria/",
+      "reason": "duplicate inside new batch"
+    },
+    {
+      "name": "Cbn Cabana",
+      "link": "https://wel.ro/cazare-inedita/cbn-cabana/",
+      "reason": "duplicate inside new batch"
+    },
+    {
+      "name": "Ce La Vie",
+      "link": "https://wel.ro/cazare-inedita/ce-la-vie/",
+      "reason": "forbidden property type wording"
+    },
+    {
+      "name": "Chalet A Băișoara",
+      "link": "https://wel.ro/cazare-inedita/chalet-a-baisoara/",
+      "reason": "duplicate inside new batch"
+    },
+    {
+      "name": "Cozy Living",
+      "link": "https://wel.ro/cazare-inedita/cozy-living/",
+      "reason": "not clearly cabana"
+    },
+    {
+      "name": "Crow's Nest",
+      "link": "https://wel.ro/cazare-inedita/crows-nest/",
+      "reason": "not clearly cabana"
+    },
+    {
+      "name": "D’otel47",
+      "link": "https://wel.ro/cazare-inedita/dotel47/",
+      "reason": "not clearly cabana"
+    },
+    {
+      "name": "Echoes of Vlădicu",
+      "link": "https://wel.ro/cazare-inedita/echoes-of-vladicu/",
+      "reason": "missing specific location"
+    },
+    {
+      "name": "Elysium Cabin",
+      "link": "https://wel.ro/cazare-inedita/elysium-cabin/",
+      "reason": "already delivered in previous batch"
+    },
+    {
+      "name": "Evergreen – escape în nature",
+      "link": "https://wel.ro/cazare-inedita/evergreen-escape-in-nature/",
+      "reason": "not clearly cabana"
+    },
+    {
+      "name": "FamilyNest",
+      "link": "https://wel.ro/cazare-inedita/familynest/",
+      "reason": "not clearly cabana"
+    },
+    {
+      "name": "Grand Lake House",
+      "link": "https://wel.ro/cazare-inedita/grand-lake-house/",
+      "reason": "not clearly cabana"
+    },
+    {
+      "name": "Gray Aframe",
+      "link": "https://wel.ro/cazare-inedita/gray-aframe/",
+      "reason": "not clearly cabana"
+    },
+    {
+      "name": "GreenHeart-Măguri",
+      "link": "https://wel.ro/cazare-inedita/greenheart-maguri/",
+      "reason": "not clearly cabana"
+    },
+    {
+      "name": "Hanul Morii",
+      "link": "https://wel.ro/cazare-inedita/hanul-morii/",
+      "reason": "not clearly cabana"
+    },
+    {
+      "name": "Komuna by Martinez",
+      "link": "https://wel.ro/cazare-inedita/komuna-by-martinez/",
+      "reason": "missing phone"
+    },
+    {
+      "name": "Kong Escape",
+      "link": "https://wel.ro/cazare-inedita/kong-escape/",
+      "reason": "not clearly cabana"
+    },
+    {
+      "name": "Mărişel Tiny House",
+      "link": "https://wel.ro/cazare-inedita/marisel-tiny-house/",
+      "reason": "not clearly cabana"
+    },
+    {
+      "name": "Monteluce Aframe",
+      "link": "https://wel.ro/cazare-inedita/monteluce-aframe/",
+      "reason": "forbidden property type wording"
+    },
+    {
+      "name": "MonteRosso",
+      "link": "https://wel.ro/cazare-inedita/monterosso/",
+      "reason": "not clearly cabana"
+    },
+    {
+      "name": "Mountain View Apuseni",
+      "link": "https://wel.ro/cazare-inedita/mountain-view-apuseni/",
+      "reason": "forbidden property type wording"
+    },
+    {
+      "name": "Noah Hill Cabin",
+      "link": "https://wel.ro/cazare-inedita/noah-hill-cabin/",
+      "reason": "forbidden property type wording"
+    },
+    {
+      "name": "Nordik Cabin",
+      "link": "https://wel.ro/cazare-inedita/nordik-cabin/",
+      "reason": "forbidden property type wording"
+    },
+    {
+      "name": "Nordik Crest",
+      "link": "https://wel.ro/cazare-inedita/nordik-crest/",
+      "reason": "not clearly cabana"
+    },
+    {
+      "name": "Pacha Garden",
+      "link": "https://wel.ro/cazare-inedita/pacha-garden/",
+      "reason": "not clearly cabana"
+    },
+    {
+      "name": "Panorama Camping Floroiu",
+      "link": "https://wel.ro/cazare-inedita/panorama-camping-floroiu/",
+      "reason": "not clearly cabana"
+    },
+    {
+      "name": "Panoramic Aframe",
+      "link": "https://wel.ro/cazare-inedita/panoramic-aframe/",
+      "reason": "forbidden property type wording"
+    },
+    {
+      "name": "Peak A-Frame Cabin",
+      "link": "https://wel.ro/cazare-inedita/peak-a-frame-cabin/",
+      "phone": "+40 749 247 054",
+      "reason": "duplicate phone in master"
+    },
+    {
+      "name": "Pensiunea Agroturistica Panoramic",
+      "link": "https://wel.ro/cazare-inedita/pensiunea-agroturistica-panoramic/",
+      "reason": "not clearly cabana"
+    },
+    {
+      "name": "Pensiunea Casele cu stuf",
+      "link": "https://wel.ro/cazare-inedita/pensiunea-casele-cu-stuf/",
+      "reason": "not clearly cabana"
+    },
+    {
+      "name": "Perla Transilvaniei",
+      "link": "https://wel.ro/cazare-inedita/perla-transilvaniei/",
+      "reason": "not clearly cabana"
+    },
+    {
+      "name": "Restless",
+      "link": "https://wel.ro/cazare-inedita/restless/",
+      "reason": "not clearly cabana"
+    },
+    {
+      "name": "Sali Chalet",
+      "link": "https://wel.ro/cazare-inedita/sali-chalet/",
+      "reason": "forbidden property type wording"
+    },
+    {
+      "name": "Scrind 11 Madleine Chalet",
+      "link": "https://wel.ro/cazare-inedita/scrind-11-madleine-chalet/",
+      "reason": "duplicate inside new batch"
+    },
+    {
+      "name": "Stone House",
+      "link": "https://wel.ro/cazare-inedita/stone-house/",
+      "reason": "not clearly cabana"
+    },
+    {
+      "name": "Story Cabin Lake",
+      "link": "https://wel.ro/cazare-inedita/story-cabin-lake/",
+      "reason": "forbidden property type wording"
+    },
+    {
+      "name": "The Nest on The Hill",
+      "link": "https://wel.ro/cazare-inedita/the-nest-on-the-hill/",
+      "reason": "not clearly cabana"
+    },
+    {
+      "name": "The View Mărișel",
+      "link": "https://wel.ro/cazare-inedita/the-view-marisel/",
+      "reason": "forbidden property type wording"
+    },
+    {
+      "name": "TheNest Mărișel",
+      "link": "https://wel.ro/cazare-inedita/thenest-marisel/",
+      "reason": "forbidden property type wording"
+    }
+  ],
+  "output": "/Users/kiskalloakos/Downloads/REALTY MEDIA/lead-lists/new-airbnb-cabana-leads-20260731.csv",
+  "finishedAt": "2026-07-31T11:48:15.629Z",
+  "rowCount": 20,
+  "rows": [
+    {
+      "Name": "Casa Delia",
+      "Judet, Location": "Cluj, Someșu Rece",
+      "Phone number": "+40 727 883 299",
+      "Listing Link": "https://www.airbnb.com/rooms/940198105049622732",
+      "Website": "",
+      "TikTok": "",
+      "Instagram": "",
+      "Facebook": "",
+      "Status": "Lead",
+      "Notes": ""
+    },
+    {
+      "Name": "CBN Cabana",
+      "Judet, Location": "Cluj, Muntele Cacovei",
+      "Phone number": "+40 750 223 640",
+      "Listing Link": "https://www.airbnb.com/rooms/1412906500873388465",
+      "Website": "",
+      "TikTok": "",
+      "Instagram": "",
+      "Facebook": "",
+      "Status": "Lead",
+      "Notes": ""
+    },
+    {
+      "Name": "Scrind 11 Madleine Chalet",
+      "Judet, Location": "Cluj, Scrind Frăsinet",
+      "Phone number": "+40 751 271 063",
+      "Listing Link": "https://www.booking.com/hotel/ro/scrind-11-madleine-chalet.en-gb.html",
+      "Website": "https://www.scrind11-madleinechalet.ro/",
+      "TikTok": "",
+      "Instagram": "",
+      "Facebook": "",
+      "Status": "Lead",
+      "Notes": ""
+    },
+    {
+      "Name": "The Hygge House",
+      "Judet, Location": "Cluj, Plopi",
+      "Phone number": "+40 743 253 284",
+      "Listing Link": "https://www.airbnb.com/rooms/43580098",
+      "Website": "",
+      "TikTok": "",
+      "Instagram": "",
+      "Facebook": "https://www.facebook.com/thehyggehouseplopi",
+      "Status": "Lead",
+      "Notes": ""
+    },
+    {
+      "Name": "Chalet A Băișoara",
+      "Judet, Location": "Cluj, Muntele Băișorii",
+      "Phone number": "+40 771 434 732",
+      "Listing Link": "https://wel.ro/cazare-inedita/chalet-a-baisoara/",
+      "Website": "",
+      "TikTok": "",
+      "Instagram": "",
+      "Facebook": "",
+      "Status": "Lead",
+      "Notes": ""
+    },
+    {
+      "Name": "APUZEN Cabin",
+      "Judet, Location": "Cluj, Giurcuța de Sus",
+      "Phone number": "+40 749 456 303",
+      "Listing Link": "https://wel.ro/cazare-inedita/apuzen-cabin/",
+      "Website": "",
+      "TikTok": "",
+      "Instagram": "",
+      "Facebook": "",
+      "Status": "Lead",
+      "Notes": ""
+    },
+    {
+      "Name": "Cabana Coliba",
+      "Judet, Location": "Cluj, Băișoara",
+      "Phone number": "+40 742 922 072",
+      "Listing Link": "https://wel.ro/cazare-inedita/cabana-coliba/",
+      "Website": "",
+      "TikTok": "",
+      "Instagram": "",
+      "Facebook": "",
+      "Status": "Lead",
+      "Notes": ""
+    },
+    {
+      "Name": "Cabana Karina",
+      "Judet, Location": "Cluj, Dealu Negru",
+      "Phone number": "+40 722 358 619",
+      "Listing Link": "https://wel.ro/cazare-inedita/cabana-karina/",
+      "Website": "",
+      "TikTok": "",
+      "Instagram": "",
+      "Facebook": "",
+      "Status": "Lead",
+      "Notes": ""
+    },
+    {
+      "Name": "Cabana La Vasile",
+      "Judet, Location": "Cluj, Măguri-Răcătău",
+      "Phone number": "+40 744 205 895",
+      "Listing Link": "https://wel.ro/cazare-inedita/cabana-la-vasile/",
+      "Website": "",
+      "TikTok": "",
+      "Instagram": "",
+      "Facebook": "",
+      "Status": "Lead",
+      "Notes": ""
+    },
+    {
+      "Name": "Cabana Popasul lui Pintea",
+      "Judet, Location": "Cluj, Măgoaja",
+      "Phone number": "+40 745 677 436",
+      "Listing Link": "https://wel.ro/cazare-inedita/cabana-popasul-lui-pintea/",
+      "Website": "",
+      "TikTok": "",
+      "Instagram": "",
+      "Facebook": "",
+      "Status": "Lead",
+      "Notes": ""
+    },
+    {
+      "Name": "Cabana Refugiul Alpin Beliș",
+      "Judet, Location": "Cluj, Beliș",
+      "Phone number": "+40 758 472 969",
+      "Listing Link": "https://wel.ro/cazare-inedita/cabana-refugiul-alpin-belis/",
+      "Website": "",
+      "TikTok": "",
+      "Instagram": "",
+      "Facebook": "",
+      "Status": "Lead",
+      "Notes": ""
+    },
+    {
+      "Name": "Cabana Stil-A",
+      "Judet, Location": "Cluj, Mărișel",
+      "Phone number": "+40 740 612 124",
+      "Listing Link": "https://wel.ro/cazare-inedita/cabana-stil-a/",
+      "Website": "",
+      "TikTok": "",
+      "Instagram": "",
+      "Facebook": "",
+      "Status": "Lead",
+      "Notes": ""
+    },
+    {
+      "Name": "Cabana Tarța Plopi",
+      "Judet, Location": "Cluj, Plopi",
+      "Phone number": "+40 740 563 669",
+      "Listing Link": "https://wel.ro/cazare-inedita/cabana-tarta-plopi/",
+      "Website": "",
+      "TikTok": "",
+      "Instagram": "",
+      "Facebook": "",
+      "Status": "Lead",
+      "Notes": ""
+    },
+    {
+      "Name": "Cabana Vinkiș",
+      "Judet, Location": "Cluj, Măguri",
+      "Phone number": "+40 749 180 394",
+      "Listing Link": "https://wel.ro/cazare-inedita/cabana-vinkis/",
+      "Website": "",
+      "TikTok": "",
+      "Instagram": "",
+      "Facebook": "",
+      "Status": "Lead",
+      "Notes": ""
+    },
+    {
+      "Name": "FOREST TALE CABIN",
+      "Judet, Location": "Cluj, Măguri-Răcătău",
+      "Phone number": "+40 747 936 880",
+      "Listing Link": "https://wel.ro/cazare-inedita/forest-tale-cabin/",
+      "Website": "",
+      "TikTok": "",
+      "Instagram": "",
+      "Facebook": "",
+      "Status": "Lead",
+      "Notes": ""
+    },
+    {
+      "Name": "Hilltop Măguri",
+      "Judet, Location": "Cluj, Măguri",
+      "Phone number": "+40 757 753 299",
+      "Listing Link": "https://wel.ro/cazare-inedita/hilltop-maguri/",
+      "Website": "",
+      "TikTok": "",
+      "Instagram": "",
+      "Facebook": "",
+      "Status": "Lead",
+      "Notes": ""
+    },
+    {
+      "Name": "Lion Cabin",
+      "Judet, Location": "Cluj, Chiuiești",
+      "Phone number": "+40 746 031 414",
+      "Listing Link": "https://wel.ro/cazare-inedita/lion-cabin/",
+      "Website": "",
+      "TikTok": "",
+      "Instagram": "",
+      "Facebook": "",
+      "Status": "Lead",
+      "Notes": ""
+    },
+    {
+      "Name": "Old Man's Cabin",
+      "Judet, Location": "Cluj, Măguri",
+      "Phone number": "+40 755 203 198",
+      "Listing Link": "https://wel.ro/cazare-inedita/old-mans-cabin/",
+      "Website": "",
+      "TikTok": "",
+      "Instagram": "",
+      "Facebook": "",
+      "Status": "Lead",
+      "Notes": ""
+    },
+    {
+      "Name": "Noah Hill Cabin",
+      "Judet, Location": "Cluj, Râșca",
+      "Phone number": "+40 754 656 051",
+      "Listing Link": "https://wel.ro/cazare-inedita/noah-hill-cabin/",
+      "Website": "",
+      "TikTok": "",
+      "Instagram": "",
+      "Facebook": "",
+      "Status": "Lead",
+      "Notes": ""
+    },
+    {
+      "Name": "Story Cabin Lake",
+      "Judet, Location": "Cluj, Câmpenești",
+      "Phone number": "+40 739 962 487",
+      "Listing Link": "https://wel.ro/cazare-inedita/story-cabin-lake/",
+      "Website": "",
+      "TikTok": "",
+      "Instagram": "",
+      "Facebook": "",
+      "Status": "Lead",
+      "Notes": ""
+    }
+  ],
+  "updatedAt": "2026-07-31T11:52:20.307Z",
+  "manualUpdate": "Cleared all Notes cells and added Noah Hill Cabin + Story Cabin Lake to reach 20 rows.",
+  "movedToLeadListsAt": "2026-07-31T11:55:18.599Z"
+}

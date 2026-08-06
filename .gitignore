@@ -7,13 +7,17 @@
 *.dng.png
 .codex/
 .codex_deps/
+.pnpm-store/
 .vercel
 .env*
 .agents/
 realty-media-app/
+webapp/
 CONTENT/
 HDR CONVERTING/
 VIDEO EDITING/
 Website Content/
 cluj-county-airbnb-properties.csv
 outputs/**/node_modules
+__pycache__/
+tmp/
