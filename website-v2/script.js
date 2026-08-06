@@ -7,7 +7,11 @@ const solutionsDropdown = document.querySelector("[data-solutions-dropdown]");
 const solutionsToggle = document.querySelector("[data-solutions-toggle]");
 const mobileMenuToggle = document.querySelector("[data-mobile-menu-toggle]");
 const mobileMenu = document.querySelector("[data-mobile-menu]");
+const galleryModal = document.querySelector("[data-gallery-modal]");
+const galleryOpenButton = document.querySelector("[data-gallery-open]");
+const galleryCloseControls = [...document.querySelectorAll("[data-gallery-close]")];
 let lenis = null;
+let galleryLastFocus = null;
 
 function closeSolutionsDropdown() {
   solutionsDropdown?.classList.remove("is-open");
@@ -47,6 +51,7 @@ document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
   closeSolutionsDropdown();
   closeMobileMenu();
+  closeGallery();
 });
 
 desktopBreakpoint.addEventListener("change", () => {
@@ -80,115 +85,73 @@ reducedMotion.addEventListener("change", syncSmoothScroll);
 
 syncSmoothScroll();
 
-const portfolio = document.querySelector("[data-portfolio]");
-const portfolioIntro = document.querySelector("[data-portfolio-intro]");
-const portfolioIntroVideo = portfolioIntro?.querySelector("[data-portfolio-intro-video]");
-const lightHeaderSurfaces = [...document.querySelectorAll('[data-header-theme="light"]')];
-const portfolioVideo = portfolio?.querySelector("[data-portfolio-video]");
-let headerThemeFrame = null;
-let portfolioVisible = false;
-let portfolioIntroVisible = false;
+function getGalleryFocusable() {
+  if (!galleryModal) return [];
 
-function syncPortfolioVideoPlayback() {
-  if (!portfolioVideo) return;
+  return [
+    ...galleryModal.querySelectorAll(
+      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    ),
+  ].filter((element) => element instanceof HTMLElement && !element.hasAttribute("hidden"));
+}
 
-  if (portfolioVisible && !reducedMotion.matches) {
-    const playRequest = portfolioVideo.play();
-    playRequest?.catch(() => {});
-  } else {
-    portfolioVideo.pause();
+function openGallery() {
+  if (!galleryModal) return;
+
+  galleryLastFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+  galleryModal.classList.add("is-open");
+  galleryModal.removeAttribute("inert");
+  galleryModal.setAttribute("aria-hidden", "false");
+  document.documentElement.classList.add("is-gallery-open");
+  lenis?.stop?.();
+
+  window.setTimeout(() => {
+    getGalleryFocusable()[0]?.focus();
+  }, 0);
+}
+
+function closeGallery() {
+  if (!galleryModal?.classList.contains("is-open")) return;
+
+  galleryModal.classList.remove("is-open");
+  galleryModal.setAttribute("aria-hidden", "true");
+  galleryModal.setAttribute("inert", "");
+  document.documentElement.classList.remove("is-gallery-open");
+  lenis?.start?.();
+  galleryLastFocus?.focus();
+}
+
+galleryOpenButton?.addEventListener("click", openGallery);
+
+galleryCloseControls.forEach((control) => {
+  control.addEventListener("click", closeGallery);
+});
+
+galleryModal?.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    closeGallery();
+    return;
   }
-}
 
-function updateHeaderTheme() {
-  headerThemeFrame = null;
-  const navHeight = header?.getBoundingClientRect().height || 0;
-  const portfolioRect = portfolio?.getBoundingClientRect();
-  const isUnderHeader = Boolean(
-    portfolioRect &&
-      portfolioRect.top <= navHeight + 2 &&
-      portfolioRect.bottom > navHeight,
-  );
-  const isOverIntro = lightHeaderSurfaces.some((surface) => {
-    const surfaceRect = surface.getBoundingClientRect();
-    return surfaceRect.top <= -navHeight + 2 && surfaceRect.bottom > navHeight;
-  });
-  header?.classList.toggle("is-over-portfolio", isUnderHeader);
-  header?.classList.toggle("is-over-portfolio-intro", isOverIntro);
-}
+  if (event.key !== "Tab") return;
 
-function syncPortfolioIntroVideoPlayback() {
-  if (!portfolioIntroVideo) return;
+  const focusable = getGalleryFocusable();
+  if (focusable.length === 0) return;
 
-  if (portfolioIntroVisible && !reducedMotion.matches) {
-    const playRequest = portfolioIntroVideo.play();
-    playRequest?.catch(() => {});
-  } else {
-    portfolioIntroVideo.pause();
+  const firstFocusable = focusable[0];
+  const lastFocusable = focusable[focusable.length - 1];
+
+  if (event.shiftKey && document.activeElement === firstFocusable) {
+    event.preventDefault();
+    lastFocusable.focus();
+    return;
   }
-}
 
-if (portfolioIntroVideo && portfolioIntro) {
-  const portfolioIntroObserver = new IntersectionObserver(
-    ([entry]) => {
-      portfolioIntroVisible = entry.isIntersecting;
-      syncPortfolioIntroVideoPlayback();
-    },
-    { threshold: 0.08 },
-  );
-
-  portfolioIntroObserver.observe(portfolioIntro);
-  reducedMotion.addEventListener("change", syncPortfolioIntroVideoPlayback);
-}
-
-const webDesignVideo = document.querySelector("[data-web-design-video]");
-let webDesignVideoVisible = false;
-
-function syncWebDesignVideoPlayback() {
-  if (!webDesignVideo) return;
-
-  if (webDesignVideoVisible && !reducedMotion.matches) {
-    const playRequest = webDesignVideo.play();
-    playRequest?.catch(() => {});
-  } else {
-    webDesignVideo.pause();
+  if (!event.shiftKey && document.activeElement === lastFocusable) {
+    event.preventDefault();
+    firstFocusable.focus();
   }
-}
-
-if (webDesignVideo) {
-  const webDesignVideoObserver = new IntersectionObserver(
-    ([entry]) => {
-      webDesignVideoVisible = entry.isIntersecting;
-      syncWebDesignVideoPlayback();
-    },
-    { threshold: 0.08 },
-  );
-
-  webDesignVideoObserver.observe(webDesignVideo);
-  reducedMotion.addEventListener("change", syncWebDesignVideoPlayback);
-}
-
-function scheduleHeaderThemeUpdate() {
-  if (headerThemeFrame !== null) return;
-  headerThemeFrame = window.requestAnimationFrame(updateHeaderTheme);
-}
-
-if (portfolio && portfolioVideo) {
-  const portfolioObserver = new IntersectionObserver(
-    ([entry]) => {
-      portfolioVisible = entry.isIntersecting;
-      syncPortfolioVideoPlayback();
-    },
-    { threshold: 0.01 },
-  );
-
-  portfolioObserver.observe(portfolio);
-  reducedMotion.addEventListener("change", syncPortfolioVideoPlayback);
-}
-
-window.addEventListener("scroll", scheduleHeaderThemeUpdate, { passive: true });
-window.addEventListener("resize", scheduleHeaderThemeUpdate, { passive: true });
-scheduleHeaderThemeUpdate();
+});
 
 const liquidEtherLayers = [...document.querySelectorAll("[data-liquid-ether]")];
 

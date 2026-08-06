@@ -165,232 +165,87 @@
         </div>
       </section>
 
-      <section class="services-section" id="servicii" aria-labelledby="servicii-intro-title">
-        <div class="services-intro">
-          <h2 class="services-intro-title" id="servicii-intro-title">Cu ce ne ocupăm</h2>
-          <p class="services-intro-body">
-            Ajutăm orice proprietate să își dezvolte prezența online și să își construiască un brand complet prin serviciile noastre.
-          </p>
-        </div>
-
-        <div class="service-hold service-hold--photography" id="fotografie" data-header-theme="light">
-          <div class="services-layout services-layout--photography service-hold-sticky">
-            <div class="services-copy">
-              <div class="services-copy-main">
-                <p class="services-eyebrow">Serviciile noastre</p>
-
-                <h3 class="services-title">
-                  <span class="services-title-stage">
-                    <span class="services-title-text">Fotografie</span>
-                  </span>
-                </h3>
-              </div>
-            </div>
-
-            <ol class="services-list" aria-label="Serviciile realty media">
-              <li class="service-step is-active">
-                <div class="service-mobile-copy">
-                  <h3>Fotografie</h3>
-                </div>
-                <figure class="service-artboard" data-artwork-slot>
-                  <img
-                    src="./assets/images/services/fotografie.jpg"
-                    width="2560"
-                    height="1922"
-                    loading="lazy"
-                    decoding="async"
-                    alt="Cabană A-frame fotografiată la apus, înconjurată de brazi"
-                  />
-                </figure>
-              </li>
-            </ol>
-          </div>
-        </div>
-      </section>
-
-      <section
-        class="portfolio-section"
-        id="portofoliu"
-        aria-labelledby="portofoliu-title"
-        data-portfolio
-      >
-        <div class="portfolio-sticky">
-          <header class="portfolio-heading">
-            <h2 id="portofoliu-title">Conținut care <em>oprește</em> scroll-ul.</h2>
+      <section class="services-section" id="fotografie" aria-labelledby="servicii-title" data-header-theme="light">
+        <div class="services-shell">
+          <header class="services-header">
+            <p class="services-kicker">Serviciile noastre</p>
+            <h2 id="servicii-title">Servicii pentru proprietăți care trebuie să arate impecabil online.</h2>
           </header>
 
-          <div class="portfolio-showcase">
-            <div class="portfolio-data portfolio-data--left">
-              <article class="portfolio-case is-active">
-                <p>Proiect</p>
-                <h3>Social Media</h3>
-                <span>Reels imobiliare</span>
-              </article>
-            </div>
-
-            <div
-              class="portfolio-device-stage"
-              aria-label="Proiect video realty media prezentat pe telefon"
+          <div class="services-grid" aria-label="Serviciile Realty Media">
+            <button
+              class="service-card service-card--button"
+              type="button"
+              aria-haspopup="dialog"
+              aria-controls="photography-gallery-modal"
+              data-gallery-open
             >
-              <div class="portfolio-device portfolio-device--phone">
-                <div class="portfolio-phone-screen">
-                  <figure class="portfolio-reel">
-                    <video
-                      muted
-                      loop
-                      playsinline
-                      preload="metadata"
-                      poster="./assets/videos/portfolio/social-media-reel-poster.jpg"
-                      aria-label="Exemplu de conținut vertical pentru social media"
-                      data-portfolio-video
-                    >
-                      <source src="./assets/videos/portfolio/social-media-reel.mp4" type="video/mp4" />
-                    </video>
-                  </figure>
-                </div>
-                <img
-                  class="portfolio-device-frame"
-                  src="./assets/images/portfolio/iphone-mockup.png"
-                  width="1882"
-                  height="3878"
-                  alt=""
-                  aria-hidden="true"
-                />
-              </div>
-            </div>
+              <span>01</span>
+              <span class="service-card-title">Fotografie</span>
+              <span class="service-card-copy">Cadre curate, luminoase și coerente pentru proprietăți, spații comerciale și branduri locale.</span>
+            </button>
 
-            <div class="portfolio-data portfolio-data--right">
-              <article class="portfolio-case is-active">
-                <p>Views</p>
-                <h3>5,400</h3>
-                <span>Conținut vertical</span>
-              </article>
-            </div>
-          </div>
-        </div>
-      </section>
+            <article class="service-card">
+              <span>02</span>
+              <h3>Web Design</h3>
+              <p>Pagini rapide și elegante, construite pentru încredere, cereri directe și prezentare premium.</p>
+            </article>
 
-      <section
-        class="portfolio-intro"
-        aria-labelledby="portfolio-mac-title"
-        data-portfolio-intro
-        data-header-theme="light"
-      >
-        <div class="portfolio-intro-sticky">
-          <header class="portfolio-intro-heading">
-            <h2 id="portfolio-mac-title"><em>O experiență.</em></h2>
-          </header>
+            <article class="service-card service-card--wide">
+              <span>03</span>
+              <h3>Filmare cu drona</h3>
+              <p>Perspective aeriene care arată contextul, amplasarea și atmosfera unei proprietăți.</p>
+            </article>
 
-          <div
-            class="portfolio-mac-showcase"
-            aria-label="Proiect video realty media prezentat pe monitor"
-          >
-            <div class="portfolio-mac-showcase-screen">
-              <video
-                muted
-                loop
-                playsinline
-                preload="metadata"
-                poster="./assets/videos/portfolio/mac-be-reel-poster.jpg"
-                aria-label="Exemplu de film de prezentare realty media"
-                data-portfolio-intro-video
-              >
-                <source src="./assets/videos/portfolio/mac-be-reel.mp4" type="video/mp4" />
-              </video>
-            </div>
-            <img
-              src="./assets/images/portfolio/mac-studio-mockup.png"
-              width="1000"
-              height="741"
-              alt=""
-              aria-hidden="true"
-            />
-          </div>
-        </div>
-      </section>
-
-      <section class="services-section services-section--continuation" aria-labelledby="web-design-title">
-        <div class="service-hold service-hold--web-design">
-          <div class="services-layout services-layout--continuation service-hold-sticky">
-            <div class="services-copy">
-              <div class="services-copy-main">
-                <p class="services-eyebrow">Serviciile noastre</p>
-
-                <h2 class="services-title" id="web-design-title">
-                  <span class="services-title-stage">
-                    <span class="services-title-text">Web design</span>
-                  </span>
-                </h2>
-              </div>
-            </div>
-
-            <ol class="services-list" aria-label="Serviciile realty media, continuare">
-              <li class="service-step is-active">
-                <div class="service-mobile-copy">
-                  <h3>Web design</h3>
-                </div>
-                <figure
-                  class="service-artboard service-artboard--video"
-                  aria-label="Previzualizare video a unui website realty media"
-                  data-artwork-slot
-                >
-                  <video
-                    muted
-                    loop
-                    playsinline
-                    preload="metadata"
-                    poster="./assets/videos/services/web-design-preview-poster.jpg"
-                    aria-label="Înregistrare a website-ului Mountain View Apuseni"
-                    data-web-design-video
-                  >
-                    <source src="./assets/videos/services/web-design-preview.mp4" type="video/mp4" />
-                  </video>
-                </figure>
-              </li>
-            </ol>
-          </div>
-        </div>
-      </section>
-
-      <section class="services-section services-section--continuation" id="dezvoltare-aplicatii" aria-labelledby="app-development-title">
-        <div class="service-hold service-hold--app-development">
-          <div class="services-layout services-layout--continuation services-layout--inverse service-hold-sticky">
-            <ol class="services-list" aria-label="Serviciile realty media, portal clienți">
-              <li class="service-step is-active">
-                <div class="service-mobile-copy">
-                  <h3>Portal clienți</h3>
-                </div>
-                <figure
-                  class="service-artboard service-artboard--dashboard"
-                  aria-label="Portalul dedicat fiecărui client realty media"
-                  data-artwork-slot
-                >
-                  <img
-                    src="./assets/images/services/realtymedia-client-portal-dashboard.png"
-                    width="1912"
-                    height="1080"
-                    alt="Portalul dedicat clienților realty media, cu campanii, calendar de producție, statistici, livrabile și plăți"
-                  />
-                </figure>
-              </li>
-            </ol>
-
-            <div class="services-copy">
-              <div class="services-copy-main">
-                <p class="services-eyebrow">Serviciile noastre</p>
-
-                <h2 class="services-title" id="app-development-title">
-                  <span class="services-title-stage">
-                    <span class="services-title-text">Portal clienți</span>
-                  </span>
-                </h2>
-              </div>
-            </div>
+            <article class="service-card service-card--phone">
+              <span>04</span>
+              <h3>Social Media</h3>
+              <p>Conținut scurt, calendare de postare și materiale pregătite pentru campanii constante.</p>
+            </article>
           </div>
         </div>
       </section>
 
     </main>
+
+    <div
+      class="gallery-modal"
+      id="photography-gallery-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Galerie fotografie Realty Media"
+      aria-hidden="true"
+      data-gallery-modal
+      inert
+    >
+      <div class="gallery-modal-backdrop" data-gallery-close></div>
+      <section class="gallery-modal-panel" aria-label="Colaj fotografie Realty Media">
+        <header class="gallery-modal-header">
+          <button class="gallery-modal-close" type="button" aria-label="Închide galeria" data-gallery-close>
+            <span></span>
+            <span></span>
+          </button>
+        </header>
+
+        <div class="photography-collage" aria-label="Exemple fotografie proprietăți">
+          <figure class="collage-item collage-item--hero">
+            <img src="./assets/images/services/photography-collage/a-frame-exterior.jpg" width="1800" height="1351" loading="lazy" decoding="async" alt="Cabană A-frame fotografiată la apus" />
+          </figure>
+          <figure class="collage-item collage-item--wide">
+            <img src="./assets/images/services/photography-collage/drone-house.jpg" width="1800" height="1012" loading="lazy" decoding="async" alt="Casă fotografiată aerian cu drona" />
+          </figure>
+          <figure class="collage-item collage-item--tall">
+            <img src="./assets/images/services/photography-collage/cabin-detail.jpg" width="1351" height="1800" loading="lazy" decoding="async" alt="Detaliu interior din lemn într-o cabană" />
+          </figure>
+          <figure class="collage-item collage-item--medium">
+            <img src="./assets/images/services/photography-collage/window-dining.jpg" width="1800" height="1200" loading="lazy" decoding="async" alt="Zonă de dining cu ferestre mari și vedere spre pădure" />
+          </figure>
+          <figure class="collage-item collage-item--panorama">
+            <img src="./assets/images/services/photography-collage/a-frame-drone.jpg" width="1800" height="1012" loading="lazy" decoding="async" alt="Cabană A-frame surprinsă din aer printre brazi" />
+          </figure>
+        </div>
+      </section>
+    </div>
 
     <footer class="contact-footer" id="contact" aria-labelledby="contact-title">
       <div class="liquid-ether-layer" aria-hidden="true" data-liquid-ether></div>
