@@ -16,7 +16,7 @@
   --font-ui: "Outfit", sans-serif;
   --nav-height: 4.45rem;
   --gutter: clamp(1.25rem, 2.2vw, 2rem);
-  --logo-gap: clamp(2rem, 4.2vw, 5rem);
+  --logo-gap: clamp(1.6rem, 3vw, 3.4rem);
   --logo-height: 4.25rem;
   --next-section-peek: clamp(4.25rem, 9svh, 6rem);
   --services-surface: var(--black);
@@ -34,6 +34,7 @@ html {
   min-width: 320px;
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--nav-height) + 1px);
+  scrollbar-gutter: stable;
   background: var(--black);
 }
 
@@ -59,6 +60,10 @@ body {
 html.is-gallery-open,
 html.is-gallery-open body {
   overflow: hidden;
+}
+
+html.is-gallery-open .liquid-ether-layer {
+  visibility: hidden;
 }
 
 button,
@@ -590,10 +595,10 @@ a:focus-visible {
   width: clamp(2.35rem, 3.1vw, 2.9rem);
   height: clamp(2.35rem, 3.1vw, 2.9rem);
   margin-left: -0.45rem;
-  border: 2px solid var(--black);
+  border: 0;
   border-radius: 999px;
   object-fit: cover;
-  background: var(--black);
+  background: transparent;
   box-shadow: 0 10px 24px color-mix(in srgb, var(--black) 18%, transparent);
 }
 
@@ -635,7 +640,7 @@ a:focus-visible {
   display: flex;
   width: max-content;
   gap: var(--logo-gap);
-  animation: logo-marquee 41s linear infinite;
+  animation: logo-marquee 29s linear infinite;
   will-change: transform;
 }
 
@@ -644,12 +649,11 @@ a:focus-visible {
   align-items: center;
   flex: 0 0 auto;
   gap: var(--logo-gap);
-  padding-left: var(--logo-gap);
 }
 
 .logo-slot {
   display: grid;
-  width: clamp(8rem, 11.8vw, 11rem);
+  width: clamp(7rem, 9vw, 9.5rem);
   height: var(--logo-height);
   flex: 0 0 auto;
   place-items: center;
@@ -904,9 +908,9 @@ a:focus-visible {
   inset: 0;
   background:
     radial-gradient(ellipse at 72% 18%, color-mix(in srgb, var(--blue) 18%, transparent), transparent 36%),
-    color-mix(in srgb, var(--white) 38%, transparent);
-  backdrop-filter: blur(18px) saturate(145%);
-  -webkit-backdrop-filter: blur(18px) saturate(145%);
+    color-mix(in srgb, var(--white) 78%, transparent);
+  backdrop-filter: blur(8px) saturate(125%);
+  -webkit-backdrop-filter: blur(8px) saturate(125%);
 }
 
 .gallery-modal-panel {
@@ -918,7 +922,7 @@ a:focus-visible {
   height: auto;
   max-height: calc(100svh - clamp(1rem, 3vw, 2rem) * 2);
   overflow: hidden;
-  padding: clamp(1rem, 1.8vw, 1.35rem);
+  padding: clamp(4.75rem, 6vw, 5.25rem) clamp(1rem, 1.8vw, 1.35rem) clamp(1rem, 1.8vw, 1.35rem);
   border: 1px solid color-mix(in srgb, var(--white) 72%, transparent);
   border-radius: 1.5rem;
   background-color: color-mix(in srgb, var(--white) 24%, transparent);
@@ -961,6 +965,23 @@ a:focus-visible {
   pointer-events: auto;
   backdrop-filter: blur(16px) saturate(165%);
   -webkit-backdrop-filter: blur(16px) saturate(165%);
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.gallery-modal-close:hover,
+.gallery-modal-close:focus-visible {
+  border-color: var(--blue);
+  background-color: var(--blue);
+  color: var(--white);
+  box-shadow:
+    0 20px 46px color-mix(in srgb, var(--blue) 26%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--white) 42%, transparent);
+  transform: scale(1.06) rotate(90deg);
 }
 
 .gallery-modal-close span {
@@ -969,6 +990,12 @@ a:focus-visible {
   height: 2px;
   border-radius: 999px;
   background: currentColor;
+  transition: width 180ms ease;
+}
+
+.gallery-modal-close:hover span,
+.gallery-modal-close:focus-visible span {
+  width: 1.18rem;
 }
 
 .gallery-modal-close span:first-child {
@@ -1308,7 +1335,7 @@ a:focus-visible {
   }
 
   .logo-slot {
-    width: clamp(8rem, 24vw, 9rem);
+    width: clamp(6.75rem, 21vw, 8.5rem);
     height: var(--logo-height);
   }
 
@@ -1443,7 +1470,6 @@ a:focus-visible {
   .hero-proof-clients img {
     width: 2.2rem;
     height: 2.2rem;
-    border-width: 1.5px;
   }
 
   .hero-proof-rating {
