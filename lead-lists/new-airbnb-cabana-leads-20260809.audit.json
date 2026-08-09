@@ -1,0 +1,193 @@
+{
+  "batchDate": "20260809",
+  "csvPath": "/Users/kiskalloakos/Downloads/REALTY MEDIA/lead-lists/new-airbnb-cabana-leads-20260809.csv",
+  "rulesVersion": "AIRBNB_LEAD_LIST_RULES.md",
+  "rowCount": 17,
+  "rows": [
+    {
+      "name": "Cabana Dominic",
+      "location": "Cluj, Mărișel",
+      "phone": "+40 742 597 731",
+      "listingLink": "https://www.booking.com/hotel/ro/cabana-dominic.html",
+      "website": "https://cabanadominic.ro/",
+      "status": "Lead",
+      "notes": "",
+      "verification": [
+        "Booking listing shows Cabana Dominic as an entire chalet/whole place in Mărișel, Cluj.",
+        "Official site/search result confirms public phone 0742 597 731 and Mărișel, județul Cluj."
+      ]
+    },
+    {
+      "name": "Cabana Merlin",
+      "location": "Cluj, Muntele Băișorii",
+      "phone": "+40 740 066 636",
+      "listingLink": "https://www.booking.com/hotel/ro/cabana-merlin-statiunea-muntele-baisorii.ro.html",
+      "website": "",
+      "status": "Lead",
+      "notes": "",
+      "verification": [
+        "Booking listing shows Cabana Merlin as an entire holiday home/cabin in Stațiunea Muntele Băișorii, Cluj.",
+        "Public Waze result confirms phone 0740 066 636."
+      ]
+    },
+    {
+      "name": "Cabana Nicorici",
+      "location": "Cluj, Scrind-Frăsinet",
+      "phone": "+40 735 856 443",
+      "listingLink": "https://www.booking.com/hotel/ro/cabana-nicorici.ca.html",
+      "website": "https://cabananicorici.cazare7.ro/",
+      "facebook": "https://www.facebook.com/CabanaNicorici/",
+      "status": "Lead",
+      "notes": "",
+      "verification": [
+        "Booking listing shows Cabana Nicorici as a whole chalet in Scrind-Frăsinet, Cluj.",
+        "Property site confirms phone 0735-856-443, full-unit rental, and Facebook page."
+      ]
+    },
+    {
+      "name": "Cranberry Cabin Buscat",
+      "location": "Cluj, Muntele Băișorii",
+      "phone": "+40 724 701 875",
+      "listingLink": "https://www.booking.com/hotel/ro/cranberry-cabin-buscat.en-gb.html",
+      "website": "https://cranberry.ro/",
+      "instagram": "https://www.instagram.com/cranberrycabinbuscat",
+      "facebook": "https://www.facebook.com/profile.php?id=61584687341353",
+      "status": "Lead",
+      "notes": "",
+      "verification": [
+        "Booking listing shows Cranberry Cabin Buscat as an entire chalet in Muntele Băișorii, Cluj.",
+        "Official site confirms phone +40 724 701 875, Instagram, Facebook, and complete-cabin pricing."
+      ]
+    },
+    {
+      "name": "Cabana din padure si casutele din copac Belis",
+      "location": "Cluj, Beliș",
+      "phone": "+40 746 375 292",
+      "listingLink": "https://www.booking.com/hotel/ro/cabana-din-padurea-belis-si-casuta-din-copac-cluj.html",
+      "website": "https://cabana-belis.ro/",
+      "status": "Lead",
+      "notes": "",
+      "verification": [
+        "Booking listing shows the property as a whole house/cabin-style stay connected to Beliș/Cluj area.",
+        "Official/public accommodation pages confirm phone 0746 375 292 and property website."
+      ]
+    },
+    {
+      "name": "Cabana Dia Belis",
+      "location": "Cluj, Beliș",
+      "phone": "+40 744 939 124",
+      "listingLink": "https://www.booking.com/hotel/ro/cabana-dia-belis.en-gb.html",
+      "website": "",
+      "status": "Lead",
+      "notes": "",
+      "verification": [
+        "Booking listing shows Cabana Dia Belis as a lodge/cabana-style stay in Beliș.",
+        "Public hotel/search result confirms phone +40 744 939 124."
+      ]
+    },
+    {
+      "name": "Cabana The One",
+      "location": "Cluj, Beliș",
+      "phone": "+40 746 267 634",
+      "listingLink": "https://www.booking.com/hotel/ro/cabana-the-one.ro.html",
+      "website": "",
+      "instagram": "https://www.instagram.com/cabanatheone",
+      "status": "Lead",
+      "notes": "",
+      "verification": [
+        "Booking listing shows Cabana The One as a whole villa/private stay in Beliș.",
+        "Public accommodation/social sources confirm phone 0746 267 634 and Instagram handle cabanatheone."
+      ]
+    },
+    {
+      "name": "Black Wood Cabin",
+      "location": "Cluj, Mărișel",
+      "phone": "+40 722 404 065",
+      "listingLink": "https://www.booking.com/hotel/ro/black-wood-cabin.ro.html",
+      "website": "",
+      "status": "Lead",
+      "notes": "",
+      "verification": [
+        "Booking listing shows Black Wood Cabin as an entire house/cabin in Mărișel.",
+        "Public accommodation source confirms operator phone 0722 404 065."
+      ]
+    },
+    {
+      "name": "Tiny House Casuta Schiorului 2, Mărișel Apuseni",
+      "location": "Cluj, Mărișel",
+      "phone": "+40 773 741 659",
+      "listingLink": "https://www.booking.com/hotel/ro/casuta-schiorului-apuseni.html",
+      "website": "",
+      "status": "Lead",
+      "notes": "",
+      "verification": [
+        "Booking listing/review source confirms Casuta Schiorului Apuseni as a tiny-house style stay in Mărișel.",
+        "Public accommodation source confirms operator phone 0773 741 659."
+      ]
+    },
+    {
+      "name": "Cabana Transilvania",
+      "location": "Cluj, Beliș",
+      "phone": "+40 743 185 302",
+      "listingLink": "https://www.booking.com/hotel/ro/cabana-transilvania-belis.html",
+      "website": "",
+      "status": "Lead",
+      "notes": "",
+      "verification": [
+        "Booking listing shows Cabana Transilvania as a holiday home/cabana-style stay in Beliș.",
+        "Public accommodation source confirms phone 0743 185 302."
+      ]
+    },
+    {
+      "name": "Nordik Cabin",
+      "location": "Cluj, Mărișel",
+      "phone": "+40 723 746 507",
+      "listingLink": "https://www.booking.com/hotel/ro/nordik-cabin-marisel.ro.html",
+      "website": "",
+      "status": "Lead",
+      "notes": "",
+      "verification": [
+        "Booking listing/review source confirms Nordik Cabin as an A-frame/cabin-style stay in Mărișel.",
+        "Public accommodation sources confirm phone +40 723 746 507."
+      ]
+    }
+  ],
+  "excludedAfterReview": [
+    {
+      "name": "Lacul Micești",
+      "reason": "Wel.ro source mixes cabana with pensiune/restaurant language; excluded under strict no-pensiune/no-restaurant rule."
+    },
+    {
+      "name": "Evergreen – escape în nature",
+      "reason": "Mixed gastronomic point/demipensiune/spa language; excluded."
+    },
+    {
+      "name": "Restless",
+      "reason": "Duplicate phone with Grand Lake House from 20260803 batch."
+    },
+    {
+      "name": "Cabana Murmur",
+      "reason": "Valid Airbnb-style cabin listing found, but no public phone was found; excluded under phone-required rule."
+    },
+    {
+      "name": "Cabana Luna",
+      "reason": "Valid Booking-style cabin listing found, but no public phone was found; excluded under phone-required rule."
+    },
+    {
+      "name": "Cabana Berg",
+      "reason": "Valid Booking-style cabin listing found, but no complete public phone was found; excluded under phone-required rule."
+    },
+    {
+      "name": "Cabana Revnic",
+      "reason": "Valid Booking-style cabin listing found, but no public phone was found; excluded under phone-required rule."
+    }
+  ],
+  "duplicateChecks": {
+    "checkedAgainst": [
+      "lead-lists/Aribnb Lead List.numbers",
+      "lead-lists/new-airbnb-cabana-leads-20260731.csv",
+      "lead-lists/new-airbnb-cabana-leads-20260803.csv"
+    ],
+    "matchedExistingRows": []
+  }
+}
