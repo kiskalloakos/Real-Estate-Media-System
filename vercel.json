@@ -59,6 +59,21 @@
       "permanent": true
     },
     {
+      "source": "/cabane.html",
+      "destination": "/cabane",
+      "permanent": true
+    },
+    {
+      "source": "/agenti-imobiliari.html",
+      "destination": "/agenti-imobiliari",
+      "permanent": true
+    },
+    {
+      "source": "/dezvoltatori.html",
+      "destination": "/dezvoltatori",
+      "permanent": true
+    },
+    {
       "source": "/portofoliu",
       "destination": "/#portofoliu",
       "permanent": true
