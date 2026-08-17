@@ -20,7 +20,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&amp;display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="./assets/vendor/lenis/lenis.css" />
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles.css?v=20260818-documentar-video-2" />
     <script type="module" src="./script.js"></script>
   </head>
 
@@ -69,13 +69,11 @@
               </a>
             </div>
           </div>
+          <a class="nav-link nav-link--contact" href="#contact">Contact</a>
         </nav>
 
         <div class="nav-actions">
           <a class="nav-phone" href="tel:+40732775601">+40 732 775 601</a>
-          <a class="contact-link contact-link--header" href="#contact">
-            <span>Contact</span>
-          </a>
         </div>
 
         <button
@@ -106,10 +104,10 @@
 
         <div class="hero-copy">
           <h1 id="hero-title">
-            <span class="hero-line">Marketing complet</span>
-            <span class="hero-line">pentru proprietatea ta</span>
+            <span class="hero-line">Partenerul de încredere</span>
+            <span class="hero-line">al liderilor din imobiliare</span>
           </h1>
-          <p class="hero-subtitle">Cele mai corecte prețuri pentru cea mai bună calitate</p>
+          <p class="hero-subtitle">Construim brandul perfect pentru orice proprietate</p>
           <div class="hero-proof" aria-label="Dovadă socială Realty Media">
             <a class="contact-link contact-link--hero" href="#contact">Contact</a>
             <div class="hero-proof-clients" aria-label="Exemple de clienți">
@@ -132,9 +130,9 @@
                 alt="Proprietate filmată aerian"
               />
             </div>
-            <div class="hero-proof-rating" aria-label="5 stele, 17 clienți">
+            <div class="hero-proof-rating" aria-label="5 stele din 17+ clienți">
               <span aria-hidden="true">★★★★★</span>
-              <small>5 stele / 17 clienți</small>
+              <small>5 stele din 17+ clienți</small>
             </div>
           </div>
         </div>
@@ -169,84 +167,83 @@
       <section class="services-section" id="fotografie" aria-labelledby="servicii-title" data-header-theme="light">
         <div class="services-shell">
           <header class="services-header">
-            <p class="services-kicker">Serviciile noastre</p>
-            <h2 id="servicii-title">Servicii pentru proprietăți care trebuie să arate impecabil online.</h2>
+            <h2 id="servicii-title">Tot ce ai nevoie pentru a vinde mai bine</h2>
           </header>
 
           <div class="services-grid" aria-label="Serviciile Realty Media">
-            <button
-              class="service-card service-card--button"
-              type="button"
-              aria-haspopup="dialog"
-              aria-controls="photography-gallery-modal"
-              data-gallery-open
-            >
-              <span>01</span>
-              <span class="service-card-title">Fotografie</span>
-              <span class="service-card-copy">Cadre curate, luminoase și coerente pentru proprietăți, spații comerciale și branduri locale.</span>
-            </button>
-
-            <article class="service-card">
-              <span>02</span>
-              <h3>Web Design</h3>
-              <p>Pagini rapide și elegante, construite pentru încredere, cereri directe și prezentare premium.</p>
+            <article class="service-card service-card--media service-card--photography">
+              <img class="service-card-image" src="./assets/images/services/fotografie.jpg" alt="" aria-hidden="true" />
+              <span class="service-card-content">
+                <span class="service-card-title">Fotografie</span>
+                <span class="service-card-copy">Experiență depășind 100.000+ de cadre, tehnică HDR, Flambient și Ambient.</span>
+              </span>
             </article>
 
-            <article class="service-card service-card--wide">
-              <span>03</span>
-              <h3>Filmare cu drona</h3>
-              <p>Perspective aeriene care arată contextul, amplasarea și atmosfera unei proprietăți.</p>
+            <article class="service-card service-card--web">
+              <span class="service-card-web-mark" aria-hidden="true">&lt;/&gt;</span>
+              <span class="service-card-content">
+                <h3>Web Design</h3>
+                <p>Landing page optimizat, care transformă vizualizările în clienți prin copywriting, SEO verificat, HTML, CSS, JavaScript și React.</p>
+              </span>
             </article>
 
-            <article class="service-card service-card--phone">
-              <span>04</span>
-              <h3>Social Media</h3>
-              <p>Conținut scurt, calendare de postare și materiale pregătite pentru campanii constante.</p>
+            <article class="service-card service-card--media service-card--drone">
+              <img class="service-card-image" src="./assets/images/services/photography-collage/drone-house.jpg" alt="" aria-hidden="true" />
+              <span class="service-card-content">
+                <h3>Dronă</h3>
+                <p>Pilotaj certificat, cu atestat A1–A3 AACR UAS și peste 100 de ore de zbor.</p>
+              </span>
+            </article>
+
+            <article class="service-card service-card--media service-card--social">
+              <span class="service-card-content">
+                <span class="service-card-social-metric">10M+</span>
+                <h3>Social Media</h3>
+                <p>vizualizări generate</p>
+              </span>
+            </article>
+
+            <article class="service-card service-card--documentar">
+              <video class="service-card-video" muted loop playsinline preload="auto" poster="./assets/images/services/documentar-video-poster.jpg" aria-hidden="true">
+                <source src="./assets/videos/portfolio/mac-be-reel.mp4" type="video/mp4" />
+              </video>
+              <span class="service-card-content">
+                <h3>Documentar</h3>
+                <p>Documentar pentru prezentarea unei viziuni, proiect, testimonial, 1000+ ore în spatele camerei + premii și mențiuni TIFF + multe alte...</p>
+              </span>
+            </article>
+
+            <article class="service-card service-card--media service-card--platform">
+              <img class="service-card-image" src="./assets/images/services/realty%20media%20app%20mockup.jpg" alt="" aria-hidden="true" />
+              <span class="service-card-content">
+                <h3>Platformă</h3>
+                <p>Platformă unică pentru clienții noștri: Analytics, Review, Feedback și LIVE 24/7.</p>
+              </span>
+            </article>
+
+            <article class="service-card service-card--consulting">
+              <span class="service-card-content">
+                <p class="service-card-consulting-copy">Construim brandul perfect pentru orice proprietate</p>
+              </span>
+            </article>
+
+            <article class="service-card service-card--ads">
+              <span class="service-card-ads-mark" aria-hidden="true">
+                <svg viewBox="0 0 64 64" role="presentation">
+                  <path d="M9 27.5 43 15v34L9 36.5z" fill="currentColor" />
+                  <path d="M9 35v8a6 6 0 0 0 6 6h4l5-12.5M48 24c4.8 3.4 4.8 12.6 0 16M54 18c8 6.2 8 21.8 0 28" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" />
+                </svg>
+              </span>
+              <span class="service-card-content">
+                <h3>Ads</h3>
+                <p>Producție de paid ads pentru Meta, TikTok și Google — de la conținut până la management și consultanță.</p>
+              </span>
             </article>
           </div>
         </div>
       </section>
 
     </main>
-
-    <div
-      class="gallery-modal"
-      id="photography-gallery-modal"
-      role="dialog"
-      aria-modal="true"
-      aria-label="Galerie fotografie Realty Media"
-      aria-hidden="true"
-      data-gallery-modal
-      inert
-    >
-      <div class="gallery-modal-backdrop" data-gallery-close></div>
-      <section class="gallery-modal-panel" aria-label="Colaj fotografie Realty Media">
-        <header class="gallery-modal-header">
-          <button class="gallery-modal-close" type="button" aria-label="Închide galeria" data-gallery-close>
-            <span></span>
-            <span></span>
-          </button>
-        </header>
-
-        <div class="photography-collage" aria-label="Exemple fotografie proprietăți">
-          <figure class="collage-item collage-item--hero">
-            <img src="./assets/images/services/photography-collage/a-frame-exterior.jpg" width="1800" height="1351" loading="lazy" decoding="async" alt="Cabană A-frame fotografiată la apus" />
-          </figure>
-          <figure class="collage-item collage-item--wide">
-            <img src="./assets/images/services/photography-collage/drone-house.jpg" width="1800" height="1012" loading="lazy" decoding="async" alt="Casă fotografiată aerian cu drona" />
-          </figure>
-          <figure class="collage-item collage-item--tall">
-            <img src="./assets/images/services/photography-collage/cabin-detail.jpg" width="1351" height="1800" loading="lazy" decoding="async" alt="Detaliu interior din lemn într-o cabană" />
-          </figure>
-          <figure class="collage-item collage-item--medium">
-            <img src="./assets/images/services/photography-collage/window-dining.jpg" width="1800" height="1200" loading="lazy" decoding="async" alt="Zonă de dining cu ferestre mari și vedere spre pădure" />
-          </figure>
-          <figure class="collage-item collage-item--panorama">
-            <img src="./assets/images/services/photography-collage/a-frame-drone.jpg" width="1800" height="1012" loading="lazy" decoding="async" alt="Cabană A-frame surprinsă din aer printre brazi" />
-          </figure>
-        </div>
-      </section>
-    </div>
 
     <footer class="contact-footer" id="contact" aria-labelledby="contact-title">
       <div class="liquid-ether-layer" aria-hidden="true" data-liquid-ether></div>

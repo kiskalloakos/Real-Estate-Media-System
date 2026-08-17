@@ -72,6 +72,16 @@ a {
   font: inherit;
 }
 
+button,
+.nav-link,
+.solutions-menu a,
+.contact-link,
+.solution-secondary-link,
+.contact-actions a,
+.mobile-menu a {
+  font-weight: 600;
+}
+
 a {
   text-decoration: none;
 }
@@ -172,10 +182,10 @@ a:focus-visible {
 
 .nav-phone {
   color: var(--white);
-  font-size: clamp(0.74rem, 0.82vw, 0.86rem);
+  font-size: 0.84rem;
   font-weight: 600;
   line-height: 1;
-  letter-spacing: 0.035em;
+  letter-spacing: 0.02em;
   white-space: nowrap;
   transition: color 180ms ease-out;
 }
@@ -215,6 +225,7 @@ a:focus-visible {
   font-weight: 600;
   line-height: 1;
   letter-spacing: 0.02em;
+  text-transform: uppercase;
   transition:
     background-color 180ms ease-out,
     color 180ms ease-out;
@@ -224,6 +235,16 @@ a:focus-visible {
 .nav-link:focus-visible,
 .nav-dropdown:hover .nav-dropdown-toggle,
 .nav-dropdown.is-open .nav-dropdown-toggle {
+  background: color-mix(in srgb, var(--white) 14%, transparent);
+  color: var(--white);
+}
+
+.nav-link--contact {
+  color: var(--white);
+}
+
+.nav-link--contact:hover,
+.nav-link--contact:focus-visible {
   background: color-mix(in srgb, var(--white) 14%, transparent);
   color: var(--white);
 }
@@ -311,6 +332,7 @@ a:focus-visible {
   font-size: 1rem;
   font-weight: 600;
   line-height: 1.05;
+  text-transform: uppercase;
 }
 
 .contact-link {
@@ -344,6 +366,7 @@ a:focus-visible {
   gap: 0.5rem;
   padding: 0.16rem 1rem 0.14rem 1.08rem;
   font-size: 0.86rem;
+  text-transform: uppercase;
 }
 
 .contact-link img {
@@ -417,7 +440,7 @@ a:focus-visible {
   max-width: 11ch;
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(4.3rem, 10.2vw, 10.5rem);
+  font-size: clamp(3.85rem, 6.7vw, 6.6rem);
   font-weight: 600;
   letter-spacing: -0.055em;
   line-height: 0.86;
@@ -549,8 +572,8 @@ a:focus-visible {
   margin: 0;
   color: var(--white);
   font-family: var(--font-display);
-  font-size: clamp(4rem, 7.2vw, 7.6rem);
-  font-weight: 400;
+  font-size: clamp(3.15rem, 6.1vw, 6rem);
+  font-weight: 600;
   line-height: 0.91;
   letter-spacing: -0.035em;
   text-wrap: balance;
@@ -583,6 +606,7 @@ a:focus-visible {
   min-height: 2.5rem;
   padding: 0.15rem 1.12rem 0.13rem;
   font-size: 0.86rem;
+  text-transform: uppercase;
 }
 
 .hero-proof-clients {
@@ -620,7 +644,7 @@ a:focus-visible {
 .hero-proof-rating small {
   color: var(--white);
   font-size: clamp(0.7rem, 0.82vw, 0.78rem);
-  font-weight: 600;
+  font-weight: 400;
   letter-spacing: 0.02em;
 }
 
@@ -701,8 +725,8 @@ a:focus-visible {
 
 .services-shell {
   display: grid;
-  grid-template-columns: minmax(17rem, 0.66fr) minmax(0, 1.34fr);
-  gap: clamp(1rem, 2vw, 1.5rem);
+  grid-template-columns: 1fr;
+  gap: clamp(2rem, 4vw, 3.75rem);
   width: min(100%, 96rem);
   margin-inline: auto;
   padding: clamp(5rem, 9vh, 7rem) var(--gutter) clamp(5.5rem, 10vh, 8rem);
@@ -711,7 +735,9 @@ a:focus-visible {
 .services-header {
   display: grid;
   align-content: start;
+  justify-items: center;
   gap: 1.05rem;
+  text-align: center;
 }
 
 .services-kicker {
@@ -725,13 +751,13 @@ a:focus-visible {
 }
 
 .services-header h2 {
-  max-width: 11ch;
+  max-width: 16ch;
   margin: 0;
   color: var(--black);
   font-family: var(--font-display);
-  font-size: clamp(2.3rem, 4.5vw, 4.8rem);
+  font-size: clamp(3.15rem, 6.1vw, 6rem);
   font-weight: 600;
-  line-height: 1.06;
+  line-height: 0.94;
   letter-spacing: -0.045em;
   text-wrap: balance;
 }
@@ -739,15 +765,22 @@ a:focus-visible {
 .services-grid {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-areas:
+    "photography photography photography web web web drone drone drone drone drone drone"
+    "photography photography photography documentar documentar documentar social social social platform platform platform"
+    "consulting consulting consulting consulting consulting ads ads ads ads ads ads ads";
+  grid-template-rows: repeat(3, minmax(0, 1fr));
   gap: clamp(0.85rem, 1.25vw, 1.15rem);
+  min-height: min(68svh, 42rem);
   align-items: stretch;
 }
 
 .service-card {
-  display: grid;
-  grid-column: span 6;
-  align-content: space-between;
-  min-height: clamp(13rem, 19vw, 17.5rem);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: clamp(15rem, 20vw, 18rem);
+  overflow: hidden;
   padding: clamp(1rem, 1.5vw, 1.35rem);
   border: 1px solid var(--services-glass-edge);
   outline: 0;
@@ -763,8 +796,153 @@ a:focus-visible {
   -webkit-backdrop-filter: blur(20px) saturate(195%) contrast(108%) brightness(105%);
 }
 
-.service-card--button {
+.service-card--photography {
+  grid-area: photography;
+  min-height: 0;
+}
+
+.service-card--web {
+  grid-area: web;
+  border-color: transparent;
+  background-color: var(--white);
+  background-image: linear-gradient(135deg, var(--white) 0%, var(--white) 62%, var(--blue) 150%);
+  color: var(--black);
+}
+
+.service-card-web-mark {
+  position: absolute;
+  z-index: 0;
+  top: 0.2rem;
+  right: 0.65rem;
+  color: var(--blue);
+  font-family: var(--font-display);
+  font-size: clamp(4.5rem, 7vw, 7.5rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.14em;
+  opacity: 0.18;
+  transform: rotate(-8deg);
+}
+
+.service-card--drone {
+  grid-area: drone;
+  min-height: 0;
+}
+
+.service-card--social {
+  grid-area: social;
+}
+
+.service-card--social::after {
+  background: transparent;
+}
+
+.service-card--documentar {
+  grid-area: documentar;
+}
+
+.service-card--platform {
+  grid-area: platform;
+}
+
+.service-card--consulting {
+  grid-area: consulting;
+  border-color: transparent;
+  background-color: var(--blue);
+  background-image:
+    radial-gradient(circle at 88% 84%, var(--white) 0%, transparent 32%),
+    radial-gradient(circle at 10% 12%, var(--white) 0%, transparent 24%),
+    linear-gradient(135deg, var(--blue) 0%, var(--blue) 100%);
+  color: var(--white);
+}
+
+.service-card--ads {
+  grid-area: ads;
+  border-color: transparent;
+  background-color: var(--white);
+  background-image: linear-gradient(135deg, var(--white) 0%, var(--white) 62%, var(--blue) 150%);
+  color: var(--black);
+}
+
+.service-card-ads-mark {
+  position: absolute;
+  z-index: 0;
+  top: 0.7rem;
+  right: 0.85rem;
+  display: grid;
+  width: clamp(4.6rem, 7vw, 7.2rem);
+  height: clamp(4.6rem, 7vw, 7.2rem);
+  place-items: center;
+  color: var(--blue);
+  opacity: 0.24;
+  transform: rotate(-8deg);
+}
+
+.service-card-ads-mark svg {
+  width: 100%;
+  height: 100%;
+}
+
+.service-card--media {
+  background-color: var(--black);
+  color: var(--white);
+}
+
+.service-card--media::after {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--black) 6%, transparent) 15%,
+    color-mix(in srgb, var(--black) 82%, transparent) 100%
+  );
+  content: "";
+  pointer-events: none;
+}
+
+.service-card-image {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 260ms ease-out;
+}
+
+.service-card--platform .service-card-image {
+  object-position: center;
+}
+
+.service-card-content,
+.service-card-index {
   position: relative;
+  z-index: 1;
+}
+
+.service-card-content {
+  display: grid;
+  align-self: stretch;
+  align-content: end;
+  gap: 0.9rem;
+  width: 100%;
+  margin-top: auto;
+}
+
+.service-card--blue {
+  border-color: transparent;
+  background-color: var(--blue);
+  color: var(--white);
+}
+
+.service-card--ink {
+  border-color: transparent;
+  background-color: var(--black);
+  color: var(--white);
+}
+
+.service-card--button {
   padding-right: clamp(3.2rem, 4vw, 4.25rem);
   font: inherit;
   text-align: left;
@@ -826,21 +1004,65 @@ a:focus-visible {
   transform: translate(0.18rem, calc(50% - 1px)) rotate(45deg);
 }
 
-.service-card--wide {
-  grid-column: span 9;
+.service-card--media .service-card-index,
+.service-card--media h3,
+.service-card--media p,
+.service-card--blue .service-card-index,
+.service-card--blue h3,
+.service-card--blue p,
+.service-card--ink .service-card-index,
+.service-card--ink h3,
+.service-card--ink p {
+  color: var(--white);
 }
 
-.service-card--phone {
-  grid-column: span 3;
-  justify-self: stretch;
-  width: 100%;
-  min-height: clamp(18.75rem, 28vw, 23rem);
-  aspect-ratio: 9 / 16;
-  border-radius: 1.25rem;
-  padding: clamp(0.95rem, 1.2vw, 1.15rem);
+.service-card--media.service-card--button:hover,
+.service-card--media.service-card--button:focus-visible {
+  background-color: transparent;
 }
 
-.service-card > span:first-child {
+.service-card--media.service-card--button::before {
+  background: var(--white);
+}
+
+.service-card--media.service-card--button::after {
+  border-color: var(--white);
+}
+
+.service-card--media:hover .service-card-image,
+.service-card--media:focus-within .service-card-image {
+  transform: scale(1.04);
+}
+
+.service-card--social .service-card-content {
+  align-content: center;
+  justify-items: center;
+  min-height: 100%;
+  margin-top: 0;
+  padding: 1rem;
+  text-align: center;
+}
+
+.service-card-social-metric {
+  display: block;
+  color: var(--white);
+  font-family: var(--font-display);
+  font-size: clamp(3.7rem, 8vw, 7.2rem);
+  font-weight: 600;
+  line-height: 0.8;
+  letter-spacing: -0.08em;
+}
+
+.service-card--social h3 {
+  font-size: clamp(1.35rem, 2.3vw, 2.25rem);
+}
+
+.service-card--social p {
+  color: color-mix(in srgb, var(--white) 74%, transparent);
+  font-size: clamp(0.76rem, 0.9vw, 0.9rem);
+}
+
+.service-card-index {
   width: fit-content;
   color: var(--blue);
   font-size: 0.76rem;
@@ -852,34 +1074,118 @@ a:focus-visible {
 .service-card h3,
 .service-card-title {
   display: block;
-  margin: clamp(1.7rem, 3.4vw, 3.25rem) 0 0;
+  margin: 0;
   color: var(--black);
   font-family: var(--font-display);
-  font-size: clamp(1.7rem, 2.9vw, 3rem);
+  font-size: clamp(1.5rem, 2.4vw, 2.5rem);
   font-weight: 600;
   line-height: 0.95;
   letter-spacing: -0.04em;
-}
-
-.service-card--phone h3 {
-  margin-top: auto;
-  font-size: clamp(1.65rem, 2vw, 2.1rem);
 }
 
 .service-card p,
 .service-card-copy {
   display: block;
   max-width: 28rem;
-  margin: 0.9rem 0 0;
+  margin: 0;
   color: color-mix(in srgb, var(--black) 72%, transparent);
-  font-size: clamp(0.9rem, 1.05vw, 1rem);
-  font-weight: 600;
-  line-height: 1.28;
+  font-size: clamp(0.78rem, 0.9vw, 0.92rem);
+  font-weight: 400;
+  line-height: 1.2;
 }
 
-.service-card--phone p {
-  font-size: 0.78rem;
-  line-height: 1.22;
+.service-card--consulting .service-card-content {
+  align-content: center;
+  justify-items: center;
+  gap: 0;
+  min-height: 100%;
+  margin-top: 0;
+  text-align: center;
+}
+
+.service-card--consulting .service-card-consulting-copy {
+  max-width: 19ch;
+  color: var(--white);
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 2.55vw, 2.75rem);
+  font-weight: 600;
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+
+.service-card--web .service-card-content {
+  z-index: 1;
+}
+
+.service-card--web h3 {
+  color: var(--black);
+}
+
+.service-card--web p {
+  color: color-mix(in srgb, var(--black) 72%, transparent);
+}
+
+.service-card--documentar {
+  border-color: transparent;
+  background-color: var(--black);
+  color: var(--white);
+  padding: 0;
+}
+
+.service-card--documentar::after {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--black) 0%, transparent) 20%,
+    color-mix(in srgb, var(--black) 88%, transparent) 100%
+  );
+  content: "";
+  pointer-events: none;
+}
+
+.service-card-video {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: cover;
+  object-position: center;
+  opacity: 1;
+  pointer-events: none;
+}
+
+.service-card--documentar .service-card-content {
+  z-index: 3;
+  padding: 0 1.15rem 1rem;
+}
+
+.service-card--documentar h3 {
+  color: var(--white);
+}
+
+.service-card--documentar p {
+  color: var(--white);
+}
+
+.service-card--media .service-card-index,
+.service-card--media h3,
+.service-card--media p,
+.service-card--media .service-card-title,
+.service-card--media .service-card-copy,
+.service-card--blue .service-card-index,
+.service-card--blue h3,
+.service-card--blue p,
+.service-card--blue .service-card-copy,
+.service-card--ink .service-card-index,
+.service-card--ink h3,
+.service-card--ink p,
+.service-card--ink .service-card-copy {
+  color: var(--white);
 }
 
 .gallery-modal {
@@ -1087,8 +1393,10 @@ a:focus-visible {
 .contact-actions {
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 1.15rem clamp(2.25rem, 4.4vw, 5rem);
+  text-align: center;
 }
 
 .contact-actions a {
@@ -1108,6 +1416,7 @@ a:focus-visible {
 }
 
 .contact-legal {
+  align-self: center;
   max-width: 48rem;
   margin: clamp(1.8rem, 3.5vh, 2.75rem) 0 0;
   color: var(--muted);
@@ -1115,6 +1424,7 @@ a:focus-visible {
   font-weight: 400;
   line-height: 1.35;
   letter-spacing: 0.025em;
+  text-align: center;
 }
 
 .contact-wordmark {
@@ -1284,6 +1594,7 @@ a:focus-visible {
     font-size: 1rem;
     font-weight: 600;
     line-height: 1;
+    text-transform: uppercase;
   }
 
   .mobile-menu span {
@@ -1309,7 +1620,7 @@ a:focus-visible {
 
   .solution-hero h1 {
     max-width: 9ch;
-    font-size: clamp(4rem, 17vw, 6.6rem);
+    font-size: clamp(2.85rem, 11.8vw, 3.05rem);
   }
 
   .solution-hero p {
@@ -1331,7 +1642,11 @@ a:focus-visible {
 
   .hero h1 {
     width: 100%;
-    font-size: clamp(3.15rem, 11.8vw, 5.25rem);
+  }
+
+  .hero h1,
+  .services-header h2 {
+    font-size: clamp(2.6rem, 10.9vw, 2.85rem);
   }
 
   .logo-slot {
@@ -1351,33 +1666,21 @@ a:focus-visible {
 
   .services-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+      "photography photography"
+      "web drone"
+      "social social"
+      "documentar platform"
+      "consulting ads";
   }
 
   .service-card {
-    grid-column: span 1;
-    min-height: 12.5rem;
+    min-height: 15rem;
   }
 
-  .service-card--wide,
-  .service-card--phone {
-    grid-column: span 1;
-  }
-
-  .service-card--phone {
-    width: 100%;
-    min-height: 12.5rem;
-    aspect-ratio: auto;
-    border-radius: 1rem;
-  }
-
-  .service-card--phone h3 {
-    margin-top: clamp(1.7rem, 3.4vw, 3.25rem);
-    font-size: clamp(1.7rem, 2.9vw, 3rem);
-  }
-
-  .service-card--phone p {
-    font-size: clamp(0.9rem, 1.05vw, 1rem);
-    line-height: 1.28;
+  .service-card--photography,
+  .service-card--drone {
+    min-height: 22rem;
   }
 
   .gallery-modal {
@@ -1445,8 +1748,9 @@ a:focus-visible {
     padding-top: calc(var(--nav-height) + clamp(2.25rem, 6vh, 3.25rem));
   }
 
-  .hero h1 {
-    font-size: clamp(2.85rem, 12.8vw, 3.85rem);
+  .hero h1,
+  .services-header h2 {
+    font-size: clamp(2.6rem, 10.9vw, 2.85rem);
     line-height: 1.04;
   }
 
@@ -1494,10 +1798,27 @@ a:focus-visible {
 
   .services-grid {
     grid-template-columns: 1fr;
+    grid-template-areas:
+      "photography"
+      "web"
+      "drone"
+      "social"
+      "documentar"
+      "platform"
+      "consulting"
+      "ads";
   }
 
   .service-card {
-    min-height: 11.5rem;
+    min-height: 14rem;
+  }
+
+  .service-card--photography,
+  .service-card--drone,
+  .service-card--social,
+  .service-card--documentar,
+  .service-card--platform {
+    min-height: 20rem;
   }
 
   .photography-collage {

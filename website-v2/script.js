@@ -7,11 +7,7 @@ const solutionsDropdown = document.querySelector("[data-solutions-dropdown]");
 const solutionsToggle = document.querySelector("[data-solutions-toggle]");
 const mobileMenuToggle = document.querySelector("[data-mobile-menu-toggle]");
 const mobileMenu = document.querySelector("[data-mobile-menu]");
-const galleryModal = document.querySelector("[data-gallery-modal]");
-const galleryOpenButton = document.querySelector("[data-gallery-open]");
-const galleryCloseControls = [...document.querySelectorAll("[data-gallery-close]")];
 let lenis = null;
-let galleryLastFocus = null;
 
 function closeSolutionsDropdown() {
   solutionsDropdown?.classList.remove("is-open");
@@ -51,7 +47,6 @@ document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
   closeSolutionsDropdown();
   closeMobileMenu();
-  closeGallery();
 });
 
 desktopBreakpoint.addEventListener("change", () => {
@@ -85,72 +80,38 @@ reducedMotion.addEventListener("change", syncSmoothScroll);
 
 syncSmoothScroll();
 
-function getGalleryFocusable() {
-  if (!galleryModal) return [];
+const documentarCards = [...document.querySelectorAll(".service-card--documentar")];
 
-  return [
-    ...galleryModal.querySelectorAll(
-      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
-    ),
-  ].filter((element) => element instanceof HTMLElement && !element.hasAttribute("hidden"));
-}
+documentarCards.forEach((card) => {
+  const video = card.querySelector(".service-card-video");
 
-function openGallery() {
-  if (!galleryModal) return;
+  if (!(video instanceof HTMLVideoElement)) return;
 
-  galleryLastFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
-  galleryModal.classList.add("is-open");
-  galleryModal.removeAttribute("inert");
-  galleryModal.setAttribute("aria-hidden", "false");
-  document.documentElement.classList.add("is-gallery-open");
-  lenis?.stop?.();
+  const resetPreview = () => {
+    video.pause();
+    video.currentTime = 0;
+  };
 
-  window.setTimeout(() => {
-    getGalleryFocusable()[0]?.focus();
-  }, 0);
-}
+  const stopPreview = () => {
+    resetPreview();
+  };
 
-function closeGallery() {
-  if (!galleryModal?.classList.contains("is-open")) return;
+  const startPreview = async () => {
+    if (reducedMotion.matches) return;
 
-  galleryModal.classList.remove("is-open");
-  galleryModal.setAttribute("aria-hidden", "true");
-  galleryModal.setAttribute("inert", "");
-  document.documentElement.classList.remove("is-gallery-open");
-  lenis?.start?.();
-  galleryLastFocus?.focus();
-}
+    resetPreview();
 
-galleryOpenButton?.addEventListener("click", openGallery);
+    try {
+      await video.play();
+    } catch {
+      stopPreview();
+    }
+  };
 
-galleryCloseControls.forEach((control) => {
-  control.addEventListener("click", closeGallery);
-});
-
-galleryModal?.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") {
-    closeGallery();
-    return;
-  }
-
-  if (event.key !== "Tab") return;
-
-  const focusable = getGalleryFocusable();
-  if (focusable.length === 0) return;
-
-  const firstFocusable = focusable[0];
-  const lastFocusable = focusable[focusable.length - 1];
-
-  if (event.shiftKey && document.activeElement === firstFocusable) {
-    event.preventDefault();
-    lastFocusable.focus();
-    return;
-  }
-
-  if (!event.shiftKey && document.activeElement === lastFocusable) {
-    event.preventDefault();
-    firstFocusable.focus();
-  }
+  video.addEventListener("loadedmetadata", resetPreview, { once: true });
+  resetPreview();
+  card.addEventListener("mouseenter", startPreview);
+  card.addEventListener("mouseleave", stopPreview);
 });
 
 const liquidEtherLayers = [...document.querySelectorAll("[data-liquid-ether]")];
