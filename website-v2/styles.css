@@ -225,7 +225,7 @@ a:focus-visible {
   font-weight: 600;
   line-height: 1;
   letter-spacing: 0.02em;
-  text-transform: uppercase;
+  text-transform: none;
   transition:
     background-color 180ms ease-out,
     color 180ms ease-out;
@@ -332,7 +332,7 @@ a:focus-visible {
   font-size: 1rem;
   font-weight: 600;
   line-height: 1.05;
-  text-transform: uppercase;
+  text-transform: none;
 }
 
 .contact-link {
@@ -606,7 +606,7 @@ a:focus-visible {
   min-height: 2.5rem;
   padding: 0.15rem 1.12rem 0.13rem;
   font-size: 0.86rem;
-  text-transform: uppercase;
+  text-transform: none;
 }
 
 .hero-proof-clients {
@@ -629,10 +629,11 @@ a:focus-visible {
 .hero-proof-rating {
   display: grid;
   gap: 0.16rem;
+  justify-items: center;
   color: var(--white);
   font-weight: 600;
   line-height: 1;
-  text-align: left;
+  text-align: center;
 }
 
 .hero-proof-rating span {
@@ -777,6 +778,7 @@ a:focus-visible {
   position: relative;
   display: flex;
   flex-direction: column;
+  min-width: 0;
   min-height: clamp(15rem, 20vw, 18rem);
   overflow: hidden;
   padding: clamp(1rem, 1.5vw, 1.35rem);
@@ -1424,7 +1426,7 @@ a:focus-visible {
   font-weight: 600;
   line-height: 1;
   letter-spacing: 0.085em;
-  text-transform: uppercase;
+  text-transform: none;
   transition: color 180ms ease-out;
 }
 
@@ -1612,7 +1614,7 @@ a:focus-visible {
     font-size: 1rem;
     font-weight: 600;
     line-height: 1;
-    text-transform: uppercase;
+    text-transform: none;
   }
 
   .mobile-menu span {
@@ -1818,6 +1820,9 @@ a:focus-visible {
 
   .services-grid {
     grid-template-columns: 1fr;
+    grid-template-rows: none;
+    grid-auto-rows: auto;
+    min-height: 0;
     grid-template-areas:
       "photography"
       "web"
@@ -1836,11 +1841,30 @@ a:focus-visible {
   }
 
   .service-card--photography,
-  .service-card--drone,
-  .service-card--social,
   .service-card--documentar,
   .service-card--platform {
     min-height: 20rem;
+  }
+
+  .service-card--web,
+  .service-card--drone,
+  .service-card--social,
+  .service-card--presentation,
+  .service-card--consulting,
+  .service-card--ads {
+    min-height: 0;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    align-self: start;
+  }
+
+  .service-card--cinematic {
+    min-height: 0;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 9 / 16;
+    align-self: start;
   }
 
   .photography-collage {
