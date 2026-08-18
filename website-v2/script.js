@@ -80,40 +80,6 @@ reducedMotion.addEventListener("change", syncSmoothScroll);
 
 syncSmoothScroll();
 
-const documentarCards = [...document.querySelectorAll(".service-card--documentar")];
-
-documentarCards.forEach((card) => {
-  const video = card.querySelector(".service-card-video");
-
-  if (!(video instanceof HTMLVideoElement)) return;
-
-  const resetPreview = () => {
-    video.pause();
-    video.currentTime = 0;
-  };
-
-  const stopPreview = () => {
-    resetPreview();
-  };
-
-  const startPreview = async () => {
-    if (reducedMotion.matches) return;
-
-    resetPreview();
-
-    try {
-      await video.play();
-    } catch {
-      stopPreview();
-    }
-  };
-
-  video.addEventListener("loadedmetadata", resetPreview, { once: true });
-  resetPreview();
-  card.addEventListener("mouseenter", startPreview);
-  card.addEventListener("mouseleave", stopPreview);
-});
-
 const liquidEtherLayers = [...document.querySelectorAll("[data-liquid-ether]")];
 
 if (liquidEtherLayers.length > 0 && !reducedMotion.matches) {

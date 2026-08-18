@@ -4,7 +4,7 @@
 
 - All active lead-list files live in `lead-lists/`.
 - The current master list is `lead-lists/Aribnb Lead List.numbers`.
-- The current latest new-leads batch is `lead-lists/new-airbnb-cabana-leads-20260809.csv`.
+- The current latest new-leads batch is `lead-lists/new-airbnb-cabana-leads-20260817-3.csv`.
 - Treat the master file and every CSV in `lead-lists/` as the required source set for deduplication before any future extraction.
 - Do not use older `.xlsx`, CSV, script output, preview, or prior batch files as the source of truth unless the user explicitly promotes them into `lead-lists/`.
 - Default saved Airbnb seed link for future Cluj County pulls: `https://www.airbnb.com/s/Cluj-County/homes?refinement_paths%5B%5D=%2Fhomes&date_picker_type=calendar&place_id=ChIJiwtskR8MSUcR6Nk3QsedRkI&acp_id=470d6eef-56ce-4dbb-a3d9-5683724111de&search_type=filter_change&query=Cluj%20County&flexible_trip_lengths%5B%5D=one_week&monthly_start_date=2026-08-01&monthly_length=3&monthly_end_date=2026-11-01&search_mode=regular_search&price_filter_input_type=2&channel=EXPLORE&selected_filter_order%5B%5D=room_types%3AEntire%20home%2Fapt&selected_filter_order%5B%5D=l2_property_type_ids%3A1&selected_filter_order%5B%5D=l2_property_type_ids%3A2&selected_filter_order%5B%5D=l2_property_type_ids%3A3&update_selected_filters=false&l2_property_type_ids%5B%5D=1&l2_property_type_ids%5B%5D=2&l2_property_type_ids%5B%5D=3`

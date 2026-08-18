@@ -709,9 +709,6 @@ a:focus-visible {
 }
 
 .services-section {
-  --services-glass-surface: color-mix(in srgb, var(--white) 24%, transparent);
-  --services-glass-surface-strong: color-mix(in srgb, var(--white) 72%, transparent);
-  --services-glass-edge: color-mix(in srgb, var(--white) 72%, transparent);
   --services-glass-blue-soft: color-mix(in srgb, var(--blue) 30%, transparent);
   --services-glass-blue-faint: color-mix(in srgb, var(--blue) 16%, transparent);
   background: var(--white);
@@ -767,9 +764,10 @@ a:focus-visible {
   grid-template-columns: repeat(12, minmax(0, 1fr));
   grid-template-areas:
     "photography photography photography web web web drone drone drone drone drone drone"
-    "photography photography photography documentar documentar documentar social social social platform platform platform"
-    "consulting consulting consulting consulting consulting ads ads ads ads ads ads ads";
-  grid-template-rows: repeat(3, minmax(0, 1fr));
+    "photography photography photography documentar documentar documentar social social social cinematic cinematic cinematic"
+    "presentation presentation presentation presentation presentation presentation platform platform platform cinematic cinematic cinematic"
+    "consulting consulting consulting consulting consulting consulting ads ads ads ads ads ads";
+  grid-template-rows: repeat(4, minmax(0, 1fr));
   gap: clamp(0.85rem, 1.25vw, 1.15rem);
   min-height: min(68svh, 42rem);
   align-items: stretch;
@@ -782,18 +780,12 @@ a:focus-visible {
   min-height: clamp(15rem, 20vw, 18rem);
   overflow: hidden;
   padding: clamp(1rem, 1.5vw, 1.35rem);
-  border: 1px solid var(--services-glass-edge);
-  outline: 0;
+  border: none;
+  outline: none;
   border-radius: 1rem;
-  background-color: var(--services-glass-surface);
+  background-color: var(--white);
   background-image: none;
   color: var(--black);
-  box-shadow:
-    0 24px 56px color-mix(in srgb, var(--black) 12%, transparent),
-    inset 0 1px 0 color-mix(in srgb, var(--white) 94%, transparent),
-    inset 0 -1px 0 color-mix(in srgb, var(--white) 38%, transparent);
-  backdrop-filter: blur(20px) saturate(195%) contrast(108%) brightness(105%);
-  -webkit-backdrop-filter: blur(20px) saturate(195%) contrast(108%) brightness(105%);
 }
 
 .service-card--photography {
@@ -803,34 +795,22 @@ a:focus-visible {
 
 .service-card--web {
   grid-area: web;
-  border-color: transparent;
   background-color: var(--white);
-  background-image: linear-gradient(135deg, var(--white) 0%, var(--white) 62%, var(--blue) 150%);
-  color: var(--black);
-}
-
-.service-card-web-mark {
-  position: absolute;
-  z-index: 0;
-  top: 0.2rem;
-  right: 0.65rem;
+  background-image:
+    radial-gradient(circle at 88% 84%, var(--blue) 0%, transparent 32%),
+    radial-gradient(circle at 10% 12%, var(--blue) 0%, transparent 24%),
+    linear-gradient(135deg, var(--white) 0%, var(--white) 100%);
   color: var(--blue);
-  font-family: var(--font-display);
-  font-size: clamp(4.5rem, 7vw, 7.5rem);
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: -0.14em;
-  opacity: 0.18;
-  transform: rotate(-8deg);
 }
 
 .service-card--drone {
-  grid-area: drone;
+  grid-area: presentation;
   min-height: 0;
 }
 
 .service-card--social {
   grid-area: social;
+  background-color: var(--black);
 }
 
 .service-card--social::after {
@@ -841,13 +821,20 @@ a:focus-visible {
   grid-area: documentar;
 }
 
+.service-card--cinematic {
+  grid-area: cinematic;
+}
+
+.service-card--presentation {
+  grid-area: drone;
+}
+
 .service-card--platform {
   grid-area: platform;
 }
 
 .service-card--consulting {
-  grid-area: consulting;
-  border-color: transparent;
+  grid-area: ads;
   background-color: var(--blue);
   background-image:
     radial-gradient(circle at 88% 84%, var(--white) 0%, transparent 32%),
@@ -857,8 +844,7 @@ a:focus-visible {
 }
 
 .service-card--ads {
-  grid-area: ads;
-  border-color: transparent;
+  grid-area: consulting;
   background-color: var(--white);
   background-image: linear-gradient(135deg, var(--white) 0%, var(--white) 62%, var(--blue) 150%);
   color: var(--black);
@@ -1115,22 +1101,54 @@ a:focus-visible {
 }
 
 .service-card--web .service-card-content {
-  z-index: 1;
+  align-content: center;
+  justify-items: center;
+  min-height: 100%;
+  margin-top: 0;
+  text-align: center;
 }
 
 .service-card--web h3 {
-  color: var(--black);
+  color: var(--blue);
 }
 
 .service-card--web p {
-  color: color-mix(in srgb, var(--black) 72%, transparent);
+  color: var(--blue);
 }
 
 .service-card--documentar {
-  border-color: transparent;
   background-color: var(--black);
   color: var(--white);
   padding: 0;
+}
+
+.service-card--video {
+  padding: 0;
+  background-color: var(--black);
+  color: var(--white);
+}
+
+.service-card--video::after {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--black) 0%, transparent) 24%,
+    color-mix(in srgb, var(--black) 86%, transparent) 100%
+  );
+  content: "";
+  pointer-events: none;
+}
+
+.service-card--video .service-card-content {
+  z-index: 2;
+  padding: 0 clamp(1rem, 1.5vw, 1.35rem) clamp(1rem, 1.5vw, 1.35rem);
+}
+
+.service-card--video h3,
+.service-card--video p {
+  color: var(--white);
 }
 
 .service-card--documentar::after {
@@ -1669,9 +1687,11 @@ a:focus-visible {
     grid-template-areas:
       "photography photography"
       "web drone"
-      "social social"
-      "documentar platform"
-      "consulting ads";
+      "social cinematic"
+      "documentar cinematic"
+      "presentation presentation"
+      "platform consulting"
+      "ads ads";
   }
 
   .service-card {
@@ -1804,6 +1824,8 @@ a:focus-visible {
       "drone"
       "social"
       "documentar"
+      "cinematic"
+      "presentation"
       "platform"
       "consulting"
       "ads";

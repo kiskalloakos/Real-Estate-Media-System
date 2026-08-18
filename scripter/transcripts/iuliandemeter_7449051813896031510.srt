@@ -1,0 +1,52 @@
+1
+00:00:00,000 --> 00:00:06,200
+Oare merită în 2025 să cumpere un apartament pentru a-l amortiza sau obține profit din închirierea acestuia.
+
+2
+00:00:06,200 --> 00:00:06,960
+Hai să vedem.
+
+3
+00:00:06,960 --> 00:00:08,680
+Și l-am cazut de caz Bucureștiul.
+
+4
+00:00:08,680 --> 00:00:13,920
+Această este capitală la României, un oraj mare și într-o continuă expansiune când vine vorba de populație.
+
+5
+00:00:13,920 --> 00:00:19,520
+Aceasta se datorează tinerilor, studenților și spaților sau oamilor care vin aici pentru un nou loc de muncă.
+
+6
+00:00:19,520 --> 00:00:25,960
+Iar toate astea îl fac un oraj cu o cereră ridicată, cu un grad de ocupare bun și cu un randomly între 5 și 700 anual.
+
+7
+00:00:25,960 --> 00:00:32,560
+La achiția unui imobil de 100.000 de euro poți obține o kirie de 500 de euro lunară, ceea ce însumează 6.000 de euro anual.
+
+8
+00:00:32,560 --> 00:00:36,840
+Iar dacă facem un calcul scul de randomly, acesta se situață la 600 din valoare.
+
+9
+00:00:36,840 --> 00:00:46,600
+Dar ține cont în cei 600 după ce vei scada impozitul pe proprietate, impozitul pe kirie, asigurarea obligatorie și ceia SSE-ul vei rămâne cu un randomly între 4 și 5%.
+
+10
+00:00:46,600 --> 00:00:49,560
+Deci la un simplu calcul va parea că îți cozbani în 20 de ani.
+
+11
+00:00:49,560 --> 00:00:55,000
+Dar pe tine te va bucura faptul că îți crește valoare imobilului, dar ne uitând de cel mai mare dușman.
+
+12
+00:00:55,040 --> 00:00:59,640
+Inflatia doar în ultimii zeci ani a fost de 47,5%.
+
+13
+00:00:59,640 --> 00:01:05,320
+Dun cilian de meteri, ingineri dezvoltatorii mobiliari și am vrut să îți predind datele probleme pentru a putea trage singur concluzit.
+
