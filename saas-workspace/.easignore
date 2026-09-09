@@ -1,0 +1,15 @@
+# Dependencies and local build output
+node_modules/
+.expo/
+dist/
+.vercel/
+
+# Local-only files
+.git/
+.DS_Store
+.env
+.env.local
+*.log
+
+dist-ios/
+supabase/.temp/

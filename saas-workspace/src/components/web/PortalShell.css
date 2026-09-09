@@ -1,0 +1,602 @@
+/* Web portal chrome. Kept beside PortalShell so navigation styles do not leak
+   into screen-level components. */
+@media (min-width: 1025px) {
+  .rm-portal {
+    --rm-portal-rail-width: 104px;
+  }
+
+  .rm-portal .rm-sidebar {
+    width: 104px !important;
+    padding: 10px 8px 16px !important;
+    background: var(--rm-blue) !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    scrollbar-width: none;
+  }
+
+  .rm-portal .rm-sidebar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .rm-portal .rm-sidebar .rm-nav ul {
+    gap: 8px !important;
+  }
+
+  .rm-portal .rm-sidebar .rm-nav__item,
+  .rm-portal .rm-sidebar .rm-nav__item:hover,
+  .rm-portal .rm-sidebar .rm-nav__item.is-active,
+  .rm-portal .rm-sidebar .rm-nav__item.is-active:hover {
+    display: grid !important;
+    grid-template-rows: 42px auto !important;
+    width: 100% !important;
+    min-height: 61px !important;
+    height: 61px !important;
+    gap: 2px !important;
+    place-items: center !important;
+    padding: 0 0 4px !important;
+    border: 0 !important;
+    border-radius: 10px !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: rgba(255, 255, 255, 0.82) !important;
+  }
+
+  .rm-portal .rm-sidebar .rm-nav__item:hover:not(.is-active):not(:disabled) {
+    background: transparent !important;
+    color: #ffffff !important;
+  }
+
+  .rm-portal .rm-sidebar .rm-nav__item .rm-nav__icon,
+  .rm-portal .rm-sidebar .rm-nav__item.is-active .rm-nav__icon {
+    display: grid !important;
+    width: 42px !important;
+    height: 42px !important;
+    place-items: center !important;
+    border-radius: 12px !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: inherit !important;
+  }
+
+  .rm-portal .rm-sidebar .rm-nav__item:hover:not(.is-active):not(:disabled) .rm-nav__icon {
+    background: rgba(255, 255, 255, 0.13) !important;
+  }
+
+  .rm-portal .rm-sidebar .rm-nav__item.is-active,
+  .rm-portal .rm-sidebar .rm-nav__item.is-active:hover {
+    background: transparent !important;
+    color: #ffffff !important;
+  }
+
+  .rm-portal .rm-sidebar .rm-nav__item.is-active .rm-nav__icon {
+    background: #ffffff !important;
+    color: var(--rm-blue) !important;
+  }
+
+  .rm-portal .rm-sidebar .rm-nav__text {
+    display: block !important;
+    max-width: 84px !important;
+    overflow: hidden;
+    color: inherit !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    line-height: 1.1 !important;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .rm-portal .rm-app-frame {
+    margin-left: var(--rm-portal-rail-width) !important;
+  }
+
+}
+
+/* Exact selectors deliberately outrank legacy portal CSS until it is removed. */
+@media (min-width: 1025px) {
+  html body .rm-portal {
+    --rm-portal-rail-width: 64px !important;
+    --rm-portal-bar-height: 48px !important;
+  }
+
+  html body .rm-portal .rm-sidebar {
+    width: 64px !important;
+    padding: 8px 4px 12px !important;
+  }
+
+  html body .rm-portal .rm-sidebar .rm-nav .rm-nav__item,
+  html body .rm-portal .rm-sidebar .rm-nav .rm-nav__item:hover,
+  html body .rm-portal .rm-sidebar .rm-nav .rm-nav__item.is-active,
+  html body .rm-portal .rm-sidebar .rm-nav .rm-nav__item.is-active:hover {
+    grid-template-rows: 34px auto !important;
+    min-height: 51px !important;
+    height: 51px !important;
+  }
+
+  html body .rm-portal .rm-sidebar .rm-nav .rm-nav__item .rm-nav__icon,
+  html body .rm-portal .rm-sidebar .rm-nav .rm-nav__item.is-active .rm-nav__icon {
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 10px !important;
+  }
+
+  html body .rm-portal .rm-sidebar .rm-nav .rm-nav__text {
+    max-width: 56px !important;
+    font-size: 8px !important;
+  }
+
+  html body .rm-portal .rm-app-frame {
+    margin-left: 64px !important;
+  }
+
+  html body .rm-portal .rm-topbar .rm-topbar__profile,
+  html body .rm-portal .rm-topbar .rm-topbar__profile:hover:not(:disabled),
+  html body .rm-portal .rm-topbar .rm-topbar__profile:focus-visible {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 30px !important;
+    min-width: 30px !important;
+    max-width: 30px !important;
+    height: 30px !important;
+    min-height: 30px !important;
+    max-height: 30px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  html body .rm-portal .rm-topbar .rm-topbar__profile .rm-avatar,
+  html body .rm-portal .rm-topbar .rm-topbar__profile .rm-avatar img {
+    display: block !important;
+    box-sizing: border-box !important;
+    width: 26px !important;
+    min-width: 26px !important;
+    max-width: 26px !important;
+    height: 26px !important;
+    min-height: 26px !important;
+    max-height: 26px !important;
+    border: 1px solid transparent !important;
+    border-radius: 50% !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+  }
+
+  html body .rm-portal .rm-topbar .rm-topbar__profile .rm-avatar img {
+    border: 0 !important;
+  }
+
+  /* Compact desktop header: the controls share one calm, consistent scale. */
+  html body .rm-portal .rm-topbar {
+    height: 48px !important;
+    min-height: 48px !important;
+    padding: 0 10px !important;
+  }
+
+  html body .rm-portal .rm-topbar__right {
+    gap: 4px !important;
+  }
+
+  html body .rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__trigger {
+    height: 32px !important;
+    min-height: 32px !important;
+  }
+
+  html body .rm-portal .rm-topbar .rm-search,
+  html body .rm-portal .rm-topbar .rm-search:is(:hover, :focus, :focus-visible) {
+    width: 320px !important;
+    min-width: 320px !important;
+    max-width: 320px !important;
+    height: 32px !important;
+    min-height: 32px !important;
+    max-height: 32px !important;
+    translate: none !important;
+    scale: none !important;
+    transform: translateX(-50%) !important;
+    border-color: #dedee4 !important;
+    background: #f7f7f9 !important;
+    box-shadow: none !important;
+  }
+
+  html body .rm-portal .rm-topbar .rm-search:is(:hover, :focus-within, :focus, :focus-visible) {
+    border-color: var(--rm-blue) !important;
+    background: #ffffff !important;
+  }
+
+  html body .rm-portal .rm-topbar .rm-notification-button,
+  html body .rm-portal .rm-topbar .rm-topbar__profile {
+    width: 30px !important;
+    min-width: 30px !important;
+    max-width: 30px !important;
+    height: 30px !important;
+    min-height: 30px !important;
+    max-height: 30px !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    border: 1px solid transparent !important;
+    border-radius: 50% !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    transform: translateY(0) !important;
+  }
+
+  html body .rm-portal .rm-topbar .rm-notification-button,
+  html body .rm-portal .rm-topbar .rm-topbar__profile {
+    transition: border-color 180ms ease, color 180ms ease !important;
+  }
+
+  html body .rm-portal .rm-topbar .rm-notification-button:hover:not(:disabled),
+  html body .rm-portal .rm-topbar .rm-notification-button:focus-visible,
+  html body .rm-portal .rm-topbar .rm-topbar__profile:hover:not(:disabled),
+  html body .rm-portal .rm-topbar .rm-topbar__profile:focus-visible {
+    border-color: var(--rm-blue) !important;
+    background: #ffffff !important;
+    box-shadow: none !important;
+    transform: translateY(0) !important;
+  }
+
+  /* Rail state colours: white tile + brand icon when selected; never black text. */
+  html body .rm-portal .rm-sidebar .rm-nav .rm-nav__item:hover:not(.is-active):not(:disabled),
+  html body .rm-portal .rm-sidebar .rm-nav .rm-nav__item:hover:not(.is-active):not(:disabled) .rm-nav__text {
+    color: #ffffff !important;
+  }
+
+  html body .rm-portal .rm-sidebar .rm-nav .rm-nav__item:hover:not(.is-active):not(:disabled) .rm-nav__icon {
+    background: rgba(255, 255, 255, 0.18) !important;
+    color: #ffffff !important;
+  }
+
+  html body .rm-portal .rm-sidebar .rm-nav .rm-nav__item:hover:not(.is-active):not(:disabled) .rm-nav__icon :is(svg, path) {
+    color: #ffffff !important;
+    stroke: #ffffff !important;
+  }
+
+  html body .rm-portal .rm-sidebar .rm-nav .rm-nav__item.is-active .rm-nav__icon,
+  html body .rm-portal .rm-sidebar .rm-nav .rm-nav__item.is-active .rm-nav__icon :is(svg, path) {
+    color: var(--rm-blue) !important;
+    stroke: currentColor !important;
+  }
+
+  html body .rm-portal .rm-sidebar .rm-nav .rm-nav__item.is-active .rm-nav__text {
+    color: #ffffff !important;
+  }
+
+  html body .rm-portal .rm-sidebar .rm-nav .rm-nav__item .rm-nav__icon {
+    transition: background-color 180ms ease-in-out, color 180ms ease-in-out !important;
+  }
+
+  html body .rm-portal .rm-sidebar .rm-nav .rm-nav__text {
+    transition: color 180ms ease-in-out !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rm-portal .rm-sidebar .rm-nav .rm-nav__item .rm-nav__icon,
+  .rm-portal .rm-sidebar .rm-nav .rm-nav__text {
+    transition-duration: 0ms !important;
+  }
+}
+
+@media (min-width: 1025px) {
+  .rm-main__inner:has(.rm-tasks-page) {
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  .rm-portal #rm-main-content .rm-task-list-grid:not(.rm-gear-board) {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    justify-content: stretch !important;
+  }
+}
+
+/* Workspace picker
+   Keep its compact trigger neutral and give every workspace identity the same
+   geometry. This component-level layer intentionally wins over legacy global
+   button and span rules that otherwise stretch empty avatars or invert text. */
+.rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__trigger {
+  border-radius: var(--rm-radius-control) !important;
+  color: #20212a !important;
+  cursor: pointer;
+  transform: none !important;
+}
+
+.rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__trigger:focus-visible {
+  outline: 2px solid var(--rm-blue) !important;
+  outline-offset: 2px;
+}
+
+.rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__trigger > .rm-workspace-switcher__avatar {
+  box-sizing: border-box !important;
+  display: inline-flex !important;
+  width: 26px !important;
+  min-width: 26px !important;
+  max-width: 26px !important;
+  height: 26px !important;
+  min-height: 26px !important;
+  max-height: 26px !important;
+  flex: 0 0 26px !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  border: 1px solid #dedee5 !important;
+  border-radius: 8px !important;
+  background: #ffffff !important;
+}
+
+.rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__trigger > .rm-workspace-switcher__avatar--image img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+}
+
+.rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__trigger :is(span, small, strong, svg, path),
+.rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__trigger[aria-expanded="true"] :is(span, small, strong, svg, path) {
+  color: #20212a !important;
+  stroke: currentColor;
+}
+
+.rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__trigger .rm-workspace-switcher__avatar--owner,
+.rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__trigger[aria-expanded="true"] .rm-workspace-switcher__avatar--owner {
+  background: var(--rm-blue) !important;
+  border-color: var(--rm-blue) !important;
+  color: var(--rm-white) !important;
+}
+
+.rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__trigger .rm-workspace-switcher__avatar--owner :is(svg, path),
+.rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__trigger[aria-expanded="true"] .rm-workspace-switcher__avatar--owner :is(svg, path) {
+  color: var(--rm-white) !important;
+  stroke: currentColor !important;
+}
+
+.rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__menu {
+  box-sizing: border-box !important;
+  top: calc(100% + 8px) !important;
+  right: auto !important;
+  left: 0 !important;
+  width: min(360px, calc(100vw - 32px)) !important;
+  max-height: min(480px, calc(100dvh - 64px)) !important;
+  gap: 4px !important;
+  padding: 8px !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  scrollbar-color: #c6c7d0 transparent;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  border: 1px solid #d9d9e1 !important;
+  border-radius: 12px !important;
+  background: #ffffff !important;
+  box-shadow: 0 18px 42px rgba(32, 35, 70, 0.16) !important;
+}
+
+.rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__menu::-webkit-scrollbar {
+  width: 8px;
+}
+
+.rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__menu::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: #c6c7d0;
+  background-clip: padding-box;
+}
+
+.rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__option,
+.rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__option:hover,
+.rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__option.is-active,
+.rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__option.is-active:hover {
+  box-sizing: border-box !important;
+  display: flex !important;
+  width: 100% !important;
+  min-height: 58px !important;
+  height: auto !important;
+  gap: 11px !important;
+  margin: 0 !important;
+  padding: 8px !important;
+  border: 1px solid transparent !important;
+  border-radius: 9px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #20212a !important;
+  cursor: pointer;
+  transform: none !important;
+  transition: background-color 160ms ease, border-color 160ms ease !important;
+}
+
+.rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__option:hover {
+  background: #f4f4f7 !important;
+}
+
+.rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__option.is-active,
+.rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__option.is-active:hover {
+  border-color: #d8d8e1 !important;
+  background: #f4f4f7 !important;
+}
+
+.rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__option:focus-visible {
+  border-color: var(--rm-blue) !important;
+  outline: 2px solid var(--rm-blue) !important;
+  outline-offset: -2px;
+}
+
+.rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__option > .rm-workspace-switcher__avatar {
+  box-sizing: border-box !important;
+  display: inline-flex !important;
+  width: 40px !important;
+  min-width: 40px !important;
+  max-width: 40px !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  max-height: 40px !important;
+  flex: 0 0 40px !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  border: 1px solid #dedee5 !important;
+  border-radius: 9px !important;
+  background: #ededf1 !important;
+}
+
+.rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__option > .rm-workspace-switcher__avatar--owner {
+  border-color: var(--rm-blue) !important;
+  background: var(--rm-blue) !important;
+  color: var(--rm-white) !important;
+}
+
+.rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__option > .rm-workspace-switcher__avatar--owner :is(svg, path) {
+  color: var(--rm-white) !important;
+  stroke: currentColor !important;
+}
+
+.rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__option > .rm-workspace-switcher__avatar--image {
+  background: #ffffff !important;
+}
+
+.rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__option > .rm-workspace-switcher__avatar--image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__option > span:not(.rm-workspace-switcher__avatar) {
+  display: grid !important;
+  min-width: 0 !important;
+  flex: 1 1 auto !important;
+  gap: 2px !important;
+}
+
+.rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__option :is(strong, small),
+.rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__option:hover :is(strong, small),
+.rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__option.is-active :is(strong, small) {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  color: #20212a !important;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__option strong {
+  font-size: 13px !important;
+  line-height: 1.25 !important;
+}
+
+.rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__option small,
+.rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__option:hover small,
+.rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__option.is-active small {
+  color: #676876 !important;
+  font-size: 11px !important;
+  line-height: 1.25 !important;
+}
+
+/* The global selected-surface invariant intentionally carries navigation-level
+   specificity. Match that level here so opening this neutral picker never
+   turns the trigger or its selected option into a blue/white control. */
+html body .rm-portal .rm-topbar .rm-workspace-switcher--topbar .rm-workspace-switcher__trigger,
+html body .rm-portal .rm-topbar .rm-workspace-switcher--topbar .rm-workspace-switcher__trigger:hover {
+  border-color: #dedee4 !important;
+  background: #ffffff !important;
+  color: #20212a !important;
+  box-shadow: none !important;
+  transition: border-color 180ms ease, color 180ms ease !important;
+}
+
+html body .rm-portal .rm-topbar .rm-workspace-switcher--topbar .rm-workspace-switcher__trigger[aria-expanded="true"],
+html body .rm-portal .rm-topbar .rm-workspace-switcher--topbar .rm-workspace-switcher__trigger[aria-expanded="true"]:hover {
+  border-color: var(--rm-blue) !important;
+  background: #ffffff !important;
+  color: #20212a !important;
+}
+
+html body .rm-portal .rm-topbar .rm-workspace-switcher--topbar .rm-workspace-switcher__trigger[aria-expanded="true"] :is(span, small, strong, svg, path),
+html body .rm-portal .rm-topbar .rm-workspace-switcher--topbar .rm-workspace-switcher__option.is-active :is(strong, small) {
+  color: #20212a !important;
+  stroke: currentColor;
+}
+
+html body .rm-portal .rm-topbar .rm-workspace-switcher--topbar .rm-workspace-switcher__option.is-active {
+  color: #20212a !important;
+}
+
+html body .rm-portal .rm-topbar .rm-workspace-switcher--topbar .rm-workspace-switcher__menu .rm-workspace-switcher__option.is-active,
+html body .rm-portal .rm-topbar .rm-workspace-switcher--topbar .rm-workspace-switcher__menu .rm-workspace-switcher__option.is-active:hover,
+html body .rm-portal .rm-topbar .rm-workspace-switcher--topbar .rm-workspace-switcher__menu .rm-workspace-switcher__option.is-active:focus-visible {
+  border-color: #d8d8e1 !important;
+  background: #f4f4f7 !important;
+  color: #20212a !important;
+}
+
+html body .rm-portal .rm-topbar .rm-workspace-switcher--topbar .rm-workspace-switcher__menu .rm-workspace-switcher__option.is-active :is(strong, small) {
+  color: #20212a !important;
+}
+
+html body .rm-portal .rm-topbar .rm-workspace-switcher--topbar .rm-workspace-switcher__menu .rm-workspace-switcher__option.is-active small {
+  color: #676876 !important;
+}
+
+html body .rm-portal .rm-topbar .rm-workspace-switcher--topbar .rm-workspace-switcher__trigger[aria-expanded="true"] .rm-workspace-switcher__avatar--owner,
+html body .rm-portal .rm-topbar .rm-workspace-switcher--topbar .rm-workspace-switcher__trigger[aria-expanded="true"] .rm-workspace-switcher__avatar--owner :is(svg, path) {
+  color: var(--rm-white) !important;
+  stroke: currentColor !important;
+}
+
+html body .rm-portal .rm-topbar .rm-workspace-switcher--topbar .rm-workspace-switcher__option.is-active small {
+  color: #676876 !important;
+}
+
+@media (max-width: 640px) {
+  .rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__trigger {
+    gap: 8px !important;
+    padding-right: 7px !important;
+  }
+
+  .rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__trigger > .rm-workspace-switcher__avatar {
+    width: 30px !important;
+    min-width: 30px !important;
+    max-width: 30px !important;
+    height: 30px !important;
+    min-height: 30px !important;
+    max-height: 30px !important;
+    flex: 0 0 30px !important;
+  }
+
+  .rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__copy strong {
+    font-size: 11px !important;
+    letter-spacing: -0.01em;
+  }
+
+  .rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__trigger > svg {
+    width: 16px !important;
+    height: 16px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__trigger,
+  .rm-portal .rm-workspace-switcher--topbar .rm-workspace-switcher__option {
+    transition: none !important;
+  }
+}
+
+/* Detached desktop rail: the ClickUp-like floating navigation surface. */
+@media (min-width: 1025px) {
+  html body .rm-portal .rm-sidebar {
+    top: calc(var(--rm-portal-bar-height) + 10px) !important;
+    right: auto !important;
+    bottom: 10px !important;
+    left: 10px !important;
+    width: 64px !important;
+    height: auto !important;
+    border-radius: 16px !important;
+    box-shadow: 0 12px 28px rgba(38, 41, 126, 0.18) !important;
+  }
+
+  html body .rm-portal .rm-app-frame {
+    margin-left: 80px !important;
+  }
+}

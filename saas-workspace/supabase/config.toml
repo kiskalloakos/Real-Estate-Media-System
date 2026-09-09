@@ -1,0 +1,13 @@
+project_id = "agency-workspace-local"
+
+[functions.instagram-oauth]
+verify_jwt = false
+
+[functions.instagram-sync]
+verify_jwt = false
+
+[functions.tiktok-oauth]
+verify_jwt = false
+
+[functions.tiktok-sync]
+verify_jwt = false
