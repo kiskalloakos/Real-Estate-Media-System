@@ -1,3 +1,5 @@
+import { upcomingEvents } from '@/lib/upcoming-events';
+import { chronologicalFulfillment, fulfillmentCompletion, simplifiedFulfillmentStatus } from '@/lib/monthly-fulfillment';
 import { useMemo, useState, type ChangeEvent, type CSSProperties, type FormEvent } from 'react';
 
 import {
@@ -313,14 +315,14 @@ function ClientWorkspacePage({
       (review.propertyId && clientPropertyIds.has(review.propertyId)) ||
       review.clientName === client.name,
   );
-  const clientEvents = calendarEvents
+  const clientEvents = upcomingEvents(calendarEvents
     .filter(
       (event) =>
         event.clientId === client.id ||
         (event.propertyId && clientPropertyIds.has(event.propertyId)),
     )
     .slice()
-    .sort((left, right) => left.date.localeCompare(right.date));
+    .sort((left, right) => left.date.localeCompare(right.date)));
   const clientAccounts = accounts.filter((account) => account.clientId === client.id);
   const clientTasks = tasks
     .filter(
@@ -330,32 +332,17 @@ function ClientWorkspacePage({
     )
     .slice()
     .sort((left, right) => (left.dueAt ?? '').localeCompare(right.dueAt ?? ''));
-  const fulfillmentMonth = new Intl.DateTimeFormat('en-GB', {
-    month: 'long',
-    year: 'numeric',
-  }).format(new Date());
-  const monthlyFulfillment = (agreement?.deliverables ?? []).filter((deliverable) => {
-    if (deliverable.cadence !== 'monthly') return true;
-    const monthPrefix = deliverable.name.split(':')[0]?.trim() ?? '';
-    return !/^[A-Za-z]+\s+\d{4}$/.test(monthPrefix) || monthPrefix === fulfillmentMonth;
-  });
+  const contractFulfillment = chronologicalFulfillment(agreement?.deliverables);
   const [fulfillmentOverrides, setFulfillmentOverrides] = useState<Record<string, UpdateContractDeliverableStatusInput['status']>>({});
   const [savingFulfillmentId, setSavingFulfillmentId] = useState<string | null>(null);
   const fulfillmentStatus = (deliverable: NonNullable<AgreementSummary['deliverables']>[number]) =>
-    fulfillmentOverrides[deliverable.id] ?? deliverable.status;
+    simplifiedFulfillmentStatus(fulfillmentOverrides[deliverable.id] ?? deliverable.status);
   const fulfillmentQuantity = (status?: UpdateContractDeliverableStatusInput['status']) =>
-    monthlyFulfillment.reduce(
+    contractFulfillment.reduce(
       (total, deliverable) => total + (status && fulfillmentStatus(deliverable) !== status ? 0 : deliverable.quantity),
       0,
     );
-  const purchasedQuantity = monthlyFulfillment.reduce(
-    (total, deliverable) => total + (fulfillmentStatus(deliverable) === 'skipped' ? 0 : deliverable.quantity),
-    0,
-  );
-  const reviewChanges = clientReviews.filter((review) => review.status === 'needs_changes').length;
-  const reviewQueue = clientReviews.filter((review) => review.status === 'in_review').length;
-  const productionEvidence = clientTasks.filter((task) => task.status === 'in_progress').length + clientEvents.filter((event) => event.date.startsWith(new Date().toISOString().slice(0, 7))).length;
-  const unallocatedWork = Math.max(0, productionEvidence - purchasedQuantity);
+  const fulfillmentProgress = fulfillmentCompletion(contractFulfillment.map(item => ({ ...item, status: fulfillmentStatus(item) })));
   const setFulfillmentStatus = async (
     deliverableId: string,
     status: UpdateContractDeliverableStatusInput['status'],
@@ -365,7 +352,7 @@ function ClientWorkspacePage({
     setFulfillmentOverrides((current) => ({ ...current, [deliverableId]: status }));
     try {
       await onUpdateContractDeliverableStatus({ deliverableId, status });
-      notify('Monthly fulfillment updated.');
+      notify('Fulfillment updated.');
     } catch (error) {
       setFulfillmentOverrides((current) => {
         const next = { ...current };
@@ -631,7 +618,7 @@ function ClientWorkspacePage({
   };
 
   return (
-    <div className="rm-client-workspace">
+    <div className="rm-client-workspace aw-client-detail">
       <header className="rm-client-workspace__header">
         <Button icon="chevron-left" onClick={onBack} variant="secondary">
           All clients
@@ -670,60 +657,6 @@ function ClientWorkspacePage({
         </article>
       </section>
 
-      <section className="rm-client-workspace__section rm-fulfillment">
-        <header>
-          <div>
-            <p className="rm-fulfillment__eyebrow">{fulfillmentMonth}</p>
-            <h2>Monthly fulfillment</h2>
-            <p>Track the agreement through production, approval, and delivery.</p>
-          </div>
-        </header>
-        {monthlyFulfillment.length ? (
-          <>
-            <div className="rm-fulfillment__metrics">
-              <div><span>Purchased</span><strong>{purchasedQuantity}</strong></div>
-              <div><span>Planned</span><strong>{fulfillmentQuantity('planned')}</strong></div>
-              <div><span>In production</span><strong>{fulfillmentQuantity('in_progress')}</strong></div>
-              <div><span>Approved</span><strong>{fulfillmentQuantity('approved')}</strong></div>
-              <div><span>Delivered</span><strong>{fulfillmentQuantity('delivered')}</strong></div>
-            </div>
-            <div className="rm-fulfillment__alerts">
-              <span className={reviewQueue ? 'is-warning' : undefined}>{reviewQueue} awaiting approval</span>
-              <span className={reviewChanges ? 'is-critical' : undefined}>{reviewChanges} revision request{reviewChanges === 1 ? '' : 's'}</span>
-              {unallocatedWork ? <span className="is-critical">{unallocatedWork} item{unallocatedWork === 1 ? '' : 's'} above monthly scope</span> : null}
-            </div>
-            <div className="rm-fulfillment__list">
-              {monthlyFulfillment.map((deliverable) => {
-                const status = fulfillmentStatus(deliverable);
-                return (
-                  <div className="rm-fulfillment__item" key={deliverable.id}>
-                    <div><strong>{deliverable.name}</strong><small>{deliverable.quantity} contracted item{deliverable.quantity === 1 ? '' : 's'}</small></div>
-                    <select
-                      aria-label={`Update ${deliverable.name} fulfillment status`}
-                      disabled={!onUpdateContractDeliverableStatus || savingFulfillmentId === deliverable.id}
-                      onChange={(event) => void setFulfillmentStatus(deliverable.id, event.target.value as UpdateContractDeliverableStatusInput['status'])}
-                      value={status}
-                    >
-                      <option value="planned">Planned</option>
-                      <option value="in_progress">In production</option>
-                      <option value="ready_for_review">Ready for review</option>
-                      <option value="changes_requested">Changes requested</option>
-                      <option value="approved">Approved</option>
-                      <option value="delivered">Delivered</option>
-                      <option value="skipped">Skipped</option>
-                    </select>
-                  </div>
-                );
-              })}
-            </div>
-          </>
-        ) : (
-          <div className="rm-client-workspace__empty rm-client-workspace__empty--small">
-            <strong>No monthly scope for {fulfillmentMonth}</strong>
-            <p>Add dated monthly deliverables to the client agreement to begin fulfillment tracking.</p>
-          </div>
-        )}
-      </section>
 
       <section className="rm-client-workspace__section">
         <header>
@@ -787,29 +720,63 @@ function ClientWorkspacePage({
       </Modal>
 
       <div className="rm-client-workspace__columns">
-        <section className="rm-client-workspace__section">
-          <header>
-            <div><h2>Deliverables</h2></div>
-            <Button onClick={() => onEditClient(client)} variant="secondary">Edit</Button>
-          </header>
-          {agreement && agreementSchedule.monthlyDeliverables ? (
-            <div className="rm-client-deliverables-list">
-              {agreementSchedule.monthlyDeliverables.split(/\r?\n/).map((item) => {
-                const month = item.split(':')[0]?.trim() ?? '';
-                const propertyName = agreementSchedule.deliverablePropertyIds[month]
-                  ? agreementPropertyNames.get(agreementSchedule.deliverablePropertyIds[month])
-                  : undefined;
-                return <div key={item}>{item}{propertyName ? <small>{propertyName}</small> : null}</div>;
+      <section className="rm-client-workspace__section rm-fulfillment">
+        <header>
+          <div>
+            <p className="rm-fulfillment__eyebrow">FULL CONTRACT</p>
+            <h2>Fulfillment</h2>
+            <p>Deliverables across the full agreement.</p>
+          </div>
+          <Button onClick={() => onEditClient(client)}>Edit scope</Button>
+        </header>
+        {contractFulfillment.length ? (
+          <>
+            <div className="rm-fulfillment__metrics">
+              <div><span>In production</span><strong>{fulfillmentQuantity('in_progress')}</strong></div>
+              <div><span>Delivered</span><strong>{fulfillmentQuantity('delivered')}</strong></div>
+              <div><span>Completion</span><strong>{fulfillmentProgress.percentage}%</strong></div>
+            </div>
+            <div className="rm-fulfillment__list">
+              {contractFulfillment.map((deliverable) => {
+                const status = fulfillmentStatus(deliverable);
+                const period = deliverable.name.split(':')[0]?.trim() ?? '';
+                const propertyId = agreementSchedule.deliverablePropertyIds[period];
+                const propertyName = propertyId ? agreementPropertyNames.get(propertyId) : undefined;
+                return (
+                  <div className={`rm-fulfillment__item is-${status}`} key={deliverable.id}>
+                    <div className="aw-fulfillment-identity">{status === 'delivered' ? <Icon name="check" size={16}/> : <Icon name="minus" size={16}/>}<div><strong>{deliverable.name}</strong><small>{deliverable.quantity} contracted item{deliverable.quantity === 1 ? '' : 's'}{propertyName ? ` · ${propertyName}` : ''}</small></div></div>
+                    <div className="aw-fulfillment-controls aw-fulfillment-select">
+                    <select
+                      aria-label={`Update ${deliverable.name} fulfillment status`}
+                      disabled={!onUpdateContractDeliverableStatus || savingFulfillmentId === deliverable.id}
+                      onChange={(event) => void setFulfillmentStatus(deliverable.id, event.target.value as UpdateContractDeliverableStatusInput['status'])}
+                      value={status}
+                    >
+                      <option value="planned">Planned</option>
+                      <option value="in_progress">In production</option>
+                      <option value="delivered">Delivered</option>
+                    </select>
+                    <Icon name="chevron-down" size={15}/>
+                    </div>
+                  </div>
+                );
               })}
             </div>
-          ) : <div className="rm-client-workspace__empty"><strong>No deliverables added yet</strong></div>}
-        </section>
+          </>
+        ) : (
+          <div className="rm-client-workspace__empty rm-client-workspace__empty--small">
+            <strong>No contracted deliverables</strong>
+            <p>Add deliverables to the agreement to track fulfillment.</p>
+          </div>
+        )}
+      </section>
+
         <section className="rm-client-workspace__section">
-          <header><div><h2>Contract documents</h2></div><Button onClick={() => onEditClient(client)} variant="secondary">Add document</Button></header>
+          <header><div><h2>Contract documents</h2></div><Button onClick={() => onEditClient(client)}>Add document</Button></header>
           {agreement?.documents?.length ? (
             <div className="rm-client-deliverables-list">
               {agreement.documents.map((document) => <div className="rm-client-document-row" key={document.id}>
-                {document.url ? <a href={document.url} rel="noreferrer" target="_blank">{document.name}</a> : <span>{document.name}</span>}
+                {document.url ? <a className="aw-contract-document-link" href={document.url} rel="noreferrer" target="_blank"><Icon name="folder" size={18}/><span>{document.name}</span><Icon name="arrow-up-right" size={15}/></a> : <span className="aw-contract-document-link"><Icon name="folder" size={18}/><span>{document.name}</span></span>}
                 <IconButton icon="x" label={`Delete ${document.name}`} onClick={() => setContractDocumentTarget(document)} size="sm" />
               </div>)}
             </div>
@@ -897,8 +864,8 @@ function ClientWorkspacePage({
             {!clientEvents.length ? (
               <div className="rm-client-workspace__empty rm-client-workspace__empty--small">
                 <Icon name="calendar" size={22} />
-                <strong>No production dates</strong>
-                <p>Schedule the first shoot or deadline for this client.</p>
+                <strong>No upcoming production</strong>
+                <p>No future shoots or deadlines are scheduled.</p>
               </div>
             ) : null}
           </div>
@@ -929,9 +896,7 @@ function ClientWorkspacePage({
                   <strong>{member.name}</strong>
                   <small>{role}</small>
                 </div>
-                <StatusPill dot tone={member.status === 'active' ? 'success' : 'warning'}>
-                  {member.status}
-                </StatusPill>
+                {member.status !== 'active' ? <span className="aw-team-state">{member.status}</span> : null}
               </article>
             ))}
             {!assignedTeam.length ? (

@@ -797,9 +797,9 @@ export function TasksScreen({
                             >
                               <strong>{task.title}</strong>
                               {task.dueAt ? <small>{formatDue(task.dueAt)}</small> : null}
+                              {task.priority === 'urgent' ? <span className="rm-owner-task-urgent">Urgent</span> : null}
                             </span>
                             {task.status === 'blocked' ? <span className="aw-task-badge is-blocked">Blocked</span> : task.status === 'cancelled' ? <span className="aw-task-badge">Cancelled</span> : null}
-                            {task.priority === 'urgent' ? <span className="rm-owner-task-urgent">Urgent</span> : null}
                           </button>
                         {list.key === 'completed' && canManage ? (
                           <button
@@ -927,20 +927,21 @@ export function TasksScreen({
         )}
       </Modal>
 
-      <Modal onClose={() => setPreviewTask(null)} open={Boolean(previewTask)} title={previewTask?.title ?? 'Task preview'}>
+      <Modal className="aw-task-preview-modal" onClose={() => setPreviewTask(null)} open={Boolean(previewTask)} title={previewTask?.title ?? 'Task preview'}>
         {previewTask ? (
-          <div className="rm-task-archive-detail">
-            <div className="rm-task-archive-detail__meta">
-              <span>{previewTask.assigneeName || 'Unassigned'}</span>
-              <span>{previewTask.clientName}</span>
-              <span>{previewTask.status} · {previewTask.priority}</span>
-              <span>{previewTask.dueAt ? formatDue(previewTask.dueAt) : 'No deadline'}</span>
-            </div>
-            <p style={{ whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>{previewTask.description?.trim() || 'No description was added to this task.'}</p>
-            {previewTask.attachments?.map((attachment) => (
-              <Button key={attachment.id} variant="secondary" onClick={() => setAttachmentPreview(attachment)}>{attachment.name}</Button>
-            ))}
-            <footer className="rm-dialog-actions">
+          <div className="aw-task-preview">
+            <dl className="aw-task-preview__details">
+              <div><dt>Assigned to</dt><dd className="aw-task-preview__assignee"><Avatar name={previewTask.assigneeName || 'Unassigned'} size="sm" src={previewTask.assigneeUserId ? memberAvatarByUserId.get(previewTask.assigneeUserId) : undefined}/><span>{previewTask.assigneeName || 'Unassigned'}</span></dd></div>
+              <div><dt>Client</dt><dd>{previewTask.clientName || 'Internal'}</dd></div>
+              <div><dt>Status</dt><dd>{({todo: 'New task', in_progress: 'In progress', blocked: 'Needs intervention', done: 'Delivered', cancelled: 'Cancelled'} as Record<string, string>)[previewTask.status] || previewTask.status}</dd></div>
+              <div><dt>Priority</dt><dd><span className={`aw-task-preview__priority${previewTask.priority === 'urgent' ? ' is-urgent' : ''}`}>{previewTask.priority}</span></dd></div>
+              <div><dt>Due date</dt><dd>{previewTask.dueAt ? formatDue(previewTask.dueAt) : 'No due date'}</dd></div>
+            </dl>
+            <section className="aw-task-preview__description"><h3>Description</h3><p>{previewTask.description?.trim() || 'No description added.'}</p></section>
+            {previewTask.attachments?.length ? <section className="aw-task-preview__attachments"><h3>Attachments</h3>{previewTask.attachments.map((attachment) => (
+              <Button icon="paperclip" key={attachment.id} variant="secondary" onClick={() => setAttachmentPreview(attachment)}>{attachment.name}</Button>
+            ))}</section> : null}
+            <footer className="aw-task-preview__actions">
               <Button variant="secondary" onClick={() => setPreviewTask(null)}>Close</Button>
               {canManage ? <Button onClick={() => { openEdit(previewTask); setPreviewTask(null); }}>Edit task</Button> : null}
             </footer>

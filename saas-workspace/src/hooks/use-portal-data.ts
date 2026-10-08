@@ -1,3 +1,5 @@
+import { upcomingEvents } from '@/lib/upcoming-events';
+import { fulfillmentCompletion } from '@/lib/monthly-fulfillment';
 import { useQuery } from '@tanstack/react-query';
 
 import { supabase } from '@/lib/supabase';
@@ -1023,7 +1025,7 @@ async function fetchPortalData(agencyId: string): Promise<PortalData> {
     clientName:
       clientsById.get(property.client_account_id)?.name ?? 'Realty Media client',
     completion:
-      property.status === 'active' ? 64 : property.status === 'archived' ? 100 : 22,
+      fulfillmentCompletion(agreements.find(agreement => agreement.clientId === property.client_account_id)?.deliverables).percentage,
     coverUrl: propertyCoverUrls.get(property.id) ?? '',
     description: property.description ?? '',
     scriptingBrief: property.scripting_brief ?? '',
@@ -1159,7 +1161,7 @@ async function fetchPortalData(agencyId: string): Promise<PortalData> {
   );
 
   const nextShootByClient = new Map<string, CalendarEvent>();
-  for (const event of calendarEvents.filter((item) => item.type === 'shoot')) {
+  for (const event of upcomingEvents(calendarEvents).filter((item) => item.type === 'shoot')) {
     const clientId = event.clientId ?? (event.propertyId ? propertiesById.get(event.propertyId)?.client_account_id : undefined);
     if (clientId && !nextShootByClient.has(clientId)) nextShootByClient.set(clientId, event);
   }

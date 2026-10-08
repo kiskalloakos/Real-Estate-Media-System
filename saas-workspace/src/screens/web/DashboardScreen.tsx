@@ -1,3 +1,4 @@
+import { upcomingEvents as futureEvents } from '@/lib/upcoming-events';
 import { useEffect, useState } from 'react';
 
 import {
@@ -221,7 +222,7 @@ function AdminDashboard({
   const needsChanges = reviews.filter(
     (review) => review.status === 'needs_changes',
   );
-  const upcomingEvents = sortedEvents(events);
+  const upcomingEvents = sortedEvents(futureEvents(events));
   const shoots = events.filter((event) => event.type === 'shoot');
   const paidPayments = payments.filter((payment) => payment.status === 'paid');
   const paidTotal = paidPayments.reduce(
@@ -736,10 +737,10 @@ function ClientDashboard({
     review.status === 'in_review' || review.status === 'needs_changes',
   );
   const deliveredAssets = reviews.filter((review) => review.status === 'approved');
-  const upcomingShoots = sortedEvents(events)
+  const upcomingShoots = sortedEvents(futureEvents(events))
     .filter((event) => event.type === 'shoot')
     .slice(0, 3);
-  const nextEvent = sortedEvents(events)[0];
+  const nextEvent = sortedEvents(futureEvents(events))[0];
   const nextPayment = [...payments]
     .filter((payment) => !['paid', 'waived', 'cancelled'].includes(payment.status))
     .sort((left, right) => left.dueDate.localeCompare(right.dueDate))[0];

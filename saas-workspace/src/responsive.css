@@ -10,9 +10,23 @@
 @media(max-width:760px){
   html{scroll-padding-top:80px}
   .aw-topbar{padding-left:max(14px,env(safe-area-inset-left));padding-right:max(14px,env(safe-area-inset-right));padding-top:env(safe-area-inset-top);height:calc(62px + env(safe-area-inset-top))}
+  .aw-topbar{gap:10px}
+  .aw-topbar__left,.aw-topbar__right{flex:0 0 auto;gap:8px;min-width:0}
+  .aw-topbar .aw-search{flex:1 1 0;width:100%;max-width:none;min-width:0;min-height:44px;margin-left:0;padding:10px 12px;background:#fff;color:#555965;font-size:13px;text-align:left}
+  .aw-search>svg{flex-shrink:0}
+  .aw-search__hint{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .aw-search kbd{display:none}
+  .aw-shell .aw-topbar__menu{display:grid!important;place-items:center;flex:0 0 44px;width:44px;height:44px;padding:0}
+  .aw-topbar__menu svg{display:block}
+  .aw-workspace-switcher__trigger{max-width:110px;min-height:44px}
+  .aw-workspace-switcher__trigger>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .aw-shell .aw-sidebar .aw-sidebar__mobile-close{display:grid;place-items:center;width:44px;height:44px;padding:0;border-color:#555762!important;background:#292a33!important;color:#fff!important}
+  .aw-sidebar :is(.aw-studio-brand small,.aw-nav-caption,.aw-sidebar-user small){color:#bcbecb}
+  .aw-sidebar .aw-sidebar-user .aw-icon-button{color:#e9eaf1}
   .aw-frame{padding-top:calc(62px + env(safe-area-inset-top));overscroll-behavior-y:contain}
   .aw-main{padding:24px max(16px,env(safe-area-inset-right)) calc(28px + env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left))}
   .aw-sidebar{height:100dvh;padding-top:max(16px,env(safe-area-inset-top));padding-bottom:max(12px,env(safe-area-inset-bottom))}
+  .aw-shell .aw-sidebar{background:#191a1f!important;color:#eeeef3!important;border-color:#303139!important}
   .aw-nav{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain}.aw-sidebar-bottom{padding-top:8px}
   .aw-workspace-label{display:none}.aw-studio-brand{margin-bottom:15px}.aw-sidebar-user{padding:10px 5px}
   .aw-shell button,.rm-modal button{touch-action:manipulation}

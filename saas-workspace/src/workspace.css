@@ -378,3 +378,130 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(-
 .aw-shell #aw-main-content .rm-client-directory__identity :is(strong,small){background:transparent!important;box-shadow:none!important}
 .aw-shell #aw-main-content .rm-client-directory__identity-copy{display:flex!important;min-width:0!important;flex:1 1 auto!important;flex-direction:column!important;gap:4px!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}
 .rm-document-preview > iframe{width:100%;height: min(55vh,600px);min-height:240px;border:1px solid #e2e3e9;border-radius:8px;background:white}
+.aw-home .aw-button-secondary{min-height:40px;padding:10px 15px;font-size:12px;line-height:1.5;border-radius:8px;box-shadow:none!important}
+.aw-modules-panel__body{padding:0 22px 22px}
+.aw-modules-panel__body p{margin:0 0 18px;color:var(--aw-muted);font-size:13px;line-height:1.7}
+html body .aw-shell #aw-main-content .aw-settings-page .aw-agency-settings{padding:24px!important;background:#fff!important;border:1px solid #d9dbe1!important;border-radius:12px!important;box-shadow:none!important;display:grid;gap:20px}
+html body .aw-shell #aw-main-content .aw-settings-page .rm-field :is(input,textarea,select){background:#fff!important;color:#191a20!important;border:1px solid #d9dbe1!important;border-radius:6px!important;box-shadow:none!important;min-height:40px;padding:10px 12px!important;font-size:13px!important;line-height:1.5!important}
+html body .aw-shell #aw-main-content .aw-settings-page .rm-field>span{font-size:12px!important;text-transform:none!important;letter-spacing:0!important;color:#555965!important}
+html body .aw-shell #aw-main-content .aw-settings-page .rm-field :is(input,textarea,select):focus-visible{outline:2px solid #5256e0!important;outline-offset:2px}
+.aw-settings-page .aw-section-heading{margin:0}.aw-settings-page .aw-section-heading>span{max-width:440px;text-align:right}
+.aw-settings-page .aw-presets,.aw-settings-page .aw-module-list{margin-top:0}
+html body .aw-shell #aw-main-content .aw-settings-page .aw-preset{padding:20px!important;border:1px solid #d9dbe1!important;border-radius:10px!important;background:#fff!important;box-shadow:none!important}
+html body .aw-shell #aw-main-content .aw-settings-page .aw-preset:hover{border-color:#b9bce5!important;background:#f6f6fc!important}
+.aw-settings-page .aw-module-row{padding:14px 18px;gap:12px}
+html body .aw-shell #aw-main-content .aw-settings-page .aw-reorder button{display:grid;place-items:center;width:32px;height:32px;padding:0!important;border:1px solid #d9dbe1!important;border-radius:6px!important;background:#f8f9fb!important;color:#343740!important;box-shadow:none!important}
+html body .aw-shell #aw-main-content .aw-settings-page .aw-reorder button:hover:not(:disabled){background:#e9eaff!important;border-color:#b9bce5!important}
+.aw-module-state{width:22px;color:#626570;font-size:11px;flex-shrink:0}
+html body .aw-shell #aw-main-content .aw-settings-page button.aw-module-toggle{position:relative;display:block;flex:0 0 40px;width:40px;height:24px;min-height:24px;padding:3px!important;border:0!important;border-radius:20px!important;background:#b7bbc7!important;box-shadow:none!important;cursor:pointer}
+html body .aw-shell #aw-main-content .aw-settings-page button.aw-module-toggle[aria-checked=true]{background:#5256e0!important}
+html body .aw-shell #aw-main-content .aw-settings-page .aw-module-toggle__thumb{display:block;width:18px;height:18px;border-radius:50%;background:#fff!important;transition:transform .16s}
+.aw-module-toggle[aria-checked=true] .aw-module-toggle__thumb{transform:translateX(16px)}
+.aw-settings-notice{color:#4145bf;font-size:12px;margin:0}
+@media(max-width:760px){html body .aw-shell #aw-main-content .aw-settings-page .aw-agency-settings{padding:16px!important}.aw-settings-page .aw-section-heading{align-items:flex-start;flex-direction:column;gap:6px}.aw-settings-page .aw-section-heading>span{text-align:left;max-width:100%}.aw-settings-page .aw-module-row{flex-wrap:wrap;padding:14px}.aw-settings-page .aw-module-copy{flex-basis:calc(100% - 54px)}.aw-settings-page .aw-reorder{margin-left:auto}.aw-settings-page .aw-module-toggle{outline-offset:5px}}
+.aw-home-schedule{display:flex;flex-direction:column}
+.aw-home-schedule>.aw-calendar-link{margin-top:auto}
+.aw-home-schedule>.aw-empty{flex:1;display:flex;align-items:center;margin:0}
+@media(max-width:1050px){.aw-home-grid>.aw-side-column{display:flex;flex-direction:column}}
+@media(min-width:1051px){
+  .aw-home-grid>.aw-main-column,.aw-home-grid>.aw-side-column{display:contents}
+  .aw-home-tasks{grid-column:1;grid-row:1}
+  .aw-home-schedule{grid-column:2;grid-row:1;align-self:stretch}
+  .aw-home-production{grid-column:1;grid-row:2}
+  .aw-home-grid:not(:has(.aw-home-tasks)) .aw-home-production{grid-row:1}
+}
+/* Client details use the same quiet panels and compact controls as overview. */
+html body .aw-shell #aw-main-content .aw-client-detail .rm-client-workspace__section{padding:22px!important;min-height:0!important;border:1px solid #d9dbe1!important;border-radius:12px!important;background:#fff!important;box-shadow:none!important}
+html body .aw-shell #aw-main-content .aw-client-detail .rm-client-workspace__section>header{padding:0!important;margin:0 0 18px!important;gap:14px!important;align-items:center!important}
+html body .aw-shell #aw-main-content .aw-client-detail .rm-client-workspace__section>header h2{margin:0!important;font-size:18px!important;line-height:1.3!important;letter-spacing:-.3px!important;color:#191a20!important}
+html body .aw-shell #aw-main-content .aw-client-detail .rm-client-workspace__section>header .rm-button{font-size:12px!important;letter-spacing:0!important;text-transform:none!important;min-height:38px!important;box-shadow:none!important}
+html body .aw-shell #aw-main-content .aw-client-detail :is(.rm-client-workspace__list,.rm-client-workspace__people,.rm-client-deliverables-list){padding:0!important;gap:8px!important}
+html body .aw-shell #aw-main-content .aw-client-detail :is(.rm-client-workspace__content-link,.rm-client-workspace__calendar-link,.rm-client-document-row){min-height:60px!important;padding:12px!important;border:1px solid #e1e3e9!important;border-radius:8px!important;background:#fafafb!important;box-shadow:none!important;backdrop-filter:none!important}
+html body .aw-shell #aw-main-content .aw-client-detail :is(.rm-client-workspace__content-link,.rm-client-workspace__calendar-link):is(:hover,:focus-visible){background:#f0f1f8!important;border-color:#b9bce5!important;box-shadow:none!important}
+html body .aw-shell #aw-main-content .aw-client-detail .rm-client-workspace__people>article{padding:12px 0!important;border:0!important;border-bottom:1px solid #e7e8ed!important;background:transparent!important;box-shadow:none!important}
+html body .aw-shell #aw-main-content .aw-client-detail .rm-client-workspace__people>article:last-child{border-bottom:0!important}
+html body .aw-shell #aw-main-content .aw-client-detail :is(.rm-client-workspace__people,.rm-client-workspace__list) strong{font-size:14px!important;color:#191a20!important}
+html body .aw-shell #aw-main-content .aw-client-detail :is(.rm-client-workspace__people,.rm-client-workspace__list) small{font-size:12px!important;color:#626570!important}
+html body .aw-shell #aw-main-content .aw-client-detail .aw-contract-document-link{display:flex!important;align-items:center;gap:10px;text-decoration:none!important;color:#343740!important;white-space:normal!important;min-width:0}
+.aw-contract-document-link>svg{flex-shrink:0;color:#626570}.aw-contract-document-link>span{min-width:0;overflow-wrap:anywhere;font-size:13px}.aw-contract-document-link>svg:last-child{margin-left:auto}
+html body .aw-shell #aw-main-content .aw-client-detail .rm-client-document-row .rm-icon-button{border:0!important;background:transparent!important;box-shadow:none!important;color:#626570!important;border-radius:6px!important}
+html body .aw-shell #aw-main-content .aw-client-detail .rm-client-document-row .rm-icon-button:hover{background:#e9eaef!important;color:#191a20!important}
+.aw-team-state{font-size:11px;color:#626570;text-transform:capitalize}
+html body .aw-shell #aw-main-content .aw-client-detail .aw-fulfillment-identity{display:flex!important;flex-direction:row!important;align-items:center!important;gap:10px!important}
+.aw-fulfillment-identity>div{display:flex;flex-direction:column;gap:3px;min-width:0}
+html body .aw-shell #aw-main-content .aw-client-detail .aw-fulfillment-select{position:relative;flex:0 0 160px;display:flex!important;justify-content:center;align-items:center}
+html body .aw-shell #aw-main-content .aw-client-detail .aw-fulfillment-select select{appearance:none!important;display:block;flex:none!important;width:160px!important;min-height:40px!important;padding:8px 28px!important;text-align:center!important;text-align-last:center!important;font-size:12px!important;line-height:1.5!important;border-radius:6px!important;cursor:pointer}
+.aw-fulfillment-select>svg{position:absolute;right:10px;top:50%;transform:translateY(-50%);pointer-events:none;color:#555965}
+@media(max-width:760px){html body .aw-shell #aw-main-content .aw-client-detail .rm-client-workspace__section{padding:16px!important}html body .aw-shell #aw-main-content .aw-client-detail .aw-fulfillment-select{flex-basis:auto;width:100%}html body .aw-shell #aw-main-content .aw-client-detail .aw-fulfillment-select select{width:100%!important;min-height:44px!important}}
+html body .aw-shell #aw-main-content .rm-client-workspace__people .rm-avatar{background:#e9eaff!important;color:#343740!important}
+html body .aw-shell #aw-main-content .rm-client-workspace__people .rm-avatar>span{background:transparent!important;color:#343740!important}
+.aw-fulfillment-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.aw-fulfillment-identity{display:flex;align-items:center;gap:10px;min-width:0}.aw-fulfillment-identity>svg{flex-shrink:0;color:#777b87}.rm-fulfillment__item:is(.is-approved,.is-delivered) .aw-fulfillment-identity>svg{color:#5256e0}
+.aw-shell #aw-main-content .rm-fulfillment__metrics{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.aw-shell #aw-main-content .rm-fulfillment__metrics>div{padding:10px!important;min-height:0!important}
+.aw-shell #aw-main-content .rm-fulfillment__metrics strong{font-size:20px!important}
+.aw-shell #aw-main-content .rm-fulfillment__item{padding:12px!important;gap:12px!important}
+.aw-shell #aw-main-content .rm-fulfillment__item select{flex:0 0 145px;max-width:100%}
+.aw-fulfillment-check{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:6px 9px;border:1px solid #d9dbe1;border-radius:6px;background:#fff;color:#555965;font-size:12px}
+.aw-fulfillment-check[aria-pressed=true]{background:#e9eaff!important;color:#4145bf!important;border-color:#b9bce5!important}
+.aw-fulfillment-check:hover:not(:disabled){background:#f0f1f5}
+.rm-fulfillment__item.is-delivered{border-left:3px solid #5256e0!important;background:#f6f6fc!important}
+.aw-shell #aw-main-content .rm-tasks-page .rm-task-item__row-content{display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:4px!important}
+.aw-shell #aw-main-content .rm-tasks-page .rm-task-item__row-content .rm-owner-task-urgent{display:inline-flex!important;min-height:0!important;padding:2px 6px!important;font-size:9px!important;line-height:1.4!important}
+html body .rm-modal.aw-task-preview-modal{width:620px!important;border-radius:12px!important}
+html body .rm-modal.aw-task-preview-modal .rm-modal__header{padding:24px!important;border-bottom:1px solid #e2e3e9!important;gap:16px!important}
+html body .rm-modal.aw-task-preview-modal .rm-modal__header h2{font-size:24px!important;line-height:1.3!important;letter-spacing:-.4px!important;overflow-wrap:anywhere}
+html body .rm-modal.aw-task-preview-modal .rm-modal__body{padding:24px!important}
+.aw-task-preview{display:grid;gap:24px;color:#191a20}
+.aw-task-preview__details{display:grid;grid-template-columns:1fr 1fr;gap:18px 24px;margin:0}
+.aw-task-preview__details>div{min-width:0}
+.aw-task-preview dt{font-size:11px;color:#626570;margin-bottom:6px}
+.aw-task-preview dd{margin:0;font-size:14px;font-weight:500;overflow-wrap:anywhere}
+.aw-task-preview__assignee{display:flex;align-items:center;gap:9px;min-height:32px}
+.aw-task-preview__priority{text-transform:capitalize}
+.aw-task-preview__priority.is-urgent{display:inline-flex;padding:3px 8px;border-radius:4px;background:#e9eaff;color:#4145bf;font-size:12px}
+.aw-task-preview h3{margin:0 0 10px;font-size:13px;font-weight:600}
+.aw-task-preview__description{border-top:1px solid #e2e3e9;padding-top:20px}
+.aw-task-preview__description p{margin:0;font-size:14px;line-height:1.7;white-space:pre-wrap;overflow-wrap:anywhere;color:#343740}
+.aw-task-preview__attachments{display:flex;flex-wrap:wrap;gap:8px}.aw-task-preview__attachments h3{width:100%}
+.aw-task-preview__actions{display:flex;justify-content:flex-end;gap:10px;border-top:1px solid #e2e3e9;padding-top:18px}
+@media(max-width:760px){html body .rm-modal.aw-task-preview-modal{width:100%!important;border-radius:0!important}.aw-task-preview__details{gap:16px}.aw-task-preview__actions>*{flex:1}}
+/* Shared initials must retain their contrast inside buttons and table rows. */
+html body .aw-shell #aw-main-content .rm-avatar>span,html body .rm-modal .rm-avatar>span{color:#343740!important}
+.aw-shell .rm-access-toolbar .rm-status{border:1px solid var(--aw-line)!important;border-radius:6px!important;padding:4px 8px!important;background:#f0f1f5!important;color:#555965!important;font-size:11px!important;text-transform:none!important;letter-spacing:0!important}
+/* Dialog close controls are plain icons with a quiet hover surface. */
+html body .rm-modal.rm-modal--liquid-glass .rm-modal__header button.rm-icon-button[aria-label="Close dialog"],
+html body .rm-modal .rm-modal__header button.rm-icon-button[aria-label="Close dialog"]{border:0!important;background:transparent!important;background-image:none!important;box-shadow:none!important;backdrop-filter:none!important;color:#191a20!important;border-radius:6px!important}
+html body .rm-modal.rm-modal--liquid-glass .rm-modal__header button.rm-icon-button[aria-label="Close dialog"]:is(:hover,:focus-visible){background:#e9eaef!important;box-shadow:none!important}
+html body .rm-modal .rm-modal__header button.rm-icon-button.rm-icon-button.rm-icon-button.rm-icon-button.rm-icon-button.rm-icon-button[aria-label="Close dialog"]{background:transparent!important;background-image:none!important;box-shadow:none!important;border:0!important;backdrop-filter:none!important}
+html body .rm-modal .rm-modal__header button.rm-icon-button.rm-icon-button.rm-icon-button.rm-icon-button.rm-icon-button.rm-icon-button[aria-label="Close dialog"]:is(:hover,:focus-visible){background:#e9eaef!important}
+.rm-modal .rm-task-archive-list article{min-height:68px!important;border:1px solid #d9dbe1!important;border-radius:8px!important;background:#fafafb!important;transition:background .16s,border-color .16s}
+.rm-modal .rm-task-archive-list article:has(button:is(:hover,:focus-visible)){background:#edeef5!important;border-color:#b9bccb!important}
+.rm-modal .rm-task-archive-list__open{min-height:68px!important;padding:10px 0!important}
+.rm-modal .rm-task-archive-list__content strong{font-size:14px;line-height:1.4}
+.rm-modal .rm-task-archive-list__content small{font-size:12px;color:#626570}
+.rm-modal.rm-modal--liquid-glass .rm-modal__body .rm-task-archive-list article button.rm-task-archive-list__restore{border-radius:6px!important;cursor:pointer}
+.rm-modal.rm-modal--liquid-glass .rm-modal__body .rm-task-archive-list article button.rm-task-archive-list__restore:is(:hover,:focus-visible){background:#5256e0!important;color:#fff!important;outline:2px solid #5256e0!important;outline-offset:2px}
+/* Compact task cards put the assignee beside the title instead of above it. */
+.aw-shell #aw-main-content .rm-tasks-page .rm-task-list-grid .rm-task-item--compact{border:1px solid #dfe1e8!important;border-radius:10px!important;overflow:hidden;background:#fff!important}
+.aw-shell #aw-main-content .rm-tasks-page .rm-task-list-grid .rm-task-item--compact:is(:hover,:focus-within){border-color:#b9bce5!important;background:#f6f6fc!important}
+.aw-shell #aw-main-content .rm-tasks-page .rm-task-list-grid .rm-task-item__open{display:grid!important;grid-template-columns:28px minmax(0,1fr)!important;align-items:center!important;gap:5px 10px!important;min-height:64px!important;padding:12px!important;border-radius:0!important}
+.aw-shell #aw-main-content .rm-tasks-page .rm-task-list-grid .has-archive-action .rm-task-item__open{padding-right:48px!important}
+.aw-shell #aw-main-content .rm-tasks-page .rm-task-item__open .rm-avatar{width:28px;height:28px;grid-column:1;grid-row:1}
+.aw-shell #aw-main-content .rm-tasks-page .rm-task-item__row-content{grid-column:2;grid-row:1;min-width:0}
+.aw-shell #aw-main-content .rm-tasks-page .rm-task-item__row-content strong{font-size:13px!important;line-height:1.35!important}
+.aw-shell #aw-main-content .rm-tasks-page .rm-task-item__row-content small{font-size:11px!important;color:#626570!important}
+.aw-shell #aw-main-content .rm-tasks-page .rm-task-item__open :is(.rm-owner-task-urgent,.aw-task-badge){grid-column:2;justify-self:start;width:auto!important;margin:0!important}
+.aw-shell #aw-main-content .rm-tasks-page .rm-task-item__archive{box-shadow:none!important;background:transparent!important;border-radius:6px!important}
+.aw-shell #aw-main-content .rm-tasks-page .rm-task-item__archive:is(:hover,:focus-visible){background:#e4e5f8!important;color:#4044bd!important}
+@media(max-width:760px){.aw-modules-panel__body{padding:0 15px 20px}.aw-home .aw-button-secondary{min-height:44px}}
+
+html body .aw-shell #aw-main-content .aw-settings-page input[type=file]::file-selector-button{margin-right:12px;padding:7px 12px;border:0;border-radius:5px;background:#e9eaff;color:#3438a7;font:inherit;font-weight:500;cursor:pointer}
+html body .aw-shell #aw-main-content .aw-settings-page input[type=file]::file-selector-button:hover{background:#dedeff}
+
+html body .aw-shell #aw-main-content .aw-settings-page .rm-dialog-actions{padding:0!important;margin:0!important;border:0!important;background:transparent!important;box-shadow:none!important;align-items:center}
+.aw-settings-page .rm-dialog-actions [role=status]:empty{display:none}
+@media(max-width:760px){html body .aw-shell #aw-main-content .aw-settings-page .aw-reorder button{width:40px;height:40px}.aw-settings-page .aw-module-toggle:before{content:"";position:absolute;inset:-10px -2px}}
+html body .aw-shell #aw-main-content .aw-settings-page .rm-field select{appearance:none;padding-right:36px!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23686c78' stroke-width='1.6'%3E%3Cpath d='m4 6 4 4 4-4'/%3E%3C/svg%3E")!important;background-position:right 12px center!important;background-repeat:no-repeat!important}
+html body .aw-shell #aw-main-content .aw-settings-page .rm-field small{color:#686c78!important;font-size:12px!important}
+@media(min-width:1100px){.aw-settings-page .rm-form-grid--three{grid-template-columns:repeat(3,minmax(0,1fr))}}
