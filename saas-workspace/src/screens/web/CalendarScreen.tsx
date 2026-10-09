@@ -20,6 +20,7 @@ import {
   type ScriptReaderData,
 } from '@/components/web';
 import { CalendarColorPicker } from '@/components/web/calendar-color-picker';
+import { indexCalendarEvents } from '@/lib/calendar-event-index';
 import { calendarColor } from '@/lib/calendar-colors';
 import { useBrowserPersistedState } from '@/hooks/use-browser-persisted-state';
 import { clearLocalDraft, readLocalDraft, useLocalDraft } from '@/hooks/use-local-draft';
@@ -177,7 +178,7 @@ const fullDateLabel = new Intl.DateTimeFormat('en-GB', {
   year: 'numeric',
 });
 const shortMonthLabel = new Intl.DateTimeFormat('en-GB', { month: 'short' });
-type CalendarView = 'month' | 'week';
+type CalendarView = 'month' | 'week' | 'agenda';
 
 function eventInstanceKey(event: CalendarEvent) {
   // Calendar event IDs are unique in persisted data. Including the rendered
@@ -227,55 +228,6 @@ function dateDistance(from: string, to: string) {
   );
 }
 
-type MonthEventSegment = {
-  continuesFromPreviousWeek: boolean;
-  continuesIntoNextWeek: boolean;
-  endColumn: number;
-  event: CalendarEvent;
-  lane: number;
-  startColumn: number;
-};
-
-function buildMonthEventSegments(
-  week: { date: string }[],
-  events: CalendarEvent[],
-): MonthEventSegment[] {
-  const weekStart = week[0]?.date;
-  const weekEnd = week[week.length - 1]?.date;
-  if (!weekStart || !weekEnd) return [];
-
-  const segments = events
-    .filter((event) => eventOccursOnDate(event, weekStart) || eventOccursOnDate(event, weekEnd) || (
-      event.date >= weekStart && event.date <= weekEnd
-    ))
-    .map((event) => {
-      const eventEnd = event.endDate || event.date;
-      const segmentStart = event.date < weekStart ? weekStart : event.date;
-      const segmentEnd = eventEnd > weekEnd ? weekEnd : eventEnd;
-      return {
-        continuesFromPreviousWeek: event.date < weekStart,
-        continuesIntoNextWeek: eventEnd > weekEnd,
-        endColumn: dateDistance(weekStart, segmentEnd),
-        event,
-        lane: 0,
-        startColumn: dateDistance(weekStart, segmentStart),
-      };
-    })
-    .sort((left, right) => (
-      left.startColumn - right.startColumn
-      || right.endColumn - left.endColumn
-      || left.event.title.localeCompare(right.event.title)
-    ));
-
-  const laneEndColumns: number[] = [];
-  return segments.map((segment) => {
-    const availableLane = laneEndColumns.findIndex((endColumn) => endColumn < segment.startColumn);
-    const lane = availableLane === -1 ? laneEndColumns.length : availableLane;
-    laneEndColumns[lane] = segment.endColumn;
-    return { ...segment, lane };
-  });
-}
-
 export function CalendarScreen({
   clients = [],
   clientWorkOnly = false,
@@ -306,6 +258,15 @@ export function CalendarScreen({
   );
   const anchorDate = useMemo(() => new Date(`${anchorDateValue}T12:00:00`), [anchorDateValue]);
   const [calendarView, setCalendarView] = useBrowserPersistedState<CalendarView>(`${stateKey}:view`, 'month');
+  const [isPhone, setIsPhone] = useState(() => typeof window !== 'undefined' && window.matchMedia('(max-width: 760px)').matches);
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 760px)');
+    const update = () => setIsPhone(media.matches);
+    update();
+    media.addEventListener('change', update);
+    return () => media.removeEventListener('change', update);
+  }, []);
+  const displayView = isPhone ? 'agenda' : calendarView;
   const [calendarFilter, setCalendarFilter] = useBrowserPersistedState(`${stateKey}:calendar-filter`, forceCalendarFilter ?? 'all');
   const [propertyFilter, setPropertyFilter] = useBrowserPersistedState(`${stateKey}:property-filter`, 'all');
   const [eventForm, setEventForm] = useState<CreateCalendarEventInput>(emptyEventForm);
@@ -408,7 +369,9 @@ export function CalendarScreen({
   );
   const monthDays = useMemo(() => {
     const firstVisibleDay = startOfWeek(startOfMonth(anchorDate));
-    return Array.from({ length: 42 }, (_, index) => {
+    const lastDay = new Date(anchorDate.getFullYear(), anchorDate.getMonth() + 1, 0);
+    const dayCount = Math.ceil((dateDistance(isoDate(firstVisibleDay), isoDate(lastDay)) + 1) / 7) * 7;
+    return Array.from({ length: dayCount }, (_, index) => {
       const date = addDays(firstVisibleDay, index);
       return {
         date: isoDate(date),
@@ -419,13 +382,7 @@ export function CalendarScreen({
       };
     });
   }, [anchorDate]);
-  const monthWeeks = useMemo(
-    () => Array.from({ length: monthDays.length / 7 }, (_, index) => (
-      monthDays.slice(index * 7, index * 7 + 7)
-    )),
-    [monthDays],
-  );
-  const visibleDays = calendarView === 'month' ? monthDays : weekDays;
+  const visibleDays = displayView === 'week' ? weekDays : monthDays;
   const clientCalendars = useMemo(
     () => {
       const grouped = new Map(clients.map((client) => [client.id, { id: client.id, name: client.name }]));
@@ -440,7 +397,7 @@ export function CalendarScreen({
         (property) => property.id === propertyFilter,
       );
       return sourceEvents.filter((event) => {
-        if (!visibleDays.some((day) => eventOccursOnDate(event, day.date))) return false;
+        if (event.date > visibleDays[visibleDays.length - 1].date || (event.endDate || event.date) < visibleDays[0].date) return false;
         if (clientWorkOnly && !event.clientId && !event.propertyId) return false;
         const isMarketing = event.id.startsWith('marketing:');
         if (activeCalendarFilter === 'marketing') return isMarketing;
@@ -460,15 +417,13 @@ export function CalendarScreen({
     },
     [activeCalendarFilter, clientWorkOnly, properties, propertyFilter, sourceEvents, visibleDays],
   );
-  const monthEventSegments = useMemo(
-    () => monthWeeks.map((week) => buildMonthEventSegments(week, visibleEvents)),
-    [monthWeeks, visibleEvents],
-  );
+  const eventsByDate = useMemo(() => indexCalendarEvents(visibleDays, visibleEvents), [visibleDays, visibleEvents]);
+  const agendaDays = useMemo(() => monthDays.filter(day => day.inCurrentMonth && (eventsByDate.get(day.date)?.length ?? 0) > 0), [monthDays, eventsByDate]);
   const monthOverflowEvents = useMemo(
     () => monthOverflowDate
-      ? visibleEvents.filter((event) => eventOccursOnDate(event, monthOverflowDate))
+      ? (eventsByDate.get(monthOverflowDate) ?? [])
       : [],
-    [monthOverflowDate, visibleEvents],
+    [monthOverflowDate, eventsByDate],
   );
   const selectedEventGear = selectedEvent
     ? gear.filter((item) => item.calendarEventId === selectedEvent.id)
@@ -632,14 +587,14 @@ export function CalendarScreen({
 
   const moveCalendar = (direction: -1 | 1) => {
     setAnchorDateValue(isoDate(
-      calendarView === 'month'
+      displayView !== 'week'
         ? addMonths(anchorDate, direction)
         : addDays(anchorDate, direction * 7),
     ));
   };
 
   const calendarRangeLabel =
-    calendarView === 'month'
+    displayView !== 'week'
       ? monthLabel.format(anchorDate)
       : `${calendarRangeDateLabel.format(startOfWeek(anchorDate))} — ${calendarRangeDateLabel.format(addDays(startOfWeek(anchorDate), 6))}`;
 
@@ -765,7 +720,7 @@ export function CalendarScreen({
   };
 
   return (
-    <div className={`rm-page${embedded ? ' rm-calendar-embedded' : ''}`}>
+    <div className={`rm-page aw-calendar-page${embedded ? ' rm-calendar-embedded' : ''}`}>
       {!embedded ? <PageHeader
         description={
           role === 'client'
@@ -782,33 +737,33 @@ export function CalendarScreen({
             <div className="rm-calendar-toolbar__date">
               <IconButton
                 icon="chevron-left"
-                label={`Previous ${calendarView}`}
+                label={`Previous ${displayView === 'week' ? 'week' : 'month'}`}
                 onClick={() => moveCalendar(-1)}
                 size="sm"
               />
               <h2>{calendarRangeLabel}</h2>
               <IconButton
                 icon="chevron-right"
-                label={`Next ${calendarView}`}
+                label={`Next ${displayView === 'week' ? 'week' : 'month'}`}
                 onClick={() => moveCalendar(1)}
                 size="sm"
               />
             </div>
             <div className="rm-calendar-toolbar__controls">
               <div aria-label="Calendar view" className="rm-calendar-view-switch">
-                {(['month', 'week'] as const).map((view) => (
+                {(!isPhone ? ['month', 'week', 'agenda'] as const : ['agenda'] as const).map((view) => (
                   <button
-                    aria-pressed={calendarView === view}
-                    className={calendarView === view ? 'is-active' : undefined}
+                    aria-pressed={displayView === view}
+                    className={displayView === view ? 'is-active' : undefined}
                     key={view}
                     onClick={() => setCalendarView(view)}
                     type="button"
                   >
-                    {view === 'month' ? 'Month' : 'Week'}
+                    {view === 'month' ? 'Month' : view === 'week' ? 'Week' : 'Agenda'}
                   </button>
                 ))}
               </div>
-              {!forceCalendarFilter && !clientWorkOnly ? <label className="rm-calendar-property-filter">
+              {!forceCalendarFilter ? <details className="aw-calendar-filters"><summary>Filters{activeCalendarFilter !== 'all' || propertyFilter !== 'all' ? ' · active' : ''}</summary><div className="aw-calendar-filters__body">              {!forceCalendarFilter && !clientWorkOnly ? <label className="rm-calendar-property-filter">
                 <select
                   aria-label="Choose a synced calendar"
                   onChange={(event) => {
@@ -840,7 +795,7 @@ export function CalendarScreen({
                     </option>
                   ))}
                 </select>
-              </label> : null}
+              </label> : null}</div></details> : null}
             </div>
             <div className="rm-calendar-toolbar__actions">
               <Button
@@ -856,132 +811,32 @@ export function CalendarScreen({
             </div>
           </div>
 
-          {calendarView === 'month' ? (
-            <div className={`rm-month-grid rm-month-grid--${monthWeeks.length}`} role="grid">
-              <div className="rm-month-grid__weekdays">
-                {weekDays.map((day) => (
-                  <div className="rm-month-grid__weekday" key={day.label} role="columnheader">
-                    {day.label}
-                  </div>
-                ))}
-              </div>
-              {monthWeeks.map((week, weekIndex) => {
-                const eventSegments = monthEventSegments[weekIndex] ?? [];
-                const visibleSegments = eventSegments.filter((segment) => segment.lane < monthEventRowLimit);
-                const overflowByDate = new Map(week.map((day) => [
-                  day.date,
-                  eventSegments.filter((segment) => (
-                    segment.lane >= monthEventRowLimit
-                    && segment.startColumn <= week.findIndex((candidate) => candidate.date === day.date)
-                    && segment.endColumn >= week.findIndex((candidate) => candidate.date === day.date)
-                  )).length,
-                ]));
-                return (
-                  <div
-                    className="rm-month-grid__week"
-                    key={week[0]?.date ?? weekIndex}
-                    onDragOver={(event) => {
-                      if (role !== 'client') event.preventDefault();
-                    }}
-                    onDrop={(event) => {
-                      event.preventDefault();
-                      const movingEvent = draggedCalendarEvent(event.dataTransfer, sourceEvents);
-                      const bounds = event.currentTarget.getBoundingClientRect();
-                      const dayIndex = Math.max(0, Math.min(6, Math.floor(
-                        (event.clientX - bounds.left) / (bounds.width / 7),
-                      )));
-                      const targetDate = week[dayIndex]?.date;
-                      if (movingEvent && targetDate) void moveEventToDate(movingEvent, targetDate);
-                    }}
-                    style={{ '--rm-month-event-rows': monthEventRowLimit } as CSSProperties}
-                  >
-                    <div className="rm-month-grid__days">
-                      {week.map((day) => {
-                        const overflowCount = overflowByDate.get(day.date) ?? 0;
-                        return (
-                        <div
-                          className={[
-                            'rm-month-grid__day',
-                            day.inCurrentMonth ? '' : 'is-outside',
-                            day.isToday ? 'is-today' : '',
-                          ].filter(Boolean).join(' ')}
-                          key={day.date}
-                          onClick={(event) => {
-                            if (role !== 'client' && !(event.target as HTMLElement).closest('button')) openEventForm(day.date);
-                          }}
-                          role="gridcell"
-                        >
-                          <button
-                            aria-label={
-                              role === 'client'
-                                ? fullDateLabel.format(new Date(`${day.date}T12:00:00`))
-                                : `Add event on ${fullDateLabel.format(new Date(`${day.date}T12:00:00`))}`
-                            }
-                            className="rm-month-grid__date"
-                            disabled={role === 'client'}
-                            onClick={() => openEventForm(day.date)}
-                            type="button"
-                          >
-                            {day.day}
-                          </button>
-                          {overflowCount ? (
-                            <button
-                              aria-label={`Show ${overflowCount} more events on ${fullDateLabel.format(new Date(`${day.date}T12:00:00`))}`}
-                              className="rm-month-grid__more"
-                              onClick={(event) => {
-                                event.stopPropagation();
-                                setMonthOverflowDate(day.date);
-                              }}
-                              type="button"
-                            >
-                              +{overflowCount} more
-                            </button>
-                          ) : null}
-                        </div>
-                        );
-                      })}
-                    </div>
-                    <div className="rm-month-grid__events">
-                      {visibleSegments.map((segment) => {
-                        const event = segment.event;
-                        return (
-                        <button
-                          className={[
-                            `rm-month-event rm-month-event--${event.type}`,
-                            isMarketingCalendarEvent(event) ? 'is-marketing-event' : '',
-                            segment.continuesFromPreviousWeek ? 'is-continuing-from-previous-week' : '',
-                            segment.continuesIntoNextWeek ? 'is-continuing-into-next-week' : '',
-                            draggedEventKey === eventInstanceKey(event) ? 'is-dragging' : '',
-                          ].filter(Boolean).join(' ')}
-                          data-event-color={eventColor(event).id}
-                          title={`${event.title} · ${eventColor(event).label}`}
-                          draggable={role !== 'client'}
-                          key={`${eventInstanceKey(event)}:${week[0]?.date ?? weekIndex}`}
-                          onClick={(clickEvent) => {
-                            clickEvent.stopPropagation();
-                            setSelectedEvent(event);
-                          }}
-                          onDragEnd={() => setDraggedEventKey(null)}
-                          onDragStart={(dragEvent) => {
-                            setCalendarDragPayload(dragEvent.dataTransfer, event);
-                            setDraggedEventKey(eventInstanceKey(event));
-                          }}
-                          style={{
-                            ...eventColorStyle(event),
-                            gridColumn: `${segment.startColumn + 1} / ${segment.endColumn + 2}`,
-                            gridRow: segment.lane + 1,
-                          }}
-                          type="button"
-                        >
-                          {!event.allDay && !segment.continuesFromPreviousWeek ? <span>{event.start}</span> : null}
-                          <strong>{event.title}</strong>
-                        </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              })}
+          {displayView === 'agenda' ? (
+            <div className="aw-calendar-agenda" aria-label="Calendar agenda">
+              {!agendaDays.length ? <p className="rm-empty-copy">No events this month. Choose another month or add an event.</p> : null}
+              {agendaDays.map(day => <section key={day.date} className="aw-calendar-agenda__day">
+                <h3>{new Date(`${day.date}T12:00:00`).toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'short' })}{day.isToday ? ' · Today' : ''}</h3>
+                {(eventsByDate.get(day.date) ?? []).map(event => <button className="aw-calendar-agenda__event" key={eventInstanceKey(event)} onClick={() => setSelectedEvent(event)} type="button">
+                  <span className="aw-calendar-dot" style={{backgroundColor:eventColor(event).color}} />
+                  <span className="aw-calendar-agenda__copy"><strong>{event.title}</strong><small>{event.allDay ? 'All day' : `${event.start}${event.end ? ` – ${event.end}` : ''}`}{event.propertyName ? ` · ${event.propertyName}` : ''}</small></span>
+                  <Icon name="chevron-right" size={16} />
+                </button>)}
+              </section>)}
+            </div>
+          ) : displayView === 'month' ? (
+            <div className="aw-calendar-month" aria-label="Month calendar">
+              <div className="aw-calendar-month__weekdays">{weekDays.map(day => <span key={day.label}>{day.label}</span>)}</div>
+              <div className="aw-calendar-month__days">{monthDays.map(day => {
+                const dayEvents = eventsByDate.get(day.date) ?? [];
+                return <section key={day.date} className={`aw-calendar-month__day${day.inCurrentMonth ? '' : ' is-outside'}${day.isToday ? ' is-today' : ''}`} aria-label={day.date}>
+                  <button className="aw-calendar-month__date" aria-label={`View events on ${day.date}`} onClick={() => setMonthOverflowDate(day.date)} type="button">{day.day}</button>
+                  {dayEvents.slice(0, monthEventRowLimit).map(event => <button className="aw-calendar-month__event" key={eventInstanceKey(event)} onClick={() => setSelectedEvent(event)} title={event.title} type="button">
+                    <span className="aw-calendar-dot" style={{backgroundColor:eventColor(event).color}} />
+                    <span>{event.allDay ? '' : `${event.start} `}{event.title}</span>
+                  </button>)}
+                  {dayEvents.length > monthEventRowLimit ? <button className="aw-calendar-month__more" onClick={() => setMonthOverflowDate(day.date)} type="button">+{dayEvents.length - monthEventRowLimit} more</button> : null}
+                </section>;
+              })}</div>
             </div>
           ) : (
             <div className="rm-week-stack-grid" role="grid">
@@ -1013,13 +868,7 @@ export function CalendarScreen({
                   }}
                   role="gridcell"
                 >
-                  {visibleEvents
-                    .filter((event) => eventOccursOnDate(event, day.date))
-                    .sort((left, right) => (
-                      Number(Boolean(right.allDay)) - Number(Boolean(left.allDay))
-                      || left.start.localeCompare(right.start)
-                      || left.title.localeCompare(right.title)
-                    ))
+                  {(eventsByDate.get(day.date) ?? [])
                     .map((event) => (
                       <button
                         aria-label={`${event.title}, ${eventColor(event).label}`}
@@ -1049,20 +898,7 @@ export function CalendarScreen({
             </div>
           )}
 
-          <div className="rm-mobile-agenda" aria-label="Calendar agenda">
-            {!visibleEvents.length ? <p className="rm-empty-copy">No events in this {calendarView}. Choose another period or add a new event.</p> : null}
-            {visibleEvents.map((event) => (
-              <button key={eventInstanceKey(event)} onClick={() => setSelectedEvent(event)} type="button">
-                <span aria-label={eventColor(event).label} className="rm-event-dot" style={{ backgroundColor: eventColor(event).color }} />
-                <span>
-                  <small>{dayLabel.format(new Date(`${event.date}T12:00:00`))} {new Date(`${event.date}T12:00:00`).getDate()} · {event.start}</small>
-                  <strong>{event.title}</strong>
-                  <small>{event.propertyName} · {event.location}</small>
-                </span>
-                <Icon name="chevron-right" size={16} />
-              </button>
-            ))}
-          </div>
+
 
         </Card>
       </div>
@@ -1315,6 +1151,8 @@ export function CalendarScreen({
         open={Boolean(monthOverflowDate)}
         title={monthOverflowDate ? `Events on ${fullDateLabel.format(new Date(`${monthOverflowDate}T12:00:00`))}` : 'More events'}
       >
+        {!monthOverflowEvents.length ? <p className="rm-empty-copy">No events on this day.</p> : null}
+        {role !== 'client' && monthOverflowDate ? <Button icon="plus" onClick={() => { const date = monthOverflowDate; setMonthOverflowDate(null); openEventForm(date); }}>Add event</Button> : null}
         <div className="rm-calendar-overflow-list">
           {monthOverflowEvents.map((event) => (
             <button
@@ -1351,7 +1189,7 @@ export function CalendarScreen({
               <div><dt>Time</dt><dd>{selectedEvent.allDay ? 'All day' : `${selectedEvent.start}${selectedEvent.end ? ` — ${selectedEvent.end}` : ''}`}</dd></div>
               <div><dt>Property</dt><dd>{selectedEvent.propertyName}</dd></div>
               <div><dt>Location</dt><dd>{selectedEvent.location || 'Not specified'}</dd></div>
-              <div><dt>Visibility</dt><dd>{selectedEvent.visibility?.replace('_', ' ') ?? 'Workspace'}</dd></div>
+              <div><dt>Visibility</dt><dd>{selectedEvent.visibility === 'admin_only' ? 'Founders' : selectedEvent.visibility === 'team' ? 'Team & founders' : selectedEvent.visibility === 'client' ? 'Client' : 'Workspace'}</dd></div>
               {selectedEventGear.length ? <div><dt>Equipment</dt><dd>{selectedEventGear.map((item) => item.name).join(', ')}</dd></div> : null}
               {selectedEvent.assigneeUserIds?.length ? <div><dt>Assigned to</dt><dd>{selectedEvent.assigneeUserIds.map((userId) => activeMembers.find((member) => member.userId === userId)?.name).filter(Boolean).join(', ')}</dd></div> : null}
               {selectedMarketingItem?.caption ? <div><dt>Caption</dt><dd>{selectedMarketingItem.caption}</dd></div> : null}
@@ -1359,6 +1197,7 @@ export function CalendarScreen({
               {!selectedMarketingItem && selectedEvent.description ? <div><dt>Notes</dt><dd>{selectedEvent.description}</dd></div> : null}
             </dl>
             <footer className="rm-event-detail__actions">
+              <div className="rm-event-detail__exports">
               <Button
                 icon="arrow-up-right"
                 onClick={() => window.open(googleCalendarUrl(selectedEvent), '_blank', 'noopener,noreferrer')}
@@ -1377,6 +1216,8 @@ export function CalendarScreen({
                 Apple Calendar
               </Button>
               {selectedMarketingItem?.body ? <Button icon="arrow-up-right" onClick={() => setScriptReaderOpen(true)} variant="secondary">Open script reader</Button> : null}
+              </div>
+              <div className="rm-event-detail__manage">
               {role === 'admin' ? (
                 <>
                 {selectedEvent.id.startsWith('marketing:') ? (
@@ -1388,6 +1229,7 @@ export function CalendarScreen({
                 <Button onClick={() => setSelectedEvent(null)}>Done</Button>
                 </>
               ) : <Button onClick={() => setSelectedEvent(null)}>Done</Button>}
+              </div>
             </footer>
           </div>
         ) : null}

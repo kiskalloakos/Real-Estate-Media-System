@@ -1,6 +1,7 @@
 import { useMemo, useState, type FormEvent } from 'react';
 
 import {
+  Icon,
   Avatar,
   Button,
   Card,
@@ -509,6 +510,7 @@ export function GearScreen({
       </Modal>
 
       <Modal
+        className="aw-form-dialog aw-gear-transfer-modal"
         description="Move an item back to the studio, onto a property, or into service."
         onClose={() => setTransferOpen(false)}
         open={transferOpen}
@@ -518,13 +520,13 @@ export function GearScreen({
           {formError ? <div className="rm-feedback rm-feedback--error" role="alert">{formError}</div> : null}
           <label className="rm-field">
             <span>Gear item</span>
-            <select onChange={(event) => setTransferForm((current) => ({ ...current, gearId: event.target.value }))} required value={transferForm.gearId}>
+            <div className="aw-select-control"><select onChange={(event) => setTransferForm((current) => ({ ...current, gearId: event.target.value }))} required value={transferForm.gearId}>
               {sourceGear.map((item) => <option key={item.id} value={item.id}>{item.name} · {item.serial}</option>)}
-            </select>
+            </select><Icon name="chevron-down" size={18} /></div>
           </label>
           <label className="rm-field">
             <span>New status</span>
-            <select
+            <div className="aw-select-control"><select
               onChange={(event) => setTransferForm((current) => ({
                 ...current,
                 eventId: undefined,
@@ -536,12 +538,12 @@ export function GearScreen({
               <option value="available">Returned / available</option>
               <option value="on_site">Placed on site</option>
               <option value="maintenance">Sent to service</option>
-            </select>
+            </select><Icon name="chevron-down" size={18} /></div>
           </label>
           {transferForm.status === 'on_site' ? (
             <label className="rm-field">
               <span>Calendar event</span>
-              <select
+              <div className="aw-select-control"><select
                 onChange={(event) => {
                   const calendarEvent = sourceEvents.find((item) => item.id === event.target.value);
                   const property = properties.find((item) => (
@@ -560,7 +562,7 @@ export function GearScreen({
               >
                 <option value="">Choose a scheduled property event</option>
                 {gearEligibleEvents.map((item) => <option key={item.id} value={item.id}>{gearEventOptionLabel(item)}</option>)}
-              </select>
+              </select><Icon name="chevron-down" size={18} /></div>
             </label>
           ) : null}
           <label className="rm-field">

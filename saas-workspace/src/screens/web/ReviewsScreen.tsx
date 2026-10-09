@@ -13,12 +13,12 @@ import {
 } from '@/components/web';
 
 import { demoReviews } from './demoData';
+import { WorkStatusPill } from './shared';
 import type { PropertySummary, ReviewItem, UpdateDeliverableInput, UploadDeliverableInput } from './types';
 
 export interface ReviewsScreenProps {
   initialReviewId?: string;
   onArchive?: (reviewId: string) => void | Promise<void>;
-  onBack?: () => void;
   onComment?: (reviewId: string, body: string, timestamp: string) => void | Promise<void>;
   onDecision?: (
     reviewId: string,
@@ -290,7 +290,6 @@ async function downloadScriptPdf(title: string, scriptHtml: string) {
 export function ReviewsScreen({
   initialReviewId,
   onArchive,
-  onBack,
   onComment,
   onUpdate,
   onUpload,
@@ -304,7 +303,7 @@ export function ReviewsScreen({
     (role === 'client'
       ? demoReviews.filter((review) => review.clientName === 'Cabana The One')
       : demoReviews);
-  const [activeId, setActiveId] = useState(initialReviewId ?? roleReviews[0]?.id ?? '');
+  const [activeId, setActiveId] = useState(initialReviewId ?? '');
   const [comment, setComment] = useState('');
   const [commentTime, setCommentTime] = useState(0);
   const [videoDuration, setVideoDuration] = useState(0);
@@ -328,7 +327,7 @@ export function ReviewsScreen({
   });
 
   const activeReview =
-    roleReviews.find((review) => review.id === activeId) ?? roleReviews[0];
+    roleReviews.find((review) => review.id === activeId);
   const isScriptReview = activeReview?.kind === 'script';
   const activeScriptHtml = useMemo(
     () => activeReview?.contentHtml ? cleanEditorHtml(activeReview.contentHtml) : '',
@@ -386,6 +385,7 @@ export function ReviewsScreen({
     try {
       await onUpload({ ...uploadForm, file: uploadForm.file });
       setUploadOpen(false);
+      selectReview('');
       setUploadForm({
         file: null,
         kind: 'video',
@@ -461,13 +461,13 @@ export function ReviewsScreen({
       <PageHeader
         actions={
           <div className="rm-review-page-actions">
-            {onBack ? (
-              <Button icon="chevron-left" onClick={onBack} variant="secondary">
-                Back
+            {activeReview ? (
+              <Button icon="chevron-left" onClick={() => selectReview('')} variant="secondary">
+                All review items
               </Button>
             ) : <span />}
             <div className="rm-review-page-actions__right">
-              <label className="rm-review-picker">
+              {activeReview ? <label className="rm-review-picker">
                 <span className="rm-visually-hidden">Choose content to review</span>
                 <select
                   disabled={!roleReviews.length}
@@ -481,7 +481,7 @@ export function ReviewsScreen({
                     </option>
                   ))}
                 </select>
-              </label>
+              </label> : null}
               {role !== 'client' ? (
                 <Button
                   icon="upload"
@@ -503,7 +503,27 @@ export function ReviewsScreen({
         title="Review room"
       />
 
-      <div className={`rm-review-workspace${isScriptReview ? ' rm-review-workspace--script' : ''}`}>
+      {!activeReview && roleReviews.length ? (
+        <section className="aw-review-directory" aria-label="Reviewable items">
+          <div className="aw-review-directory__heading">
+            <h2>Review items</h2>
+            <span>{roleReviews.length} {roleReviews.length === 1 ? 'item' : 'items'}</span>
+          </div>
+          <div className="aw-review-directory__list">
+            {roleReviews.map((review) => (
+              <button className="aw-review-directory__item" key={review.id} onClick={() => selectReview(review.id)}>
+                <span className="aw-review-directory__icon"><Icon name={review.kind === 'video' ? 'play' : review.kind === 'image' ? 'image' : 'file'} size={22} /></span>
+                <span className="aw-review-directory__copy">
+                  <strong>{review.title}</strong>
+                  <span>{review.propertyName} · {review.kind} · {review.version}</span>
+                </span>
+                <WorkStatusPill status={review.status} />
+                <Icon name="chevron-right" size={18} />
+              </button>
+            ))}
+          </div>
+        </section>
+      ) : <div className={`rm-review-workspace${isScriptReview ? ' rm-review-workspace--script' : ''}`}>
         {activeReview ? (
           <>
             <Card className={`rm-video-review${isScriptReview ? ' rm-script-review' : ''}`} tone="bright">
@@ -662,10 +682,11 @@ export function ReviewsScreen({
         ) : (
           <Card className="rm-review-stage rm-review-stage--empty" tone="bright">
             <Icon name="play" size={28} />
-            <h2>Nothing in this view.</h2>
+            <h2>No review items yet.</h2>
+            <p>{role === 'client' ? 'Content shared for your review will appear here.' : 'Upload a deliverable to start a review.'}</p>
           </Card>
         )}
-      </div>
+      </div>}
 
       <Modal
         onClose={() => setUploadOpen(false)}
@@ -718,6 +739,7 @@ export function ReviewsScreen({
       </Modal>
 
       <Modal
+        className="aw-form-dialog"
         onClose={() => setEditOpen(false)}
         open={editOpen}
         title="Edit content"
@@ -729,11 +751,14 @@ export function ReviewsScreen({
             <input onChange={(event) => setEditForm((current) => ({ ...current, title: event.target.value }))} required value={editForm.title} />
           </label>
           <label className="rm-field">
-            <span>Recorded for property</span>
-            <select onChange={(event) => setEditForm((current) => ({ ...current, propertyId: event.target.value }))} required value={editForm.propertyId}>
-              <option value="">Choose a property</option>
-              {properties.map((property) => <option key={property.id} value={property.id}>{property.name} · {property.clientName}</option>)}
-            </select>
+            <span>Property</span>
+            <div className="aw-select-control">
+              <select onChange={(event) => setEditForm((current) => ({ ...current, propertyId: event.target.value }))} required value={editForm.propertyId}>
+                <option value="">Choose a property</option>
+                {properties.map((property) => <option key={property.id} value={property.id}>{property.name} · {property.clientName}</option>)}
+              </select>
+              <Icon name="chevron-down" size={18} />
+            </div>
           </label>
           <footer className="rm-dialog-actions">
             <Button disabled={saving} onClick={() => setEditOpen(false)} variant="secondary">Cancel</Button>

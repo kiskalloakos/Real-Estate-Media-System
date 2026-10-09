@@ -1,6 +1,7 @@
 import '@/global.css';
 import '@/workspace.css';
 import '@/responsive.css';
+import '@/dialogs.css';
 
 import Head from 'expo-router/head';
 

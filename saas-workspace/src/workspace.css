@@ -1,5 +1,21 @@
 :root{--aw-bg:#f0f1f3;--aw-sidebar:#e9eaed;--aw-ink:#191a20;--aw-muted:#626570;--aw-line:#d9dbe1;--aw-accent:#5256e0;--aw-tint:#e8e9fc;--rm-blue:#5256e0;--rm-black:#191a20;--rm-grey:#e9eaed;--rm-ink-muted:#626570;--rm-muted:#626570;--rm-line:#d9dbe1;--rm-line-paper:#d9dbe1;--rm-radius-control:10px;--rm-radius-card:16px;--rm-radius-feature:20px}
 
+.aw-review-directory{border:1px solid var(--aw-line);border-radius:12px;background:#fff;overflow:hidden}
+.aw-review-directory__heading{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 24px;border-bottom:1px solid var(--aw-line)}
+.aw-review-directory__heading h2{margin:0;font-size:18px}
+.aw-review-directory__heading>span{color:var(--aw-muted);font-size:13px}
+.aw-review-directory__list{display:flex;flex-direction:column}
+html body .aw-shell #aw-main-content button.aw-review-directory__item{display:flex;align-items:center;gap:16px;width:100%;min-width:0;min-height:90px;padding:20px 24px;border:0!important;border-bottom:1px solid var(--aw-line)!important;border-radius:0!important;background:#fff!important;color:var(--aw-ink)!important;box-shadow:none!important;backdrop-filter:none!important;text-align:left}
+html body .aw-shell #aw-main-content button.aw-review-directory__item:last-child{border-bottom:0!important}
+html body .aw-shell #aw-main-content button.aw-review-directory__item:hover{background:#f6f6fc!important}
+html body .aw-shell #aw-main-content button.aw-review-directory__item:focus-visible{outline:2px solid var(--aw-accent)!important;outline-offset:-3px}
+.aw-review-directory__icon{display:grid;place-items:center;flex:0 0 44px;height:44px;border-radius:8px;background:var(--aw-tint);color:var(--aw-accent)}
+.aw-review-directory__copy{display:flex;flex:1;flex-direction:column;gap:5px;min-width:0;overflow-wrap:anywhere}
+.aw-review-directory__copy>strong{font-size:15px}
+.aw-review-directory__copy>span{color:var(--aw-muted);font-size:13px}
+.aw-review-directory__item>.rm-status,.aw-review-directory__item>svg{flex-shrink:0}
+@media(max-width:760px){.aw-review-directory__heading{padding:16px}.aw-review-directory__heading h2{font-size:16px}html body .aw-shell #aw-main-content button.aw-review-directory__item{display:grid;grid-template-columns:36px minmax(0,1fr) 18px;gap:10px;padding:16px}.aw-review-directory__icon{width:36px;height:36px}.aw-review-directory__item>.rm-status{grid-column:2;justify-self:start}.aw-review-directory__item>svg{grid-column:3;grid-row:1}.aw-review-directory__copy>strong{font-size:14px}}
+
 html body{background:var(--aw-bg);color:var(--aw-ink);font-family:OutfitRegular,system-ui,sans-serif;font-size:14px;line-height:1.5}
 button,input{font:inherit}
 button{cursor:pointer}
@@ -246,7 +262,7 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(-
 .aw-shell .rm-task-list-card__header{border-bottom:1px solid var(--aw-line)!important;padding:18px!important;background:transparent!important}
 .aw-shell .rm-task-list-card__header h2{font-size:13px!important}
 .aw-shell .rm-task-list-card__header strong{border:0!important;background:#dddfe7!important;color:#575b68!important;border-radius:5px!important;font-size:10px!important}
-.aw-shell .rm-task-item{border:1px solid #d5d7df!important;border-radius:10px!important;background:white!important;box-shadow:0 2px 3px #23351a03!important}
+.aw-shell .rm-task-item{border:1px solid #d5d7df!important;border-radius:10px!important;background:white!important;box-shadow:none!important}
 .aw-shell .rm-task-item__open{padding:15px!important;display:flex!important;flex-wrap:wrap!important;gap:10px!important}
 .aw-shell .rm-task-item__row-content{flex-basis:100%}
 .aw-shell .rm-task-item__row-content strong{font-size:13px!important}
@@ -327,7 +343,7 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(-
   .aw-shell:not(.aw-sidebar-mode-expanded) .aw-nav__text,
   .aw-shell:not(.aw-sidebar-mode-expanded) .aw-customize>span,
   .aw-shell:not(.aw-sidebar-mode-expanded) .aw-sidebar-control-trigger>span{display:none}
-  .aw-shell:not(.aw-sidebar-mode-expanded) .aw-nav__item{padding:12px;gap:0}
+  .aw-shell:not(.aw-sidebar-mode-expanded) .aw-nav__item{height:44px;min-height:44px;padding:0 12px;gap:0;line-height:20px}
   .aw-shell:not(.aw-sidebar-mode-expanded) .aw-customize{padding:12px}
   .aw-sidebar-mode-hover .aw-sidebar:is(:hover,:has(:focus-visible),.has-control-open){width:240px;box-shadow:14px 0 35px #0003}
   .aw-sidebar-mode-hover .aw-sidebar:is(:hover,:has(:focus-visible),.has-control-open) .aw-studio-brand>div,
@@ -402,7 +418,7 @@ html body .aw-shell #aw-main-content .aw-settings-page .aw-module-toggle__thumb{
 .aw-home-schedule{display:flex;flex-direction:column}
 .aw-home-schedule>.aw-calendar-link{margin-top:auto}
 .aw-home-schedule>.aw-empty{flex:1;display:flex;align-items:center;margin:0}
-@media(max-width:1050px){.aw-home-grid>.aw-side-column{display:flex;flex-direction:column}}
+@media(max-width:1050px){.aw-home-grid>.aw-side-column{display:flex;flex-direction:column;align-items:stretch}}
 @media(min-width:1051px){
   .aw-home-grid>.aw-main-column,.aw-home-grid>.aw-side-column{display:contents}
   .aw-home-tasks{grid-column:1;grid-row:1}
@@ -471,10 +487,10 @@ html body .aw-shell #aw-main-content .rm-avatar>span,html body .rm-modal .rm-ava
 .aw-shell .rm-access-toolbar .rm-status{border:1px solid var(--aw-line)!important;border-radius:6px!important;padding:4px 8px!important;background:#f0f1f5!important;color:#555965!important;font-size:11px!important;text-transform:none!important;letter-spacing:0!important}
 /* Dialog close controls are plain icons with a quiet hover surface. */
 html body .rm-modal.rm-modal--liquid-glass .rm-modal__header button.rm-icon-button[aria-label="Close dialog"],
-html body .rm-modal .rm-modal__header button.rm-icon-button[aria-label="Close dialog"]{border:0!important;background:transparent!important;background-image:none!important;box-shadow:none!important;backdrop-filter:none!important;color:#191a20!important;border-radius:6px!important}
+html body .rm-modal:not(.aw-dialog) .rm-modal__header button.rm-icon-button[aria-label="Close dialog"]{border:0!important;background:transparent!important;background-image:none!important;box-shadow:none!important;backdrop-filter:none!important;color:#191a20!important;border-radius:6px!important}
 html body .rm-modal.rm-modal--liquid-glass .rm-modal__header button.rm-icon-button[aria-label="Close dialog"]:is(:hover,:focus-visible){background:#e9eaef!important;box-shadow:none!important}
-html body .rm-modal .rm-modal__header button.rm-icon-button.rm-icon-button.rm-icon-button.rm-icon-button.rm-icon-button.rm-icon-button[aria-label="Close dialog"]{background:transparent!important;background-image:none!important;box-shadow:none!important;border:0!important;backdrop-filter:none!important}
-html body .rm-modal .rm-modal__header button.rm-icon-button.rm-icon-button.rm-icon-button.rm-icon-button.rm-icon-button.rm-icon-button[aria-label="Close dialog"]:is(:hover,:focus-visible){background:#e9eaef!important}
+html body .rm-modal:not(.aw-dialog) .rm-modal__header button.rm-icon-button.rm-icon-button.rm-icon-button.rm-icon-button.rm-icon-button.rm-icon-button[aria-label="Close dialog"]{background:transparent!important;background-image:none!important;box-shadow:none!important;border:0!important;backdrop-filter:none!important}
+html body .rm-modal:not(.aw-dialog) .rm-modal__header button.rm-icon-button.rm-icon-button.rm-icon-button.rm-icon-button.rm-icon-button.rm-icon-button[aria-label="Close dialog"]:is(:hover,:focus-visible){background:#e9eaef!important}
 .rm-modal .rm-task-archive-list article{min-height:68px!important;border:1px solid #d9dbe1!important;border-radius:8px!important;background:#fafafb!important;transition:background .16s,border-color .16s}
 .rm-modal .rm-task-archive-list article:has(button:is(:hover,:focus-visible)){background:#edeef5!important;border-color:#b9bccb!important}
 .rm-modal .rm-task-archive-list__open{min-height:68px!important;padding:10px 0!important}
@@ -505,3 +521,94 @@ html body .aw-shell #aw-main-content .aw-settings-page .rm-dialog-actions{paddin
 html body .aw-shell #aw-main-content .aw-settings-page .rm-field select{appearance:none;padding-right:36px!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23686c78' stroke-width='1.6'%3E%3Cpath d='m4 6 4 4 4-4'/%3E%3C/svg%3E")!important;background-position:right 12px center!important;background-repeat:no-repeat!important}
 html body .aw-shell #aw-main-content .aw-settings-page .rm-field small{color:#686c78!important;font-size:12px!important}
 @media(min-width:1100px){.aw-settings-page .rm-form-grid--three{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* Form dialogs use outlined fields and an explicit dropdown affordance. */
+html body .rm-modal.aw-form-dialog{width:560px!important;max-width:calc(100vw - 32px)!important;border:1px solid var(--aw-line)!important;border-radius:12px!important;background:#fff!important;backdrop-filter:none!important}
+html body .rm-modal.aw-form-dialog .rm-modal__header{padding:22px 24px!important;margin:0!important;border-bottom:1px solid var(--aw-line)!important;align-items:center}
+html body .rm-modal.aw-form-dialog .rm-modal__header h2{margin:0!important;font-size:24px!important;line-height:1.3!important;letter-spacing:-.5px}
+html body .rm-modal.aw-form-dialog .rm-modal__body{padding:24px!important}
+html body .rm-modal.aw-form-dialog .rm-action-form{display:grid;gap:20px!important;padding:0!important;margin:0!important;border:0!important;background:transparent!important}
+html body .rm-modal.aw-form-dialog .rm-modal__body .rm-action-form .rm-field{display:grid;gap:8px!important;margin:0!important}
+html body .rm-modal.aw-form-dialog .rm-modal__body .rm-action-form .rm-field>span{font-size:13px!important;text-transform:none!important;letter-spacing:0!important;color:var(--aw-ink)!important;font-weight:600}
+html body .rm-modal.aw-form-dialog .rm-modal__body .rm-action-form .rm-field :is(input,select,textarea){display:block;width:100%!important;min-height:46px!important;padding:11px 13px!important;border:1px solid #c9ccd5!important;border-radius:8px!important;background:#fafafb!important;color:var(--aw-ink)!important;font-size:14px!important;line-height:1.5!important;box-shadow:none!important;backdrop-filter:none!important}
+html body .rm-modal.aw-form-dialog .rm-modal__body .rm-action-form .rm-field :is(input,select,textarea):focus-visible{outline:2px solid var(--aw-accent)!important;outline-offset:2px!important;border-color:var(--aw-accent)!important}
+.aw-select-control{position:relative;min-width:0}
+html body .rm-modal.aw-form-dialog .rm-modal__body .rm-action-form .aw-select-control select{appearance:none!important;padding-right:42px!important;cursor:pointer}
+.aw-select-control>svg{position:absolute;right:14px;top:50%;transform:translateY(-50%);pointer-events:none;color:var(--aw-muted)}
+html body .rm-modal.aw-form-dialog .rm-dialog-actions{display:flex;justify-content:flex-end;gap:10px;padding:20px 0 0!important;margin:4px 0 0!important;border-top:1px solid var(--aw-line)!important;background:transparent!important}
+html body .rm-modal.aw-form-dialog .rm-dialog-actions button.rm-button.rm-button--secondary{border:1px solid #c9ccd5!important;background:#fff!important;border-radius:8px!important}
+html body .rm-modal.aw-form-dialog .rm-dialog-actions .rm-button:focus-visible{outline:2px solid var(--aw-accent)!important;outline-offset:2px!important}
+@media(max-width:760px){html body .rm-modal.aw-form-dialog .rm-modal__header{padding:18px!important}html body .rm-modal.aw-form-dialog .rm-modal__body{padding:18px!important}}
+html body .rm-modal.aw-form-dialog{height:auto!important;min-height:0!important;max-height:calc(100dvh - 32px)!important}
+html body .rm-modal.aw-form-dialog .rm-modal__body{flex:0 1 auto!important;min-height:0!important}
+html body .rm-modal.aw-form-dialog .rm-dialog-actions{flex:0 0 auto!important;align-items:center!important;min-height:0!important}
+html body .rm-modal.aw-form-dialog .rm-dialog-actions button.rm-button{flex:0 1 auto!important;height:44px!important;min-height:44px!important;padding:10px 16px!important}
+html body .rm-modal.aw-form-dialog{align-self:center!important;margin:auto!important}
+
+/* Search and profile dialogs share clearly delineated controls. */
+html body .rm-modal.aw-clean-dialog{width:560px!important;max-width:calc(100vw - 32px)!important;max-height:calc(100dvh - 32px)!important;height:auto!important;min-height:0!important;align-self:center!important;margin:auto!important;border:1px solid var(--aw-line)!important;border-radius:12px!important;background:#fff!important;backdrop-filter:none!important}
+html body .rm-modal.aw-clean-dialog .rm-modal__header{padding:20px 24px!important;border-bottom:1px solid var(--aw-line)!important;gap:16px}
+html body .rm-modal.aw-clean-dialog .rm-modal__header h2{font-size:24px!important;line-height:1.3!important;margin:0!important;letter-spacing:-.5px}
+html body .rm-modal.aw-clean-dialog .rm-modal__header p{margin:6px 0 0!important;font-size:13px!important;line-height:1.5!important;color:var(--aw-muted)!important}
+html body .rm-modal.aw-clean-dialog .rm-modal__body{padding:24px!important;flex:0 1 auto!important;min-height:0}
+html body .rm-modal.aw-profile-dialog .rm-modal__body .rm-profile-form{display:grid;gap:18px!important;margin:0!important;padding:0!important}
+html body .rm-modal.aw-profile-dialog .rm-modal__body .rm-profile-form .rm-field{display:grid;gap:8px!important;margin:0!important}
+html body .rm-modal.aw-profile-dialog .rm-modal__body .rm-profile-form .rm-field>span,html body .rm-modal.aw-profile-dialog .rm-language-field legend{font-size:13px!important;font-weight:600;text-transform:none!important;letter-spacing:0!important;color:var(--aw-ink)!important}
+html body .rm-modal.aw-profile-dialog .rm-modal__body .rm-profile-form .rm-field input{width:100%;min-height:44px!important;padding:10px 13px!important;border:1px solid #c9ccd5!important;border-radius:8px!important;background:#fafafb!important;color:var(--aw-ink)!important;font-size:14px!important;box-shadow:none!important;backdrop-filter:none!important}
+html body .rm-modal.aw-profile-dialog .rm-modal__body .rm-profile-form .rm-field input:disabled{background:#eff0f3!important;color:var(--aw-muted)!important;cursor:not-allowed}
+html body .rm-modal.aw-profile-dialog .rm-modal__body .rm-profile-form .rm-field input:focus-visible{outline:2px solid var(--aw-accent)!important;outline-offset:2px!important}
+html body .rm-modal.aw-profile-dialog .rm-profile-form__identity{gap:16px!important;align-items:center}
+html body .rm-modal.aw-profile-dialog .rm-language-field{padding:0!important;margin:0!important;border:0!important;display:grid;gap:8px}
+html body .rm-modal.aw-profile-dialog .rm-language-switch{display:flex;gap:8px;justify-content:flex-start}
+html body .rm-modal.aw-profile-dialog .rm-language-switch__option{min-width:60px;min-height:40px!important}
+html body .rm-modal.aw-profile-dialog .rm-profile-actions{margin:4px 0 0!important;padding:18px 0 0!important;border-top:1px solid var(--aw-line)!important;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+html body .rm-modal.aw-profile-dialog .rm-profile-actions>div{display:flex;gap:10px;flex-wrap:wrap}
+html body .rm-modal.aw-profile-dialog .rm-profile-actions button{height:44px!important;min-height:44px!important;flex:0 1 auto!important;padding:10px 14px!important}
+html body .rm-modal.aw-search-dialog .rm-modal__body .rm-command{padding:0!important;display:grid;gap:16px!important}
+html body .rm-modal.aw-search-dialog .rm-modal__body .rm-command .rm-command__input{display:flex;align-items:center;gap:10px;min-height:48px!important;padding:10px 14px!important;margin:0!important;border:1px solid #c9ccd5!important;border-radius:8px!important;background:#fafafb!important;box-shadow:none!important;backdrop-filter:none!important}
+html body .rm-modal.aw-search-dialog .rm-modal__body .rm-command .rm-command__input:focus-within{outline:2px solid var(--aw-accent)!important;outline-offset:2px!important}
+html body .rm-modal.aw-search-dialog .rm-modal__body .rm-command .rm-command__input input{flex:1;min-width:0!important;min-height:24px!important;padding:0!important;border:0!important;background:transparent!important;outline:0!important;font-size:14px!important;box-shadow:none!important;backdrop-filter:none!important}
+html body .rm-modal.aw-search-dialog .rm-modal__body .rm-command .rm-command__results{display:grid;gap:0!important;max-height:360px!important;padding:0!important;overflow-y:auto}
+html body .rm-modal.aw-search-dialog .rm-modal__body .rm-command .rm-command__results>button{display:flex;align-items:center;gap:12px;min-height:62px!important;padding:12px!important;border:0!important;border-bottom:1px solid var(--aw-line)!important;border-radius:0!important;background:#fff!important;box-shadow:none!important;backdrop-filter:none!important;text-align:left}
+html body .rm-modal.aw-search-dialog .rm-modal__body .rm-command .rm-command__results>button:hover{background:#f0f1fc!important}
+html body .rm-modal.aw-search-dialog .rm-modal__body .rm-command .rm-command__results>button:focus-visible{outline:2px solid var(--aw-accent)!important;outline-offset:-2px!important}
+html body .rm-modal.aw-search-dialog .rm-command__footer{padding:0!important;margin:0!important;font-size:11px;color:var(--aw-muted)}
+html body .aw-shell #aw-main-content .rm-video-review__header button.rm-button--secondary{min-height:40px!important;padding:10px 14px!important;border:1px solid #c9ccd5!important;border-radius:8px!important;background:#f7f7fa!important;color:var(--aw-ink)!important;box-shadow:none!important;backdrop-filter:none!important}
+html body .aw-shell #aw-main-content .rm-video-review__header button.rm-button--secondary:hover{border-color:var(--aw-accent)!important;background:#e9eafc!important}
+html body .aw-shell #aw-main-content .rm-video-review__header button.rm-button--secondary:focus-visible{outline:2px solid var(--aw-accent)!important;outline-offset:2px!important}
+@media(max-width:760px){html body .rm-modal.aw-clean-dialog .rm-modal__header{padding:18px!important}html body .rm-modal.aw-clean-dialog .rm-modal__body{padding:18px!important}.aw-clean-dialog .rm-profile-actions>div{width:100%}html body .rm-modal.aw-profile-dialog .rm-profile-actions>div>button{flex:1!important}}
+html body .rm-modal.aw-search-dialog .rm-modal__body .rm-command .rm-command__input{height:48px!important}
+html body .rm-modal.aw-search-dialog .rm-command__results>button>span:nth-child(2){flex:1;min-width:0}
+html body .rm-modal.aw-search-dialog .rm-command__results>button>svg:last-child{margin-left:auto;flex-shrink:0}
+
+/* Lightweight calendar surfaces: bounded month cells and a single agenda on phones. */
+.aw-calendar-month__weekdays,.aw-calendar-month__days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}
+.aw-calendar-month__weekdays>span{padding:12px;text-align:center;color:var(--aw-muted);font-size:12px;border-bottom:1px solid var(--aw-line)}
+.aw-calendar-month__day{min-height:118px;min-width:0;padding:8px;border-right:1px solid var(--aw-line);border-bottom:1px solid var(--aw-line);background:#fff}
+.aw-calendar-month__day:nth-child(7n){border-right:0}.aw-calendar-month__day.is-outside{background:#f7f8fa;color:var(--aw-muted)}
+html body .aw-shell #aw-main-content .aw-calendar-month button{border:0!important;background:transparent!important;box-shadow:none!important;backdrop-filter:none!important;color:var(--aw-ink)!important;border-radius:5px!important}
+html body .aw-shell #aw-main-content .aw-calendar-month button:hover{background:#e9eafc!important}
+html body .aw-shell #aw-main-content .aw-calendar-month button:focus-visible{outline:2px solid var(--aw-accent)!important;outline-offset:-2px}
+html body .aw-shell #aw-main-content button.aw-calendar-month__date{display:grid;place-items:center;width:28px;min-height:28px!important;padding:0!important;font-size:12px;margin-bottom:6px}
+html body .aw-shell #aw-main-content .is-today button.aw-calendar-month__date{background:var(--aw-accent)!important;color:white!important;border-radius:50%!important}
+html body .aw-shell #aw-main-content button.aw-calendar-month__event{display:flex;align-items:center;gap:5px;width:100%;min-width:0;min-height:27px!important;padding:4px!important;text-align:left;font-size:12px;line-height:1.4}
+.aw-calendar-month__event>span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.aw-calendar-dot{display:block;flex:0 0 7px;width:7px;height:7px;border-radius:50%}
+html body .aw-shell #aw-main-content button.aw-calendar-month__more{padding:4px!important;min-height:24px!important;font-size:11px;color:var(--aw-accent)!important}
+.aw-calendar-agenda{padding:0 20px 20px}.aw-calendar-agenda__day h3{margin:0;padding:18px 0 10px;font-size:14px;color:var(--aw-muted)}
+html body .aw-shell #aw-main-content button.aw-calendar-agenda__event{display:flex;align-items:center;gap:12px;width:100%;min-height:64px!important;padding:14px 0!important;border:0!important;border-bottom:1px solid var(--aw-line)!important;border-radius:0!important;background:#fff!important;color:var(--aw-ink)!important;box-shadow:none!important;backdrop-filter:none!important;text-align:left}
+html body .aw-shell #aw-main-content button.aw-calendar-agenda__event:hover{background:#f6f6fc!important}
+html body .aw-shell #aw-main-content button.aw-calendar-agenda__event:focus-visible{outline:2px solid var(--aw-accent)!important;outline-offset:-2px}
+.aw-calendar-agenda__copy{display:flex;flex:1;flex-direction:column;gap:4px;min-width:0;overflow-wrap:anywhere}.aw-calendar-agenda__copy strong{font-size:14px}.aw-calendar-agenda__copy small{font-size:12px;color:var(--aw-muted)}
+.aw-calendar-filters{position:relative}.aw-calendar-filters>summary{list-style:none;cursor:pointer;padding:10px 14px;border:1px solid var(--aw-line);border-radius:8px;font-size:13px;background:#fff}.aw-calendar-filters>summary::after{content:' ▾'}
+.aw-calendar-filters__body{position:absolute;right:0;top:calc(100% + 8px);z-index:30;display:grid;gap:12px;width:280px;padding:16px;background:#fff;border:1px solid var(--aw-line);border-radius:8px}.aw-calendar-filters__body select{width:100%;min-height:40px}.aw-calendar-filters__body label{width:100%}
+html body .aw-shell #aw-main-content .aw-calendar-page .rm-calendar-card{background:#fff!important;backdrop-filter:none!important}
+.aw-calendar-page .rm-calendar-toolbar{gap:12px!important;padding:16px!important;flex-wrap:wrap}
+@media(max-width:760px){.aw-calendar-agenda{padding:0 16px 16px}.aw-calendar-page .rm-calendar-toolbar{display:flex!important;flex-direction:column;align-items:stretch!important}.aw-calendar-page .rm-calendar-toolbar__date{justify-content:space-between}.aw-calendar-page .rm-calendar-toolbar__date h2{font-size:18px!important}.aw-calendar-page .rm-calendar-toolbar__controls,.aw-calendar-page .rm-calendar-toolbar__actions{display:flex!important;flex-wrap:wrap;gap:8px!important}.aw-calendar-page .rm-calendar-view-switch{display:none!important}.aw-calendar-filters__body{left:0;right:auto;width:min(280px,calc(100vw - 64px))}}
+@media(max-width:760px){.aw-calendar-page .rm-calendar-toolbar__actions{flex-direction:row!important;align-items:center!important}.aw-calendar-page .rm-calendar-toolbar__actions>.rm-button{flex:1!important;width:auto!important}.aw-calendar-page .rm-page-header>div>p{display:none}.aw-calendar-page .rm-page-header{margin-bottom:20px!important}}
+
+/* Gear cards use the same outlined hover feedback as document folders. */
+html body .aw-shell #aw-main-content .rm-gear-board .rm-gear-board__item:is(:hover,:has(button:focus-visible)){background:#f0f1f5!important;outline:2px solid #5256e0;outline-offset:-2px;cursor:pointer}
+html body .aw-shell #aw-main-content .rm-gear-board .rm-gear-board__item:is(:hover,:has(button:focus-visible)) .rm-task-item__open{background:#f0f1f5!important;box-shadow:none!important;backdrop-filter:none!important}
+html body .rm-modal.aw-form-dialog .rm-modal__header p{margin:6px 0 0!important;color:var(--aw-muted)!important;font-size:13px!important;line-height:1.5!important}
+html body .rm-modal.aw-form-dialog .rm-modal__body .rm-action-form .rm-field textarea{min-height:90px!important;resize:vertical}

@@ -579,6 +579,7 @@ function PortalAppInner({
   );
 
   const navigate = (screen: PortalScreenKey) => {
+    if (screen !== 'reviews') setOpenedReviewId(undefined);
     if (effectiveRole === 'admin') {
       const nestedTargets: Partial<Record<PortalScreenKey, {
         parent: PortalScreenKey;
@@ -774,7 +775,6 @@ function PortalAppInner({
           <ReviewsScreen
             initialReviewId={openedReviewId}
             onArchive={effectiveRole !== 'client' ? actions?.archiveDeliverable : undefined}
-            onBack={() => navigate(effectiveRole === 'admin' ? 'clients' : 'dashboard')}
             onComment={actions?.reviewComment}
             onDecision={(reviewId, decision) => actions?.reviewDecision(reviewId, decision)}
             onUpload={actions?.uploadDeliverable}

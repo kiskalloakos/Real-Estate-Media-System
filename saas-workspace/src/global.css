@@ -2390,9 +2390,7 @@ img {
   background:
     radial-gradient(circle at 12% 6%, rgba(255, 255, 255, 0.98), transparent 42%),
     linear-gradient(135deg, rgba(255, 255, 255, 0.78), rgba(230, 232, 255, 0.58));
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.96),
-    0 18px 42px rgba(53, 55, 116, 0.1);
+  box-shadow: none;
   -webkit-backdrop-filter: blur(24px) saturate(1.4);
   backdrop-filter: blur(24px) saturate(1.4);
 }
@@ -2435,7 +2433,7 @@ img {
   border: 1px solid rgba(255, 255, 255, 0.92);
   border-radius: var(--rm-radius-pill);
   background: rgba(79, 83, 225, 0.11);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  box-shadow: none;
   color: var(--rm-blue);
   font-size: 10px;
   font-weight: 700;
@@ -2461,7 +2459,7 @@ img {
   border: 1px solid rgba(255, 255, 255, 0.78);
   border-radius: var(--rm-radius-card);
   background: rgba(244, 245, 255, 0.42);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  box-shadow: none;
   -webkit-backdrop-filter: blur(18px) saturate(1.3);
   backdrop-filter: blur(18px) saturate(1.3);
 }
@@ -2487,9 +2485,7 @@ img {
   border: 1px solid rgba(255, 255, 255, 0.88);
   border-radius: var(--rm-radius-control);
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.76), rgba(238, 239, 255, 0.6));
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.96),
-    0 10px 24px rgba(53, 55, 116, 0.08);
+  box-shadow: none;
 }
 
 .rm-upcoming-shoots__date {
@@ -2500,7 +2496,7 @@ img {
   border: 1px solid rgba(255, 255, 255, 0.92);
   border-radius: 14px;
   background: rgba(79, 83, 225, 0.11);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.92);
+  box-shadow: none;
   color: var(--rm-blue);
 }
 
@@ -6277,7 +6273,7 @@ img {
     border-bottom: 1px solid #dedee4 !important;
     border-radius: 0 !important;
     background: rgba(255, 255, 255, 0.94) !important;
-    box-shadow: 0 8px 24px rgba(40, 42, 77, 0.05) !important;
+    box-shadow: none !important;
     backdrop-filter: blur(18px);
   }
 
@@ -6389,7 +6385,7 @@ img {
     border-radius: var(--rm-radius-pill) !important;
     background: #ffffff !important;
     color: #777887 !important;
-    box-shadow: inset 0 1px 1px rgba(32, 34, 64, 0.02);
+    box-shadow: none;
   }
 
   .rm-search:hover,
@@ -6480,7 +6476,7 @@ img {
   .rm-nav__item.is-active:hover {
     color: var(--rm-blue);
     background: #ffffff;
-    box-shadow: 0 7px 16px rgba(29, 32, 102, 0.2);
+    box-shadow: none;
   }
 
   .rm-nav__icon {
@@ -6523,19 +6519,14 @@ img {
   border: 1px solid color-mix(in srgb, #FFFFFF 76%, transparent) !important;
   border-radius: var(--rm-radius-control) !important;
   background: color-mix(in srgb, #FFFFFF 44%, transparent) !important;
-  box-shadow:
-    0 8px 20px color-mix(in srgb, #000000 9%, transparent),
-    inset 0 1px 0 color-mix(in srgb, #FFFFFF 90%, transparent) !important;
+  box-shadow: none !important;
   -webkit-backdrop-filter: blur(12px) saturate(175%) contrast(106%) !important;
   backdrop-filter: blur(12px) saturate(175%) contrast(106%) !important;
 }
 
 .rm-modal--liquid-glass .rm-client-login-password:focus-within {
   border-color: color-mix(in srgb, var(--rm-blue) 52%, #FFFFFF) !important;
-  box-shadow:
-    0 9px 22px color-mix(in srgb, #000000 10%, transparent),
-    0 0 0 3px color-mix(in srgb, var(--rm-blue) 12%, transparent),
-    inset 0 1px 0 color-mix(in srgb, #FFFFFF 94%, transparent) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--rm-blue) 12%, transparent) !important;
 }
 
 .rm-modal--liquid-glass .rm-client-login-password > input,
@@ -6715,7 +6706,7 @@ img {
   .aw-shell .rm-topbar .rm-topbar__profile:hover:not(:disabled) {
     background: #f4f4ff !important;
     border-color: rgba(82, 86, 224, 0.35) !important;
-    box-shadow: 0 5px 12px rgba(52, 55, 144, 0.14) !important;
+    box-shadow: none !important;
     transform: translateY(-1px) !important;
   }
 }
@@ -7963,7 +7954,7 @@ html body .aw-shell .rm-topbar__brand .rm-brand__mark img {
 .rm-event-detail .rm-detail-list > div {
   border-color: var(--rm-white);
   background: var(--rm-white);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+  box-shadow: none;
 }
 
 .rm-detail-list dt {
@@ -11810,7 +11801,7 @@ select,
 .rm-caller-card__phone:hover { text-decoration: underline; }
 .rm-caller-card > p { margin: 0; color: var(--rm-black); font: 600 16px/1.5 var(--rm-sans); }
 .rm-caller-card__socials { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
-.rm-caller-card__socials > * { min-width: 0; min-height: 58px; display: grid; align-content: center; gap: 3px; padding: 9px 10px; border: 1px solid var(--rm-white); border-radius: var(--rm-radius-control); background: var(--rm-white); box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08); color: var(--rm-black); font: 600 12px/1.15 var(--rm-sans); text-decoration: none; }
+.rm-caller-card__socials > * { min-width: 0; min-height: 58px; display: grid; align-content: center; gap: 3px; padding: 9px 10px; border: 1px solid var(--rm-white); border-radius: var(--rm-radius-control); background: var(--rm-white); box-shadow: none; color: var(--rm-black); font: 600 12px/1.15 var(--rm-sans); text-decoration: none; }
 .rm-caller-card__socials a { border-color: var(--rm-white); color: var(--rm-blue); }
 .rm-caller-card__socials a:hover { border-color: var(--rm-blue); background: var(--rm-blue); }
 .rm-caller-card__socials small { color: var(--rm-black); font: 600 10px/1.15 var(--rm-sans); }
@@ -12586,7 +12577,7 @@ textarea {
 .aw-shell .rm-caller-card__notes textarea {
   border-color: var(--rm-white) !important;
   background: var(--rm-white) !important;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+  box-shadow: none;
 }
 
 /* Tabs, filters, pills, and state controls use the same two contrast pairs. */
@@ -15661,7 +15652,7 @@ textarea {
   color: var(--rm-white);
   cursor: pointer;
   font: 600 13px/1 var(--rm-font-semibold);
-  box-shadow: 0 12px 28px rgb(0 0 0 / 18%);
+  box-shadow: none;
   transition: background-color 160ms ease, transform 160ms ease;
 }
 
@@ -15754,21 +15745,18 @@ textarea {
     background-color: var(--rm-glass-surface) !important;
     background-image: none !important;
     color: var(--rm-black) !important;
-    box-shadow:
-      0 24px 56px color-mix(in srgb, var(--rm-black) 12%, transparent),
-      inset 0 1px 0 color-mix(in srgb, var(--rm-white) 94%, transparent),
-      inset 0 -1px 0 color-mix(in srgb, var(--rm-white) 38%, transparent) !important;
+    box-shadow: none !important;
     -webkit-backdrop-filter: blur(20px) saturate(195%) contrast(108%) brightness(105%);
     backdrop-filter: blur(20px) saturate(195%) contrast(108%) brightness(105%);
   }
 
   /* KPI values are dense, high-contrast text. Keeping these cards opaque avoids
      the Chromium backdrop-filter seam that showed up directly beneath large
-     currency figures, while preserving the approved outlined soft-card depth. */
+     currency figures, while preserving the outlined card geometry. */
   .rm-main .rm-kpi {
     border: 1px solid var(--rm-white) !important;
     background-color: var(--rm-white) !important;
-    box-shadow: 0 12px 28px color-mix(in srgb, var(--rm-black) 7%, transparent) !important;
+    box-shadow: none !important;
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
   }
@@ -15780,10 +15768,7 @@ textarea {
     border: 1px solid color-mix(in srgb, var(--rm-white) 42%, transparent) !important;
     background-color: var(--rm-glass-dark) !important;
     background-image: none !important;
-    box-shadow:
-      0 28px 64px color-mix(in srgb, var(--rm-black) 20%, transparent),
-      inset 0 2px 1px color-mix(in srgb, var(--rm-white) 34%, transparent),
-      inset 0 -2px 1px color-mix(in srgb, var(--rm-white) 12%, transparent) !important;
+    box-shadow: none !important;
     -webkit-backdrop-filter: blur(22px) saturate(165%) contrast(108%);
     backdrop-filter: blur(22px) saturate(165%) contrast(108%);
   }
@@ -15814,10 +15799,7 @@ textarea {
     background-color: color-mix(in srgb, var(--rm-white) 42%, transparent) !important;
     background-image: none !important;
     color: var(--rm-black) !important;
-    box-shadow:
-      0 8px 20px color-mix(in srgb, var(--rm-black) 10%, transparent),
-      inset 0 1px 0 color-mix(in srgb, var(--rm-white) 88%, transparent),
-      inset 0 -1px 0 color-mix(in srgb, var(--rm-white) 28%, transparent) !important;
+    box-shadow: none !important;
     -webkit-backdrop-filter: blur(12px) saturate(175%) contrast(106%);
     backdrop-filter: blur(12px) saturate(175%) contrast(106%);
   }
@@ -15843,10 +15825,7 @@ textarea {
     background-color: color-mix(in srgb, var(--rm-grey) 72%, transparent) !important;
     background-image: none !important;
     color: var(--rm-black) !important;
-    box-shadow:
-      0 8px 20px color-mix(in srgb, var(--rm-black) 10%, transparent),
-      inset 0 1px 0 color-mix(in srgb, var(--rm-white) 88%, transparent),
-      inset 0 -1px 0 color-mix(in srgb, var(--rm-white) 28%, transparent) !important;
+    box-shadow: none !important;
     -webkit-backdrop-filter: blur(12px) saturate(175%) contrast(106%);
     backdrop-filter: blur(12px) saturate(175%) contrast(106%);
   }
@@ -15885,10 +15864,7 @@ textarea {
     background-color: color-mix(in srgb, var(--rm-blue) 92%, transparent) !important;
     background-image: none !important;
     color: var(--rm-white) !important;
-    box-shadow:
-      0 8px 20px color-mix(in srgb, var(--rm-black) 12%, transparent),
-      inset 0 1px 0 color-mix(in srgb, var(--rm-white) 54%, transparent),
-      inset 0 -1px 0 color-mix(in srgb, var(--rm-black) 10%, transparent) !important;
+    box-shadow: none !important;
     -webkit-backdrop-filter: blur(14px) saturate(185%) contrast(106%);
     backdrop-filter: blur(14px) saturate(185%) contrast(106%);
   }
@@ -15923,10 +15899,7 @@ textarea {
     background-color: var(--rm-glass-dark) !important;
     background-image: none !important;
     color: var(--rm-white) !important;
-    box-shadow:
-      0 8px 20px color-mix(in srgb, var(--rm-black) 16%, transparent),
-      inset 0 1px 0 color-mix(in srgb, var(--rm-white) 34%, transparent),
-      inset 0 -1px 0 color-mix(in srgb, var(--rm-white) 12%, transparent) !important;
+    box-shadow: none !important;
   }
 
   /* Pill groups never own a grey tray. The individual pills retain their own
@@ -15950,9 +15923,7 @@ textarea {
     backdrop-filter: none !important;
   }
 
-  /* The liquid-glass control shadow is useful for standalone actions, but on
-     adjacent selector pills it joins into the grey halo/tray shown behind the
-     group. Selector pills keep their blue or transparent material without it. */
+  /* Selector pills keep their blue or transparent material without shadows. */
   .aw-shell #aw-main-content :is(
     [role="tablist"],
     [role="radiogroup"],
@@ -16335,10 +16306,7 @@ textarea {
   border: 1px solid var(--rm-glass-edge, color-mix(in srgb, var(--rm-white) 72%, transparent)) !important;
   background-color: var(--rm-glass-surface, color-mix(in srgb, var(--rm-white) 24%, transparent)) !important;
   background-image: none !important;
-  box-shadow:
-    0 24px 56px color-mix(in srgb, var(--rm-black) 12%, transparent),
-    inset 0 1px 0 color-mix(in srgb, var(--rm-white) 94%, transparent),
-    inset 0 -1px 0 color-mix(in srgb, var(--rm-white) 38%, transparent) !important;
+  box-shadow: none !important;
   -webkit-backdrop-filter: blur(20px) saturate(195%) contrast(108%) brightness(105%);
   backdrop-filter: blur(20px) saturate(195%) contrast(108%) brightness(105%);
   cursor: pointer;
@@ -16945,7 +16913,7 @@ textarea {
   background-color: var(--rm-white) !important;
   background-image: none !important;
   color: var(--rm-black) !important;
-  box-shadow: 0 12px 28px color-mix(in srgb, var(--rm-black) 7%, transparent) !important;
+  box-shadow: none !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
 }
@@ -16958,7 +16926,7 @@ textarea {
   border: 1px solid var(--rm-white) !important;
   background-color: var(--rm-white) !important;
   background-image: none !important;
-  box-shadow: 0 12px 28px color-mix(in srgb, var(--rm-black) 7%, transparent) !important;
+  box-shadow: none !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
 }
@@ -17554,8 +17522,8 @@ textarea {
   margin-left: 0;
 }
 
-/* Review room: the media and its conversation are one workspace. The old
-   deliverables summary is replaced by a compact picker in the filter bar. */
+/* Review details: the media and conversation share one workspace, with a
+   compact picker for switching items after opening one from the directory. */
 .aw-shell .rm-reviews-page .rm-review-toolbar {
   display: flex;
   align-items: center;
@@ -19014,10 +18982,7 @@ button.rm-month-grid__more:focus-visible {
   border: 1px solid color-mix(in srgb, #FFFFFF 54%, transparent) !important;
   background-color: color-mix(in srgb, #5256E0 76%, transparent) !important;
   background-image: none !important;
-  box-shadow:
-    0 8px 20px color-mix(in srgb, #000000 12%, transparent),
-    inset 0 1px 0 color-mix(in srgb, #FFFFFF 54%, transparent),
-    inset 0 -1px 0 color-mix(in srgb, #000000 10%, transparent) !important;
+  box-shadow: none !important;
   -webkit-backdrop-filter: blur(14px) saturate(185%) contrast(106%);
   backdrop-filter: blur(14px) saturate(185%) contrast(106%);
   outline: 0 !important;
@@ -19034,10 +18999,7 @@ button.rm-month-grid__more:focus-visible {
 .rm-modal--overflow button.rm-calendar-overflow-event.is-marketing-event:focus-visible {
   border-color: color-mix(in srgb, #FFFFFF 62%, transparent) !important;
   background-color: color-mix(in srgb, #EEEEEE 76%, transparent) !important;
-  box-shadow:
-    0 8px 20px color-mix(in srgb, #000000 9%, transparent),
-    inset 0 1px 0 color-mix(in srgb, #FFFFFF 78%, transparent),
-    inset 0 -1px 0 color-mix(in srgb, #000000 8%, transparent) !important;
+  box-shadow: none !important;
 }
 
 .rm-modal--overflow button.rm-calendar-overflow-event.is-marketing-event:is(:hover, :focus-visible) {
@@ -19077,10 +19039,7 @@ button.rm-month-grid__more:focus-visible {
   background-color: color-mix(in srgb, #FFFFFF 42%, transparent) !important;
   background-image: none !important;
   color: #000000 !important;
-  box-shadow:
-    0 8px 20px color-mix(in srgb, #000000 10%, transparent),
-    inset 0 1px 0 color-mix(in srgb, #FFFFFF 88%, transparent),
-    inset 0 -1px 0 color-mix(in srgb, #FFFFFF 28%, transparent) !important;
+  box-shadow: none !important;
   -webkit-backdrop-filter: blur(12px) saturate(175%) contrast(106%);
   backdrop-filter: blur(12px) saturate(175%) contrast(106%);
   outline: 0 !important;
@@ -19148,10 +19107,7 @@ button.rm-month-grid__more:is(:hover, :focus-visible),
 .rm-modal--liquid-glass .rm-modal__header .rm-icon-button:focus-visible {
   border-color: color-mix(in srgb, #FFFFFF 72%, transparent) !important;
   background-color: color-mix(in srgb, #FFFFFF 42%, transparent) !important;
-  box-shadow:
-    0 8px 20px color-mix(in srgb, #000000 10%, transparent),
-    inset 0 1px 0 color-mix(in srgb, #FFFFFF 88%, transparent),
-    inset 0 -1px 0 color-mix(in srgb, #FFFFFF 28%, transparent) !important;
+  box-shadow: none !important;
   -webkit-backdrop-filter: blur(12px) saturate(175%) contrast(106%);
   backdrop-filter: blur(12px) saturate(175%) contrast(106%);
 }
@@ -19186,10 +19142,7 @@ button.rm-month-grid__more:is(:hover, :focus-visible),
   background-color: color-mix(in srgb, #FFFFFF 42%, transparent) !important;
   background-image: none !important;
   color: #000000 !important;
-  box-shadow:
-    0 8px 20px color-mix(in srgb, #000000 10%, transparent),
-    inset 0 1px 0 color-mix(in srgb, #FFFFFF 88%, transparent),
-    inset 0 -1px 0 color-mix(in srgb, #FFFFFF 28%, transparent) !important;
+  box-shadow: none !important;
   -webkit-backdrop-filter: blur(12px) saturate(175%) contrast(106%);
   backdrop-filter: blur(12px) saturate(175%) contrast(106%);
   outline: 0 !important;
@@ -19207,34 +19160,28 @@ button.rm-month-grid__more:is(:hover, :focus-visible),
 ):is(:hover, :focus, :focus-visible, :focus-within) {
   border-color: color-mix(in srgb, #FFFFFF 84%, transparent) !important;
   background-color: color-mix(in srgb, #FFFFFF 56%, transparent) !important;
-  box-shadow:
-    0 10px 24px color-mix(in srgb, #000000 12%, transparent),
-    inset 0 1px 0 color-mix(in srgb, #FFFFFF 94%, transparent),
-    inset 0 -1px 0 color-mix(in srgb, #FFFFFF 34%, transparent) !important;
+  box-shadow: none !important;
   outline: 0 !important;
 }
 
 /* Neutral dialog actions (including upload, cancel, and generate) follow the
    same white-to-soft-grey dashboard hover—never a black outline. */
-.rm-modal--liquid-glass :is(button, .rm-button):not(.rm-button--blue):not(.rm-button--primary):not(.rm-button--danger):not(.rm-calendar-overflow-event):not(.rm-task-archive-list__open):not(.rm-task-archive-list__restore) {
-  border-color: color-mix(in srgb, #FFFFFF 72%, transparent) !important;
-  background-color: color-mix(in srgb, #FFFFFF 42%, transparent) !important;
+.rm-modal--liquid-glass :is(button, .rm-button):not(.rm-button--blue):not(.rm-button--primary):not(.rm-button--danger):not(.rm-calendar-overflow-event):not(.rm-task-archive-list__open):not(.rm-task-archive-list__restore):not(.rm-command__results > button) {
+  border: 1px solid #c9ccd5 !important;
+  background-color: #ffffff !important;
   background-image: none !important;
   color: #000000 !important;
-  box-shadow:
-    0 8px 20px color-mix(in srgb, #000000 10%, transparent),
-    inset 0 1px 0 color-mix(in srgb, #FFFFFF 88%, transparent),
-    inset 0 -1px 0 color-mix(in srgb, #FFFFFF 28%, transparent) !important;
+  box-shadow: none !important;
   -webkit-backdrop-filter: blur(12px) saturate(175%) contrast(106%);
   backdrop-filter: blur(12px) saturate(175%) contrast(106%);
-  outline: 0 !important;
+  outline: revert;
 }
 
-.rm-modal--liquid-glass :is(button, .rm-button):not(.rm-button--blue):not(.rm-button--primary):not(.rm-button--danger):not(.rm-calendar-overflow-event):not(.rm-task-archive-list__open):not(.rm-task-archive-list__restore):is(:hover, :focus, :focus-visible) {
-  border-color: color-mix(in srgb, #FFFFFF 84%, transparent) !important;
-  background-color: color-mix(in srgb, #FFFFFF 56%, transparent) !important;
+.rm-modal--liquid-glass :is(button, .rm-button):not(.rm-button--blue):not(.rm-button--primary):not(.rm-button--danger):not(.rm-calendar-overflow-event):not(.rm-task-archive-list__open):not(.rm-task-archive-list__restore):not(.rm-command__results > button):is(:hover, :focus, :focus-visible) {
+  border-color: #aeb3c0 !important;
+  background-color: #f0f1f6 !important;
   color: #000000 !important;
-  outline: 0 !important;
+  outline: revert;
 }
 
 /* Keep affirmative actions blue, but give them the same glass depth instead
@@ -19244,10 +19191,7 @@ button.rm-month-grid__more:is(:hover, :focus-visible),
   background-color: color-mix(in srgb, #5256E0 84%, transparent) !important;
   background-image: none !important;
   color: #FFFFFF !important;
-  box-shadow:
-    0 10px 24px color-mix(in srgb, #5256E0 28%, transparent),
-    inset 0 1px 0 color-mix(in srgb, #FFFFFF 52%, transparent),
-    inset 0 -1px 0 color-mix(in srgb, #000000 10%, transparent) !important;
+  box-shadow: none !important;
   -webkit-backdrop-filter: blur(12px) saturate(175%) contrast(106%);
   backdrop-filter: blur(12px) saturate(175%) contrast(106%);
   outline: 0 !important;
@@ -19285,10 +19229,7 @@ button.rm-month-grid__more:is(:hover, :focus-visible),
   border-color: color-mix(in srgb, #FFFFFF 72%, transparent) !important;
   background-color: color-mix(in srgb, #FFFFFF 42%, transparent) !important;
   background-image: none !important;
-  box-shadow:
-    0 8px 20px color-mix(in srgb, #000000 10%, transparent),
-    inset 0 1px 0 color-mix(in srgb, #FFFFFF 88%, transparent),
-    inset 0 -1px 0 color-mix(in srgb, #FFFFFF 28%, transparent) !important;
+  box-shadow: none !important;
   -webkit-backdrop-filter: blur(12px) saturate(175%) contrast(106%);
   backdrop-filter: blur(12px) saturate(175%) contrast(106%);
   outline: 0 !important;
@@ -19317,7 +19258,7 @@ button.rm-month-grid__more:is(:hover, :focus-visible),
   border-color: color-mix(in srgb, #FFFFFF 72%, transparent) !important;
   background-color: color-mix(in srgb, #FFFFFF 42%, transparent) !important;
   color: #000000 !important;
-  box-shadow: 0 6px 16px color-mix(in srgb, #000000 8%, transparent) !important;
+  box-shadow: none !important;
   outline: 0 !important;
 }
 
@@ -19348,10 +19289,7 @@ button.rm-month-grid__more:is(:hover, :focus-visible),
   background-color: color-mix(in srgb, #FFFFFF 42%, transparent) !important;
   background-image: none !important;
   color: #000000 !important;
-  box-shadow:
-    0 8px 20px color-mix(in srgb, #000000 10%, transparent),
-    inset 0 1px 0 color-mix(in srgb, #FFFFFF 88%, transparent),
-    inset 0 -1px 0 color-mix(in srgb, #FFFFFF 28%, transparent) !important;
+  box-shadow: none !important;
   -webkit-backdrop-filter: blur(12px) saturate(175%) contrast(106%);
   backdrop-filter: blur(12px) saturate(175%) contrast(106%);
   outline: 0 !important;
@@ -19476,10 +19414,7 @@ button.rm-month-grid__more:is(:hover, :focus-visible),
   border-radius: var(--rm-radius-control) !important;
   background-color: color-mix(in srgb, #FFFFFF 42%, transparent) !important;
   background-image: none !important;
-  box-shadow:
-    0 8px 20px color-mix(in srgb, #000000 10%, transparent),
-    inset 0 1px 0 color-mix(in srgb, #FFFFFF 88%, transparent),
-    inset 0 -1px 0 color-mix(in srgb, #FFFFFF 28%, transparent) !important;
+  box-shadow: none !important;
   -webkit-backdrop-filter: blur(12px) saturate(175%) contrast(106%);
   backdrop-filter: blur(12px) saturate(175%) contrast(106%);
   outline: 0 !important;
@@ -19513,7 +19448,7 @@ button.rm-month-grid__more:is(:hover, :focus-visible),
   border: 1px solid #FFFFFF !important;
   border-radius: 20px !important;
   background: #FFFFFF !important;
-  box-shadow: 0 8px 20px color-mix(in srgb, #000000 8%, transparent) !important;
+  box-shadow: none !important;
   -webkit-backdrop-filter: blur(18px) saturate(1.08);
   backdrop-filter: blur(18px) saturate(1.08);
 }
@@ -20087,10 +20022,7 @@ button.rm-month-grid__more:is(:hover, :focus-visible),
   border: 1px solid color-mix(in srgb, #FFFFFF 72%, transparent);
   border-radius: var(--rm-radius-pill);
   background-color: color-mix(in srgb, #FFFFFF 34%, transparent);
-  box-shadow:
-    0 8px 20px color-mix(in srgb, #000000 10%, transparent),
-    inset 0 1px 0 color-mix(in srgb, #FFFFFF 88%, transparent),
-    inset 0 -1px 0 color-mix(in srgb, #FFFFFF 28%, transparent);
+  box-shadow: none;
   -webkit-backdrop-filter: blur(12px) saturate(175%) contrast(106%);
   backdrop-filter: blur(12px) saturate(175%) contrast(106%);
   overflow: hidden;
@@ -20104,9 +20036,7 @@ button.rm-month-grid__more:is(:hover, :focus-visible),
   width: calc((100% - 12px) / 2);
   border-radius: var(--rm-radius-pill);
   background-color: color-mix(in srgb, #5256E0 88%, transparent);
-  box-shadow:
-    0 8px 18px color-mix(in srgb, #5256E0 24%, transparent),
-    inset 0 1px 0 color-mix(in srgb, #FFFFFF 48%, transparent);
+  box-shadow: none;
   content: "";
   pointer-events: none;
   transform: translateX(0);
@@ -20562,7 +20492,7 @@ button.rm-month-grid__more:is(:hover, :focus-visible),
   .rm-nav__item.is-active .rm-nav__icon {
     color: var(--rm-blue) !important;
     background: #ffffff !important;
-    box-shadow: 0 6px 16px rgba(31, 34, 105, 0.2) !important;
+    box-shadow: none !important;
   }
 
   .rm-nav__text {
@@ -20667,7 +20597,7 @@ button.rm-month-grid__more:is(:hover, :focus-visible),
     transform: translateY(-1px) !important;
     border-color: rgba(82, 86, 224, 0.35) !important;
     background: #f4f4ff !important;
-    box-shadow: 0 5px 12px rgba(52, 55, 144, 0.14) !important;
+    box-shadow: none !important;
   }
 }
 

@@ -593,7 +593,7 @@ html body .rm-portal .rm-topbar .rm-workspace-switcher--topbar .rm-workspace-swi
     width: 64px !important;
     height: auto !important;
     border-radius: 16px !important;
-    box-shadow: 0 12px 28px rgba(38, 41, 126, 0.18) !important;
+    box-shadow: none !important;
   }
 
   html body .rm-portal .rm-app-frame {

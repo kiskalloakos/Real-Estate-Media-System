@@ -1,0 +1,261 @@
+/* Shared dialog contract. Keep legacy liquid-glass rules off the Modal component. */
+html body .aw-dialog-backdrop {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 16px !important;
+  background: rgba(32, 34, 43, .28) !important;
+  backdrop-filter: none !important;
+}
+html body .rm-modal.aw-dialog {
+  width: 620px !important;
+  max-width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: calc(100dvh - 32px) !important;
+  margin: auto !important;
+  border: 1px solid #d9dbe3 !important;
+  border-radius: 14px !important;
+  background: #fff !important;
+  color: #34353b !important;
+  box-shadow: 0 12px 40px rgba(25, 28, 40, .12) !important;
+  backdrop-filter: none !important;
+}
+html body .rm-modal.aw-dialog.rm-modal--wide { width: 1040px !important; }
+html body .rm-modal.aw-dialog.rm-modal--fullscreen { width: calc(100vw - 32px) !important; height: calc(100dvh - 32px) !important; }
+html body .rm-modal.aw-dialog .rm-modal__header {
+  padding: 20px 24px !important;
+  margin: 0 !important;
+  align-items: flex-start !important;
+  gap: 16px;
+  border-bottom: 1px solid #e5e6eb !important;
+  background: #fff !important;
+}
+html body .rm-modal.aw-dialog .rm-modal__header h2 {
+  margin: 0 !important;
+  font-size: 24px !important;
+  line-height: 1.3 !important;
+  letter-spacing: -.5px !important;
+}
+html body .rm-modal.aw-dialog .rm-modal__header p {
+  margin: 6px 0 0 !important;
+  color: #747783 !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+}
+html body .rm-modal.aw-dialog .rm-modal__body {
+  flex: 0 1 auto !important;
+  min-height: 0 !important;
+  padding: 24px !important;
+  overflow: auto !important;
+  background: #fff !important;
+}
+html body .rm-modal.aw-dialog .rm-modal__body > :is(form, .rm-action-form, .rm-profile-form, .rm-client-form, .rm-document-form, .rm-form-grid) {
+  padding: 0 !important;
+  margin: 0 !important;
+  gap: 18px !important;
+}
+html body .rm-modal.aw-dialog .rm-field { gap: 7px !important; }
+html body .rm-modal.aw-dialog .rm-field > :is(span, label),
+html body .rm-modal.aw-dialog .rm-task-upload__label {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  color: #34353b !important;
+}
+html body .rm-modal.aw-dialog :is(input:where(:not([type=checkbox]):not([type=radio]):not([type=file]):not([type=hidden]):not([type=range]):not([type=color])), select, textarea, .rm-input-with-icon) {
+  box-sizing: border-box;
+  width: 100% !important;
+  min-height: 44px !important;
+  padding: 10px 12px !important;
+  border: 1px solid #c9ccd5 !important;
+  border-radius: 8px !important;
+  background-color: #fafafb !important;
+  color: #34353b !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+html body .rm-modal.aw-dialog textarea { min-height: 96px !important; resize: vertical; }
+html body .rm-modal.aw-dialog select {
+  appearance: none !important;
+  padding-right: 40px !important;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23636773' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 12px center !important;
+}
+html body .rm-modal.aw-dialog .aw-select-control select { background-image: none !important; }
+html body .rm-modal.aw-dialog .rm-input-with-icon input {
+  min-height: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+html body .rm-modal.aw-dialog :is(input, select, textarea):disabled {
+  background-color: #eff0f4 !important;
+  color: #747783 !important;
+  opacity: 1 !important;
+  cursor: not-allowed;
+}
+html body .rm-modal.aw-dialog :is(input, select, textarea, button, a, summary):focus-visible,
+html body .rm-modal.aw-dialog .rm-input-with-icon:focus-within {
+  outline: 2px solid #5256e0 !important;
+  outline-offset: 2px !important;
+}
+html body .rm-modal.aw-dialog .rm-input-with-icon input:focus-visible { outline: 0 !important; }
+html body .rm-modal.aw-dialog :is(.rm-button, .rm-icon-button) {
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  border-radius: 8px !important;
+  min-height: 40px !important;
+}
+html body .rm-modal.aw-dialog :is(.rm-button--secondary, .rm-button--white, .rm-button--paper, .rm-button--ghost, .rm-button--grey, .rm-icon-button) {
+  border: 1px solid #c9ccd5 !important;
+  background: #fff !important;
+  color: #34353b !important;
+}
+html body .rm-modal.aw-dialog :is(.rm-button--secondary, .rm-button--white, .rm-button--paper, .rm-button--ghost, .rm-button--grey, .rm-icon-button):hover:not(:disabled) {
+  background: #f0f1f6 !important;
+  border-color: #aeb3c0 !important;
+}
+html body .rm-modal.aw-dialog :is(.rm-button--primary, .rm-button--blue, .rm-button--danger) {
+  background: #5256e0 !important;
+  border: 1px solid #5256e0 !important;
+  color: #fff !important;
+}
+html body .rm-modal.aw-dialog .rm-button:disabled { opacity: .5 !important; }
+html body .rm-modal.aw-dialog .rm-dialog-actions {
+  margin: 4px 0 0 !important;
+  padding: 18px 0 0 !important;
+  border-top: 1px solid #e5e6eb !important;
+  background: transparent !important;
+  gap: 10px !important;
+}
+html body .rm-modal.aw-dialog .rm-form-footer {
+  z-index: 2;
+  padding: 16px 0 !important;
+  border-top: 1px solid #e5e6eb !important;
+  background: #fff !important;
+}
+html body .rm-modal.aw-dialog .rm-checkbox-field {
+  border: 1px solid #d9dbe3 !important;
+  border-radius: 8px !important;
+  background: #f6f7fa !important;
+}
+html body .rm-modal.aw-dialog :is(.rm-task-upload__control, .rm-upload-tile, .rm-upload-document-button) {
+  border: 1px dashed #b9bdca !important;
+  border-radius: 8px !important;
+  background: #fafafb !important;
+  padding: 12px !important;
+}
+html body .rm-modal.aw-dialog .rm-task-priority-switch {
+  display: flex !important;
+  gap: 4px;
+  padding: 4px !important;
+  border: 1px solid #c9ccd5 !important;
+  border-radius: 8px !important;
+  background: #f2f3f7 !important;
+}
+html body .rm-modal.aw-dialog .rm-task-priority-switch label {
+  position: relative;
+  display: flex !important;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  cursor: pointer;
+  min-height: 34px;
+  border-radius: 5px !important;
+  color: #34353b !important;
+}
+html body .rm-modal.aw-dialog .rm-task-priority-switch input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+html body .rm-modal.aw-dialog .rm-modal__header button.rm-icon-button {
+  flex: 0 0 40px;
+  width: 40px !important;
+  height: 40px !important;
+  border: 1px solid #d9dbe3 !important;
+  background: #f5f6f9 !important;
+  color: #34353b !important;
+}
+html body .rm-modal.aw-dialog .rm-task-priority-switch label.is-active { background: #5256e0 !important; color: #fff !important; }
+html body .rm-modal.aw-dialog .rm-task-priority-switch label:has(input:focus-visible) { outline: 2px solid #5256e0; outline-offset: 2px; }
+@media (max-width: 620px) {
+  html body .aw-dialog-backdrop { padding: 8px !important; }
+  html body .rm-modal.aw-dialog { max-height: calc(100dvh - 16px) !important; }
+  html body .rm-modal.aw-dialog .rm-modal__header { padding: 16px !important; }
+  html body .rm-modal.aw-dialog .rm-modal__header h2 { font-size: 22px !important; }
+  html body .rm-modal.aw-dialog .rm-modal__body { padding: 16px !important; }
+  html body .rm-modal.aw-dialog.rm-modal--fullscreen { width: 100% !important; height: calc(100dvh - 16px) !important; }
+}
+
+html body .rm-modal.aw-dialog .rm-command__icon { background: #f0f1f7 !important; color: #5256e0 !important; }
+html body .rm-modal.aw-dialog .rm-command__input input { border: 0 !important; border-radius: 0 !important; background: transparent !important; outline: 0 !important; min-height: 24px !important; padding: 0 !important; }
+
+/* Event details share the dialog gutters; exports and editing get their own rows. */
+html body .rm-modal.aw-dialog .rm-event-detail {
+  padding: 0 !important;
+  gap: 24px !important;
+}
+html body .rm-modal.aw-dialog .rm-event-detail .rm-detail-list {
+  margin: 0 !important;
+  padding: 0 !important;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 24px !important;
+}
+html body .rm-modal.aw-dialog .rm-event-detail .rm-detail-list > div {
+  min-width: 0;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+}
+html body .rm-modal.aw-dialog .rm-event-detail dt {
+  margin: 0 0 6px !important;
+  font-size: 12px !important;
+  font-weight: 600;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+  color: #747783 !important;
+}
+html body .rm-modal.aw-dialog .rm-event-detail dd {
+  margin: 0 !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  overflow-wrap: anywhere;
+}
+html body .rm-modal.aw-dialog .rm-event-detail__actions {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr);
+  justify-content: stretch !important;
+  gap: 16px !important;
+  padding: 20px 0 0 !important;
+  border-top: 1px solid #e5e6eb !important;
+  width: 100%;
+}
+html body .rm-modal.aw-dialog :is(.rm-event-detail__exports, .rm-event-detail__manage) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+html body .rm-modal.aw-dialog .rm-event-detail__manage { justify-content: flex-end; }
+html body .rm-modal.aw-dialog .rm-event-detail__actions .rm-button {
+  min-height: 44px !important;
+  padding: 10px 14px !important;
+  margin: 0 !important;
+}
+@media (max-width: 620px) {
+  html body .rm-modal.aw-dialog .rm-event-detail .rm-detail-list { gap: 18px 16px !important; }
+  html body .rm-modal.aw-dialog .rm-event-detail__exports .rm-button { flex: 1 1 140px; }
+  html body .rm-modal.aw-dialog .rm-event-detail__manage .rm-button { flex: 1; }
+}

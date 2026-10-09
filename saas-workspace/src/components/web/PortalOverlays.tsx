@@ -63,6 +63,7 @@ export function WorkspaceSearch({
 
   return (
     <Modal
+      className="aw-clean-dialog aw-search-dialog"
       description="Jump to a client, property, review, event, or workspace page."
       onClose={() => {
         setQuery('');
@@ -264,6 +265,7 @@ export function ProfileDialog({
 
   return (
     <Modal
+      className="aw-clean-dialog aw-profile-dialog"
       description={isRo ? 'Actualizează identitatea afișată în spațiul Realty Media.' : 'Update the identity shown throughout the Realty Media workspace.'}
       onClose={onClose}
       open={open}

@@ -336,7 +336,7 @@ export function Modal({ className, children, description, fullscreen, onClose, o
 
   return createPortal(
     <div
-      className="rm-modal-backdrop"
+      className="rm-modal-backdrop aw-dialog-backdrop"
       onMouseDown={(event) => {
         if (event.currentTarget === event.target) onCloseRef.current();
       }}
@@ -345,7 +345,7 @@ export function Modal({ className, children, description, fullscreen, onClose, o
         aria-describedby={description ? 'rm-modal-description' : undefined}
         aria-labelledby="rm-modal-title"
         aria-modal="true"
-        className={cx('rm-modal', 'rm-modal--liquid-glass', className, wide && 'rm-modal--wide', fullscreen && 'rm-modal--fullscreen')}
+        className={cx('rm-modal', 'aw-dialog', className, wide && 'rm-modal--wide', fullscreen && 'rm-modal--fullscreen')}
         ref={dialogRef}
         role="dialog"
         tabIndex={-1}

@@ -225,14 +225,14 @@ export function TeamAccessScreen({
         </div>
         <div className="rm-table-wrap">
           <table className="rm-table">
-            <thead>
+            <thead className="rm-visually-hidden">
               <tr>
-                <th>Person</th>
-                <th>Workspace role</th>
-                <th>Phone</th>
-                <th>Production title</th>
-                <th>Assigned properties</th>
-                <th><span className="rm-visually-hidden">Actions</span></th>
+                <th scope="col">Person</th>
+                <th scope="col">Workspace role</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Production title</th>
+                <th scope="col">Assigned properties</th>
+                <th scope="col">Actions</th>
               </tr>
             </thead>
             <tbody>
