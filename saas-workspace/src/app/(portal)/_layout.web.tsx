@@ -14,12 +14,14 @@ import { createJob } from '@/lib/job-service';
 import {
   archiveAgencyLead,
   deleteAgencyLeadList,
+  archiveCompanyCredential,
   archiveCompanyDocument,
   deleteCompanyDocumentFolder,
   archiveMarketingContent,
   importAgencyLeads,
   moveCompanyDocumentToFolder,
   upsertAgencyLead,
+  upsertCompanyCredential,
   upsertCompanyDocument,
   upsertCompanyDocumentFolder,
   upsertMarketingContent,
@@ -85,6 +87,7 @@ const emptyPortalData: PortalData = {
   calendarEvents: [],
   clientMembers: [],
   clients: [],
+  companyCredentials: [],
   companyDocuments: [],
   costs: [],
   debts: [],
@@ -176,6 +179,8 @@ export default function PortalWebLayout() {
         mutate(() => archiveWorkspaceTask(taskId)),
       restoreTask: (taskId) =>
         mutate(() => restoreWorkspaceTask(taskId)),
+      archiveCompanyCredential: (credentialId) =>
+        mutate((context) => archiveCompanyCredential(credentialId, context)),
       archiveCompanyDocument: (documentId) =>
         mutate(() => archiveCompanyDocument(documentId)),
       deleteCompanyDocumentFolder: (folderId) =>
@@ -282,6 +287,8 @@ export default function PortalWebLayout() {
         mutate((context) => updateWorkspaceTask(input, context)),
       moveCompanyDocumentToFolder: (input) =>
         mutate(() => moveCompanyDocumentToFolder(input)),
+      upsertCompanyCredential: (input) =>
+        mutate((context) => upsertCompanyCredential(input, context)),
       upsertCompanyDocument: (input) =>
         mutate((context) => upsertCompanyDocument(input, context)),
       upsertCompanyDocumentFolder: (input) =>

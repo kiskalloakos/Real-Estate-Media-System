@@ -9,6 +9,7 @@ import type {
   CalendarEvent,
   ClientSummary,
   ClientMemberSummary,
+  CompanyCredentialSummary,
   CompanyDocumentSummary,
   DebtItem,
   FinanceAccountSummary,
@@ -244,6 +245,7 @@ async function fetchPortalData(agencyId: string): Promise<PortalData> {
     companyDocumentFolderResult,
     companyDocumentResult,
     companyDocumentAssigneeResult,
+    companyCredentialResult,
     leadResult,
     marketingContentResult,
     assignedEventPropertyCoverResult,
@@ -497,6 +499,12 @@ async function fetchPortalData(agencyId: string): Promise<PortalData> {
       .order('updated_at', { ascending: false }),
     companyDocumentAssigneePromise,
     supabase
+      .from('company_credentials')
+      .select('id, label, username, secret_value, url, notes')
+      .eq('agency_id', agencyId)
+      .is('archived_at', null)
+      .order('label', { ascending: true }),
+    supabase
       .from('agency_leads')
       .select(
         'id, research_name, county, location, phone_number, website, instagram, facebook, tiktok, listing_link, notes, status, source_list',
@@ -540,6 +548,7 @@ async function fetchPortalData(agencyId: string): Promise<PortalData> {
     ['Company document folders', companyDocumentFolderResult.error],
     ['Company documents', companyDocumentResult.error],
     ['Company document assignees', companyDocumentAssigneeResult.error],
+    ['Company credentials', companyCredentialResult.error],
     ['Leads', leadResult.error],
     ['Marketing content', marketingContentResult.error],
     ['Assigned event property covers', assignedEventPropertyCoverResult.error],
@@ -1454,6 +1463,17 @@ async function fetchPortalData(agencyId: string): Promise<PortalData> {
     scope: folder.scope,
   }));
 
+  const companyCredentials: CompanyCredentialSummary[] = (
+    companyCredentialResult.data ?? []
+  ).map((credential) => ({
+    id: credential.id,
+    label: credential.label,
+    notes: credential.notes ?? '',
+    secretValue: credential.secret_value ?? '',
+    url: credential.url ?? '',
+    username: credential.username ?? '',
+  }));
+
   const leads: LeadSummary[] = (leadResult.data ?? []).map((lead) => ({
     county: lead.county ?? '',
     facebook: lead.facebook ?? '',
@@ -1498,6 +1518,7 @@ async function fetchPortalData(agencyId: string): Promise<PortalData> {
     clientMembers,
     clients,
     companyDocumentFolders,
+    companyCredentials,
     companyDocuments,
     costs,
     debts,
