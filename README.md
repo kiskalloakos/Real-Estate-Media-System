@@ -1,5 +1,9 @@
 # Realty Media
 
+Production app source: [`saas-workspace`](saas-workspace), served at
+https://app.realtymedia.ro. Sibling `webapp` is retained as the legacy app.
+See [app hosting and data continuity](saas-workspace/docs/production-cutover.md).
+
 ## Purpose of This File
 
 This README is the working context file for the Realty Media agency concept. It is written so future AI chats can quickly understand the business, strategic direction, offer structure, assumptions, and current decisions without needing the original conversation.

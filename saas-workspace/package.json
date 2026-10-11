@@ -2,7 +2,7 @@
   "name": "agency-workspace",
   "main": "expo-router/entry",
   "version": "1.0.0",
-  "description": "Modular agency workspace \u2014 isolated SaaS development",
+  "description": "Realty Media production app and modular agency SaaS workspace",
   "dependencies": {
     "@react-native-community/datetimepicker": "9.1.0",
     "@react-native-segmented-control/segmented-control": "2.5.7",
@@ -52,6 +52,7 @@
     "ios": "expo start --go --ios",
     "web": "expo start --web --localhost --port 8091",
     "build:web": "expo export --platform web",
+    "release:verify": "node scripts/verify-production-release.mjs",
     "lint": "expo lint",
     "typecheck": "tsc --noEmit",
     "android": "expo start --go --android",

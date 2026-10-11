@@ -1,5 +1,10 @@
 # SaaS foundation — first implementation
 
+Historical notes: this document records isolated development iterations.
+On October 11, 2026 the user requested promoting this app to production.
+[Production cutover](production-cutover.md), README.md, and AGENTS.md supersede
+the historical isolation and hosting directions below.
+
 ## Direction
 
 Productivity for real estate content and marketing agencies. The chosen visual direction is light studio: warm neutral surfaces, readable charcoal text, a restrained green accent, a labeled sidebar, and more breathing room. Agency Workspace is a working name, not a finalized brand.

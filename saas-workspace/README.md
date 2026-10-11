@@ -1,6 +1,6 @@
 # Agency Workspace
 
-An isolated SaaS workspace for **web, iOS, and Android**, using Expo SDK 57 and React Native 0.86. Native screens use Expo Router; web has its own portal shell. Start with [SaaS foundation](docs/saas-foundation.md); the current setup below supersedes that document's original environment/EAS status.
+The production app at **https://app.realtymedia.ro** and the standalone agency SaaS foundation, with **web, iOS, and Android** support using Expo SDK 57 and React Native 0.86. See [production cutover](docs/production-cutover.md) for hosting, data continuity, release verification, and rollback. Public signup is deferred; existing accounts continue using the existing backend.
 
 ## Local development
 
@@ -63,6 +63,6 @@ Local inspection found native sessions use Expo SecureStore, service-role creden
 
 Document HTML previews use a sandboxed iframe with scripts disabled and a restrictive content policy. Module visibility and UI permission checks are not substitutes for database authorization.
 
-## Isolation and hosting
+## Production hosting
 
-Production lives in sibling `../webapp`; it was not modified. No database migrations, cloud builds, or deployments were performed. Keep this folder's Vercel project/domain and EAS project separate from production; never deploy it to `app.realtymedia.ro`. Local environment files are ignored by Git. Do not put server secrets in `EXPO_PUBLIC_*` variables because those are shipped to clients.
+Vercel's existing `famescale/realty-media-app` project builds this repository's `saas-workspace` directory from `main`. Sibling `../webapp` remains the legacy source. Production Supabase variables, database, storage, and server functions are retained; no records need moving. The native EAS project remains separate. Local environment files are ignored by Git. Do not put server secrets in `EXPO_PUBLIC_*` variables because those are shipped to clients.
