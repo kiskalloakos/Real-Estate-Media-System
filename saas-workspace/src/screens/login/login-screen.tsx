@@ -1,5 +1,6 @@
 import { ScrollView, TextInput, View } from 'react-native';
 import React from 'react';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Image } from 'expo-image';
 
 import { NativeButton, Text, nativeColors } from '@/components/native';
@@ -12,6 +13,8 @@ const previews: { label: string; role: AppRole }[] = [
 ];
 
 export function LoginScreen() {
+  const router = useRouter();
+  const { access } = useLocalSearchParams<{ access?: string }>();
   const { enterPreview, isSupabaseConfigured, requestPasswordReset, signIn } =
     useApp();
   const [email, setEmail] = React.useState('');
@@ -82,6 +85,11 @@ export function LoginScreen() {
           padding: 18,
         }}
       >
+        {access === 'client' || access === 'team_member' ? (
+          <Text style={{ color: nativeColors.label, fontSize: 14 }}>
+            Your agency creates your access. Sign in with the email they invited, or check your invitation email to set your password.
+          </Text>
+        ) : null}
         <TextInput
           autoCapitalize="none"
           autoComplete="email"
@@ -141,6 +149,7 @@ export function LoginScreen() {
           onPress={() => void resetPassword()}
           variant="secondary"
         />
+        <NativeButton label="New here? Get started" onPress={() => router.push('/signup')} variant="secondary" />
       </View>
 
       <View style={{ gap: 8 }}>

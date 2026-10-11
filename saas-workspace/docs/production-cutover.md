@@ -12,7 +12,8 @@ The source folder name is not a URL prefix.
 - Retain the existing project's production public Supabase variables.
 - Keep sibling `webapp`, its separate `realty-media-app` Git repository, and all
   local changes intact. It no longer supplies production releases.
-- Public agency signup is deferred. Existing users continue signing in normally.
+- Agency signup was added after the cutover; see [agency-signup.md](agency-signup.md).
+  Existing users continue signing in normally.
 
 ## Data compatibility
 
@@ -25,8 +26,8 @@ same web origin. No data copy or database migration is part of this cutover.
 The workspace scopes queries to the signed-in user's agency and restores
 memberships from the existing tables. The optional jobs query tolerates an
 uninstalled jobs table; creating jobs requires that module's migration separately.
-Database policies remain authoritative. Public signup and a tenant security
-audit are separate work before opening self-service registration.
+Database policies remain authoritative. Owner signup has its own additive
+migration and transaction-only isolation checks, documented in agency-signup.md.
 
 ## Verification and rollback
 

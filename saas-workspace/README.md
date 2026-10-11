@@ -1,6 +1,6 @@
 # Agency Workspace
 
-The production app at **https://app.realtymedia.ro** and the standalone agency SaaS foundation, with **web, iOS, and Android** support using Expo SDK 57 and React Native 0.86. See [production cutover](docs/production-cutover.md) for hosting, data continuity, release verification, and rollback. Public signup is deferred; existing accounts continue using the existing backend.
+The production app at **https://app.realtymedia.ro** and the standalone agency SaaS foundation, with **web, iOS, and Android** support using Expo SDK 57 and React Native 0.86. See [production cutover](docs/production-cutover.md) for hosting, data continuity, release verification, and rollback. [Agency owners can sign up](docs/agency-signup.md) for a separate workspace; existing accounts continue using the existing backend.
 
 ## Local development
 

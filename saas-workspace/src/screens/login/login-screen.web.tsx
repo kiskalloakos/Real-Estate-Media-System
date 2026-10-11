@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import {
   ActivityIndicator,
   Pressable,
@@ -12,6 +13,8 @@ import { Text } from '@/components/native';
 import { useApp } from '@/providers/app-provider';
 
 export function LoginScreen() {
+  const router = useRouter();
+  const { access } = useLocalSearchParams<{ access?: string }>();
   const { width } = useWindowDimensions();
   const compact = width < 860;
   const { requestPasswordReset, signIn } = useApp();
@@ -87,8 +90,13 @@ export function LoginScreen() {
                 fontSize: 17,
               }}
             >
-              Sign in to your Realty Media workspace.
+              Sign in to your agency workspace.
             </Text>
+            {access === 'client' || access === 'team_member' ? (
+              <Text style={{ color: '#5F6470', fontSize: 14, lineHeight: 21 }}>
+                Your agency creates {access === 'client' ? 'client' : 'team member'} access. Use the email they invited, or check your invitation email to set your password. If you haven’t been invited yet, contact your agency owner.
+              </Text>
+            ) : null}
           </View>
 
           <View style={{ gap: 14, paddingTop: 34 }}>
@@ -203,6 +211,9 @@ export function LoginScreen() {
               >
                 Forgot your password?
               </Text>
+            </Pressable>
+            <Pressable accessibilityRole="link" onPress={() => router.push('/signup')} style={{ paddingTop: 12 }}>
+              <Text style={{ color: '#5256E0', fontFamily: 'OutfitSemiBold', fontSize: 14, textAlign: 'center' }}>New here? Get started</Text>
             </Pressable>
           </View>
 

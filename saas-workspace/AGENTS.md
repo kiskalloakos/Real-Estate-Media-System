@@ -8,6 +8,8 @@ and local changes. Never deploy that folder to the production app domain.
 Keep the existing Realty Media Supabase project, public build variables,
 session storage defaults, storage buckets, and deployed Edge Functions.
 No database migrations or server function deployments are part of UI releases.
+Agency-owner registration has a separately deployed migration; keep email
+confirmation enabled and follow docs/agency-signup.md for signup backend changes.
 Never put server secrets in EXPO_PUBLIC_* variables. Test writes with a test agency.
 
 Vercel project: famescale/realty-media-app (prj_Ki03M9osqnqHacF7igUWUKsmblHV).

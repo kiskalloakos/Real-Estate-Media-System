@@ -78,6 +78,7 @@ function AppNavigator() {
           <Stack.Screen name="(portal)" />
         </Stack.Protected>
         <Stack.Screen name="reset-password" />
+        <Stack.Screen name="signup" />
       </Stack>
     </>
   );
