@@ -22,10 +22,6 @@ Existing accounts, memberships, files, records, and deployed functions remain
 in the existing backend. Password reset and social OAuth callbacks retain the
 same web origin. No data copy or database migration is part of this cutover.
 
-The legacy Credentials panel has been restored in Documents, including its
-existing records and mutations. Passwords stay masked until explicitly revealed;
-credential edits and deletes are also scoped to the active agency.
-
 The workspace scopes queries to the signed-in user's agency and restores
 memberships from the existing tables. The optional jobs query tolerates an
 uninstalled jobs table; creating jobs requires that module's migration separately.

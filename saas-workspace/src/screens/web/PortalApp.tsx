@@ -910,17 +910,14 @@ function PortalAppInner({
       case 'documents':
         return effectiveRole === 'admin' ? (
           <DocumentsScreen
-            credentials={workspaceData?.companyCredentials}
             folders={workspaceData?.companyDocumentFolders}
             documents={workspaceData?.companyDocuments}
             leadLists={[...new Set((workspaceData?.leads ?? []).map((lead) => lead.sourceList.trim()).filter(Boolean))]}
             members={workspaceData?.agencyMembers}
             locale={resolvedUser.locale ?? 'en'}
-            onArchiveCredential={actions?.archiveCompanyCredential}
             onArchiveDocument={actions?.archiveCompanyDocument}
             onDeleteFolder={actions?.deleteCompanyDocumentFolder}
             onMoveDocumentToFolder={actions?.moveCompanyDocumentToFolder}
-            onSaveCredential={actions?.upsertCompanyCredential}
             onSaveDocument={actions?.upsertCompanyDocument}
             onSaveFolder={actions?.upsertCompanyDocumentFolder}
           />

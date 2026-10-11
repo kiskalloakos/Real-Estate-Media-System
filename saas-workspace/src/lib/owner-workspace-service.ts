@@ -3,7 +3,6 @@ import type {
   LeadImportInput,
   MoveCompanyDocumentToFolderInput,
   UpsertCompanyDocumentFolderInput,
-  UpsertCredentialInput,
   UpsertDocumentInput,
   UpsertLeadInput,
   UpsertMarketingContentInput,
@@ -234,48 +233,6 @@ export async function moveCompanyDocumentToFolder(input: MoveCompanyDocumentToFo
     .eq('id', input.documentId)
     .is('archived_at', null);
   if (error) throw new Error(`Could not move the document: ${error.message}`);
-}
-
-export async function upsertCompanyCredential(
-  input: UpsertCredentialInput,
-  context: OwnerWorkspaceContext,
-) {
-  const client = requireClient();
-  const label = input.label.trim();
-  if (!label) throw new Error('Credential name is required.');
-
-  const payload = {
-    label,
-    notes: nullable(input.notes),
-    secret_value: nullable(input.secretValue),
-    url: nullable(input.url),
-    username: nullable(input.username),
-  };
-  const result = input.credentialId
-    ? await client
-        .from('company_credentials')
-        .update(payload)
-        .eq('id', input.credentialId)
-        .eq('agency_id', context.agencyId)
-        .is('archived_at', null)
-    : await client.from('company_credentials').insert({
-        ...payload,
-        agency_id: context.agencyId,
-        created_by: context.userId,
-      });
-  if (result.error) {
-    throw new Error(`Could not save the credential: ${result.error.message}`);
-  }
-}
-
-export async function archiveCompanyCredential(credentialId: string, context: OwnerWorkspaceContext) {
-  const client = requireClient();
-  const { error } = await client
-    .from('company_credentials')
-    .delete()
-    .eq('id', credentialId)
-    .eq('agency_id', context.agencyId);
-  if (error) throw new Error(`Could not delete the credential: ${error.message}`);
 }
 
 function leadPayload(input: LeadImportInput) {

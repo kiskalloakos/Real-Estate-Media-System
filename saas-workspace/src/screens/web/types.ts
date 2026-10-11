@@ -870,7 +870,6 @@ export interface PortalData {
   clientMembers?: ClientMemberSummary[];
   clients?: ClientSummary[];
   companyDocumentFolders?: CompanyDocumentFolderSummary[];
-  companyCredentials?: CompanyCredentialSummary[];
   companyDocuments?: CompanyDocumentSummary[];
   costs?: RecurringCostItem[];
   debts?: DebtItem[];
@@ -903,7 +902,6 @@ export interface PortalActionHandlers {
   archiveDebt: (debtId: string) => Promise<void>;
   archiveTask: (taskId: string) => Promise<void>;
   restoreTask: (taskId: string) => Promise<void>;
-  archiveCompanyCredential: (credentialId: string) => Promise<void>;
   archiveCompanyDocument: (documentId: string) => Promise<void>;
   deleteCompanyDocumentFolder: (folderId: string) => Promise<void>;
   deleteContractDocument: (input: DeleteContractDocumentInput) => Promise<void>;
@@ -957,7 +955,6 @@ export interface PortalActionHandlers {
   moveCompanyDocumentToFolder: (input: MoveCompanyDocumentToFolderInput) => Promise<void>;
   updateDeliverable: (input: UpdateDeliverableInput) => Promise<void>;
   updateContractDeliverableStatus: (input: UpdateContractDeliverableStatusInput) => Promise<void>;
-  upsertCompanyCredential: (input: UpsertCredentialInput) => Promise<void>;
   upsertCompanyDocument: (input: UpsertDocumentInput) => Promise<string | void>;
   upsertCompanyDocumentFolder: (input: UpsertCompanyDocumentFolderInput) => Promise<string | void>;
   upsertLead: (input: UpsertLeadInput) => Promise<void>;
@@ -981,23 +978,4 @@ export interface PortalAppProps {
   role?: PortalRole;
   user?: PortalUser;
   workspaces?: Array<{ agencyId: string; name: string }>;
-}
-
-export interface CompanyCredentialSummary {
-  id: string;
-  label: string;
-  notes: string;
-  secretValue: string;
-  url: string;
-  username: string;
-}
-
-
-export interface UpsertCredentialInput {
-  credentialId?: string;
-  label: string;
-  notes: string;
-  secretValue: string;
-  url: string;
-  username: string;
 }

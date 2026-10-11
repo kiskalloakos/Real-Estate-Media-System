@@ -11,29 +11,24 @@ import {
 } from '@/components/web';
 import { ArchiveConfirmModal } from './ArchiveConfirmModal';
 import type {
-  CompanyCredentialSummary,
   CompanyDocumentFolderSummary,
   CompanyDocumentKind,
   CompanyDocumentSummary,
   MoveCompanyDocumentToFolderInput,
   SalesDocumentType,
   UpsertCompanyDocumentFolderInput,
-  UpsertCredentialInput,
   UpsertDocumentInput,
 } from './types';
 
 export interface DocumentsScreenProps {
-  credentials?: CompanyCredentialSummary[];
   documents?: CompanyDocumentSummary[];
   folders?: CompanyDocumentFolderSummary[];
   leadLists?: string[];
   members?: import('./types').AgencyMemberSummary[];
   locale?: 'en' | 'ro';
-  onArchiveCredential?: (credentialId: string) => Promise<void>;
   onArchiveDocument?: (documentId: string) => Promise<void>;
   onDeleteFolder?: (folderId: string) => Promise<void>;
   onMoveDocumentToFolder?: (input: MoveCompanyDocumentToFolderInput) => Promise<void>;
-  onSaveCredential?: (input: UpsertCredentialInput) => Promise<void>;
   onSaveDocument?: (input: UpsertDocumentInput) => Promise<string | void>;
   onSaveFolder?: (input: UpsertCompanyDocumentFolderInput) => Promise<string | void>;
 }
@@ -60,14 +55,6 @@ const salesDocumentTypes: { label: string; value: SalesDocumentType }[] = [
   { label: 'Sales training', value: 'training' },
   { label: 'Other', value: 'other' },
 ];
-
-const emptyCredential: UpsertCredentialInput = {
-  label: '',
-  notes: '',
-  secretValue: '',
-  url: '',
-  username: '',
-};
 
 const emptyFolder = { name: '' };
 const legacyDocumentFoldersKey = 'rm:document-folders';
@@ -177,17 +164,14 @@ function folderPath(folder: CompanyDocumentFolderSummary, folders: CompanyDocume
 }
 
 export function DocumentsScreen({
-  credentials = [],
   documents = [],
   folders: allFolders = [],
   leadLists = [],
   members = [],
   locale = 'en',
-  onArchiveCredential,
   onArchiveDocument,
   onDeleteFolder,
   onMoveDocumentToFolder,
-  onSaveCredential,
   onSaveDocument,
   onSaveFolder,
 }: DocumentsScreenProps) {
@@ -195,15 +179,12 @@ export function DocumentsScreen({
   const { notify } = useToast();
   const [previewDocument, setPreviewDocument] = useState<CompanyDocumentSummary | null>(null);
   const [documentForm, setDocumentForm] = useState<UpsertDocumentInput | null>(null);
-  const [credentialForm, setCredentialForm] = useState<UpsertCredentialInput | null>(null);
-  const [credentialsOpen, setCredentialsOpen] = useState(false);
-  const [visibleSecrets, setVisibleSecrets] = useState<Set<string>>(() => new Set());
   const [folderForm, setFolderForm] = useState<(Partial<CompanyDocumentFolderSummary> & { name: string }) | null>(null);
   const [selectedFolderId, setSelectedFolderId] = useState<string | null>(null);
   const [draggedDocumentId, setDraggedDocumentId] = useState<string | null>(null);
   const [archiveTarget, setArchiveTarget] = useState<{
     id: string;
-    kind: 'credential' | 'document';
+    kind: 'document';
     label: string;
   } | null>(null);
   const [saving, setSaving] = useState(false);
@@ -341,21 +322,6 @@ export function DocumentsScreen({
     }
   };
 
-  const saveCredential = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!credentialForm || !onSaveCredential) return;
-    setSaving(true);
-    try {
-      await onSaveCredential(credentialForm);
-      notify(credentialForm.credentialId ? 'Credential updated.' : 'Credential added.');
-      setCredentialForm(null);
-    } catch (error) {
-      notify(error instanceof Error ? error.message : 'Could not save the credential.', 'error');
-    } finally {
-      setSaving(false);
-    }
-  };
-
   const saveFolder = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!folderForm?.name.trim() || !onSaveFolder) return;
@@ -407,13 +373,8 @@ export function DocumentsScreen({
     if (!archiveTarget) return;
     setSaving(true);
     try {
-      if (archiveTarget.kind === 'credential') {
-        if (!onArchiveCredential) return;
-        await onArchiveCredential(archiveTarget.id);
-      } else {
-        if (!onArchiveDocument) return;
-        await onArchiveDocument(archiveTarget.id);
-      }
+      if (!onArchiveDocument) return;
+      await onArchiveDocument(archiveTarget.id);
       notify(`${archiveTarget.label} deleted.`);
       setArchiveTarget(null);
     } catch (error) {
@@ -430,9 +391,6 @@ export function DocumentsScreen({
           <div className="rm-hub-toolbar__actions">
             <Button icon="folder" onClick={openNewFolder} variant="secondary">
               {isRo ? 'Folder nou' : 'New folder'}
-            </Button>
-            <Button icon="key" onClick={() => setCredentialsOpen(true)} variant="secondary">
-              {isRo ? 'Date de acces' : 'Credentials'}
             </Button>
             <Button
               icon="plus"
@@ -787,126 +745,6 @@ export function DocumentsScreen({
             </footer>
           </form>
         ) : null}
-      </Modal>
-
-      <Modal
-        onClose={() => {
-          setCredentialForm(null);
-          setCredentialsOpen(false);
-        }}
-        open={credentialsOpen}
-        title={isRo ? 'Date de acces' : 'Credentials'}
-        wide
-      >
-        <div className="rm-credentials-manager">
-          <div className="rm-dialog-actions rm-dialog-actions--top">
-            <Button icon="plus" onClick={() => setCredentialForm(emptyCredential)} variant={credentialForm ? 'secondary' : 'primary'}>
-              {isRo ? 'Adaugă acces' : 'Add credential'}
-            </Button>
-          </div>
-          {credentialForm ? (
-            <Card className="rm-credential-card" tone="bright">
-              <form className="rm-profile-form" onSubmit={saveCredential}>
-                {[
-                  ['label', 'Account name', 'e.g. Cloudflare'],
-                  ['username', 'Username / email', ''],
-                  ['secretValue', 'Password / key', ''],
-                  ['url', 'URL', 'https://'],
-                ].map(([field, label, placeholder]) => (
-                  <label className="rm-field" key={field}>
-                    <span>{label}</span>
-                    <input
-                      onChange={(event) => setCredentialForm((current) => current ? { ...current, [field]: event.target.value } : current)}
-                      placeholder={placeholder}
-                      type={field === 'secretValue' ? 'password' : 'text'}
-                      autoComplete="off"
-                      required={field === 'label'}
-                      value={credentialForm[field as keyof UpsertCredentialInput] ?? ''}
-                    />
-                  </label>
-                ))}
-                <label className="rm-field">
-                  <span>Notes</span>
-                  <textarea onChange={(event) => setCredentialForm((current) => current ? { ...current, notes: event.target.value } : current)} rows={3} value={credentialForm.notes} />
-                </label>
-                <footer className="rm-dialog-actions">
-                  <Button disabled={saving} onClick={() => setCredentialForm(null)} variant="secondary">Cancel</Button>
-                  <Button disabled={saving || !credentialForm.label.trim()} type="submit">{saving ? 'Saving…' : 'Save credential'}</Button>
-                </footer>
-              </form>
-            </Card>
-          ) : null}
-          {credentials.length ? (
-            <Card className="rm-table-card rm-credentials-table" tone="bright">
-              <div className="rm-table-wrap">
-              <table className="rm-table">
-                <thead>
-                  <tr>
-                    <th>Account</th>
-                    <th>Username</th>
-                    <th>Password / key</th>
-                    <th>URL</th>
-                    <th>Notes</th>
-                    <th><span className="rm-visually-hidden">Actions</span></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {credentials.map((credential) => {
-                    const visible = visibleSecrets.has(credential.id);
-                    return (
-                      <tr key={credential.id}>
-                        <td><strong>{credential.label}</strong></td>
-                        <td>{credential.username || '—'}</td>
-                        <td>
-                          <button
-                            className="rm-secret"
-                            onClick={() =>
-                              setVisibleSecrets((current) => {
-                                const next = new Set(current);
-                                if (visible) next.delete(credential.id);
-                                else next.add(credential.id);
-                                return next;
-                              })
-                            }
-                            type="button"
-                          >
-                            {visible ? credential.secretValue || '—' : credential.secretValue ? '••••••••' : '—'}
-                          </button>
-                        </td>
-                        <td>{credential.url ? <a href={credential.url} rel="noreferrer" target="_blank">Open</a> : '—'}</td>
-                        <td>{credential.notes || '—'}</td>
-                        <td>
-                          <div className="rm-row-actions">
-                            <IconButton icon="dots" label={`Edit ${credential.label}`} onClick={() => setCredentialForm({ ...credential, credentialId: credential.id })} size="sm" />
-                            {onArchiveCredential ? (
-                              <IconButton
-                                icon="x"
-                                label={`Delete ${credential.label}`}
-                                onClick={() => setArchiveTarget({
-                                  id: credential.id,
-                                  kind: 'credential',
-                                  label: credential.label,
-                                })}
-                                size="sm"
-                              />
-                            ) : null}
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-              </div>
-            </Card>
-          ) : (
-            <Card className="rm-document-empty rm-credentials-empty" tone="bright">
-              <Icon name="key" size={26} />
-              <h2>No credentials saved</h2>
-              <p>Add the first account reference when you need it.</p>
-            </Card>
-          )}
-        </div>
       </Modal>
 
       <ArchiveConfirmModal
