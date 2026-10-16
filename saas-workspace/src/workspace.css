@@ -612,3 +612,67 @@ html body .aw-shell #aw-main-content .rm-gear-board .rm-gear-board__item:is(:hov
 html body .aw-shell #aw-main-content .rm-gear-board .rm-gear-board__item:is(:hover,:has(button:focus-visible)) .rm-task-item__open{background:#f0f1f5!important;box-shadow:none!important;backdrop-filter:none!important}
 html body .rm-modal.aw-form-dialog .rm-modal__header p{margin:6px 0 0!important;color:var(--aw-muted)!important;font-size:13px!important;line-height:1.5!important}
 html body .rm-modal.aw-form-dialog .rm-modal__body .rm-action-form .rm-field textarea{min-height:90px!important;resize:vertical}
+
+/* Social analytics owns its foregrounds in every account/control state.
+   Opaque surfaces keep the shared glass-button styles from washing out text. */
+.aw-shell #aw-main-content .rm-instagram-account-tabs > button {
+  border: 1px solid var(--aw-line) !important;
+  background: var(--rm-white) !important;
+  color: var(--aw-ink) !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+.aw-shell #aw-main-content .rm-instagram-account-tabs > button:hover {
+  border-color: var(--aw-accent) !important;
+  background: var(--aw-tint) !important;
+}
+.aw-shell #aw-main-content .rm-instagram-account-tabs > button strong {
+  color: inherit !important;
+}
+.aw-shell #aw-main-content .rm-instagram-account-tabs > button small {
+  color: var(--aw-muted) !important;
+  font-size: 11px;
+}
+.aw-shell #aw-main-content .rm-instagram-account-tabs > button.is-active,
+.aw-shell #aw-main-content .rm-instagram-account-tabs > button.is-active:hover,
+.aw-shell #aw-main-content .rm-social-connect > button.rm-instagram-account-tabs__connect,
+.aw-shell #aw-main-content .rm-social-connect > button.rm-instagram-account-tabs__connect:is(:hover, :focus-visible),
+.aw-shell #aw-main-content .rm-marketing .rm-tabs > button.is-active,
+.aw-shell #aw-main-content .rm-instagram .rm-tabs > button.is-active {
+  border-color: var(--aw-accent) !important;
+  background: var(--aw-accent) !important;
+  color: var(--rm-white) !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+.aw-shell #aw-main-content .rm-instagram-account-tabs > button.is-active small,
+.aw-shell #aw-main-content .rm-social-connect > .rm-instagram-account-tabs__connect :is(span, svg) {
+  color: var(--rm-white) !important;
+}
+.aw-shell #aw-main-content :is(.rm-marketing, .rm-instagram) .rm-tabs > button:not(.is-active) {
+  border-color: var(--aw-line) !important;
+  background: var(--rm-white) !important;
+  color: var(--aw-ink) !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+.aw-shell #aw-main-content :is(.rm-marketing, .rm-instagram) .rm-tabs > button:not(.is-active):hover {
+  border-color: var(--aw-accent) !important;
+  background: var(--aw-tint) !important;
+}
+.aw-shell #aw-main-content :is(.rm-marketing, .rm-instagram) .rm-tabs > button > span {
+  color: inherit !important;
+}
+.aw-shell #aw-main-content .rm-instagram :is(.rm-instagram-kpi > span, .rm-instagram-kpi > small, .rm-instagram-card-heading > span, .rm-empty p) {
+  color: var(--aw-muted) !important;
+}
+.aw-shell #aw-main-content .rm-instagram .rm-section-kicker {
+  color: var(--aw-accent) !important;
+}
+.aw-shell #aw-main-content :is(.rm-marketing, .rm-instagram) button:focus-visible {
+  outline: 2px solid var(--aw-accent) !important;
+  outline-offset: 3px !important;
+}
