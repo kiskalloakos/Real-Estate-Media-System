@@ -399,6 +399,7 @@ export function InstagramAnalyticsScreen({
       ]
     : [
         ['Followers', compact(analytics.followers), 'Current audience'],
+        ['Video views', '—', 'Unavailable'],
         ['Videos', compact(analytics.posts), `Last ${range} days`],
         ['Likes', compact(analytics.likes), `Last ${range} days`],
         ['Comments', compact(analytics.comments), `Last ${range} days`],
@@ -483,7 +484,7 @@ export function InstagramAnalyticsScreen({
             </div>
           </div>
 
-          <div className={`rm-instagram-kpis${activeProvider === 'tiktok' ? ' rm-instagram-kpis--tiktok' : ''}`}>
+          <div className="rm-instagram-kpis">
             {kpis.map(([label, value, detail]) => (
               <Card
                 className="rm-instagram-kpi"
@@ -529,7 +530,7 @@ export function InstagramAnalyticsScreen({
                       </small>
                       <strong>{media.caption || `${activeProviderLabel} post`}</strong>
                       <div>
-                        {activeProvider === 'instagram' ? <span>{compact(media.views)} views</span> : null}
+                        <span>{activeProvider === 'instagram' ? `${compact(media.views)} views` : 'Views unavailable'}</span>
                         {activeProvider === 'instagram' ? <span>{compact(media.reach)} reach</span> : null}
                         <span>{compact(media.totalInteractions)} interactions</span>
                       </div>

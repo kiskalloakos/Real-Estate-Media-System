@@ -615,11 +615,6 @@ html body .rm-modal.aw-form-dialog .rm-modal__body .rm-action-form .rm-field tex
 
 /* Social analytics owns its foregrounds in every account/control state.
    Opaque surfaces keep the shared glass-button styles from washing out text. */
-@media (min-width: 1281px) {
-  .rm-instagram-kpis--tiktok {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-  }
-}
 .aw-shell #aw-main-content .rm-instagram-account-tabs > button {
   border: 1px solid var(--aw-line) !important;
   background: var(--rm-white) !important;
