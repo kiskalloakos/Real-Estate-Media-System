@@ -46,9 +46,7 @@ export interface CalendarScreenProps {
   clients?: ClientSummary[];
   clientWorkOnly?: boolean;
   currentUserId?: string;
-  embedded?: boolean;
   events?: CalendarEvent[];
-  forceCalendarFilter?: 'marketing';
   gear?: GearItem[];
   initialEventId?: string;
   marketingContent?: MarketingContentSummary[];
@@ -233,8 +231,6 @@ export function CalendarScreen({
   clientWorkOnly = false,
   events,
   currentUserId,
-  embedded = false,
-  forceCalendarFilter,
   gear = [],
   initialEventId,
   marketingContent = [],
@@ -251,7 +247,7 @@ export function CalendarScreen({
   role,
 }: CalendarScreenProps) {
   const { notify } = useToast();
-  const stateKey = `rm:calendar-state:${currentUserId ?? role}${embedded ? ':marketing' : ''}`;
+  const stateKey = `rm:calendar-state:${currentUserId ?? role}`;
   const [anchorDateValue, setAnchorDateValue] = useBrowserPersistedState(
     `${stateKey}:anchor-date`,
     isoDate(new Date()),
@@ -267,7 +263,7 @@ export function CalendarScreen({
     return () => media.removeEventListener('change', update);
   }, []);
   const displayView = isPhone ? 'agenda' : calendarView;
-  const [calendarFilter, setCalendarFilter] = useBrowserPersistedState(`${stateKey}:calendar-filter`, forceCalendarFilter ?? 'all');
+  const [calendarFilter, setCalendarFilter] = useBrowserPersistedState(`${stateKey}:calendar-filter`, 'all');
   const [propertyFilter, setPropertyFilter] = useBrowserPersistedState(`${stateKey}:property-filter`, 'all');
   const [eventForm, setEventForm] = useState<CreateCalendarEventInput>(emptyEventForm);
   const [marketingEventForm, setMarketingEventForm] = useState<MarketingEventForm>(emptyMarketingEventForm);
@@ -300,16 +296,16 @@ export function CalendarScreen({
   const [formError, setFormError] = useState('');
   const [draggedEventKey, setDraggedEventKey] = useState<string | null>(null);
   const [optimisticEvents, setOptimisticEvents] = useState<Record<string, CalendarEvent>>({});
-  const activeCalendarFilter = forceCalendarFilter ?? (
+  const activeCalendarFilter = (
     calendarFilter === 'founders' || calendarFilter === 'team'
       ? 'all'
       : calendarFilter
   );
   useEffect(() => {
-    if (!forceCalendarFilter && (calendarFilter === 'founders' || calendarFilter === 'team')) {
+    if (calendarFilter === 'founders' || calendarFilter === 'team') {
       setCalendarFilter('all');
     }
-  }, [calendarFilter, forceCalendarFilter, setCalendarFilter]);
+  }, [calendarFilter, setCalendarFilter]);
   useLocalDraft(marketingDraftKey, { eventForm, marketingEventForm }, eventFormOpen && activeCalendarFilter === 'marketing', (draft) => Boolean(draft.eventForm.title.trim() || draft.marketingEventForm.caption.trim() || draft.marketingEventForm.script.trim()));
   const agencyEvents =
     events ??
@@ -720,8 +716,8 @@ export function CalendarScreen({
   };
 
   return (
-    <div className={`rm-page aw-calendar-page${embedded ? ' rm-calendar-embedded' : ''}`}>
-      {!embedded ? <PageHeader
+    <div className="rm-page aw-calendar-page">
+      <PageHeader
         description={
           role === 'client'
             ? 'Shoots, reviews and delivery dates for your properties.'
@@ -729,7 +725,7 @@ export function CalendarScreen({
         }
         eyebrow={calendarRangeLabel}
         title="Calendar"
-      /> : null}
+      />
 
       <div className="rm-calendar-layout">
         <Card className="rm-calendar-card" tone="bright">
@@ -763,17 +759,17 @@ export function CalendarScreen({
                   </button>
                 ))}
               </div>
-              {!forceCalendarFilter ? <details className="aw-calendar-filters"><summary>Filters{activeCalendarFilter !== 'all' || propertyFilter !== 'all' ? ' · active' : ''}</summary><div className="aw-calendar-filters__body">              {!forceCalendarFilter && !clientWorkOnly ? <label className="rm-calendar-property-filter">
+              <details className="aw-calendar-filters"><summary>Filters{activeCalendarFilter !== 'all' || propertyFilter !== 'all' ? ' · active' : ''}</summary><div className="aw-calendar-filters__body">              {!clientWorkOnly ? <label className="rm-calendar-property-filter">
                 <select
-                  aria-label="Choose a synced calendar"
+                  aria-label="Filter calendar events"
                   onChange={(event) => {
                     setCalendarFilter(event.target.value);
                     setPropertyFilter('all');
                   }}
                   value={activeCalendarFilter}
                 >
-                  <option value="all">All calendars</option>
-                  <option value="marketing">Marketing</option>
+                  <option value="all">All events</option>
+                  <option value="marketing">Marketing events</option>
                   {clientCalendars.map((client) => (
                     <option key={client.id} value={`client:${client.id}`}>
                       {client.name}
@@ -782,7 +778,7 @@ export function CalendarScreen({
                 </select>
               </label>
               : null}
-              {!forceCalendarFilter ? <label className="rm-calendar-property-filter">
+              <label className="rm-calendar-property-filter">
                 <select
                   aria-label="Filter calendar by property"
                   onChange={(event) => setPropertyFilter(event.target.value)}
@@ -795,7 +791,7 @@ export function CalendarScreen({
                     </option>
                   ))}
                 </select>
-              </label> : null}</div></details> : null}
+              </label></div></details>
             </div>
             <div className="rm-calendar-toolbar__actions">
               <Button

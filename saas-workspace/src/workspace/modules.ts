@@ -5,7 +5,7 @@ export const modules = [
   { id: 'reviews', label: 'Reviews', icon: 'play', description: 'Versions, feedback, and client approvals.', group: 'Work' },
   { id: 'documents', label: 'Documents', icon: 'folder', description: 'Briefs, references, templates, and company knowledge.', group: 'Studio' },
   { id: 'team', label: 'Team', icon: 'users', description: 'The people making it all happen.', group: 'Studio' },
-  { id: 'marketing', label: 'Marketing', icon: 'trend-up', description: 'Your own content calendar and social performance.', group: 'Studio' },
+  { id: 'marketing', label: 'Marketing', icon: 'trend-up', description: 'Connected social accounts and performance analytics.', group: 'Studio' },
   { id: 'sales', label: 'Sales', icon: 'briefcase', description: 'Leads and conversations that become clients.', group: 'Studio' },
   { id: 'gear', label: 'Gear', icon: 'camera', description: 'Equipment, custody, and shoot readiness.', group: 'Studio' },
   { id: 'finances', label: 'Finances', icon: 'wallet', description: 'Revenue, expenses, payments, and recurring costs.', group: 'Studio' },

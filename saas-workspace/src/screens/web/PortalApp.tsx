@@ -25,6 +25,7 @@ import { GearScreen } from './GearScreen';
 import { InstagramAnalyticsScreen } from './InstagramAnalyticsScreen';
 import { MembersScreen } from './MembersScreen';
 import { MarketingScreen } from './MarketingScreen';
+import { MarketingItemEditor } from './MarketingItemEditor';
 import { StudioHome } from '@/workspace/StudioHome';
 import { ModulesScreen } from '@/workspace/ModulesScreen';
 import { modules } from '@/workspace/modules';
@@ -209,11 +210,10 @@ function notificationTimeLabel(value: string) {
 type PortalHubNavigation = {
   sales: 'leads' | 'caller';
   dashboard: 'overview' | 'tasks' | 'calendar' | 'notes';
-  marketing: 'calendar' | 'analytics';
 };
 
 type StoredPortalNavigation = {
-  hubs?: Partial<PortalHubNavigation> & { marketing?: PortalHubNavigation['marketing'] | 'scripts' };
+  hubs?: Partial<PortalHubNavigation>;
   screen?: PortalScreenKey;
   workspaceId?: string;
 };
@@ -348,9 +348,6 @@ function PortalAppInner({
   const [adminHubTarget, setAdminHubTarget] = useState<PortalHubNavigation & { revision: number }>({
     sales: storedNavigation.hubs?.sales === 'caller' ? 'caller' : 'leads',
     dashboard: storedNavigation.hubs?.dashboard ?? 'overview',
-    marketing: hasInstagramCallback
-      ? 'analytics'
-      : storedNavigation.hubs?.marketing === 'analytics' ? 'analytics' : 'calendar',
     revision: 0,
   });
   useEffect(() => {
@@ -360,7 +357,6 @@ function PortalAppInner({
         hubs: {
           sales: adminHubTarget.sales,
           dashboard: adminHubTarget.dashboard,
-          marketing: adminHubTarget.marketing,
         },
         screen: activeScreen,
         workspaceId: visibleWorkspaceId,
@@ -580,12 +576,12 @@ function PortalAppInner({
 
   const navigate = (screen: PortalScreenKey) => {
     if (screen !== 'reviews') setOpenedReviewId(undefined);
+    if (effectiveRole === 'admin' && screen === 'analytics') screen = 'marketing';
     if (effectiveRole === 'admin') {
       const nestedTargets: Partial<Record<PortalScreenKey, {
         parent: PortalScreenKey;
         section: string;
       }>> = {
-        analytics: { parent: 'marketing', section: 'analytics' },
         properties: { parent: 'clients', section: 'clients' },
       };
       const nested = nestedTargets[screen];
@@ -805,33 +801,37 @@ function PortalAppInner({
         );
       case 'calendar':
         return (
-          <CalendarScreen
-            clients={shellData.clients}
-            currentUserId={workspaceUserId}
-            events={workspaceData?.calendarEvents}
-            gear={workspaceData?.gear}
-            marketingContent={workspaceData?.marketingContent}
-            members={workspaceData?.agencyMembers}
-            notes={workspaceData?.notes}
-            initialEventId={openedCalendarEventId}
-            onInitialEventOpened={() => setOpenedCalendarEventId(undefined)}
-            onArchiveEvent={effectiveRole === 'admin' ? actions?.archiveEvent : undefined}
-            onCreateEvent={actions?.createEvent}
-            onCreateNote={actions?.createNote}
-            onUpdateEvent={effectiveRole === 'admin' ? actions?.updateEvent : undefined}
-            onSaveMarketingContent={effectiveRole === 'admin' ? actions?.upsertMarketingContent : undefined}
-            onEditMarketingContent={effectiveRole === 'admin' ? (contentId) => {
-              setOpenedMarketingContentId(contentId);
-              setAdminHubTarget((current) => ({
-                ...current,
-                marketing: 'calendar',
-                revision: current.revision + 1,
-              }));
-              navigate('marketing');
-            } : undefined}
-            properties={shellData.properties}
-            role={effectiveRole}
-          />
+          <>
+            <CalendarScreen
+              clients={shellData.clients}
+              currentUserId={workspaceUserId}
+              events={workspaceData?.calendarEvents}
+              gear={workspaceData?.gear}
+              marketingContent={workspaceData?.marketingContent}
+              members={workspaceData?.agencyMembers}
+              notes={workspaceData?.notes}
+              initialEventId={openedCalendarEventId}
+              onInitialEventOpened={() => setOpenedCalendarEventId(undefined)}
+              onArchiveEvent={effectiveRole === 'admin' ? actions?.archiveEvent : undefined}
+              onCreateEvent={actions?.createEvent}
+              onCreateNote={actions?.createNote}
+              onUpdateEvent={effectiveRole === 'admin' ? actions?.updateEvent : undefined}
+              onSaveMarketingContent={effectiveRole === 'admin' ? actions?.upsertMarketingContent : undefined}
+              onEditMarketingContent={effectiveRole === 'admin' ? setOpenedMarketingContentId : undefined}
+              properties={shellData.properties}
+              role={effectiveRole}
+            />
+            {effectiveRole === 'admin' ? (
+              <MarketingItemEditor
+                content={workspaceData?.marketingContent}
+                initialContentId={openedMarketingContentId}
+                members={workspaceData?.agencyMembers}
+                onArchive={actions?.archiveMarketingContent}
+                onSave={actions?.upsertMarketingContent}
+                onInitialContentOpened={() => setOpenedMarketingContentId(undefined)}
+              />
+            ) : null}
+          </>
         );
       case 'notes':
         return effectiveRole === 'admin' ? (
@@ -928,18 +928,6 @@ function PortalAppInner({
         return effectiveRole === 'admin' ? (
           <MarketingScreen
             accounts={workspaceData?.instagramAccounts}
-            content={workspaceData?.marketingContent}
-            initialTab={adminHubTarget.marketing}
-            initialContentId={openedMarketingContentId}
-            members={workspaceData?.agencyMembers}
-            key={`marketing-${adminHubTarget.revision}`}
-            locale={resolvedUser.locale ?? 'en'}
-            onArchive={actions?.archiveMarketingContent}
-            onSave={actions?.upsertMarketingContent}
-            onInitialContentOpened={() => setOpenedMarketingContentId(undefined)}
-            onTabChange={(tab) => {
-              setAdminHubTarget((current) => ({ ...current, marketing: tab }));
-            }}
             tiktokAccounts={workspaceData?.tiktokAccounts}
           />
         ) : (
