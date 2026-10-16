@@ -246,6 +246,8 @@ export function InstagramAnalyticsScreen({
 
     for (const account of visibleAccounts) {
       followers += latestFollowerCount(account.metrics);
+      // TikTok rows are cumulative snapshots, not daily activity.
+      if (account.provider === 'tiktok') continue;
       for (const metric of account.metrics) {
         if (new Date(metric.date).valueOf() < rangeStart.valueOf()) continue;
         const current = daily.get(metric.date) ?? {
@@ -296,9 +298,7 @@ export function InstagramAnalyticsScreen({
     const likes = media.reduce((sum, item) => sum + item.likes, 0);
     const comments = media.reduce((sum, item) => sum + item.comments, 0);
     const shares = media.reduce((sum, item) => sum + item.shares, 0);
-    const mediaViews = media.reduce((sum, item) => sum + item.views, 0);
-    const usesTikTok = visibleAccounts.some((account) => account.provider === 'tiktok');
-    const views = usesTikTok ? mediaViews || accountViews : accountViews;
+    const views = accountViews;
 
     return {
       comments,
@@ -399,7 +399,6 @@ export function InstagramAnalyticsScreen({
       ]
     : [
         ['Followers', compact(analytics.followers), 'Current audience'],
-        ['Video views', compact(analytics.views), `Last ${range} days`],
         ['Videos', compact(analytics.posts), `Last ${range} days`],
         ['Likes', compact(analytics.likes), `Last ${range} days`],
         ['Comments', compact(analytics.comments), `Last ${range} days`],
@@ -484,7 +483,7 @@ export function InstagramAnalyticsScreen({
             </div>
           </div>
 
-          <div className="rm-instagram-kpis">
+          <div className={`rm-instagram-kpis${activeProvider === 'tiktok' ? ' rm-instagram-kpis--tiktok' : ''}`}>
             {kpis.map(([label, value, detail]) => (
               <Card
                 className="rm-instagram-kpi"
@@ -530,7 +529,7 @@ export function InstagramAnalyticsScreen({
                       </small>
                       <strong>{media.caption || `${activeProviderLabel} post`}</strong>
                       <div>
-                        <span>{compact(media.views)} views</span>
+                        {activeProvider === 'instagram' ? <span>{compact(media.views)} views</span> : null}
                         {activeProvider === 'instagram' ? <span>{compact(media.reach)} reach</span> : null}
                         <span>{compact(media.totalInteractions)} interactions</span>
                       </div>
