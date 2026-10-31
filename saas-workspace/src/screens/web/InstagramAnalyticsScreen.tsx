@@ -501,7 +501,6 @@ export function InstagramAnalyticsScreen({
           <Card className="rm-instagram-media-card" tone="paper">
             <div className="rm-instagram-card-heading">
               <div>
-                <p className="rm-section-kicker">RECENT CONTENT</p>
                 <h2>Performance by post</h2>
               </div>
               <span>{analytics.media.length} in this range</span>
@@ -551,7 +550,6 @@ export function InstagramAnalyticsScreen({
             <Card className="rm-instagram-connections" tone="paper">
               <div className="rm-instagram-card-heading">
                 <div>
-                  <p className="rm-section-kicker">CONNECTIONS</p>
                   <h2>Connected accounts</h2>
                 </div>
               </div>

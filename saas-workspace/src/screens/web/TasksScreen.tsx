@@ -1,5 +1,4 @@
 import {
-  useEffect,
   useMemo,
   useState,
   type FormEvent,
@@ -9,7 +8,6 @@ import {
   Avatar,
   Button,
   Card,
-  EmptyState,
   Icon,
   Modal,
   PageHeader,
@@ -19,6 +17,9 @@ import {
 import { useBrowserPersistedState } from '@/hooks/use-browser-persisted-state';
 import { clearLocalDraft, readLocalDraft, useLocalDraft } from '@/hooks/use-local-draft';
 
+import { taskViews, taskPreviewText, taskDateParts, taskStatusLabels, taskUpdateInput, matchesTaskSearch, matchesTaskView, type TaskView } from '@/lib/task-workspace';
+import type { PortalLocation } from '@/lib/portal-location';
+import { TaskDetailsDrawer } from './TaskDetailsDrawer';
 import { demoTasks } from './demoData';
 import type {
   AgencyMemberSummary,
@@ -29,6 +30,7 @@ import type {
   TaskSummary,
   UpdateTaskInput,
 } from './types';
+import './TasksScreen.css';
 
 export interface TasksScreenProps {
   archivedTasks?: TaskSummary[];
@@ -40,8 +42,9 @@ export interface TasksScreenProps {
   onDeleteAttachment?: (attachmentId: string) => Promise<void>;
   onRestoreTask?: (taskId: string) => Promise<void>;
   onUpdateTask?: (input: UpdateTaskInput) => Promise<void>;
-  initialTaskId?: string;
-  onInitialTaskOpened?: () => void;
+  location?: PortalLocation;
+  onLocationChange?: (changes: Partial<PortalLocation>, replace?: boolean) => void;
+  onOpenClient?: (id: string) => void;
   properties?: PropertySummary[];
   role: PortalRole;
   tasks?: TaskSummary[];
@@ -70,13 +73,7 @@ const taskLists: {
   { key: 'cancelled', label: 'Cancelled', matches: (task) => task.status === 'cancelled' },
 ];
 
-const statusLabels: Record<TaskSummary['status'], string> = {
-  blocked: 'Blocked',
-  cancelled: 'Cancelled',
-  done: 'Completed',
-  in_progress: 'In progress',
-  todo: 'New tasks',
-};
+const statusLabels = taskStatusLabels;
 
 const priorityRank: Record<TaskSummary['priority'], number> = {
   urgent: 0,
@@ -95,16 +92,6 @@ function emptyTask(): CreateTaskInput {
     priority: 'normal',
     title: '',
     visibility: 'team',
-  };
-}
-
-function taskDateParts(value?: string) {
-  if (!value) return { dueDate: '', dueTime: '17:00' };
-  const date = new Date(value);
-  const local = new Date(date.getTime() - date.getTimezoneOffset() * 60_000);
-  return {
-    dueDate: local.toISOString().slice(0, 10),
-    dueTime: local.toISOString().slice(11, 16),
   };
 }
 
@@ -203,8 +190,9 @@ export function TasksScreen({
   onDeleteAttachment,
   onRestoreTask,
   onUpdateTask,
-  initialTaskId,
-  onInitialTaskOpened,
+  location,
+  onLocationChange,
+  onOpenClient,
   properties = [],
   role,
   tasks,
@@ -236,7 +224,17 @@ export function TasksScreen({
   const [createForm, setCreateForm] = useState<CreateTaskInput>(emptyTask);
   const taskDraftKey = 'rm:draft:task';
   useLocalDraft(taskDraftKey, createForm, formOpen, (draft) => Boolean(draft.title.trim() || draft.description.trim()));
-  const [previewTask, setPreviewTask] = useState<TaskSummary | null>(null);
+  const [localPreviewTask, setLocalPreviewTask] = useState<TaskSummary | null>(null);
+  const [savedView, setSavedView] = useBrowserPersistedState<TaskView>(`${stateKey}:view`, 'all');
+  const [savedQuery, setSavedQuery] = useBrowserPersistedState(`${stateKey}:query`, '');
+  const [layout, setLayout] = useBrowserPersistedState<'list' | 'board'>(`${stateKey}:layout`, 'list');
+  const view = location ? location.taskView ?? 'all' : savedView;
+  const query = location ? location.taskQuery ?? '' : savedQuery;
+  const effectiveAssignee = location ? location.taskAssignee ?? 'all' : assigneeId;
+  const [recovery, setRecovery] = useState<{ message: string; undo: () => Promise<void> } | null>(null);
+  const [undoing, setUndoing] = useState(false);
+  const [undoError, setUndoError] = useState('');
+  const [pendingTaskIds, setPendingTaskIds] = useState<Set<string>>(() => new Set());
   const [editTask, setEditTask] = useState<TaskSummary | null>(null);
   const [editForm, setEditForm] = useState<UpdateTaskInput | null>(null);
   const [attachmentPreview, setAttachmentPreview] = useState<TaskAttachment | null>(null);
@@ -278,7 +276,7 @@ export function TasksScreen({
     [members],
   );
   const memberAvatarByUserId = useMemo(
-    () => new Map(members.map((member) => [member.userId, member.avatarUrl])),
+    () => new Map(members.map(member => [member.userId, member.avatarUrl])),
     [members],
   );
   const assigneeOptions = useMemo(() => {
@@ -315,16 +313,36 @@ export function TasksScreen({
     return [...clientMap.values()].sort((left, right) => left.name.localeCompare(right.name));
   }, [clients, properties]);
 
-  const filteredTasks = useMemo(() => {
-    if (role === 'team_member') return boardTasks;
-    return boardTasks.filter((task) => {
-      const matchesAssignee =
-        assigneeId === 'all' ||
-        (assigneeId === 'unassigned' && !task.assigneeUserId) ||
-        task.assigneeUserId === assigneeId;
-      return matchesAssignee;
+  const previewTask = location
+    ? boardTasks.find(task => task.id === location.taskId) ?? null
+    : localPreviewTask;
+  const setPreviewTask = (task: TaskSummary | null) => {
+    if (onLocationChange) onLocationChange({ taskId: task?.id });
+    else setLocalPreviewTask(task);
+  };
+  const changeFilters = (changes: { taskView?: TaskView; taskQuery?: string; taskAssignee?: string }, replace = false) => {
+    if (changes.taskView !== undefined) setSavedView(changes.taskView);
+    if (changes.taskQuery !== undefined) setSavedQuery(changes.taskQuery);
+    if (changes.taskAssignee !== undefined) {
+      setAssigneeId(changes.taskAssignee);
+      window.dispatchEvent(new CustomEvent('rm:task-assignee-filter', { detail: { assigneeId: changes.taskAssignee, stateKey: `${stateKey}:assignee` } }));
+    }
+    onLocationChange?.(changes, replace);
+  };
+  const assignedTasks = boardTasks.filter(task => role === 'team_member' || effectiveAssignee === 'all'
+    || (effectiveAssignee === 'unassigned' ? !task.assigneeUserId : task.assigneeUserId === effectiveAssignee));
+  const filteredTasks = assignedTasks.filter(task => matchesTaskView(task, view, currentUserId) && matchesTaskSearch(task, query));
+  const offerUndo = (message: string, undo: () => Promise<void>) => { setUndoError(''); setRecovery({ message, undo }); };
+  const saveQuickTask = async (input: UpdateTaskInput) => {
+    if (!onUpdateTask) return;
+    const previous = boardTasks.find(task => task.id === input.taskId);
+    await onUpdateTask(role === 'team_member' ? { ...input, assigneeUserId: currentUserId } : input);
+    setOptimisticStatuses(current => { const next = { ...current }; delete next[input.taskId]; return next; });
+    if (previous) offerUndo(`${input.title} updated.`, async () => {
+      await onUpdateTask(taskUpdateInput(previous));
+      setOptimisticStatuses(current => { const next = { ...current }; delete next[input.taskId]; return next; });
     });
-  }, [assigneeId, boardTasks, role]);
+  };
 
   const openCreate = () => {
     const draft = readLocalDraft<CreateTaskInput>(taskDraftKey) ?? emptyTask();
@@ -365,7 +383,7 @@ export function TasksScreen({
       description: task.description,
       dueDate: due.dueDate,
       dueTime: due.dueTime,
-      priority: task.priority === 'urgent' || task.priority === 'high' ? 'urgent' : 'normal',
+      priority: task.priority,
       propertyId: task.propertyId,
       status: task.status,
       taskId: task.id,
@@ -375,17 +393,6 @@ export function TasksScreen({
     setFormError('');
     setEditFieldsTouched(false);
   };
-
-  useEffect(() => {
-    if (!initialTaskId) return;
-    const task = boardTasks.find((item) => item.id === initialTaskId);
-    // Opening a task is the intended synchronization with an external search selection.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    if (task) setPreviewTask(task);
-    onInitialTaskOpened?.();
-  // The target comes only from an explicit workspace-search result.
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialTaskId]);
 
   const submitEdit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -435,7 +442,11 @@ export function TasksScreen({
     ]);
     try {
       await onArchiveTask(task.id);
-      notify(`${task.title} moved to Archived.`);
+      if (onRestoreTask) offerUndo(`${task.title} archived.`, async () => {
+        await onRestoreTask(task.id);
+        setOptimisticArchivedTasks(current => current.filter(item => item.id !== task.id));
+        setArchivingTaskIds(current => { const next = new Set(current); next.delete(task.id); return next; });
+      });
       setArchiveTarget(null);
     } catch (caught) {
       setArchivingTaskIds((current) => {
@@ -528,14 +539,18 @@ export function TasksScreen({
     };
     const status = statusByList[destination];
 
+    if (pendingTaskIds.has(task.id) || undoing) return;
+    const previousOrder = taskOrder;
     if (taskListKey(task) === destination) {
       saveTaskPosition(task, destination, targetTaskId, edge);
+      offerUndo(`${task.title} reordered.`, async () => setTaskOrder(previousOrder));
       return;
     }
     if (!onUpdateTask) return;
 
     const due = taskDateParts(task.dueAt);
     const previousStatus = task.status;
+    setPendingTaskIds(current => new Set(current).add(task.id));
     // Move instantly, then reconcile with Supabase in the background. The board
     // must not wait for a network round-trip before responding to a drop.
     setOptimisticStatuses((current) => ({ ...current, [task.id]: status }));
@@ -554,10 +569,18 @@ export function TasksScreen({
         title: task.title,
         visibility: task.visibility,
       });
-      notify(`${task.title} moved to ${statusLabels[status]}.`);
+      setOptimisticStatuses(current => { const next = { ...current }; delete next[task.id]; return next; });
+      offerUndo(`${task.title} moved to ${statusLabels[status]}.`, async () => {
+        await onUpdateTask(taskUpdateInput(task));
+        setTaskOrder(previousOrder);
+        setOptimisticStatuses(current => { const next = { ...current }; delete next[task.id]; return next; });
+      });
     } catch (caught) {
+      setTaskOrder(previousOrder);
       setOptimisticStatuses((current) => ({ ...current, [task.id]: previousStatus }));
       notify(caught instanceof Error ? caught.message : 'Could not move the task.', 'error');
+    } finally {
+      setPendingTaskIds(current => { const next = new Set(current); next.delete(task.id); return next; });
     }
   };
 
@@ -618,7 +641,7 @@ export function TasksScreen({
         <div className="rm-field">
           <span>Priority</span>
           <div className="rm-task-priority-switch" role="radiogroup" aria-label="Priority">
-            {(['normal', 'urgent'] as const).map((priority) => (
+            {(['low', 'normal', 'high', 'urgent'] as const).map((priority) => (
               <label
                 className={form.priority === priority ? 'is-active' : undefined}
                 key={priority}
@@ -630,7 +653,7 @@ export function TasksScreen({
                   type="radio"
                   value={priority}
                 />
-                {priority === 'normal' ? 'Normal' : 'Urgent'}
+                {priority[0].toUpperCase() + priority.slice(1)}
               </label>
             ))}
           </div>
@@ -650,29 +673,27 @@ export function TasksScreen({
   );
 
   return (
-    <div className="rm-page rm-tasks-page">
+    <div className="rm-page rm-tasks-page aw-tasks" id="aw-tasks">
       <PageHeader
         actions={(
           <div className="rm-task-page-actions">
-            {role === 'admin' ? <label className="rm-field rm-task-assignee-filter">
-              <span className="rm-visually-hidden">Assigned to</span>
-              <select
-                onChange={(event) => {
-                  const nextAssigneeId = event.target.value;
-                  setAssigneeId(nextAssigneeId);
-                  window.dispatchEvent(new CustomEvent('rm:task-assignee-filter', {
-                    detail: { assigneeId: nextAssigneeId, stateKey },
-                  }));
-                }}
-                value={assigneeId}
-              >
-                <option value="unassigned">Unassigned</option>
-                <option value="all">Assigned to: Everyone</option>
-                {assigneeOptions.map((assignee) => (
-                  <option key={assignee.id} value={assignee.id}>Assigned to: {assignee.name}</option>
-                ))}
-              </select>
-            </label> : null}
+            {role === 'admin' ? (
+              <label className="aw-tasks__filter">
+                <span>Assigned to</span>
+                <select
+                  onChange={(event) => {
+                    changeFilters({ taskAssignee: event.target.value });
+                  }}
+                  value={effectiveAssignee}
+                >
+                  <option value="unassigned">Unassigned</option>
+                  <option value="all">Everyone</option>
+                  {assigneeOptions.map((assignee) => (
+                    <option key={assignee.id} value={assignee.id}>{assignee.name}</option>
+                  ))}
+                </select>
+              </label>
+            ) : null}
             {canManage ? (
               <Button onClick={() => setArchiveOpen(true)} variant="secondary">
                 Archived
@@ -684,7 +705,31 @@ export function TasksScreen({
         title="Tasks"
       />
 
-      {filteredTasks.length ? (
+      <div className="aw-tasks__toolbar">
+        <div className="aw-tasks__views" role="group" aria-label="Task views">
+          {taskViews.map(item => <button key={item.id} type="button" aria-pressed={view === item.id} onClick={() => changeFilters({ taskView: item.id, ...(item.id === 'mine' ? { taskAssignee: 'all' } : {}) })}>{item.label}<span>{assignedTasks.filter(task => matchesTaskView(task, item.id, currentUserId)).length}</span></button>)}
+        </div>
+        <div className="aw-tasks__tools">
+          <label className="aw-tasks__search"><span className="aw-sr-only">Search tasks</span><Icon name="search" size={16}/><input type="search" placeholder="Search tasks…" value={query} onChange={event => changeFilters({ taskQuery: event.target.value }, true)}/></label>
+          <div className="aw-tasks__layouts" role="group" aria-label="Task layout">{(['list', 'board'] as const).map(value => <button key={value} type="button" aria-pressed={layout === value} onClick={() => setLayout(value)}>{value === 'list' ? 'List' : 'Board'}</button>)}</div>
+        </div>
+      </div>
+      <p className="aw-sr-only" role="status">{filteredTasks.length} tasks in this view.</p>
+      {recovery && <div className="aw-tasks__recovery" role="status"><span>{undoError || recovery.message}</span><button type="button" disabled={undoing} onClick={async () => {
+        setUndoing(true); setUndoError('');
+        try { await recovery.undo(); setRecovery(null); }
+        catch (caught) { setUndoError(caught instanceof Error ? caught.message : 'Could not undo. Try again.'); }
+        finally { setUndoing(false); }
+      }}>{undoing ? 'Undoing…' : 'Undo'}</button><button type="button" aria-label="Dismiss task notification" disabled={undoing} onClick={() => { setRecovery(null); setUndoError(''); }}><Icon name="x" size={16}/></button></div>}
+      {filteredTasks.length && layout === 'list' ? (
+        <div className="aw-tasks__table-wrap"><table className="aw-tasks__table"><thead><tr><th scope="col">Task / context</th><th scope="col">Status</th><th scope="col">Assigned to</th><th scope="col">Due</th><th scope="col"><span className="aw-sr-only">Actions</span></th></tr></thead><tbody>
+          {taskLists.flatMap(list => orderedTasks(filteredTasks.filter(list.matches), list.key, taskOrder)).map(task => <tr key={task.id}>
+            <td><button className="aw-tasks__list-open" type="button" onClick={() => setPreviewTask(task)}><strong>{task.title}{task.priority === 'urgent' || task.priority === 'high' ? <span className="aw-tasks__priority"> · {task.priority === 'urgent' ? 'Urgent' : 'High'}</span> : null}</strong><span title={taskPreviewText(task)}>{taskPreviewText(task)}</span></button></td>
+            <td><span className={task.status === 'blocked' ? 'aw-tasks__priority' : ''}>{statusLabels[task.status]}</span></td><td>{task.assigneeName || 'Unassigned'}</td><td className={taskIsOverdue(task) ? 'is-overdue' : ''}>{task.dueAt ? <time dateTime={task.dueAt}>{taskIsOverdue(task) ? 'Overdue · ' : ''}{formatDue(task.dueAt)}</time> : '—'}</td>
+            <td>{task.status === 'done' && canManage && <button type="button" className="aw-tasks__list-archive" aria-label={`Archive ${task.title}`} disabled={undoing || archivingTaskIds.has(task.id)} onClick={() => void archiveTaskImmediately(task)}><Icon name="archive" size={16}/></button>}</td>
+          </tr>)}
+        </tbody></table></div>
+      ) : filteredTasks.length ? (
         <div className="rm-task-list-grid">
           {taskLists.map((list) => {
             const listTasks = orderedTasks(
@@ -694,6 +739,8 @@ export function TasksScreen({
             );
             return (
               <Card
+                aria-labelledby={`task-list-${list.key}`}
+                data-task-list={list.key}
                 className={[
                   'rm-task-list-card',
                   dropTarget && 'list' in dropTarget && dropTarget.list === list.key
@@ -720,10 +767,8 @@ export function TasksScreen({
                 tone="bright"
               >
                 <header className="rm-task-list-card__header">
-                  <h2>{list.label}</h2>
-                  <div>
-                    <strong>{listTasks.length}</strong>
-                  </div>
+                  <h2 id={`task-list-${list.key}`}>{list.label}</h2>
+                  <span className="aw-tasks__count">{listTasks.length}</span>
                 </header>
                 <div className="rm-task-list-card__list">
                     {listTasks.map((task) => (
@@ -741,7 +786,7 @@ export function TasksScreen({
                             ? `is-drop-${dropTarget.edge}`
                             : '',
                         ].filter(Boolean).join(' ')}
-                        draggable={canManage}
+                        draggable={canManage && !pendingTaskIds.has(task.id) && !undoing}
                         key={task.id}
                         onDragEnd={() => {
                           setDraggedTaskId(null);
@@ -785,21 +830,19 @@ export function TasksScreen({
                           onClick={() => setPreviewTask(task)}
                             type="button"
                           >
-                            <Avatar
-                              name={task.assigneeName || 'Unassigned'}
-                              size="sm"
-                              src={task.assigneeUserId ? memberAvatarByUserId.get(task.assigneeUserId) : undefined}
-                            />
                             <span className={[
                               'rm-task-item__row-content',
                               task.dueAt ? '' : 'rm-task-item__row-content--no-deadline',
                             ].filter(Boolean).join(' ')}
                             >
                               <strong>{task.title}</strong>
-                              {task.dueAt ? <small>{formatDue(task.dueAt)}</small> : null}
-                              {task.priority === 'urgent' ? <span className="rm-owner-task-urgent">Urgent</span> : null}
+                              <span className="aw-tasks__context" title={taskPreviewText(task)}>{taskPreviewText(task)}</span>
+                              <small className="aw-tasks__meta">
+                                <span>{task.assigneeName || 'Unassigned'}</span>
+                                {task.dueAt ? <time className={taskIsOverdue(task) ? 'aw-tasks__due is-overdue' : 'aw-tasks__due'} dateTime={task.dueAt}>{taskIsOverdue(task) ? 'Overdue: ' : ''}{formatDue(task.dueAt)}</time> : null}
+                                {task.priority === 'urgent' || task.priority === 'high' ? <span className="aw-tasks__priority">{task.priority === 'urgent' ? 'Urgent' : 'High priority'}</span> : null}
+                              </small>
                             </span>
-                            {task.status === 'blocked' ? <span className="aw-task-badge is-blocked">Blocked</span> : task.status === 'cancelled' ? <span className="aw-task-badge">Cancelled</span> : null}
                           </button>
                         {list.key === 'completed' && canManage ? (
                           <button
@@ -816,7 +859,7 @@ export function TasksScreen({
                       </article>
                     ))}
                     {!listTasks.length ? (
-                      <div className="rm-task-list-card__empty">Nothing here</div>
+                      <div className="rm-task-list-card__empty">No tasks</div>
                     ) : null}
                 </div>
               </Card>
@@ -824,12 +867,12 @@ export function TasksScreen({
           })}
         </div>
       ) : (
-        <Card className="rm-empty-collection" tone="bright">
-          <EmptyState
-            action={canManage ? <Button onClick={openCreate}>Create a task</Button> : undefined}
-            icon="list-check"
-            title="No tasks in this view"
-          />
+        <Card className="aw-tasks__empty" tone="bright">
+          <h2>No tasks in this view</h2>
+          <p>{role === 'admin' && effectiveAssignee !== 'all'
+            ? 'Choose another assignee to see their tasks.'
+            : query || view !== 'all' ? 'Try another view or clear your search.' : canManage ? 'Use New task to add your next assignment.' : 'Tasks shared with you will appear here.'}</p>
+          {(query || view !== 'all' || effectiveAssignee !== 'all') && <Button variant="secondary" onClick={() => changeFilters({ taskQuery: '', taskView: 'all', taskAssignee: 'all' })}>Clear filters</Button>}
         </Card>
       )}
 
@@ -927,27 +970,12 @@ export function TasksScreen({
         )}
       </Modal>
 
-      <Modal className="aw-task-preview-modal" onClose={() => setPreviewTask(null)} open={Boolean(previewTask)} title={previewTask?.title ?? 'Task preview'}>
-        {previewTask ? (
-          <div className="aw-task-preview">
-            <dl className="aw-task-preview__details">
-              <div><dt>Assigned to</dt><dd className="aw-task-preview__assignee"><Avatar name={previewTask.assigneeName || 'Unassigned'} size="sm" src={previewTask.assigneeUserId ? memberAvatarByUserId.get(previewTask.assigneeUserId) : undefined}/><span>{previewTask.assigneeName || 'Unassigned'}</span></dd></div>
-              <div><dt>Client</dt><dd>{previewTask.clientName || 'Internal'}</dd></div>
-              <div><dt>Status</dt><dd>{({todo: 'New task', in_progress: 'In progress', blocked: 'Needs intervention', done: 'Delivered', cancelled: 'Cancelled'} as Record<string, string>)[previewTask.status] || previewTask.status}</dd></div>
-              <div><dt>Priority</dt><dd><span className={`aw-task-preview__priority${previewTask.priority === 'urgent' ? ' is-urgent' : ''}`}>{previewTask.priority}</span></dd></div>
-              <div><dt>Due date</dt><dd>{previewTask.dueAt ? formatDue(previewTask.dueAt) : 'No due date'}</dd></div>
-            </dl>
-            <section className="aw-task-preview__description"><h3>Description</h3><p>{previewTask.description?.trim() || 'No description added.'}</p></section>
-            {previewTask.attachments?.length ? <section className="aw-task-preview__attachments"><h3>Attachments</h3>{previewTask.attachments.map((attachment) => (
-              <Button icon="paperclip" key={attachment.id} variant="secondary" onClick={() => setAttachmentPreview(attachment)}>{attachment.name}</Button>
-            ))}</section> : null}
-            <footer className="aw-task-preview__actions">
-              <Button variant="secondary" onClick={() => setPreviewTask(null)}>Close</Button>
-              {canManage ? <Button onClick={() => { openEdit(previewTask); setPreviewTask(null); }}>Edit task</Button> : null}
-            </footer>
-          </div>
-        ) : null}
-      </Modal>
+      {previewTask && <TaskDetailsDrawer
+        key={previewTask.id} task={previewTask} assignees={assigneeOptions} canManage={canManage} canReassign={role === 'admin'}
+        onClose={() => setPreviewTask(null)} onOpenClient={onOpenClient}
+        onOpenAttachment={setAttachmentPreview} onSave={onUpdateTask ? saveQuickTask : undefined}
+        onEdit={() => { openEdit(previewTask); setPreviewTask(null); }}
+      />}
 
       <Modal className="rm-task-form-modal" onClose={() => { if (!saving && (!createForm.title.trim() && !createForm.description.trim() || window.confirm('Close this task? Your draft will remain saved.'))) setFormOpen(false); }} open={formOpen} title="New task">
         <form

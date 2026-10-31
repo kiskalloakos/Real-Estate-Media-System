@@ -218,14 +218,13 @@ export function TeamAccessScreen({
       <Card className="rm-table-card" tone="bright">
         <div className="rm-table-card__toolbar rm-access-toolbar">
           <div>
-            <p className="rm-eyebrow">Directory</p>
-            <h2>Staff</h2>
+            <h2>Team members</h2>
           </div>
           <StatusPill tone="ink">{members.length} accounts</StatusPill>
         </div>
         <div className="rm-table-wrap">
           <table className="rm-table">
-            <thead className="rm-visually-hidden">
+            <thead>
               <tr>
                 <th scope="col">Person</th>
                 <th scope="col">Workspace role</th>
@@ -255,7 +254,7 @@ export function TeamAccessScreen({
                     role={protectedOwner ? undefined : 'button'}
                     tabIndex={protectedOwner ? undefined : 0}
                   >
-                    <td>
+                    <td data-label="Person">
                       <div className="rm-table-person">
                         <Avatar name={member.name} size="md" src={member.avatarUrl} />
                         <span>
@@ -264,14 +263,14 @@ export function TeamAccessScreen({
                         </span>
                       </div>
                     </td>
-                    <td>
+                    <td data-label="Workspace role">
                       <StatusPill tone={protectedOwner ? 'ink' : 'neutral'}>
                         {protectedOwner ? 'Owner' : 'Team member'}
                       </StatusPill>
                     </td>
-                    <td>{member.phone || '—'}</td>
-                    <td>{member.title ?? (protectedOwner ? 'Administrator' : 'Team')}</td>
-                    <td>
+                    <td data-label="Phone">{member.phone || '—'}</td>
+                    <td data-label="Production title">{member.title ?? (protectedOwner ? 'Administrator' : 'Team')}</td>
+                    <td data-label="Assigned properties">
                       {protectedOwner ? (
                         <span className="rm-member-row__locked">All properties</span>
                       ) : (

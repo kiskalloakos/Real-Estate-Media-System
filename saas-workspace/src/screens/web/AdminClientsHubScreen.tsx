@@ -10,6 +10,8 @@ export interface AdminClientsHubScreenProps {
   actions?: PortalActionHandlers;
   currentUserId?: string;
   data?: PortalData;
+  selectedClientId?: string | null;
+  onClientSelectionChange?: (id: string | null) => void;
   onCreateClient?: (client: CreateClientInput) => void | Promise<void>;
   onOpenProductionCalendar?: (eventId: string) => void;
   onOpenReview?: (reviewId: string) => void;
@@ -21,6 +23,8 @@ export function AdminClientsHubScreen({
   actions,
   currentUserId,
   data,
+  selectedClientId,
+  onClientSelectionChange,
   onCreateClient,
   onOpenProductionCalendar,
   onOpenReview,
@@ -38,6 +42,8 @@ export function AdminClientsHubScreen({
         calendarEvents={data?.calendarEvents}
         currentUserId={currentUserId}
         jobs={data?.jobs}
+        selectedClientId={selectedClientId}
+        onClientSelectionChange={onClientSelectionChange}
         onArchiveClient={actions?.archiveClient}
         onArchiveDeliverable={actions?.archiveDeliverable}
         onArchiveProperty={actions?.archiveProperty}

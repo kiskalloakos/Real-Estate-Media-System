@@ -9,6 +9,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import * as SystemUI from 'expo-system-ui';
 import React from 'react';
+import { Platform } from 'react-native';
 
 import { nativeColors } from '@/components/native';
 import { useApp } from '@/providers/app-provider';
@@ -69,7 +70,7 @@ function AppNavigator() {
   return (
     <>
       <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Protected guard={!authReady || !identity}>
+        <Stack.Protected guard={Platform.OS === 'web' || !authReady || !identity}>
           <Stack.Screen name="index" />
         </Stack.Protected>
         <Stack.Protected

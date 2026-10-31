@@ -95,7 +95,7 @@ export interface PortalShellProps {
   onNavigate: (screen: PortalScreenKey) => void;
   onSelectWorkspace?: (agencyId: string) => void;
   onReadNotification?: (notificationId: string) => Promise<void> | void;
-  onSearchSelect?: (item: PortalSearchItem) => void;
+  onSearchSelect?: (item: PortalSearchItem) => boolean | void;
   onSignOut?: () => void;
   onUpdateProfile?: (input: {
     avatarFile: File | null;
@@ -108,7 +108,7 @@ export interface PortalShellProps {
   role: PortalRole;
   searchItems?: PortalSearchItem[];
   user: PortalUser;
-  workspaces?: Array<{ agencyId: string; name: string }>;
+  workspaces?: { agencyId: string; name: string }[];
   isAdminViewingWorkspace?: boolean;
   onReturnToOwnerWorkspace?: () => void;
 }
@@ -375,8 +375,8 @@ export function PortalShell({
       </aside>
 
       <div className="aw-frame">
-        <main className="aw-main" id="aw-main-content" tabIndex={-1}>
-          <div className="aw-main__inner">{children}</div>
+        <main className={cx('aw-main', activeScreen !== 'tasks' && activeScreen !== 'dashboard' && 'aw-refined')} data-workspace-screen={activeScreen} id="aw-main-content" tabIndex={-1}>
+          <div className="aw-main__inner" id="aw-feature-content">{children}</div>
         </main>
       </div>
 
@@ -385,8 +385,7 @@ export function PortalShell({
         onClose={() => setSearchOpen(false)}
         onSelect={(item) => {
           setSearchOpen(false);
-          onSearchSelect?.(item);
-          navigate(item.screen);
+          if (onSearchSelect?.(item) !== true) navigate(item.screen);
         }}
         open={searchOpen}
       />

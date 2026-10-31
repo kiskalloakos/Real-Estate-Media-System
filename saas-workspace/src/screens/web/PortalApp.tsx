@@ -1,5 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 
+import { usePortalLocation } from '@/hooks/use-portal-location';
+import type { PortalLocation } from '@/lib/portal-location';
+import type { TaskView } from '@/lib/task-workspace';
 import { useNotifications } from '@/hooks/use-notifications';
 import { useBrowserPersistedState } from '@/hooks/use-browser-persisted-state';
 import {
@@ -335,13 +338,8 @@ function PortalAppInner({
   const hasLiveIdentity = Boolean(
     currentUserId && !currentUserId.startsWith('preview-'),
   );
-  const [activeScreen, setActiveScreen] = useState<PortalScreenKey>(initialAllowedScreen);
-  useEffect(() => {
-    const scrollOptions: ScrollToOptions = { top: 0, left: 0, behavior: 'instant' };
-    document.querySelector<HTMLElement>('.aw-frame')?.scrollTo(scrollOptions);
-    window.scrollTo(scrollOptions);
-  }, [activeScreen, visibleWorkspaceId]);
-  const [searchedTaskId, setSearchedTaskId] = useState<string | undefined>();
+  const [location, visit] = usePortalLocation(initialAllowedScreen, allowedScreens[effectiveRole], visibleWorkspaceId);
+  const activeScreen = location.screen;
   const [openedReviewId, setOpenedReviewId] = useState<string | undefined>();
   const [openedCalendarEventId, setOpenedCalendarEventId] = useState<string | undefined>();
   const [openedMarketingContentId, setOpenedMarketingContentId] = useState<string | undefined>();
@@ -440,6 +438,7 @@ function PortalAppInner({
         icon: 'users' as const,
         id: `client-${client.id}`,
         screen: 'clients' as const,
+        targetId: client.id,
         title: client.name,
       })),
       ...(shellData.properties ?? []).map((property) => ({
@@ -447,6 +446,7 @@ function PortalAppInner({
         icon: 'building' as const,
         id: `property-${property.id}`,
         screen: 'properties' as const,
+        targetId: property.clientId,
         title: property.name,
       })),
       ...(shellData.reviews ?? []).map((review) => ({
@@ -591,15 +591,20 @@ function PortalAppInner({
           [nested.parent]: nested.section,
           revision: current.revision + 1,
         }));
-        setActiveScreen(nested.parent);
+        visit({ screen: nested.parent });
         onNavigate?.(nested.parent);
         return;
       }
     }
     if (!allowedScreens[effectiveRole].includes(screen)) return;
-    setActiveScreen(screen);
+    visit(screen === activeScreen ? location : { screen });
     onNavigate?.(screen);
   };
+
+  const openTask = (taskId: string) => visit({ screen: 'tasks', taskId });
+  const openClient = (clientId: string) => visit({ screen: 'clients', clientId });
+  const openTaskView = (taskView: TaskView) => visit({ screen: 'tasks', taskView, taskAssignee: 'all', taskQuery: '' });
+  const changeTaskLocation = (changes: Partial<PortalLocation>, replace = false) => visit({ ...location, ...changes }, replace);
 
   const screen = (() => {
     switch (visibleScreen) {
@@ -611,6 +616,8 @@ function PortalAppInner({
               currentUserId={workspaceUserId}
               data={workspaceData}
               key={`clients-${adminHubTarget.revision}`}
+              selectedClientId={location.clientId ?? null}
+              onClientSelectionChange={clientId => visit({ screen: 'clients', clientId: clientId ?? undefined })}
               onCreateClient={onCreateClient}
               onOpenProductionCalendar={(eventId) => {
                 setOpenedCalendarEventId(eventId);
@@ -620,10 +627,7 @@ function PortalAppInner({
                 setOpenedReviewId(reviewId);
                 navigate('reviews');
               }}
-              onOpenTask={(taskId) => {
-                setSearchedTaskId(taskId);
-                navigate('tasks');
-              }}
+              onOpenTask={openTask}
               onOpenWorkspace={(client) => {
                 const member = clientWorkspaceMembers.find(
                   (candidate) => candidate.clientAccountId === client.id,
@@ -642,10 +646,7 @@ function PortalAppInner({
             onCreateClient={onCreateClient}
             onCreateClientMember={actions?.createClientMember}
             onArchiveClient={actions?.archiveClient}
-            onOpenTask={(taskId) => {
-              setSearchedTaskId(taskId);
-              navigate('tasks');
-            }}
+            onOpenTask={openTask}
             onUpdateClient={actions?.updateClient}
             onUpdateClientMember={actions?.updateClientMemberAccess}
           />
@@ -786,8 +787,9 @@ function PortalAppInner({
             archivedTasks={workspaceData?.archivedTasks}
             clients={shellData.clients}
             currentUserId={workspaceUserId}
-            initialTaskId={searchedTaskId}
-            onInitialTaskOpened={() => setSearchedTaskId(undefined)}
+            location={location}
+            onLocationChange={changeTaskLocation}
+            onOpenClient={effectiveRole === 'admin' ? openClient : undefined}
             members={workspaceData?.agencyMembers}
             onArchiveTask={effectiveRole !== 'client' ? actions?.archiveTask : undefined}
             onCreateTask={effectiveRole !== 'client' ? actions?.createTask : undefined}
@@ -944,7 +946,7 @@ function PortalAppInner({
       case 'dashboard':
       default:
         return effectiveRole === 'admin' ? (
-          <StudioHome data={workspaceData} onNavigate={navigate} userName={resolvedUser.name} />
+          <StudioHome data={workspaceData} onNavigate={navigate} onOpenTask={openTask} onOpenTaskView={openTaskView} onOpenClient={openClient} onOpenCalendarEvent={eventId => { setOpenedCalendarEventId(eventId); navigate('calendar'); }} userName={resolvedUser.name} />
         ) : (
           <DashboardScreen
             currentUserId={workspaceUserId}
@@ -989,7 +991,9 @@ function PortalAppInner({
         onNavigate={navigate}
         onSelectWorkspace={onSelectWorkspace}
         onSearchSelect={(item) => {
-          if (item.screen === 'tasks' && item.targetId) setSearchedTaskId(item.targetId);
+          if (!item.targetId) return;
+          if (item.screen === 'tasks') { openTask(item.targetId); return true; }
+          if (item.screen === 'clients' || item.screen === 'properties') { openClient(item.targetId); return true; }
         }}
         onReadNotification={
           hasLiveIdentity && !selectedTeamMember && !selectedClientMember

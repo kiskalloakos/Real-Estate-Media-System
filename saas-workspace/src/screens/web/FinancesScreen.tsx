@@ -7,6 +7,7 @@ import {
   Icon,
   KpiCard,
   Modal,
+  PageHeader,
   ProgressBar,
   SectionHeader,
   StatusPill,
@@ -331,6 +332,7 @@ export function FinancesScreen({
 
   return (
     <div className="rm-page rm-finances-page">
+      <PageHeader title="Finances" />
       <div className="rm-finance-tabbar">
         <ScreenTabs
           active={financeTab}

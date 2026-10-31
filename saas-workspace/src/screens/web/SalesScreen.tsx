@@ -1,6 +1,6 @@
 import { useDeferredValue, useMemo, useState, type FormEvent, type KeyboardEvent, type ReactNode } from 'react';
 
-import { Button, Card, Icon, Modal, useToast } from '@/components/web';
+import { Button, Card, Icon, Modal, PageHeader, useToast } from '@/components/web';
 
 import { LeadsScreen } from './LeadsScreen';
 import { ScreenTabs } from './shared';
@@ -173,6 +173,7 @@ export function SalesScreen({ actions, data, initialTab = 'leads', onOpenDocumen
 
   return (
     <div className="rm-page rm-hub-page rm-sales-page">
+      <PageHeader title="Sales" />
       <div className="rm-hub-tabs-wrap">
         <ScreenTabs
           active={tab}
@@ -208,7 +209,7 @@ export function SalesScreen({ actions, data, initialTab = 'leads', onOpenDocumen
             <div className="rm-caller-workspace__stage">
               <Card className="rm-caller-card" tone="bright">
                 <span className="rm-caller-card__eyebrow">Calling lead {activeCallerIndex + 1} of {callerLeads.length}</span>
-                <h1>{activeLead.researchName}</h1>
+                <h2>{activeLead.researchName}</h2>
                 <a className="rm-caller-card__phone" href={`tel:${activeLead.phoneNumber.replace(/[^+\d]/g, '')}`}>
                   {activeLead.phoneNumber || 'No phone number saved'}
                 </a>

@@ -325,8 +325,7 @@ export function GearScreen({
             <Button icon="plus" onClick={() => { setFormError(''); setAddOpen(true); }}>Add item</Button>
           </>
         }
-        description="Drag gear between columns to update its status. On-site moves will ask for the property event."
-        eyebrow="Admin workspace"
+        description="Equipment, assignments, and availability."
         title="Gear inventory"
       />
 
@@ -356,7 +355,7 @@ export function GearScreen({
               >
                 <header className="rm-task-list-card__header">
                   <h2>{list.label}</h2>
-                  <div><strong>{listGear.length}</strong></div>
+                  <span className="aw-gear-count">{listGear.length}</span>
                 </header>
                 <div className="rm-task-list-card__list">
                   {listGear.map((item) => (

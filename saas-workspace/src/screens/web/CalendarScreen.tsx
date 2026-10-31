@@ -150,7 +150,9 @@ function startOfMonth(value: Date) {
 }
 
 function isoDate(value: Date) {
-  return value.toISOString().slice(0, 10);
+  // Calendar fields are local dates. UTC conversion can turn month-end
+  // midnight into the previous day and omit the final week of a month.
+  return `${value.getFullYear()}-${String(value.getMonth() + 1).padStart(2, '0')}-${String(value.getDate()).padStart(2, '0')}`;
 }
 
 function localDateTime(value: Date) {
@@ -208,11 +210,6 @@ function setCalendarDragPayload(dataTransfer: DataTransfer, event: CalendarEvent
 function draggedCalendarEvent(dataTransfer: DataTransfer, events: CalendarEvent[]) {
   const eventId = dataTransfer.getData('text/plain');
   return events.find((event) => event.id === eventId);
-}
-
-function eventOccursOnDate(event: CalendarEvent, date: string) {
-  const endDate = event.endDate || event.date;
-  return date >= event.date && date <= endDate;
 }
 
 function shiftIsoDate(value: string, offset: number) {
@@ -721,9 +718,8 @@ export function CalendarScreen({
         description={
           role === 'client'
             ? 'Shoots, reviews and delivery dates for your properties.'
-            : 'A complete view of shoots, deadlines, reviews and internal production.'
+            : 'Shoots, deadlines, and production schedules.'
         }
-        eyebrow={calendarRangeLabel}
         title="Calendar"
       />
 

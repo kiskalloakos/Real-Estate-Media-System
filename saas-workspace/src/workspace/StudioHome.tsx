@@ -1,36 +1,148 @@
-import { upcomingEvents } from '@/lib/upcoming-events';
-import { fulfillmentCompletion } from '@/lib/monthly-fulfillment';
 import { Icon } from '@/components/web/Icon';
 import type { PortalScreenKey } from '@/components/web/PortalShell';
+import { fulfillmentCompletion } from '@/lib/monthly-fulfillment';
+import { attentionTasks, isOverdueTask, matchesTaskView, taskPreviewText, type TaskView } from '@/lib/task-workspace';
+import { upcomingEvents } from '@/lib/upcoming-events';
+import { demoEvents, demoProperties, demoReviews, demoTasks } from '@/screens/web/demoData';
 import type { PortalData } from '@/screens/web/types';
-import { demoTasks, demoProperties, demoReviews, demoEvents } from '@/screens/web/demoData';
 import { useWorkspace } from './WorkspaceProvider';
-export function StudioHome({data, onNavigate, userName}: {data?: PortalData; onNavigate: (screen: PortalScreenKey)=>void; userName: string}) {
-  const {config} = useWorkspace();
+import './StudioHome.css';
+
+export function StudioHome({ data, onNavigate, onOpenTask, onOpenTaskView, onOpenClient, onOpenCalendarEvent }: {
+  data?: PortalData;
+  onNavigate: (screen: PortalScreenKey) => void;
+  userName: string;
+  onOpenTask: (id: string) => void;
+  onOpenTaskView: (view: TaskView) => void;
+  onOpenClient: (id: string) => void;
+  onOpenCalendarEvent: (id: string) => void;
+}) {
+  const { config } = useWorkspace();
   const tasks = data?.tasks ?? demoTasks;
   const properties = data?.properties ?? demoProperties;
   const reviews = data?.reviews ?? demoReviews;
   const events = data?.calendarEvents ?? demoEvents;
-  const openTasks = tasks.filter(t=>t.status!=='done' && t.status!=='cancelled');
-  const pending = reviews.filter(r=>r.status==='in_review');
-  const enabled = (id: string) => config.enabled.some(m=>m===id);
+  const openTasks = tasks.filter(task => task.status !== 'done' && task.status !== 'cancelled');
+  const pending = reviews.filter(review => review.status === 'in_review');
+  const blocked = openTasks.filter(task => task.status === 'blocked').length;
+  const enabled = (id: string) => config.enabled.some(module => module === id);
   const now = new Date();
-  const schedule = upcomingEvents(events).slice(0,3);
-  const greeting = now.getHours()<12?'Good morning':now.getHours()<18?'Good afternoon':'Good evening';
-  return <div className="aw-page aw-home">
-    <div className="aw-eyebrow">{now.toLocaleDateString('en',{weekday:'long',month:'long',day:'numeric'}).toUpperCase()}{!data && <span className="aw-preview-label">Sample workspace</span>}</div>
-    <div className="aw-heading"><div><h1>{greeting}, {userName.split(' ')[0]}<span className="aw-heading-dot">.</span></h1><p>Tasks, production, and client approvals.</p></div></div>
-    <div className="aw-pulse">
-      {enabled('tasks')&&<button onClick={()=>onNavigate('tasks')}><span className="aw-pulse-icon"><Icon name="list-check"/></span><div><strong>{openTasks.length}<small>Open tasks</small></strong><span>Assigned and in progress</span></div><Icon name="arrow-up-right" size={17}/></button>}
-      {enabled('reviews')&&<button onClick={()=>onNavigate('reviews')}><span className="aw-pulse-icon aw-peach"><Icon name="play"/></span><div><strong>{pending.length}<small>Awaiting approval</small></strong><span>Waiting on client feedback</span></div><Icon name="arrow-up-right" size={17}/></button>}
-      {enabled('clients')&&<button onClick={()=>onNavigate('clients')}><span className="aw-pulse-icon aw-lilac"><Icon name="building"/></span><div><strong>{properties.filter(p=>p.workspaceStatus==='active').length}<small>Active properties</small></strong><span>Across your client accounts</span></div><Icon name="arrow-up-right" size={17}/></button>}
+  const schedule = upcomingEvents(events, now).slice(0, 3);
+  const visibleTasks = attentionTasks(tasks, now).slice(0, 5);
+  const overdue = openTasks.filter(task => isOverdueTask(task, now)).length;
+  const dueThisWeek = openTasks.filter(task => matchesTaskView(task, 'week', undefined, now)).length;
+
+  return (
+    <div className="aw-overview">
+      <header className="aw-overview__header">
+        <div>
+          <h1>Overview</h1>
+          <p>Your tasks, production, and upcoming shoots.</p>
+        </div>
+        <div className="aw-overview__date">
+          <time dateTime={`${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`}>
+            {now.toLocaleDateString('en-GB', { weekday: 'long', month: 'long', day: 'numeric' })}
+          </time>
+          {!data && <span>Sample workspace</span>}
+        </div>
+      </header>
+
+      <div className="aw-overview__summary" aria-label="Workspace summary">
+        {enabled('tasks') && (
+          <button type="button" onClick={() => onOpenTaskView('all')}>
+            <strong>{openTasks.length}</strong>
+            <span>Open tasks{blocked > 0 && <small>{blocked} blocked</small>}</span>
+          </button>
+        )}
+        {enabled('reviews') && (
+          <button type="button" onClick={() => onNavigate('reviews')}>
+            <strong>{pending.length}</strong><span>Awaiting approval</span>
+          </button>
+        )}
+        {enabled('clients') && (
+          <button type="button" onClick={() => onNavigate('clients')}>
+            <strong>{properties.filter(property => property.workspaceStatus === 'active').length}</strong>
+            <span>Active properties</span>
+          </button>
+        )}
+      </div>
+
+      <div className="aw-overview__work">
+        {enabled('tasks') && (
+          <section className="aw-overview__panel" aria-labelledby="overview-tasks-title">
+            <header className="aw-overview__section-heading">
+              <div><h2 id="overview-tasks-title">Needs attention</h2><p>{openTasks.length ? `Prioritized by deadline, blockers, and urgency` : 'No open tasks'}</p></div>
+              <button type="button" className="aw-overview__link" onClick={() => onNavigate('tasks')}>All tasks <Icon name="arrow-right" size={16} /></button>
+            </header>
+            <div className="aw-overview__task-views" role="group" aria-label="Task priorities">
+              <button type="button" onClick={() => onOpenTaskView('overdue')}><strong>{overdue}</strong> Overdue</button>
+              <button type="button" onClick={() => onOpenTaskView('blocked')}><strong>{blocked}</strong> Blocked</button>
+              <button type="button" onClick={() => onOpenTaskView('week')}><strong>{dueThisWeek}</strong> Due this week</button>
+            </div>
+            <div className="aw-overview__tasks">
+              {visibleTasks.map(task => (
+                <button type="button" className="aw-overview__task" key={task.id} onClick={() => onOpenTask(task.id)}>
+                  <span className="aw-overview__task-copy"><strong>{task.title}</strong><span title={taskPreviewText(task)}>{taskPreviewText(task)}</span></span>
+                  <span className={`aw-overview__status${task.status === 'blocked' || isOverdueTask(task, now) ? ' is-blocked' : ''}`}>
+                    {isOverdueTask(task, now) ? 'Overdue' : task.status === 'blocked' ? 'Blocked' : task.status === 'in_progress' ? 'In progress' : 'To do'}
+                  </span>
+                  <span className="aw-overview__assignee" title={task.assigneeName} aria-label={`Assigned to ${task.assigneeName || 'nobody'}`}>
+                    {task.assigneeName.trim().split(/\s+/).filter(Boolean).map(name => name[0]).slice(0, 2).join('') || <Icon name="user" size={14} />}
+                  </span>
+                </button>
+              ))}
+              {!openTasks.length && <p className="aw-overview__empty">New tasks will appear here.</p>}
+            </div>
+          </section>
+        )}
+
+        {enabled('calendar') && (
+          <section className="aw-overview__panel aw-overview__schedule" aria-labelledby="overview-schedule-title">
+            <header className="aw-overview__section-heading">
+              <div><h2 id="overview-schedule-title">Coming up</h2><p>Your next scheduled events</p></div>
+              <button type="button" className="aw-overview__link" onClick={() => onNavigate('calendar')}>Calendar <Icon name="arrow-right" size={16} /></button>
+            </header>
+            {schedule.map(event => (
+              <button type="button" className="aw-overview__event" key={event.id} onClick={() => onOpenCalendarEvent(event.id)}>
+                <time className="aw-overview__event-date" dateTime={event.date}>
+                  <span>{new Date(`${event.date}T12:00:00`).toLocaleDateString('en', { month: 'short' })}</span>
+                  <strong>{Number(event.date.slice(-2))}</strong>
+                </time>
+                <span className="aw-overview__event-copy"><strong>{event.title}</strong><span>{event.allDay ? 'All day' : event.start}</span>{(event.location || event.propertyName) && <span>{event.location || event.propertyName}</span>}</span>
+              </button>
+            ))}
+            {!schedule.length && <p className="aw-overview__empty">No upcoming events.</p>}
+          </section>
+        )}
+      </div>
+
+      {enabled('clients') && (
+        <section className="aw-overview__panel" aria-labelledby="overview-production-title">
+          <header className="aw-overview__section-heading">
+            <div><h2 id="overview-production-title">Production</h2><p>Properties and contracted delivery progress</p></div>
+            <button type="button" className="aw-overview__link" onClick={() => onNavigate('clients')}>All properties <Icon name="arrow-right" size={16} /></button>
+          </header>
+          {properties.slice(0, 3).map(property => {
+            const fulfillment = fulfillmentCompletion(data?.agreements?.find(agreement => agreement.clientId === property.clientId)?.deliverables);
+            const percentage = Math.min(100, Math.max(0, fulfillment.percentage));
+            return (
+              <button type="button" className="aw-overview__property" key={property.id} onClick={() => onOpenClient(property.clientId)}>
+                <span className="aw-overview__property-image">{property.coverUrl ? <img src={property.coverUrl} alt="" loading="lazy" /> : <Icon name="building" size={24} />}</span>
+                <span className="aw-overview__property-copy"><span className="aw-overview__property-title"><strong>{property.name}</strong><span>{property.status.replaceAll('_', ' ')}</span></span><span>{property.location}</span>{property.nextMilestone && <span>{property.nextMilestone}</span>}</span>
+                <span className="aw-overview__delivery">
+                  <strong>{fulfillment.total ? `${fulfillment.percentage}% delivered` : 'No contract scope'}</strong>
+                  {fulfillment.total > 0 && <span className="aw-overview__progress" role="progressbar" aria-label={`${property.name} contracted delivery`} aria-valuenow={percentage} aria-valuemin={0} aria-valuemax={100}><span style={{ width: `${percentage}%` }} /></span>}
+                  <span>{property.assignedTeamNames.length} team {property.assignedTeamNames.length === 1 ? 'member' : 'members'}</span>
+                </span>
+                <Icon name="chevron-right" size={18} />
+              </button>
+            );
+          })}
+          {!properties.length && <p className="aw-overview__empty">Add a client and property to start tracking production.</p>}
+        </section>
+      )}
+
+      {!config.enabled.length && <section className="aw-overview__panel"><p className="aw-overview__empty">Enable your tools in Customize workspace to get started.</p></section>}
     </div>
-    <div className="aw-home-grid"><div className="aw-main-column">
-      {enabled('tasks')&&<section className="aw-panel aw-home-tasks"><div className="aw-panel-heading"><div><span className="aw-eyebrow">YOUR FOCUS</span><h2>Current tasks</h2></div><button className="aw-button aw-button-secondary" onClick={()=>onNavigate('tasks')}>All tasks <Icon name="arrow-right" size={16}/></button></div>{openTasks.slice(0,5).map(task=><button key={task.id} className="aw-task-row" onClick={()=>onNavigate('tasks')}><span className={`aw-task-state ${task.status==='in_progress'?'is-progress':task.status==='blocked'?'is-blocked':''}`}><Icon name={task.status==='blocked'?'minus':task.status==='in_progress'?'clock':'chevron-right'} size={14}/></span><div><strong>{task.title}</strong><span>{task.clientName || task.propertyName || 'Internal work'}</span></div><span className={`aw-task-badge ${task.status==='blocked'?'is-blocked':''}`}>{task.status==='blocked'?'Blocked':task.status==='in_progress'?'In progress':'To do'}</span><span className="aw-initial-avatar" title={task.assigneeName}>{task.assigneeName.split(' ').map(n=>n[0]).slice(0,2).join('')}</span></button>)}{!openTasks.length&&<p className="aw-empty">Nothing waiting here. Your next task starts in Tasks.</p>}</section>}
-      {enabled('clients')&&<section className="aw-home-production"><div className="aw-section-heading"><div><span className="aw-eyebrow">IN THE STUDIO</span><h2>Active production</h2></div></div><div className="aw-project-grid">{properties.slice(0,3).map(property=>{const fulfillment = fulfillmentCompletion(data?.agreements?.find(agreement=>agreement.clientId===property.clientId)?.deliverables); return <button key={property.id} className="aw-project" onClick={()=>onNavigate('clients')}><div className="aw-project-image">{property.coverUrl?<img src={property.coverUrl} alt={property.name}/>:<Icon name="building" size={36}/>}<span>{property.status.replaceAll('_',' ')}</span></div><div className="aw-project-copy"><small>{property.location}</small><h3>{property.name}</h3><p>{property.nextMilestone}</p><div className="aw-progress" role="progressbar" aria-label={`${property.name} progress`} aria-valuenow={Math.min(100,Math.max(0,fulfillment.percentage))} aria-valuemin={0} aria-valuemax={100}><span style={{width:`${Math.min(100,Math.max(0,fulfillment.percentage))}%`}}/></div><div className="aw-project-footer"><span>{property.assignedTeamNames.length} team members</span><strong title="Delivered quantity ÷ contracted quantity">{fulfillment.total ? `${fulfillment.percentage}% delivered` : 'No contract scope'}</strong></div></div></button>})}</div>{!properties.length&&<p className="aw-empty">Add your first client and property to bring work into view.</p>}</section>}
-    </div><div className="aw-side-column">
-      {enabled('calendar')&&<section className="aw-panel aw-home-schedule"><div className="aw-panel-heading"><h2>Schedule</h2><Icon name="calendar" size={18}/></div>{schedule.map(event=><button className="aw-event" key={event.id} onClick={()=>onNavigate('calendar')}><span className="aw-event-date"><strong>{event.date.slice(-2)}</strong><small>{new Date(`${event.date}T12:00:00`).toLocaleDateString('en',{month:'short'})}</small></span><div><strong>{event.title}</strong><span>{event.start} · {event.location || event.propertyName}</span></div></button>)}{!schedule.length&&<p className="aw-empty">A clear calendar. Plan your next shoot when you’re ready.</p>}<button className="aw-calendar-link" onClick={()=>onNavigate('calendar')}>Open calendar <Icon name="arrow-right" size={15}/></button></section>}
-    </div></div>
-    {!config.enabled.length&&<section className="aw-panel aw-empty"><h2>A fresh canvas.</h2><p>Use Customize workspace in the sidebar to enable your tools.</p></section>}
-  </div>;
+  );
 }

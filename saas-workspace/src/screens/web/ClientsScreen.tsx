@@ -10,6 +10,7 @@ import {
   IconButton,
   KpiCard,
   Modal,
+  PageHeader,
   RichTextEditor,
   StatusPill,
   useToast,
@@ -59,6 +60,8 @@ export interface ClientsScreenProps {
   clients?: ClientSummary[];
   currentUserId?: string;
   jobs?: JobSummary[];
+  selectedClientId?: string | null;
+  onClientSelectionChange?: (id: string | null) => void;
   onCreateClient?: (client: CreateClientInput) => void | Promise<void>;
   onCreateClientMember?: (input: CreateClientMemberInput) => Promise<void>;
   onCreateEvent?: (input: CreateCalendarEventInput) => Promise<void>;
@@ -1553,6 +1556,8 @@ export function ClientsScreen({
   clients = demoClients,
   currentUserId,
   jobs = [],
+  selectedClientId: controlledClientId,
+  onClientSelectionChange,
   onCreateClient,
   onCreateClientMember,
   onCreateEvent,
@@ -1587,11 +1592,12 @@ export function ClientsScreen({
   const [agreementPrefillNotice, setAgreementPrefillNotice] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const clientSelectionStorageKey = `rm:selected-client:${currentUserId ?? 'preview'}`;
-  const [selectedClientId, setSelectedClientId] = useState<string | null>(() =>
+  const [localSelectedClientId, setSelectedClientId] = useState<string | null>(() =>
     typeof window === 'undefined'
       ? null
       : window.localStorage.getItem(clientSelectionStorageKey),
   );
+  const selectedClientId = controlledClientId === undefined ? localSelectedClientId : controlledClientId;
   const [editClient, setEditClient] = useState<ClientSummary | null>(null);
   const [editForm, setEditForm] = useState<UpdateClientInput | null>(null);
   const [editError, setEditError] = useState('');
@@ -1817,10 +1823,12 @@ export function ClientsScreen({
 
   const openClient = (client: ClientSummary) => {
     setSelectedClientId(client.id);
+    onClientSelectionChange?.(client.id);
     window.localStorage.setItem(clientSelectionStorageKey, client.id);
   };
   const closeClient = () => {
     setSelectedClientId(null);
+    onClientSelectionChange?.(null);
     window.localStorage.removeItem(clientSelectionStorageKey);
   };
   const activeSelectedClient = selectedClientId
@@ -1945,11 +1953,7 @@ export function ClientsScreen({
 
   return (
     <div className="rm-page rm-clients-page">
-      <header className="rm-clients-page__header rm-clients-page__header--actions">
-        <Button icon="plus" onClick={openForm}>
-          Create client
-        </Button>
-      </header>
+      <PageHeader title="Clients & properties" actions={<Button icon="plus" onClick={openForm}>Create client</Button>} />
 
       <section aria-label="Client overview" className="rm-kpi-grid rm-kpi-grid--three">
         <KpiCard icon="users" label="Clients" value={String(localClients.length)} />

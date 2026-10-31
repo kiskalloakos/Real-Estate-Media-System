@@ -5,6 +5,7 @@ import {
   Card,
   Icon,
   Modal,
+  PageHeader,
   useToast,
 } from '@/components/web';
 import { downloadScriptPdf } from '@/lib/script-pdf-export';
@@ -292,10 +293,10 @@ export function ScriptingScreen({ properties = [] }: ScriptingScreenProps) {
 
   return (
     <div className="rm-page rm-scripting">
-      <div className="rm-scripting__actions">
+      <PageHeader title="Scripts" actions={<div className="rm-scripting__actions">
         <Button icon="plus" onClick={openWriter} variant="secondary">Write script</Button>
-        <Button icon="sparkles" onClick={openGenerator}>Generate script</Button>
-      </div>
+        <Button onClick={openGenerator}>Generate script</Button>
+      </div>} />
 
       {savedScripts.length ? (
         <section className="rm-document-grid" aria-label="Generated scripts">

@@ -6,6 +6,7 @@ import {
   Icon,
   IconButton,
   Modal,
+  PageHeader,
   RichTextEditor,
   useToast,
 } from '@/components/web';
@@ -181,6 +182,10 @@ export function DocumentsScreen({
   const [documentForm, setDocumentForm] = useState<UpsertDocumentInput | null>(null);
   const [folderForm, setFolderForm] = useState<(Partial<CompanyDocumentFolderSummary> & { name: string }) | null>(null);
   const [selectedFolderId, setSelectedFolderId] = useState<string | null>(null);
+  const navigateToFolder = (folderId: string | null) => {
+    setSelectedFolderId(folderId);
+    document.querySelector<HTMLElement>('.aw-frame')?.scrollTo({ top: 0, behavior: 'instant' });
+  };
   const [draggedDocumentId, setDraggedDocumentId] = useState<string | null>(null);
   const [archiveTarget, setArchiveTarget] = useState<{
     id: string;
@@ -386,8 +391,7 @@ export function DocumentsScreen({
 
   return (
     <div className="rm-page rm-documents">
-      {!selectedFolder ? (
-        <div className="rm-documents-actions">
+      <PageHeader title={isRo ? 'Documente' : 'Documents'} actions={!selectedFolder ? (
           <div className="rm-hub-toolbar__actions">
             <Button icon="folder" onClick={openNewFolder} variant="secondary">
               {isRo ? 'Folder nou' : 'New folder'}
@@ -399,11 +403,10 @@ export function DocumentsScreen({
               {isRo ? 'Document nou' : 'New document'}
             </Button>
           </div>
-        </div>
-      ) : null}
+      ) : undefined} />
       {selectedFolder ? (
         <div className="rm-folder-viewbar">
-          <Button icon="chevron-left" onClick={() => setSelectedFolderId(selectedParentFolder?.id ?? null)} variant="secondary">
+          <Button icon="chevron-left" onClick={() => navigateToFolder(selectedParentFolder?.id ?? null)} variant="secondary">
             {selectedParentFolder?.name ?? (isRo ? 'Toate documentele' : 'All documents')}
           </Button>
           <strong>{folderPath(selectedFolder, folders)}</strong>
@@ -426,7 +429,13 @@ export function DocumentsScreen({
               aria-label={`Open ${folder.name}`}
               className={`rm-folder-card${draggedDocumentId ? ' is-drop-ready' : ''}`}
               key={folder.id}
-              onClick={() => setSelectedFolderId(folder.id)}
+              onClick={() => navigateToFolder(folder.id)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault();
+                  navigateToFolder(folder.id);
+                }
+              }}
               onDragOver={(event) => {
                 if (!draggedDocumentId) return;
                 event.preventDefault();
@@ -458,7 +467,13 @@ export function DocumentsScreen({
               aria-label={`Open ${folder.name}`}
               className={`rm-folder-card${draggedDocumentId ? ' is-drop-ready' : ''}`}
               key={folder.id}
-              onClick={() => setSelectedFolderId(folder.id)}
+              onClick={() => navigateToFolder(folder.id)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault();
+                  navigateToFolder(folder.id);
+                }
+              }}
               onDragOver={(event) => {
                 if (!draggedDocumentId) return;
                 event.preventDefault();

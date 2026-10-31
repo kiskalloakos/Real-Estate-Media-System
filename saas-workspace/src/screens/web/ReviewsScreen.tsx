@@ -500,7 +500,7 @@ export function ReviewsScreen({
             </div>
           </div>
         }
-        title="Review room"
+        title="Reviews"
       />
 
       {!activeReview && roleReviews.length ? (
@@ -682,7 +682,7 @@ export function ReviewsScreen({
         ) : (
           <Card className="rm-review-stage rm-review-stage--empty" tone="bright">
             <Icon name="play" size={28} />
-            <h2>No review items yet.</h2>
+            <h2>No review items yet</h2>
             <p>{role === 'client' ? 'Content shared for your review will appear here.' : 'Upload a deliverable to start a review.'}</p>
           </Card>
         )}
