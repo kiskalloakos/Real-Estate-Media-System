@@ -33,6 +33,7 @@ import type {
 import './TasksScreen.css';
 
 export interface TasksScreenProps {
+  projectContext?: { clientId: string; propertyId?: string };
   archivedTasks?: TaskSummary[];
   clients?: ClientSummary[];
   currentUserId?: string;
@@ -181,6 +182,7 @@ function orderedTasks(
 }
 
 export function TasksScreen({
+  projectContext,
   archivedTasks = [],
   clients = [],
   currentUserId,
@@ -212,7 +214,7 @@ export function TasksScreen({
       : sourceTasks,
     [currentUserId, role, sourceTasks],
   );
-  const stateKey = `rm:tasks-state:${currentUserId ?? role}`;
+  const stateKey = `rm:tasks-state:${currentUserId ?? role}${projectContext ? ":" + projectContext.clientId + ":" + (projectContext.propertyId ?? "general") : ""}`;
   const [assigneeId, setAssigneeId] = useBrowserPersistedState(`${stateKey}:assignee`, 'all');
   const [taskOrder, setTaskOrder] = useBrowserPersistedState<TaskOrderState>(
     `${stateKey}:order`,
@@ -222,7 +224,7 @@ export function TasksScreen({
   const [createFieldsTouched, setCreateFieldsTouched] = useState(false);
   const [editFieldsTouched, setEditFieldsTouched] = useState(false);
   const [createForm, setCreateForm] = useState<CreateTaskInput>(emptyTask);
-  const taskDraftKey = 'rm:draft:task';
+  const taskDraftKey = projectContext ? stateKey + ':draft' : 'rm:draft:task';
   useLocalDraft(taskDraftKey, createForm, formOpen, (draft) => Boolean(draft.title.trim() || draft.description.trim()));
   const [localPreviewTask, setLocalPreviewTask] = useState<TaskSummary | null>(null);
   const [savedView, setSavedView] = useBrowserPersistedState<TaskView>(`${stateKey}:view`, 'all');
@@ -345,7 +347,7 @@ export function TasksScreen({
   };
 
   const openCreate = () => {
-    const draft = readLocalDraft<CreateTaskInput>(taskDraftKey) ?? emptyTask();
+    const draft = { ...(readLocalDraft<CreateTaskInput>(taskDraftKey) ?? emptyTask()), ...projectContext };
     setCreateForm(role === 'team_member'
       ? { ...draft, assigneeUserId: currentUserId }
       : draft);
@@ -601,6 +603,7 @@ export function TasksScreen({
                 visibility: clientId ? 'client' : 'team',
               });
             }}
+            disabled={Boolean(projectContext)}
             value={form.clientId ?? ''}
           >
             <option value="">Choose a client</option>
@@ -725,7 +728,7 @@ export function TasksScreen({
         <div className="aw-tasks__table-wrap"><table className="aw-tasks__table"><thead><tr><th scope="col">Task / context</th><th scope="col">Status</th><th scope="col">Assigned to</th><th scope="col">Due</th><th scope="col"><span className="aw-sr-only">Actions</span></th></tr></thead><tbody>
           {taskLists.flatMap(list => orderedTasks(filteredTasks.filter(list.matches), list.key, taskOrder)).map(task => <tr key={task.id}>
             <td><button className="aw-tasks__list-open" type="button" onClick={() => setPreviewTask(task)}><strong>{task.title}{task.priority === 'urgent' || task.priority === 'high' ? <span className="aw-tasks__priority"> · {task.priority === 'urgent' ? 'Urgent' : 'High'}</span> : null}</strong><span title={taskPreviewText(task)}>{taskPreviewText(task)}</span></button></td>
-            <td><span className={task.status === 'blocked' ? 'aw-tasks__priority' : ''}>{statusLabels[task.status]}</span></td><td>{task.assigneeName || 'Unassigned'}</td><td className={taskIsOverdue(task) ? 'is-overdue' : ''}>{task.dueAt ? <time dateTime={task.dueAt}>{taskIsOverdue(task) ? 'Overdue · ' : ''}{formatDue(task.dueAt)}</time> : '—'}</td>
+            <td><span data-task-status={task.status} className={task.status === 'blocked' ? 'aw-tasks__priority' : ''}>{statusLabels[task.status]}</span></td><td>{task.assigneeName || 'Unassigned'}</td><td className={taskIsOverdue(task) ? 'is-overdue' : ''}>{task.dueAt ? <time dateTime={task.dueAt}>{taskIsOverdue(task) ? 'Overdue · ' : ''}{formatDue(task.dueAt)}</time> : '—'}</td>
             <td>{task.status === 'done' && canManage && <button type="button" className="aw-tasks__list-archive" aria-label={`Archive ${task.title}`} disabled={undoing || archivingTaskIds.has(task.id)} onClick={() => void archiveTaskImmediately(task)}><Icon name="archive" size={16}/></button>}</td>
           </tr>)}
         </tbody></table></div>

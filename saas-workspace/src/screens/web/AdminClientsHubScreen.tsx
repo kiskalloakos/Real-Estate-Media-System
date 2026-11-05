@@ -34,6 +34,10 @@ export function AdminClientsHubScreen({
   return (
     <div className="rm-page rm-hub-page">
       <ClientsScreen
+        payments={data?.payments}
+        projectWorkspace
+        actions={actions}
+        archivedTasks={data?.archivedTasks}
         accounts={data?.instagramAccounts}
         agreements={data?.agreements}
         agencyMembers={data?.agencyMembers}

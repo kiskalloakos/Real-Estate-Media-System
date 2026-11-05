@@ -676,3 +676,10 @@ html body .rm-modal.aw-form-dialog .rm-modal__body .rm-action-form .rm-field tex
   outline: 2px solid var(--aw-accent) !important;
   outline-offset: 3px !important;
 }
+
+.aw-shell .aw-sidebar :is(.aw-nav__item,.aw-customize)[aria-current="page"] {
+  background:var(--aw-accent);
+  color:white;
+  box-shadow:inset 3px 0 0 #bbc0ff;
+}
+.aw-shell .aw-sidebar :is(.aw-nav__item,.aw-customize)[aria-current="page"] :is(span,svg) { color:inherit; }

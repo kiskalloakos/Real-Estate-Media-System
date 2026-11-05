@@ -43,6 +43,7 @@ import type {
 } from './types';
 
 export interface CalendarScreenProps {
+  projectContext?: { clientId: string; propertyId?: string };
   clients?: ClientSummary[];
   clientWorkOnly?: boolean;
   currentUserId?: string;
@@ -224,6 +225,7 @@ function dateDistance(from: string, to: string) {
 }
 
 export function CalendarScreen({
+  projectContext,
   clients = [],
   clientWorkOnly = false,
   events,
@@ -244,7 +246,7 @@ export function CalendarScreen({
   role,
 }: CalendarScreenProps) {
   const { notify } = useToast();
-  const stateKey = `rm:calendar-state:${currentUserId ?? role}`;
+  const stateKey = `rm:calendar-state:${currentUserId ?? role}${projectContext ? ":" + projectContext.clientId + ":" + (projectContext.propertyId ?? "general") : ""}`;
   const [anchorDateValue, setAnchorDateValue] = useBrowserPersistedState(
     `${stateKey}:anchor-date`,
     isoDate(new Date()),
@@ -502,6 +504,7 @@ export function CalendarScreen({
     setEventForm({
       ...emptyEventForm,
       ...(draft?.eventForm ?? {}),
+      ...projectContext,
       date,
       endDate: date,
       visibility: 'team',
@@ -978,7 +981,7 @@ export function CalendarScreen({
               <span>Work classification</span>
               <select
                 onChange={(event) => setEventField('workScope', event.target.value as CreateCalendarEventInput['workScope'])}
-                value={eventForm.workScope}
+                disabled={Boolean(projectContext)} value={eventForm.workScope}
               >
                 <option value="client">Client work</option>
                 <option value="internal">Internal work</option>
@@ -1009,7 +1012,7 @@ export function CalendarScreen({
                   propertyId: property?.id,
                 }));
               }}
-              value={eventForm.propertyId ?? ''}
+              disabled={Boolean(projectContext)} value={eventForm.propertyId ?? ''}
             >
               <option value="">Agency / no property</option>
               {properties.map((property) => <option key={property.id} value={property.id}>{property.name} · {property.clientName}</option>)}
@@ -1259,7 +1262,7 @@ export function CalendarScreen({
                 <span>Work classification</span>
                 <select
                   onChange={(event) => setEditEventForm((current) => current ? ({ ...current, workScope: event.target.value as UpdateCalendarEventInput['workScope'] }) : current)}
-                  value={editEventForm.workScope}
+                  disabled={Boolean(projectContext)} value={editEventForm.workScope}
                 >
                   <option value="client">Client work</option>
                   <option value="internal">Internal work</option>
@@ -1297,7 +1300,7 @@ export function CalendarScreen({
                     propertyId: property?.id,
                   }) : current);
                 }}
-                value={editEventForm.propertyId ?? ''}
+                disabled={Boolean(projectContext)} value={editEventForm.propertyId ?? ''}
               >
                 <option value="">Agency / no property</option>
                 {properties.map((property) => <option key={property.id} value={property.id}>{property.name} · {property.clientName}</option>)}

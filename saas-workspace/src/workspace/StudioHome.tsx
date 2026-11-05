@@ -36,8 +36,7 @@ export function StudioHome({ data, onNavigate, onOpenTask, onOpenTaskView, onOpe
     <div className="aw-overview">
       <header className="aw-overview__header">
         <div>
-          <h1>Overview</h1>
-          <p>Your tasks, production, and upcoming shoots.</p>
+          <h1>Studio overview</h1>
         </div>
         <div className="aw-overview__date">
           <time dateTime={`${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`}>
@@ -66,6 +65,33 @@ export function StudioHome({ data, onNavigate, onOpenTask, onOpenTaskView, onOpe
           </button>
         )}
       </div>
+
+      {enabled('clients') && (
+        <section className="aw-overview__panel" aria-labelledby="overview-production-title" data-production-library>
+          <header className="aw-overview__section-heading">
+            <div><h2 id="overview-production-title">Production</h2></div>
+            <button type="button" className="aw-overview__link" onClick={() => onNavigate('clients')}>All properties <Icon name="arrow-right" size={16} /></button>
+          </header>
+          <div className="studio-production-strip">
+          {properties.slice(0, 3).map(property => {
+            const fulfillment = fulfillmentCompletion(data?.agreements?.find(agreement => agreement.clientId === property.clientId)?.deliverables);
+            const percentage = Math.min(100, Math.max(0, fulfillment.percentage));
+            return (
+              <button type="button" className="aw-overview__property" key={property.id} onClick={() => onOpenClient(property.clientId)}>
+                <span className="studio-production-cover">
+                  {property.coverUrl && <img src={property.coverUrl} alt="" loading="lazy" />}
+                  <span className="studio-production-identity"><small>{property.location}</small><strong>{property.name}</strong></span>
+                </span>
+                <span className="studio-production-meta"><strong>{property.status.replaceAll('_', ' ')} · {property.assignedTeamNames.length} on team</strong><span>{fulfillment.total ? percentage + '% delivered' : 'No contract scope'}</span></span>
+                {property.nextMilestone && <span className="studio-production-next">{property.nextMilestone}</span>}
+                <Icon name="chevron-right" size={18} />
+              </button>
+            );
+          })}
+          </div>
+          {!properties.length && <p className="aw-overview__empty">Add a client and property to start tracking production.</p>}
+        </section>
+      )}
 
       <div className="aw-overview__work">
         {enabled('tasks') && (
@@ -115,32 +141,6 @@ export function StudioHome({ data, onNavigate, onOpenTask, onOpenTaskView, onOpe
           </section>
         )}
       </div>
-
-      {enabled('clients') && (
-        <section className="aw-overview__panel" aria-labelledby="overview-production-title">
-          <header className="aw-overview__section-heading">
-            <div><h2 id="overview-production-title">Production</h2><p>Properties and contracted delivery progress</p></div>
-            <button type="button" className="aw-overview__link" onClick={() => onNavigate('clients')}>All properties <Icon name="arrow-right" size={16} /></button>
-          </header>
-          {properties.slice(0, 3).map(property => {
-            const fulfillment = fulfillmentCompletion(data?.agreements?.find(agreement => agreement.clientId === property.clientId)?.deliverables);
-            const percentage = Math.min(100, Math.max(0, fulfillment.percentage));
-            return (
-              <button type="button" className="aw-overview__property" key={property.id} onClick={() => onOpenClient(property.clientId)}>
-                <span className="aw-overview__property-image">{property.coverUrl ? <img src={property.coverUrl} alt="" loading="lazy" /> : <Icon name="building" size={24} />}</span>
-                <span className="aw-overview__property-copy"><span className="aw-overview__property-title"><strong>{property.name}</strong><span>{property.status.replaceAll('_', ' ')}</span></span><span>{property.location}</span>{property.nextMilestone && <span>{property.nextMilestone}</span>}</span>
-                <span className="aw-overview__delivery">
-                  <strong>{fulfillment.total ? `${fulfillment.percentage}% delivered` : 'No contract scope'}</strong>
-                  {fulfillment.total > 0 && <span className="aw-overview__progress" role="progressbar" aria-label={`${property.name} contracted delivery`} aria-valuenow={percentage} aria-valuemin={0} aria-valuemax={100}><span style={{ width: `${percentage}%` }} /></span>}
-                  <span>{property.assignedTeamNames.length} team {property.assignedTeamNames.length === 1 ? 'member' : 'members'}</span>
-                </span>
-                <Icon name="chevron-right" size={18} />
-              </button>
-            );
-          })}
-          {!properties.length && <p className="aw-overview__empty">Add a client and property to start tracking production.</p>}
-        </section>
-      )}
 
       {!config.enabled.length && <section className="aw-overview__panel"><p className="aw-overview__empty">Enable your tools in Customize workspace to get started.</p></section>}
     </div>

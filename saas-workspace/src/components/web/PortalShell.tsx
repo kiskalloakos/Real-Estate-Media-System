@@ -366,7 +366,7 @@ export function PortalShell({
           </ul>
         </nav>
         <div className="aw-sidebar-bottom">
-          {role === 'admin' ? <button aria-label="Customize workspace" title="Customize workspace" className={cx('aw-customize', activeScreen === 'modules' && 'is-active')} onClick={() => navigate('modules')}><Icon name="settings" size={18}/><span>Customize workspace</span></button> : null}
+          {role === 'admin' ? <button aria-current={activeScreen === "modules" ? "page" : undefined} aria-label="Customize workspace" title="Customize workspace" className={cx('aw-customize', activeScreen === 'modules' && 'is-active')} onClick={() => navigate('modules')}><Icon name="settings" size={18}/><span>Customize workspace</span></button> : null}
         </div>
         <div className="aw-sidebar-control" onPointerEnter={() => setSidebarControlOpen(true)} onPointerLeave={() => setSidebarControlOpen(false)} onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget)) setSidebarControlOpen(false); }} onKeyDown={event => { if (event.key === 'Escape') { event.preventDefault(); setSidebarControlOpen(false); } }}>
           <button type="button" className="aw-sidebar-control-trigger" aria-label="Sidebar control" title="Sidebar control" aria-expanded={sidebarControlOpen} aria-controls="aw-sidebar-options" onClick={() => setSidebarControlOpen(true)} onKeyDown={event => { if (event.key === 'ArrowDown') { event.preventDefault(); setSidebarControlOpen(true); requestAnimationFrame(() => document.querySelector<HTMLButtonElement>('#aw-sidebar-options button')?.focus()); } }}><Icon name="menu" size={18}/><span>Sidebar control</span></button>

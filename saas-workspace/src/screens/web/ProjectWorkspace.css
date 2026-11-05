@@ -1,0 +1,72 @@
+.project-work { display:grid; gap:1.25rem; min-width:0; }
+.project-work > header { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; }
+.project-work > header small,.project-summary small { color:#585a66; }
+.project-work > header h1 { margin:.12rem 0 0; line-height:1.1; letter-spacing:-.03em; }
+.project-work > header select { margin-left:auto; padding:.65rem; border:1px solid #d7d8df; border-radius:8px; font:inherit; }
+.project-work nav[aria-label="Project sections"] { display:flex; flex-wrap:wrap; gap:4px; border-bottom:1px solid #d7d8df; }
+.project-work nav button { background:none; border:0; border-bottom:3px solid transparent; font:inherit; padding:.75rem; cursor:pointer; }
+.project-work nav button[aria-current] { color:#494dc8; border-color:currentColor; font-weight:600; }
+.project-work main { min-width:0; }
+.project-summary { background:white; border-radius:12px; padding:1.3rem; }
+.project-summary h2 { margin:0 0 .8rem; font-size:1.15rem; }
+.project-summary h2:not(:first-child) { margin-top:1.5rem; }
+.project-summary button,.project-summary a { display:flex; gap:.45rem; padding:1rem 0; border:0; border-top:1px solid #e1e2e8; font:inherit; color:inherit; background:none; width:100%; text-align:left; flex-direction:column; cursor:pointer; }
+.project-summary button span { color:#494dc8; }
+@media (min-width:960px) {
+  .project-work { grid-template-columns:10rem minmax(0,1fr); align-items:start; }
+  .project-work > header { grid-column:1 / -1; padding-bottom:1rem; border-bottom:1px solid #d7d8df; }
+  .project-work nav[aria-label="Project sections"] { flex-direction:column; border:0; }
+  .project-work nav button { border:0; border-radius:8px; text-align:left; }
+  .project-work nav button[aria-current] { background:#e1e2f5; }
+}
+.project-cover { width:3.2rem; height:3.2rem; object-fit:cover; border-radius:10px; }
+.project-billing { background:white; border-radius:10px; padding:1rem; margin-bottom:1rem; }
+.project-billing summary { cursor:pointer; font-weight:600; }
+.project-billing[open] summary { margin-bottom:1rem; }
+
+.project-work > .project-heading {
+  position:relative; isolation:isolate; overflow:hidden; padding:clamp(22px,3vw,36px);
+  min-height:170px; border:0; border-radius:14px; color:white; background:#21252e;
+}
+.project-heading > .project-cover {
+  position:absolute; z-index:-2; inset:0; width:100%; height:100%; border-radius:0; object-position:center 55%;
+}
+.project-heading::before {
+  content:""; position:absolute; z-index:-1; inset:0;
+  background:linear-gradient(90deg,rgba(12,15,23,.94),rgba(12,15,23,.74) 46%,rgba(12,15,23,.18));
+}
+.project-heading-copy { min-width:0; }
+.project-heading-copy .project-path { display:flex; align-items:center; gap:8px; color:white; font-size:13px; }
+#aw-main-content .project-path button { padding:0; background:transparent!important; color:white!important; border:0!important; font:inherit; cursor:pointer; }
+#aw-main-content .project-heading h1 { color:white!important; font-size:clamp(28px,3.4vw,42px); margin:12px 0 8px; }
+.project-work .project-heading-copy small { display:flex; align-items:center; gap:6px; color:white; }
+.project-work .project-heading select { color:var(--aw-ink); }
+.project-work nav[aria-label="Project sections"] button { display:flex; align-items:center; gap:10px; min-height:42px; font-size:14px; }
+#aw-main-content .project-work nav[aria-label="Project sections"] button[aria-current="page"] {
+  background:var(--aw-accent)!important; color:white!important; border-radius:8px; border-color:transparent;
+}
+#aw-main-content .project-work nav button[aria-current="page"] svg { color:white!important; }
+.project-summary { border:1px solid var(--aw-line); padding:clamp(18px,2.5vw,30px); }
+#aw-main-content .project-summary button {
+  display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center; column-gap:16px;
+  padding:16px 2px; border:0!important; border-top:1px solid var(--aw-line)!important;
+  border-radius:0!important; background:white!important; box-shadow:none!important;
+}
+.project-summary button small { grid-column:1; font-size:13px; }
+.project-summary button strong { grid-column:1; font-size:16px; }
+.project-summary button span { grid-column:2; grid-row:1 / span 2; font-size:13px; }
+#aw-main-content .project-summary button:hover { background:#f7f7fc!important; }
+@media(min-width:960px) {
+ .project-work { grid-template-columns:12rem minmax(0,1fr); }
+ .project-work nav[aria-label="Project sections"] { gap:4px; padding:8px; background:white; border:1px solid var(--aw-line); border-radius:12px; }
+ .project-work nav button:last-child { margin-top:10px; }
+}
+@media(max-width:620px) {
+ .project-work nav[aria-label="Project sections"] { flex-wrap:nowrap; overflow:auto; }
+ .project-work nav button { flex:none; }
+ .project-summary button span { grid-column:1; grid-row:auto; }
+}
+#aw-main-content.aw-refined #aw-feature-content .project-heading .project-path button {
+  color:#fff!important; background:transparent!important; border:0!important; border-radius:0!important;
+  box-shadow:none!important; backdrop-filter:none!important; text-decoration:underline; text-underline-offset:3px;
+}

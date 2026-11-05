@@ -1,3 +1,5 @@
+import { BillingScreen } from './BillingScreen';
+import { ProjectWorkspace } from './ProjectWorkspace';
 import { upcomingEvents } from '@/lib/upcoming-events';
 import { chronologicalFulfillment, fulfillmentCompletion, simplifiedFulfillmentStatus } from '@/lib/monthly-fulfillment';
 import { useMemo, useState, type ChangeEvent, type CSSProperties, type FormEvent } from 'react';
@@ -8,7 +10,6 @@ import {
   Card,
   Icon,
   IconButton,
-  KpiCard,
   Modal,
   PageHeader,
   RichTextEditor,
@@ -26,6 +27,8 @@ import { ArchiveConfirmModal } from './ArchiveConfirmModal';
 import { prefillAgreementFromPdf } from './pdf-prefill';
 import { formatRon } from './shared';
 import type {
+  PaymentRecord,
+  PortalActionHandlers,
   AgencyMemberSummary,
   AgreementSummary,
   ClientMemberSummary,
@@ -52,6 +55,10 @@ import type {
 } from './types';
 
 export interface ClientsScreenProps {
+  projectWorkspace?: boolean;
+  payments?: PaymentRecord[];
+  actions?: PortalActionHandlers;
+  archivedTasks?: TaskSummary[];
   accounts?: InstagramAccountSummary[];
   agreements?: AgreementSummary[];
   agencyMembers?: AgencyMemberSummary[];
@@ -187,6 +194,8 @@ function generateTemporaryPassword() {
 }
 
 interface ClientWorkspacePageProps {
+  embedded?: boolean;
+  composer?: boolean;
   accounts: InstagramAccountSummary[];
   agreement?: AgreementSummary;
   agencyMembers: AgencyMemberSummary[];
@@ -220,6 +229,8 @@ interface ClientWorkspacePageProps {
 }
 
 function ClientWorkspacePage({
+  embedded = false,
+  composer = false,
   accounts,
   agreement,
   agencyMembers,
@@ -371,7 +382,7 @@ function ClientWorkspacePage({
     const member = agencyMembers.find((candidate) => candidate.userId === assignment.userId);
     return member ? [{ ...assignment, member }] : [];
   });
-  const contentDraftKey = `rm:draft:client-content:${client.id}`;
+  const contentDraftKey = `rm:draft:client-content:${client.id}${composer ? ":" + properties[0]?.id : ""}`;
   const contentDraft = useMemo<ClientContentDraft>(() => ({
     contentHtml: contentForm.contentHtml,
     kind: contentForm.kind,
@@ -542,7 +553,7 @@ function ClientWorkspacePage({
       contentHtml: draft?.contentHtml ?? '',
       file: null,
       kind: draft?.kind === 'script' ? 'script' : 'video',
-      propertyId: draft?.propertyId ?? '',
+      propertyId: composer ? properties[0]?.id ?? '' : draft?.propertyId ?? '',
       title: draft?.title ?? '',
     });
     setContentOpen(true);
@@ -620,8 +631,82 @@ function ClientWorkspacePage({
     }
   };
 
+  const contentModal = (
+      <Modal
+        onClose={closeContentCreator}
+        open={contentOpen}
+        title="Add content"
+        wide={contentForm.kind === 'script'}
+      >
+        <form className="rm-action-form" onSubmit={uploadClientContent}>
+          {workspaceError ? <div className="rm-feedback rm-feedback--error">{workspaceError}</div> : null}
+          <label className="rm-field">
+            <span>Recorded for property</span>
+            <select onChange={(event) => setContentForm((current) => ({ ...current, propertyId: event.target.value }))} required value={contentForm.propertyId}>
+              <option disabled value="">Choose a property</option>
+              {properties.map((property) => <option key={property.id} value={property.id}>{property.name}</option>)}
+            </select>
+          </label>
+          <div className="rm-form-grid rm-form-grid--two">
+            <label className="rm-field">
+              <span>Title</span>
+              <input onChange={(event) => setContentForm((current) => ({ ...current, title: event.target.value }))} required value={contentForm.title} />
+            </label>
+            <label className="rm-field">
+              <span>Type</span>
+              <select
+                onChange={(event) => setContentForm((current) => ({
+                  ...current,
+                  file: event.target.value === 'script' ? null : current.file,
+                  kind: event.target.value as ClientContentForm['kind'],
+                }))}
+                value={contentForm.kind}
+              >
+                <option value="video">Video</option>
+                <option value="script">Script</option>
+              </select>
+            </label>
+          </div>
+          {contentForm.kind === 'script' ? (
+            <RichTextEditor
+              label="Script"
+              onChange={(contentHtml) =>
+                setContentForm((current) => ({ ...current, contentHtml }))}
+              placeholder="Write the hook, beats, voiceover, dialogue, and production notes…"
+              resetKey={`${client.id}:script`}
+              value={contentForm.contentHtml}
+            />
+          ) : (
+            <label className="rm-upload-tile">
+              <input accept="video/*" onChange={(event) => setContentForm((current) => ({ ...current, file: event.target.files?.[0] ?? null }))} required type="file" />
+              <span className="rm-upload-tile__icon"><Icon name="upload" size={21} /></span>
+              <strong>{contentForm.file?.name ?? 'Choose a content file'}</strong>
+              <small>Video files only</small>
+            </label>
+          )}
+          <footer className="rm-dialog-actions">
+            <Button onClick={closeContentCreator} variant="secondary">Cancel</Button>
+            <Button
+              disabled={
+                savingWorkspaceItem
+                || !contentForm.propertyId
+                || !contentForm.title.trim()
+                || (contentForm.kind === 'video' && !contentForm.file)
+                || (contentForm.kind === 'script' && !plainTextFromHtml(contentForm.contentHtml))
+              }
+              type="submit"
+            >
+              {savingWorkspaceItem ? 'Saving…' : contentForm.kind === 'script' ? 'Save script' : 'Upload content'}
+            </Button>
+          </footer>
+        </form>
+      </Modal>
+  );
+  if (composer) return <><Button onClick={openContentCreator}>Add content</Button>{contentModal}</>;
   return (
     <div className="rm-client-workspace aw-client-detail">
+      {embedded && <Button variant="secondary" onClick={() => onEditClient(client)}>Edit client</Button>}
+      {!embedded && <>
       <header className="rm-client-workspace__header">
         <Button icon="chevron-left" onClick={onBack} variant="secondary">
           All clients
@@ -661,6 +746,7 @@ function ClientWorkspacePage({
       </section>
 
 
+      </>}
       <section className="rm-client-workspace__section">
         <header>
           <div>
@@ -787,6 +873,7 @@ function ClientWorkspacePage({
         </section>
       </div>
 
+      {!embedded && (
       <div className="rm-client-workspace__columns">
         <section className="rm-client-workspace__section">
           <header>
@@ -875,6 +962,7 @@ function ClientWorkspacePage({
         </section>
       </div>
 
+      )}
       <div className="rm-client-workspace__columns">
         <section className="rm-client-workspace__section">
           <header>
@@ -912,6 +1000,7 @@ function ClientWorkspacePage({
           </div>
         </section>
 
+        {!embedded && (
         <section className="rm-client-workspace__section">
           <header>
             <div>
@@ -973,6 +1062,7 @@ function ClientWorkspacePage({
             ) : null}
           </div>
         </section>
+        )}
       </div>
 
       <Card className="rm-client-instagram-panel" tone="bright">
@@ -1193,75 +1283,7 @@ function ClientWorkspacePage({
         open={Boolean(contractDocumentTarget)}
       />
 
-      <Modal
-        onClose={closeContentCreator}
-        open={contentOpen}
-        title="Add content"
-        wide={contentForm.kind === 'script'}
-      >
-        <form className="rm-action-form" onSubmit={uploadClientContent}>
-          {workspaceError ? <div className="rm-feedback rm-feedback--error">{workspaceError}</div> : null}
-          <label className="rm-field">
-            <span>Recorded for property</span>
-            <select onChange={(event) => setContentForm((current) => ({ ...current, propertyId: event.target.value }))} required value={contentForm.propertyId}>
-              <option disabled value="">Choose a property</option>
-              {properties.map((property) => <option key={property.id} value={property.id}>{property.name}</option>)}
-            </select>
-          </label>
-          <div className="rm-form-grid rm-form-grid--two">
-            <label className="rm-field">
-              <span>Title</span>
-              <input onChange={(event) => setContentForm((current) => ({ ...current, title: event.target.value }))} required value={contentForm.title} />
-            </label>
-            <label className="rm-field">
-              <span>Type</span>
-              <select
-                onChange={(event) => setContentForm((current) => ({
-                  ...current,
-                  file: event.target.value === 'script' ? null : current.file,
-                  kind: event.target.value as ClientContentForm['kind'],
-                }))}
-                value={contentForm.kind}
-              >
-                <option value="video">Video</option>
-                <option value="script">Script</option>
-              </select>
-            </label>
-          </div>
-          {contentForm.kind === 'script' ? (
-            <RichTextEditor
-              label="Script"
-              onChange={(contentHtml) =>
-                setContentForm((current) => ({ ...current, contentHtml }))}
-              placeholder="Write the hook, beats, voiceover, dialogue, and production notes…"
-              resetKey={`${client.id}:script`}
-              value={contentForm.contentHtml}
-            />
-          ) : (
-            <label className="rm-upload-tile">
-              <input accept="video/*" onChange={(event) => setContentForm((current) => ({ ...current, file: event.target.files?.[0] ?? null }))} required type="file" />
-              <span className="rm-upload-tile__icon"><Icon name="upload" size={21} /></span>
-              <strong>{contentForm.file?.name ?? 'Choose a content file'}</strong>
-              <small>Video files only</small>
-            </label>
-          )}
-          <footer className="rm-dialog-actions">
-            <Button onClick={closeContentCreator} variant="secondary">Cancel</Button>
-            <Button
-              disabled={
-                savingWorkspaceItem
-                || !contentForm.propertyId
-                || !contentForm.title.trim()
-                || (contentForm.kind === 'video' && !contentForm.file)
-                || (contentForm.kind === 'script' && !plainTextFromHtml(contentForm.contentHtml))
-              }
-              type="submit"
-            >
-              {savingWorkspaceItem ? 'Saving…' : contentForm.kind === 'script' ? 'Save script' : 'Upload content'}
-            </Button>
-          </footer>
-        </form>
-      </Modal>
+      {contentModal}
 
       <Modal
         onClose={() => setEventOpen(false)}
@@ -1548,6 +1570,7 @@ function ClientWorkspacePage({
 }
 
 export function ClientsScreen({
+  actions, projectWorkspace, archivedTasks, payments = [],
   accounts = [],
   agreements = [],
   agencyMembers = [],
@@ -1915,8 +1938,8 @@ export function ClientsScreen({
   // is rendered alongside the clients page below, then this branch resumes as
   // soon as the overlay is closed or saved.
   if (activeSelectedClient && !editForm && !archiveTarget) {
-    return (
-      <ClientWorkspacePage
+    const clientPage = (items = selectedProperties, composer = false) => (
+      <ClientWorkspacePage embedded={projectWorkspace} composer={composer}
         accounts={accounts}
         agreement={agreements.find((item) => item.clientId === activeSelectedClient.id)}
         agencyMembers={agencyMembers}
@@ -1944,22 +1967,33 @@ export function ClientsScreen({
         onUpdateClientTeam={onUpdateClientTeam}
         onUpdateProperty={onUpdateProperty}
         onUploadDeliverable={onUploadDeliverable}
-        properties={selectedProperties}
+        properties={items}
         reviews={selectedReviews}
         tasks={tasks}
       />
     );
+    if (!projectWorkspace) return clientPage();
+    return <ProjectWorkspace key={activeSelectedClient.id} actions={actions} archivedTasks={archivedTasks}
+      client={activeSelectedClient} properties={selectedProperties} members={agencyMembers}
+      events={selectedEvents} reviews={selectedReviews} tasks={tasks} currentUserId={currentUserId}
+      agreement={agreements.find(item => item.clientId === activeSelectedClient.id)}
+      details={<>
+        <details className="project-billing">
+          <summary>Billing &amp; payments</summary>
+          <BillingScreen role="admin" clients={[activeSelectedClient]}
+            agreements={agreements.filter(item => item.clientId === activeSelectedClient.id)}
+            payments={payments.filter(item => item.clientId === activeSelectedClient.id)}
+            onAddPayment={actions?.createPayment} onMarkPaid={actions?.markPaymentPaid}
+            onUpdatePayment={actions?.updatePayment} onArchivePayment={actions?.archivePayment}
+            onUpdateAgreement={actions?.updateAgreement} onArchiveAgreement={actions?.archiveAgreement}/>
+        </details>
+        {clientPage()}
+      </>} composer={items => clientPage(items, true)} onBack={closeClient} />;
   }
 
   return (
     <div className="rm-page rm-clients-page">
       <PageHeader title="Clients & properties" actions={<Button icon="plus" onClick={openForm}>Create client</Button>} />
-
-      <section aria-label="Client overview" className="rm-kpi-grid rm-kpi-grid--three">
-        <KpiCard icon="users" label="Clients" value={String(localClients.length)} />
-        <KpiCard icon="wallet" label="Monthly client value" value={formatRon(monthlyRevenue)} />
-        <KpiCard icon="wallet" label="Contract value" value={formatRon(localClients.reduce((sum, client) => sum + client.totalContractValue, 0))} />
-      </section>
 
       {successMessage ? (
         <div className="rm-feedback rm-feedback--success" role="status">
@@ -1969,80 +2003,27 @@ export function ClientsScreen({
         </div>
       ) : null}
 
-      <Card className="rm-table-card" tone="bright">
-        <div className="rm-table-card__toolbar">
-          <label className="rm-inline-search">
-            <Icon name="search" size={17} />
-            <span className="rm-visually-hidden">Search clients</span>
-            <input
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search clients…"
-              type="search"
-              value={query}
-            />
-          </label>
-        </div>
-
-        <div className="rm-client-directory-wrap">
-          <div aria-label="Clients" className="rm-client-directory" role="table">
-            <div className="rm-client-directory__header" role="row">
-              <span role="columnheader">Client</span>
-              <span role="columnheader">Properties</span>
-              <span role="columnheader">Agreement</span>
-              <span role="columnheader">Next shoot</span>
-              <span role="columnheader">Workspace</span>
-            </div>
-            <div role="rowgroup">
-              {filteredClients.map((client) => (
-                <div
-                  className="rm-client-directory__row"
-                  key={client.id}
-                  onClick={() => openClient(client)}
-                  onKeyDown={(event) => {
-                    if (event.key === 'Enter' || event.key === ' ') {
-                      event.preventDefault();
-                      openClient(client);
-                    }
-                  }}
-                  role="row"
-                  tabIndex={0}
-                >
-                  <span className="rm-client-directory__identity" role="cell">
-                    <span className="rm-table-person">
-                      <Avatar name={client.contactName} size="md" src={client.avatarUrl} />
-                      <span className="rm-client-directory__identity-copy">
-                        <strong>{client.name}</strong>
-                        <small>{client.contactName} · {client.location}</small>
-                      </span>
-                    </span>
-                  </span>
-                  <span role="cell" data-label="Properties"><strong>{client.propertiesCount}</strong></span>
-                  <span role="cell" data-label="Agreement">
-                    <strong>{formatRon(client.totalContractValue)}</strong>
-                    <small className="rm-table-sub">Total value</small>
-                  </span>
-                  <span role="cell" data-label="Next shoot">{client.nextShoot ?? 'Not scheduled'}</span>
-                  <span role="cell">
-                    {onOpenWorkspace ? (
-                      <Button
-                        aria-label={`Open ${client.name}'s workspace`}
-                        icon="arrow-right"
-                        onClick={(event) => {
-                          event.stopPropagation();
-                          onOpenWorkspace(client);
-                        }}
-                        variant="secondary"
-                      >
-                        Open workspace
-                      </Button>
-                    ) : null}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </Card>
+      <div className="studio-library-toolbar">
+        <label className="studio-library-search"><Icon name="search" size={17}/><input type="search" aria-label="Search clients" placeholder="Find a client…" value={query} onChange={event => setQuery(event.target.value)} /></label>
+        <span>{localClients.length} {localClients.length === 1 ? 'client' : 'clients'} · {formatRon(monthlyRevenue)} monthly · {formatRon(localClients.reduce((sum, item) => sum + item.totalContractValue, 0))} contracted</span>
+      </div>
+      <div className="studio-library">
+        {filteredClients.map(client => {
+          const cover = properties.find(item => item.clientId === client.id && item.coverUrl)?.coverUrl;
+          return <article className="studio-client" key={client.id}>
+            <button className="studio-client-open" aria-label={`Open ${client.name}`} onClick={() => openClient(client)}>
+              {cover && <img src={cover} alt="" loading="lazy" />}
+              <span className="studio-client-title"><small>{client.location || client.contactName}</small><strong>{client.name}</strong></span>
+              <span className="studio-client-arrow"><Icon name="arrow-up-right" size={19}/></span>
+            </button>
+            <div className="studio-client-info"><span>{client.contactName}</span><span>{client.propertiesCount} {client.propertiesCount === 1 ? 'property' : 'properties'} · {formatRon(client.totalContractValue)}</span></div>
+            <footer><small>{client.nextShoot ? 'Next shoot · ' + client.nextShoot : 'No shoot scheduled'}</small>
+              {onOpenWorkspace && <button type="button" onClick={() => onOpenWorkspace(client)}>Preview client portal <Icon name="arrow-up-right" size={13}/></button>}
+            </footer>
+          </article>;
+        })}
+        {!filteredClients.length && <p>{query ? 'No matching clients.' : 'Create a client to open your first workspace.'}</p>}
+      </div>
 
       <Modal
         onClose={closeForm}

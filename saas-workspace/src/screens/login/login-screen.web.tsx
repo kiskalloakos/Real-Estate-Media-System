@@ -47,7 +47,7 @@ export function LoginScreen() {
       contentContainerStyle={{ flexGrow: 1, minHeight: '100%' }}
       showsHorizontalScrollIndicator={false}
       style={{
-        backgroundColor: '#000000',
+        backgroundColor: '#18191c',
         flex: 1,
       }}
     >
@@ -63,7 +63,7 @@ export function LoginScreen() {
       >
         <View
           style={{
-            backgroundColor: '#FFFFFF',
+            backgroundColor: '#f5f3ef',
             borderCurve: 'continuous',
             borderRadius: 32,
             justifyContent: 'center',
@@ -75,7 +75,7 @@ export function LoginScreen() {
           <View style={{ gap: 8 }}>
             <Text
               style={{
-                color: '#000000',
+                color: '#26262a',
                 fontFamily: 'OutfitSemiBold',
                 fontSize: 43,
                 lineHeight: 48,
@@ -85,7 +85,7 @@ export function LoginScreen() {
             </Text>
             <Text
               style={{
-                color: '#000000',
+                color: '#26262a',
                 fontFamily: 'OutfitRegular',
                 fontSize: 17,
               }}
@@ -107,14 +107,14 @@ export function LoginScreen() {
               onChangeText={setEmail}
               onSubmitEditing={() => password && void submit()}
               placeholder="Email address"
-              placeholderTextColor="#000000"
+              placeholderTextColor="#686771"
               style={{
-                backgroundColor: '#EEEEEE',
-                borderColor: '#000000',
+                backgroundColor: '#fbfaf7',
+                borderColor: '#d4d1ce',
                 borderCurve: 'continuous',
                 borderRadius: 16,
                 borderWidth: 1,
-                color: '#000000',
+                color: '#26262a',
                 fontFamily: 'OutfitRegular',
                 fontSize: 17,
                 height: 52,
@@ -130,15 +130,15 @@ export function LoginScreen() {
               onChangeText={setPassword}
               onSubmitEditing={() => email && void submit()}
               placeholder="Password"
-              placeholderTextColor="#000000"
+              placeholderTextColor="#686771"
               secureTextEntry
               style={{
-                backgroundColor: '#EEEEEE',
-                borderColor: '#000000',
+                backgroundColor: '#fbfaf7',
+                borderColor: '#d4d1ce',
                 borderCurve: 'continuous',
                 borderRadius: 16,
                 borderWidth: 1,
-                color: '#000000',
+                color: '#26262a',
                 fontFamily: 'OutfitRegular',
                 fontSize: 17,
                 height: 52,
@@ -167,9 +167,9 @@ export function LoginScreen() {
                 alignItems: 'center',
                 backgroundColor:
                   submitting || !email || !password
-                    ? '#000000'
+                    ? '#62626a'
                     : pressed
-                      ? '#5256E0'
+                      ? '#4346c4'
                       : '#5256E0',
                 borderCurve: 'continuous',
                 borderRadius: 16,
@@ -204,7 +204,7 @@ export function LoginScreen() {
             >
               <Text
                 style={{
-                  color: '#000000',
+                  color: '#26262a',
                   fontFamily: 'OutfitSemiBold',
                   fontSize: 14,
                 }}

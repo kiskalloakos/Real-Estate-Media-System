@@ -3,6 +3,7 @@ import '@/workspace.css';
 import '@/responsive.css';
 import '@/dialogs.css';
 import '@/workspace-refinements.css';
+import '@/studio.css';
 
 import Head from 'expo-router/head';
 
