@@ -4,6 +4,7 @@ import '@/responsive.css';
 import '@/dialogs.css';
 import '@/workspace-refinements.css';
 import '@/studio.css';
+import '@/workspace-dark.css';
 
 import Head from 'expo-router/head';
 

@@ -8,6 +8,10 @@ import type { PortalData } from '@/screens/web/types';
 import { useWorkspace } from './WorkspaceProvider';
 import './StudioHome.css';
 
+const deadlineFormatter = new Intl.DateTimeFormat('en-GB', {
+  day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit',
+});
+
 export function StudioHome({ data, onNavigate, onOpenTask, onOpenTaskView, onOpenClient, onOpenCalendarEvent }: {
   data?: PortalData;
   onNavigate: (screen: PortalScreenKey) => void;
@@ -27,10 +31,31 @@ export function StudioHome({ data, onNavigate, onOpenTask, onOpenTaskView, onOpe
   const blocked = openTasks.filter(task => task.status === 'blocked').length;
   const enabled = (id: string) => config.enabled.some(module => module === id);
   const now = new Date();
-  const schedule = upcomingEvents(events, now).slice(0, 3);
+  const futureEvents = upcomingEvents(events, now);
+  const schedule = futureEvents.slice(0, 3);
   const visibleTasks = attentionTasks(tasks, now).slice(0, 5);
   const overdue = openTasks.filter(task => isOverdueTask(task, now)).length;
   const dueThisWeek = openTasks.filter(task => matchesTaskView(task, 'week', undefined, now)).length;
+  const productionProperties = properties
+    .filter(property => property.workspaceStatus === 'active')
+    .map(property => {
+      const propertyTasks = openTasks.filter(task => task.propertyId === property.id);
+      const deadlines = [
+        ...propertyTasks.flatMap(task => task.dueAt ? [new Date(task.dueAt).getTime()] : []),
+        ...futureEvents.filter(event => event.propertyId === property.id)
+          .map(event => new Date(`${event.date}T${event.start || '00:00'}`).getTime()),
+      ].filter(Number.isFinite);
+      return {
+        property,
+        overdue: propertyTasks.filter(task => isOverdueTask(task, now)).length,
+        blocked: propertyTasks.filter(task => task.status === 'blocked').length,
+        nextDeadline: Math.min(...deadlines),
+      };
+    })
+    .sort((left, right) => right.overdue - left.overdue || right.blocked - left.blocked
+      || left.nextDeadline - right.nextDeadline || left.property.name.localeCompare(right.property.name))
+    .slice(0, 3);
+  const activeAgreements = (data?.agreements ?? []).filter(agreement => agreement.status === 'active');
 
   return (
     <div className="aw-overview">
@@ -66,33 +91,6 @@ export function StudioHome({ data, onNavigate, onOpenTask, onOpenTaskView, onOpe
         )}
       </div>
 
-      {enabled('clients') && (
-        <section className="aw-overview__panel" aria-labelledby="overview-production-title" data-production-library>
-          <header className="aw-overview__section-heading">
-            <div><h2 id="overview-production-title">Production</h2></div>
-            <button type="button" className="aw-overview__link" onClick={() => onNavigate('clients')}>All properties <Icon name="arrow-right" size={16} /></button>
-          </header>
-          <div className="studio-production-strip">
-          {properties.slice(0, 3).map(property => {
-            const fulfillment = fulfillmentCompletion(data?.agreements?.find(agreement => agreement.clientId === property.clientId)?.deliverables);
-            const percentage = Math.min(100, Math.max(0, fulfillment.percentage));
-            return (
-              <button type="button" className="aw-overview__property" key={property.id} onClick={() => onOpenClient(property.clientId)}>
-                <span className="studio-production-cover">
-                  {property.coverUrl && <img src={property.coverUrl} alt="" loading="lazy" />}
-                  <span className="studio-production-identity"><small>{property.location}</small><strong>{property.name}</strong></span>
-                </span>
-                <span className="studio-production-meta"><strong>{property.status.replaceAll('_', ' ')} · {property.assignedTeamNames.length} on team</strong><span>{fulfillment.total ? percentage + '% delivered' : 'No contract scope'}</span></span>
-                {property.nextMilestone && <span className="studio-production-next">{property.nextMilestone}</span>}
-                <Icon name="chevron-right" size={18} />
-              </button>
-            );
-          })}
-          </div>
-          {!properties.length && <p className="aw-overview__empty">Add a client and property to start tracking production.</p>}
-        </section>
-      )}
-
       <div className="aw-overview__work">
         {enabled('tasks') && (
           <section className="aw-overview__panel" aria-labelledby="overview-tasks-title">
@@ -108,9 +106,15 @@ export function StudioHome({ data, onNavigate, onOpenTask, onOpenTaskView, onOpe
             <div className="aw-overview__tasks">
               {visibleTasks.map(task => (
                 <button type="button" className="aw-overview__task" key={task.id} onClick={() => onOpenTask(task.id)}>
-                  <span className="aw-overview__task-copy"><strong>{task.title}</strong><span title={taskPreviewText(task)}>{taskPreviewText(task)}</span></span>
-                  <span className={`aw-overview__status${task.status === 'blocked' || isOverdueTask(task, now) ? ' is-blocked' : ''}`}>
-                    {isOverdueTask(task, now) ? 'Overdue' : task.status === 'blocked' ? 'Blocked' : task.status === 'in_progress' ? 'In progress' : 'To do'}
+                  <span className="aw-overview__task-copy"><strong>{task.title}</strong><span title={taskPreviewText(task)}>{taskPreviewText(task)}</span>
+                    {task.dueAt ? (
+                      <time className={isOverdueTask(task, now) ? 'is-overdue' : undefined} dateTime={task.dueAt}>
+                        {isOverdueTask(task, now) ? 'Overdue' : 'Due'} · {deadlineFormatter.format(new Date(task.dueAt))}
+                      </time>
+                    ) : <small>No deadline</small>}
+                  </span>
+                  <span className={`aw-overview__status${task.status === 'blocked' ? ' is-blocked' : ''}`}>
+                    {task.status === 'blocked' ? 'Blocked' : task.status === 'in_progress' ? 'In progress' : 'To do'}
                   </span>
                   <span className="aw-overview__assignee" title={task.assigneeName} aria-label={`Assigned to ${task.assigneeName || 'nobody'}`}>
                     {task.assigneeName.trim().split(/\s+/).filter(Boolean).map(name => name[0]).slice(0, 2).join('') || <Icon name="user" size={14} />}
@@ -141,6 +145,35 @@ export function StudioHome({ data, onNavigate, onOpenTask, onOpenTaskView, onOpe
           </section>
         )}
       </div>
+
+      {enabled('clients') && (
+        <section className="aw-overview__panel" aria-labelledby="overview-production-title" data-production-library>
+          <header className="aw-overview__section-heading">
+            <div><h2 id="overview-production-title">Production</h2><p>Active properties, prioritized by deadlines and blockers</p></div>
+            <button type="button" className="aw-overview__link" onClick={() => onNavigate('clients')}>All properties <Icon name="arrow-right" size={16} /></button>
+          </header>
+          <div className="studio-production-strip">
+          {productionProperties.map(({ property }) => {
+            const agreements = activeAgreements.filter(agreement => agreement.clientId === property.clientId);
+            const fulfillment = fulfillmentCompletion(agreements.flatMap(agreement => agreement.deliverables ?? []));
+            const percentage = Math.min(100, Math.max(0, fulfillment.percentage));
+            return (
+              <button type="button" className="aw-overview__property" key={property.id} onClick={() => onOpenClient(property.clientId)}>
+                <span className="studio-production-cover">
+                  {property.coverUrl && <img src={property.coverUrl} alt="" loading="lazy" />}
+                  <span className="studio-production-identity"><small>{property.location}</small><strong>{property.name}</strong></span>
+                </span>
+                <span className="studio-production-meta"><strong>{property.status.replaceAll('_', ' ')} · {property.assignedTeamNames.length} on team</strong><span>{fulfillment.total ? `${percentage}% delivered · ${fulfillment.delivered}/${fulfillment.total}` : 'No active contract scope'}</span></span>
+                {fulfillment.total > 0 && <span className="aw-overview__contract-scope" title={agreements.map(agreement => agreement.title).join(' · ')}>Client scope · {agreements.length} active {agreements.length === 1 ? 'contract' : 'contracts'} · full term</span>}
+                {property.nextMilestone && <span className="studio-production-next">{property.nextMilestone}</span>}
+                <Icon name="chevron-right" size={18} />
+              </button>
+            );
+          })}
+          </div>
+          {!productionProperties.length && <p className="aw-overview__empty">{properties.length ? 'No active properties. Open All properties to manage your production work.' : 'Add a client and property to start tracking production.'}</p>}
+        </section>
+      )}
 
       {!config.enabled.length && <section className="aw-overview__panel"><p className="aw-overview__empty">Enable your tools in Customize workspace to get started.</p></section>}
     </div>

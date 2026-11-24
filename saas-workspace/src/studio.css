@@ -59,12 +59,17 @@ html body .aw-dialog-backdrop { background:rgba(16,17,22,.52)!important; backdro
 #aw-main-content #aw-feature-content .project-work > nav button:not([aria-current]) { background:transparent!important; color:#dfdde4!important; border:0!important; }
 #aw-main-content #aw-feature-content .project-work > nav button:is(:hover,:focus-visible):not([aria-current]) { background:#37383f!important; }
 #aw-main-content .project-work > nav button { border-radius:12px!important; }
-#aw-main-content .aw-overview { --overview-radius:20px; }
+#aw-main-content .aw-overview {
+  --overview-radius:20px;
+  --overview-surface:var(--aw-surface);
+}
 #aw-main-content .aw-overview__header { align-items:end; padding:10px 0 2px; }
 #aw-main-content .aw-overview__summary { border-bottom:0; padding:0; gap:14px; }
-html body .aw-shell #aw-main-content .aw-overview .aw-overview__summary button { color:#f2efeb!important; background:#28292d!important; border:1px solid #424248!important; border-radius:24px!important; padding:6px 16px; gap:8px; }
+html body .aw-shell #aw-main-content .aw-overview .aw-overview__summary button { color:var(--aw-ink)!important; background:var(--overview-surface)!important; border:1px solid var(--aw-line)!important; border-radius:24px!important; padding:6px 16px; gap:8px; }
+html body .aw-shell #aw-main-content .aw-overview .aw-overview__summary button:is(:hover,:focus-visible) { background:var(--aw-bg)!important; }
 .aw-overview__summary button strong { font-size:20px; }
-#aw-main-content .aw-overview__panel { background:var(--studio-paper); border:0; }
+#aw-main-content .aw-overview__panel { background:var(--overview-surface); border:1px solid var(--aw-line); }
+#aw-main-content .aw-overview__assignee { background:var(--aw-bg); color:var(--aw-ink); }
 #aw-main-content .aw-overview [data-production-library] .aw-overview__property-image { width:clamp(70px,12vw,160px); height:70px; border-radius:12px; }
 @media(max-width:760px){
   #aw-main-content > #aw-feature-content { padding:16px; border-radius:18px; }
@@ -135,15 +140,16 @@ html body #aw-main-content #aw-feature-content .studio-agenda button {
 @media(prefers-reduced-motion:reduce) {
  .aw-shell :is(.aw-frame,.aw-sidebar,.aw-topbar) { transition:none!important; }
 }
-#aw-main-content .aw-overview [data-production-library] { background:transparent; color:#f2efeb; }
+#aw-main-content .aw-overview [data-production-library] { background:transparent; border:0; color:var(--aw-ink); }
 #aw-main-content .aw-overview [data-production-library] .aw-overview__section-heading { padding:4px 0 14px; border:0; }
-#aw-main-content .aw-overview [data-production-library] h2 { color:#f2efeb; }
-html body .aw-shell #aw-main-content .aw-overview [data-production-library] .aw-overview__link { color:#d4d3ff!important; }
+#aw-main-content .aw-overview [data-production-library] h2 { color:var(--aw-ink); }
+html body .aw-shell #aw-main-content .aw-overview [data-production-library] .aw-overview__link { color:var(--aw-accent)!important; }
 .studio-production-strip { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr)); gap:14px; }
 html body .aw-shell #aw-main-content .aw-overview .studio-production-strip button {
   position:relative; display:grid; gap:0; min-width:0; padding:0; overflow:hidden; text-align:left;
-  background:#28292d!important; color:#f5f3ef!important; border:1px solid #3c3d43!important; border-radius:20px!important;
+  background:var(--overview-surface)!important; color:var(--aw-ink)!important; border:1px solid var(--aw-line)!important; border-radius:20px!important;
 }
+html body .aw-shell #aw-main-content .aw-overview .studio-production-strip button:is(:hover,:focus-visible) { background:var(--aw-bg)!important; }
 .studio-production-cover { position:relative; isolation:isolate; display:flex; align-items:end; height:174px; padding:20px; background:#32313e; }
 .studio-production-cover img,.studio-production-cover::after { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:-2; }
 .studio-production-cover::after { content:""; z-index:-1; background:linear-gradient(0deg,#101116e0,transparent); }

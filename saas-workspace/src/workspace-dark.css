@@ -1,0 +1,213 @@
+/* Shared workspace palette, including dialogs rendered outside the shell.
+   The screenplay workspace owns its paper/canvas palette.
+   Brand white/black stay literal so media and colored event labels keep their contrast. */
+.aw-shell, html body .rm-modal.aw-dialog:not(.sp-workspace-modal) {
+  color-scheme: dark;
+  --studio-night: #18191c;
+  --studio-raised: #292a30;
+  --studio-paper: #222328;
+  --studio-rule: #383940;
+  --studio-type: #eeeef1;
+  --studio-secondary: #b0afb8;
+  --aw-bg: #2c2d33;
+  --aw-surface: #222328;
+  --aw-input: #1c1d22;
+  --aw-ink: #eeeef1;
+  --aw-muted: #b0afb8;
+  --aw-line: #383940;
+  --aw-accent: #5256e0;
+  --aw-tint: #30314e;
+  --rm-paper: var(--aw-surface);
+  --rm-paper-bright: var(--studio-raised);
+  --rm-paper-muted: var(--aw-bg);
+  --rm-ink: var(--aw-ink);
+  --rm-ink-muted: var(--aw-muted);
+  --rm-muted: var(--aw-muted);
+  --rm-line: var(--aw-line);
+  --rm-line-paper: var(--aw-line);
+  color: var(--aw-ink);
+}
+
+/* Beat the retained light-screen rules at the shared content boundary. */
+html body .aw-shell #aw-main-content.aw-main #aw-feature-content,
+html body .rm-modal.aw-dialog:not(.sp-workspace-modal) {
+  --aw-accent: #a8aaff;
+  background-color: var(--aw-surface) !important;
+  color: var(--aw-ink) !important;
+  border-color: var(--aw-line) !important;
+}
+html body .aw-shell #aw-main-content.aw-main #aw-feature-content:has(.aw-overview,.project-work,.studio-library) {
+  background: transparent !important;
+}
+
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) :is(
+  .rm-card,.aw-panel,.aw-pulse,.aw-preset,.aw-name-form,.aw-module-list,.aw-agency-settings,
+  .rm-task-list-card,.rm-task-item,.aw-tasks__table-wrap,.aw-tasks__empty,.aw-tasks__recovery,
+  .rm-table-card,.rm-client-directory,.rm-team-directory,.rm-access-panel,.rm-member-row,
+  .rm-client-workspace__section,.rm-client-workspace__metrics>article,
+  .rm-client-workspace__content-link,.rm-client-workspace__calendar-link,.rm-client-document-row,
+  .rm-client-deliverables-list>div,.rm-client-deliverables-list>a,
+  .rm-document-card,.rm-folder-card,.rm-review-directory,.aw-review-directory,
+  .rm-gear-board__column,.rm-agreement-card,.rm-payment-due-card,.rm-note-card,
+  .rm-agreement-facts,.rm-agreement-facts>div,.rm-fulfillment__metrics>div,.rm-fulfillment__item,
+  .rm-cost-list__record,
+  .rm-manual-badge,.studio-date,
+  .rm-calendar-card,.aw-calendar-month,.aw-calendar-agenda,.aw-calendar-month__day,
+  .rm-week-stack-grid__day,.rm-week-stack-grid__events,.rm-calendar-overflow-list,
+  .aw-calendar-filters>summary,.aw-calendar-filters__body,.rm-reminders-card,.rm-reminder-list>article,
+  .rm-action-form,.rm-profile-form,.rm-client-form,.rm-form-footer,.rm-checkbox-field,
+  .rm-task-archive-list article,.rm-notification-list__row,.rm-command__input,
+  .rm-rich-text-editor,.rm-rich-text-toolbar,.rm-rich-text-content,
+  .project-summary,.project-billing,.project-work>main,
+  .aw-task-drawer__actions,.aw-task-drawer__discard
+) {
+  background: var(--aw-surface) !important;
+  color: var(--aw-ink) !important;
+  border-color: var(--aw-line) !important;
+  box-shadow: none !important;
+}
+
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) :is(
+  h1,h2,h3,h4,h5,h6,strong,b,legend,label,dt,dd,td,.rm-field>span,
+  .rm-table-person,.rm-client-directory__identity-copy,.rm-client-workspace__identity,
+  .aw-task-drawer__description p,.aw-task-preview__description p
+) { color: var(--aw-ink) !important; }
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) :is(
+  p,small,th,.rm-eyebrow,.rm-section-kicker,.rm-empty-copy,.rm-kpi__label,.rm-kpi__detail,
+  .rm-task-item__row-content small,.aw-task-drawer__message,.rm-detail-list dt,
+  .rm-client-directory__identity-copy small,.aw-module-state
+) { color: var(--aw-muted) !important; }
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) span {
+  color: inherit !important;
+}
+
+/* Neutral controls, with a separate filled brand variant. */
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) :is(
+  button:not(.studio-client-open):not([data-event-color]),.rm-button,.rm-icon-button
+) {
+  background-color: transparent !important;
+  background-image: none !important;
+  color: var(--aw-ink) !important;
+  border-color: var(--aw-line) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) :is(
+  button:not(.studio-client-open):not([data-event-color]),.rm-button,.rm-icon-button
+):is(:hover,:focus-visible):not(:disabled) { background-color: var(--aw-bg) !important; }
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) :is(
+  .rm-button--blue,.rm-button--primary,.aw-button:not(.aw-button-secondary),
+  .project-work nav button[aria-current],.rm-task-priority-switch label.is-active
+) {
+  background: #5256e0 !important;
+  border-color: #7275ee !important;
+  color: #fff !important;
+}
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) :is(
+  .rm-button--blue,.rm-button--primary,.aw-button:not(.aw-button-secondary)
+):is(:hover,:focus-visible):not(:disabled) { background: #6266eb !important; }
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) :is(
+  button,.rm-button,a
+) :is(strong,span,svg) { color: inherit !important; }
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) :is(
+  a,.aw-text-button,.aw-overview__link,.aw-tasks__priority,.is-overdue,.project-summary button>span
+) { color: var(--aw-accent) !important; }
+
+/* Fields, native pickers and editable content share the same inset surface. */
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) :is(
+  input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]),
+  select,textarea,.rm-inline-search,.rm-input-with-icon,.aw-tasks__search,
+  .studio-library-search,.rm-task-upload__control,.rm-upload-tile,.rm-upload-document-button
+) {
+  background-color: var(--aw-input) !important;
+  color: var(--aw-ink) !important;
+  border-color: var(--aw-line) !important;
+  box-shadow: none !important;
+}
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) option {
+  background: var(--aw-input) !important;
+  color: var(--aw-ink) !important;
+}
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) ::placeholder {
+  color: var(--aw-muted) !important;
+  opacity: 1;
+}
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) :focus-visible {
+  outline-color: var(--aw-accent) !important;
+}
+
+/* Table headers, calendar cells, filters and board headers use gentle elevation. */
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) :is(
+  thead,thead tr,th,.rm-task-list-card__header,.rm-calendar-toolbar,
+  .aw-calendar-month__weekdays,.aw-calendar-month__day.is-outside,
+  .rm-week-stack-grid__day,.rm-task-priority-switch,.rm-command__icon
+) { background: var(--studio-raised) !important; border-color: var(--aw-line) !important; }
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) :is(
+  td,th,tr,.rm-member-row,.rm-table-card__toolbar,.rm-client-directory__row,
+  .rm-client-directory__header,.rm-modal__header,.rm-dialog-actions,.rm-form-footer,
+  .aw-task-preview__description,.aw-task-preview__actions,.project-summary button,
+  .aw-calendar-month__day,.aw-calendar-month__weekdays>span
+) { border-color: var(--aw-line) !important; }
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) :is(
+  .rm-tabs,.rm-tab-list,.aw-tasks__views,.aw-tasks__layouts,.rm-calendar-view-switch
+) button:is(.is-active,.is-selected,[aria-selected=true],[aria-pressed=true]),
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) :is(
+  .rm-status,.rm-avatar,.aw-tasks__count,.rm-owner-task-urgent,.aw-tag
+) {
+  background: var(--aw-tint) !important;
+  color: var(--aw-accent) !important;
+  border-color: var(--aw-line) !important;
+}
+
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) :is(
+  .rm-fulfillment__alerts>span,.rm-manual-badge,.studio-date,.rm-agreement-card__document>span,
+  .rm-debt-card__icon
+) { background: var(--aw-tint) !important; color: var(--aw-accent) !important; }
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) :is(
+  .rm-feedback--error,.aw-task-drawer__error,.rm-button--danger
+) { color: #ffada7 !important; }
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) :is(
+  .aw-tasks__list-open>span,.aw-overview__task-copy>span,.aw-overview__status,
+  .rm-fulfillment__metrics span
+) { color: var(--aw-muted) !important; }
+
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) .rm-status--success {
+  background: #19382f !important;
+  color: #91d6b6 !important;
+}
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) :is(
+  .rm-status--warning,.rm-fulfillment__alerts .is-warning
+) { background: #3d321d !important; color: #eac689 !important; }
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) :is(
+  .rm-status--danger,.rm-fulfillment__alerts .is-critical,.rm-feedback--error
+) { background: #3e262a !important; color: #ffada7 !important; }
+
+/* Shared overlays include headers, bodies, sticky actions and search results. */
+html body .rm-modal.aw-dialog:not(.sp-workspace-modal) :is(.rm-modal__header,.rm-modal__body,.rm-form-footer,.aw-task-drawer__actions) {
+  background: var(--aw-surface) !important;
+  color: var(--aw-ink) !important;
+  border-color: var(--aw-line) !important;
+}
+html body .rm-modal.aw-dialog:not(.sp-workspace-modal) .rm-modal__body .rm-command__results>button {
+  background: var(--aw-surface) !important;
+  color: var(--aw-ink) !important;
+  border-color: var(--aw-line) !important;
+}
+html body .rm-modal.aw-dialog:not(.sp-workspace-modal) .rm-modal__body .rm-command__results>button:is(:hover,:focus-visible) {
+  background: var(--aw-bg) !important;
+}
+
+/* Keep workspace settings switches legible, and preserve actual event colors. */
+html body .aw-shell #aw-main-content.aw-main #aw-feature-content .aw-module-toggle { background: #555660 !important; }
+html body .aw-shell #aw-main-content.aw-main #aw-feature-content .aw-module-toggle[aria-checked=true] { background: #5256e0 !important; }
+html body .aw-shell #aw-main-content.aw-main #aw-feature-content .aw-module-toggle__thumb { background: #fff !important; }
+html body .aw-shell #aw-main-content.aw-main #aw-feature-content .aw-calendar-month__day.is-today button.aw-calendar-month__date {
+  background: #5256e0 !important;
+  color: #fff !important;
+}
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) :is(
+  button.rm-month-event,button.rm-week-stack-event,button.rm-calendar-overflow-event
+)[data-event-color] {
+  background: var(--rm-event-color) !important;
+  color: #fff !important;
+}
