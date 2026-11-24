@@ -55,6 +55,7 @@
     "release:verify": "node scripts/verify-production-release.mjs",
     "lint": "expo lint",
     "typecheck": "tsc --noEmit",
+    "test:screenplay": "node --test scripts/screenplay.test.mjs",
     "android": "expo start --go --android",
     "build:ios": "expo export --platform ios --output-dir dist-ios",
     "build:android": "expo export --platform android --output-dir dist-android",

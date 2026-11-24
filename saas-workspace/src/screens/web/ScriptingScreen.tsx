@@ -9,6 +9,11 @@ import {
   useToast,
 } from '@/components/web';
 import { downloadScriptPdf } from '@/lib/script-pdf-export';
+import { ScreenplayWorkspace, type ScreenplaySave } from '@/components/web/ScreenplayWorkspace';
+import { isSupabaseConfigured } from '@/lib/supabase';
+import { productionFromDialogue } from '@/lib/screenplay';
+import { openProductionDocument } from '@/lib/screenplay-export';
+import { listPreviewScripts, storePreviewScripts } from '@/lib/scripting-preview';
 import {
   deleteCabanaScript,
   generateCabanaScripts,
@@ -65,12 +70,10 @@ export function ScriptingScreen({ properties = [], projectId }: ScriptingScreenP
   const [selectedPropertyId, setSelectedPropertyId] = useState(projectId ?? '');
   const [generatorOpen, setGeneratorOpen] = useState(false);
   const [writerOpen, setWriterOpen] = useState(false);
-  const [writerForm, setWriterForm] = useState({ hook: '', script: '', title: '' });
   const [generating, setGenerating] = useState(false);
   const [generationMessage, setGenerationMessage] = useState('');
   const [editDraft, setEditDraft] = useState<SavedCabanaScript | null>(null);
   const [loadingScripts, setLoadingScripts] = useState(true);
-  const [moreCount, setMoreCount] = useState('3');
   const [generatingMore, setGeneratingMore] = useState(false);
   const [exportingScriptId, setExportingScriptId] = useState('');
   const [savingScript, setSavingScript] = useState(false);
@@ -79,7 +82,7 @@ export function ScriptingScreen({ properties = [], projectId }: ScriptingScreenP
 
   useEffect(() => {
     let cancelled = false;
-    listCabanaScripts()
+    Promise.resolve().then(() => isSupabaseConfigured ? listCabanaScripts() : listPreviewScripts())
       .then((scripts) => {
         if (!cancelled) setSavedScripts(scripts);
       })
@@ -105,7 +108,6 @@ export function ScriptingScreen({ properties = [], projectId }: ScriptingScreenP
   };
 
   const openWriter = () => {
-    setWriterForm({ hook: '', script: '', title: '' });
     setWriterOpen(true);
   };
 
@@ -143,7 +145,7 @@ export function ScriptingScreen({ properties = [], projectId }: ScriptingScreenP
         clientAccountId: property?.clientId ?? brief.clientAccountId ?? null,
         model: generated.model,
         propertyId: selectedPropertyId || brief.propertyId || null,
-        script: { ...generated.script, id: '' },
+        script: { ...generated.script, id: '', production: productionFromDialogue(generated.script.script, brief.name) },
         status: 'draft',
       });
       setSavedScripts((current) => [saved, ...current]);
@@ -161,6 +163,10 @@ export function ScriptingScreen({ properties = [], projectId }: ScriptingScreenP
   };
 
   const exportScript = async (script: GeneratedCabanaScriptDocument) => {
+    if (script.production) {
+      if (!openProductionDocument(script.title, script.production)) notify('Allow pop-up windows to open the PDF preview.', 'error');
+      return;
+    }
     setExportingScriptId(script.id);
     try {
       await downloadScriptPdf(script.title || 'Campaign script', scriptToText(script));
@@ -183,61 +189,25 @@ export function ScriptingScreen({ properties = [], projectId }: ScriptingScreenP
     openSavedScript(script);
   };
 
-  const updateDraftHook = (index: number, value: string) => {
-    setEditDraft((current) => {
-      if (!current) return current;
-      const hooks = [...current.hooks];
-      hooks[index] = value;
-      return { ...current, hooks };
-    });
-  };
-
-  const saveEditedScript = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!editDraft) return;
+  const saveWorkspace = async (value: ScreenplaySave) => {
     setSavingScript(true);
     try {
-      const saved = await saveCabanaScript({
-        brief: editDraft.brief,
-        clientAccountId: editDraft.clientAccountId,
-        model: editDraft.model,
-        propertyId: editDraft.propertyId,
-        script: editDraft,
-        status: editDraft.status,
-      });
-      setSavedScripts((current) => current.map((script) => script.id === saved.id ? saved : script));
+      const propertyId = editDraft?.propertyId ?? projectId ?? value.brief?.propertyId ?? null;
+      const clientAccountId = editDraft?.clientAccountId ?? properties.find((item) => item.id === propertyId)?.clientId ?? value.brief?.clientAccountId ?? null;
+      const saved: SavedCabanaScript = isSupabaseConfigured
+        ? await saveCabanaScript({ ...value, propertyId, clientAccountId, model: editDraft?.model ?? 'manual' })
+        : {
+            ...value.script, id: value.script.id || crypto.randomUUID(), status: value.status,
+            brief: value.brief, propertyId, clientAccountId, model: 'manual',
+            approvedAt: value.status === 'approved' ? new Date().toISOString() : null,
+            createdAt: editDraft?.createdAt ?? new Date().toISOString(), updatedAt: new Date().toISOString(),
+          };
+      const updated = [saved, ...savedScripts.filter((script) => script.id !== saved.id)];
+      if (!isSupabaseConfigured) storePreviewScripts(updated);
+      setSavedScripts(updated);
       setEditDraft(null);
-      notify('Script saved.');
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'Could not save script.';
-      notify(message, 'error');
-    } finally {
-      setSavingScript(false);
-    }
-  };
-
-  const saveWrittenScript = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setSavingScript(true);
-    try {
-      const saved = await saveCabanaScript({
-        model: 'manual',
-        ...(projectId ? { propertyId: projectId, clientAccountId: properties.find(item => item.id === projectId)?.clientId, brief } : {}),
-        script: {
-          hooks: writerForm.hook.trim() ? [writerForm.hook.trim()] : [],
-          id: '',
-          script: writerForm.script.trim(),
-          title: writerForm.title.trim() || 'Written campaign script',
-        },
-        status: 'draft',
-      });
-      setSavedScripts((current) => [saved, ...current]);
       setWriterOpen(false);
-      setWriterForm({ hook: '', script: '', title: '' });
-      notify('Script saved.');
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'Could not save script.';
-      notify(message, 'error');
+      notify('Script and production plan saved.');
     } finally {
       setSavingScript(false);
     }
@@ -247,7 +217,8 @@ export function ScriptingScreen({ properties = [], projectId }: ScriptingScreenP
     if (!editDraft) return;
     setSavingScript(true);
     try {
-      await deleteCabanaScript(editDraft.id);
+      if (isSupabaseConfigured) await deleteCabanaScript(editDraft.id);
+      else storePreviewScripts(savedScripts.filter((script) => script.id !== editDraft.id));
       setSavedScripts((current) => current.filter((script) => script.id !== editDraft.id));
       setEditDraft(null);
       notify('Script deleted.');
@@ -259,12 +230,12 @@ export function ScriptingScreen({ properties = [], projectId }: ScriptingScreenP
     }
   };
 
-  const generateMoreFromDraft = async () => {
+  const generateMoreFromDraft = async (requestedCount: number) => {
     if (!editDraft?.brief) {
       notify('This script has no saved brief to reuse.', 'error');
       return;
     }
-    const count = Math.max(1, Math.min(10, Number(moreCount) || 1));
+    const count = Math.max(1, Math.min(10, requestedCount || 1));
     setGeneratingMore(true);
     try {
       const newScripts: SavedCabanaScript[] = [];
@@ -281,12 +252,12 @@ export function ScriptingScreen({ properties = [], projectId }: ScriptingScreenP
           clientAccountId: editDraft.clientAccountId,
           model: generated.model,
           propertyId: editDraft.propertyId,
-          script: { ...generated.script, id: '' },
+          script: { ...generated.script, id: '', production: productionFromDialogue(generated.script.script, editDraft.brief.name) },
           status: 'draft',
         });
         newScripts.push(saved);
+        setSavedScripts((current) => [saved, ...current]);
       }
-      setSavedScripts((current) => [...newScripts, ...current]);
       setEditDraft(null);
       notify(`${newScripts.length} more script${newScripts.length === 1 ? '' : 's'} generated.`);
     } catch (error) {
@@ -301,11 +272,12 @@ export function ScriptingScreen({ properties = [], projectId }: ScriptingScreenP
     <div className="rm-page rm-scripting">
       <PageHeader title="Scripts" actions={<div className="rm-scripting__actions">
         <Button icon="plus" onClick={openWriter} variant="secondary">Write script</Button>
-        <Button onClick={openGenerator}>Generate script</Button>
+        <Button disabled={!isSupabaseConfigured} onClick={openGenerator}>Generate script</Button>
       </div>} />
+      {!isSupabaseConfigured ? <p className="sp-hint">Preview workspace · scripts are saved in this browser.</p> : null}
 
       {visibleScripts.length ? (
-        <section className="rm-document-grid" aria-label="Generated scripts">
+        <section className="rm-document-grid" aria-label="Saved scripts">
           {visibleScripts.map((script) => (
             <Card
               aria-label={`Edit ${script.title}`}
@@ -322,6 +294,7 @@ export function ScriptingScreen({ properties = [], projectId }: ScriptingScreenP
               </div>
               <div className="rm-document-card__body">
                 <h3>{script.title || 'Generated campaign script'}</h3>
+                {script.production ? <small>{script.production.scenes.length} scenes · {script.production.locations.length} locations</small> : null}
                 <p>{script.script.slice(0, 180)}</p>
               </div>
               <footer>
@@ -356,138 +329,26 @@ export function ScriptingScreen({ properties = [], projectId }: ScriptingScreenP
       ) : (
         <Card className="rm-scripting-empty">
           <h2>No script yet</h2>
-          <p>Create the first Romanian campaign script from a complete client brief.</p>
+          <p>Write a screenplay, plan your locations, and connect scenes to camera and talent positions.</p>
         </Card>
       )}
 
-      <Modal
-        onClose={() => setEditDraft(null)}
-        open={Boolean(editDraft)}
-        title="Edit script"
-        wide
-      >
-        {editDraft ? (
-          <form className="rm-document-form rm-scripting-editor" onSubmit={saveEditedScript}>
-            <label className="rm-field">
-              <span>Status</span>
-              <select
-                onChange={(event) => setEditDraft((current) =>
-                  current ? {
-                    ...current,
-                    approvedAt: event.target.value === 'approved' ? current.approvedAt ?? new Date().toISOString() : null,
-                    status: event.target.value as SavedCabanaScript['status'],
-                  } : current)}
-                value={editDraft.status}
-              >
-                <option value="draft">Draft</option>
-                <option value="approved">Approved</option>
-              </select>
-            </label>
-            {[0].map((index) => (
-              <label className="rm-field rm-form-grid__wide" key={index}>
-                <span>Hook</span>
-                <input
-                  autoFocus={index === 0}
-                  onChange={(event) => updateDraftHook(index, event.target.value)}
-                  value={editDraft.hooks[index] ?? ''}
-                />
-              </label>
-            ))}
-            <label className="rm-field rm-form-grid__wide">
-              <span>Script</span>
-              <textarea
-                onChange={(event) => setEditDraft((current) => current ? { ...current, script: event.target.value } : current)}
-                required
-                rows={14}
-                value={editDraft.script}
-              />
-            </label>
-            <div className="rm-scripting-more rm-form-grid__wide">
-              <label className="rm-field">
-                <span>Generate more</span>
-                <select disabled={generatingMore || savingScript} onChange={(event) => setMoreCount(event.target.value)} value={moreCount}>
-                  <option value="1">1 more</option>
-                  <option value="3">3 more</option>
-                  <option value="5">5 more</option>
-                  <option value="10">10 more</option>
-                </select>
-              </label>
-              <Button
-                disabled={generatingMore || savingScript || !editDraft.brief}
-                icon="sparkles"
-                onClick={() => void generateMoreFromDraft()}
-                variant="secondary"
-              >
-                {generatingMore ? 'Generating...' : 'Generate more'}
-              </Button>
-              {generatingMore ? (
-                <span className="rm-scripting-submit__message" role="status">
-                  <span aria-hidden="true" className="rm-scripting-spinner" />
-                  Se generează mai multe scripturi.
-                </span>
-              ) : null}
-            </div>
-            <footer className="rm-dialog-actions rm-form-grid__wide">
-              <Button disabled={savingScript || generatingMore} onClick={archiveEditedScript} variant="secondary">Delete</Button>
-              <Button disabled={savingScript || generatingMore} onClick={() => setEditDraft(null)} variant="secondary">Cancel</Button>
-              <Button disabled={savingScript || generatingMore || exportingScriptId === editDraft.id} icon="download" onClick={() => void exportScript(editDraft)} variant="secondary">
-                {exportingScriptId === editDraft.id ? 'Exporting...' : 'Export'}
-              </Button>
-              <Button disabled={savingScript || generatingMore || !editDraft.script.trim()} type="submit">
-                {savingScript ? 'Saving...' : 'Save script'}
-              </Button>
-            </footer>
-          </form>
-        ) : null}
-      </Modal>
+      {editDraft || writerOpen ? (
+        <ScreenplayWorkspace
+          aiAvailable={isSupabaseConfigured}
+          generatingMore={generatingMore}
+          initial={editDraft ?? { id: '', title: '', script: '', hooks: [], brief: projectId ? brief : null }}
+          key={editDraft?.id ?? 'new-screenplay'}
+          onClose={() => { setEditDraft(null); setWriterOpen(false); }}
+          onDelete={editDraft ? archiveEditedScript : undefined}
+          onGenerateMore={editDraft?.brief && isSupabaseConfigured ? generateMoreFromDraft : undefined}
+          onSave={saveWorkspace}
+          saving={savingScript}
+        />
+      ) : null}
 
       <Modal
-        description="Write and save a script yourself. This does not call the AI writer."
-        onClose={() => {
-          if (!savingScript) setWriterOpen(false);
-        }}
-        open={writerOpen}
-        title="Write script"
-        wide
-      >
-        <form className="rm-form-grid rm-scripting-form" onSubmit={saveWrittenScript}>
-          <label className="rm-field rm-form-grid__wide">
-            <span>Title</span>
-            <input
-              autoFocus
-              onChange={(event) => setWriterForm((current) => ({ ...current, title: event.target.value }))}
-              placeholder="e.g. Arizona Ranch — weekend pentru familie"
-              value={writerForm.title}
-            />
-          </label>
-          <label className="rm-field rm-form-grid__wide">
-            <span>Hook</span>
-            <input
-              onChange={(event) => setWriterForm((current) => ({ ...current, hook: event.target.value }))}
-              placeholder="Optional opening line"
-              value={writerForm.hook}
-            />
-          </label>
-          <label className="rm-field rm-form-grid__wide">
-            <span>Script</span>
-            <textarea
-              onChange={(event) => setWriterForm((current) => ({ ...current, script: event.target.value }))}
-              required
-              rows={14}
-              value={writerForm.script}
-            />
-          </label>
-          <footer className="rm-dialog-actions rm-form-grid__wide">
-            <Button disabled={savingScript} onClick={() => setWriterOpen(false)} variant="secondary">Cancel</Button>
-            <Button disabled={savingScript || !writerForm.script.trim()} type="submit">
-              {savingScript ? 'Saving...' : 'Save script'}
-            </Button>
-          </footer>
-        </form>
-      </Modal>
-
-      <Modal
-        description="Complete the brief before AI generation. The result will be one Romanian script with natural line breaks."
+        description="Generate Romanian spoken dialogue, then organize it into screenplay scenes and plan the shoot."
         onClose={() => {
           if (!generating) setGeneratorOpen(false);
         }}

@@ -1,5 +1,6 @@
 import { supabase } from '@/lib/supabase';
 import type { Json } from '@/types/database';
+import { readProduction, type ProductionDocument } from './screenplay';
 
 type FunctionErrorPayload = {
   error?: string;
@@ -34,6 +35,8 @@ export interface GeneratedCabanaScriptDocument {
   id: string;
   script: string;
   title: string;
+  production?: ProductionDocument | null;
+  productionInvalid?: boolean;
 }
 
 export interface SavedCabanaScript extends GeneratedCabanaScriptDocument {
@@ -85,7 +88,9 @@ function hooksFromJson(value: Json) {
 
 function briefFromJson(value: Json): CabanaScriptBrief | null {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
-  return value as unknown as CabanaScriptBrief;
+  const { production: _production, ...brief } = value;
+  if (typeof brief.name !== 'string' || !brief.name.trim()) return null;
+  return brief as unknown as CabanaScriptBrief;
 }
 
 function scriptFromRow(row: {
@@ -102,6 +107,9 @@ function scriptFromRow(row: {
   title: string;
   updated_at: string;
 }): SavedCabanaScript {
+  const storedProduction = row.brief && typeof row.brief === 'object' && !Array.isArray(row.brief)
+    ? row.brief.production : undefined;
+  const production = readProduction(storedProduction);
   return {
     approvedAt: row.approved_at,
     brief: briefFromJson(row.brief),
@@ -111,6 +119,8 @@ function scriptFromRow(row: {
     id: row.id,
     model: row.model,
     propertyId: row.property_id,
+    production,
+    productionInvalid: storedProduction != null && !production,
     script: row.script,
     status: row.status,
     title: row.title,
@@ -202,12 +212,14 @@ export async function saveCabanaScript(input: {
   script: GeneratedCabanaScriptDocument;
   status?: 'draft' | 'approved';
 }) {
+  if (input.script.productionInvalid) throw new Error('Recover the unreadable production plan before saving this script.');
+  if (input.script.production && !readProduction(input.script.production)) throw new Error('The production plan contains broken scene or shot links.');
   const client = configuredClient();
   const context = await currentWorkspaceContext();
   const title = input.script.title.trim() || 'Generated cabana script';
   const payload = {
     approved_at: input.status === 'approved' ? new Date().toISOString() : null,
-    brief: (input.brief ?? {}) as unknown as Json,
+    brief: { ...input.brief, ...(input.script.production ? { production: input.script.production } : {}) } as unknown as Json,
     client_account_id: input.clientAccountId ?? input.brief?.clientAccountId ?? null,
     hooks: input.script.hooks as unknown as Json,
     model: input.model ?? null,
