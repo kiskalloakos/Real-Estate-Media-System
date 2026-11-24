@@ -1,15 +1,19 @@
 import type { PortalScreenKey } from '../components/web/PortalShell';
 import { isTaskView, type TaskView } from './task-workspace';
+import { projectSections, projectStages, type ProjectSection, type ProjectStage } from './project-workspace';
 
 export interface PortalLocation {
   screen: PortalScreenKey;
   taskId?: string;
   clientId?: string;
+  projectId?: string;
+  projectStage?: ProjectStage;
+  projectSection?: ProjectSection;
   taskView?: TaskView;
   taskQuery?: string;
   taskAssignee?: string;
 }
-const routeKeys = ['screen', 'task', 'client', 'view', 'q', 'assignee'];
+const routeKeys = ['screen', 'task', 'client', 'project', 'stage', 'section', 'view', 'q', 'assignee'];
 export function readPortalLocation(search: string, fallback: PortalScreenKey, allowed: readonly PortalScreenKey[]): PortalLocation {
   const params = new URLSearchParams(search);
   const requested = params.get('screen') as PortalScreenKey;
@@ -23,6 +27,12 @@ export function readPortalLocation(search: string, fallback: PortalScreenKey, al
       taskAssignee: params.get('assignee') || 'all',
     } : {}),
     ...(screen === 'clients' ? { clientId: params.get('client') || undefined } : {}),
+    ...(screen === 'projects' ? {
+      clientId: params.get('client') || undefined,
+      projectId: params.get('project') || undefined,
+      projectStage: projectStages.find(stage => stage === params.get('stage')),
+      projectSection: projectSections.find(section => section === params.get('section')),
+    } : {}),
   };
 }
 export function portalLocationUrl(current: string, location: PortalLocation) {
@@ -36,5 +46,11 @@ export function portalLocationUrl(current: string, location: PortalLocation) {
     if (location.taskAssignee && location.taskAssignee !== 'all') url.searchParams.set('assignee', location.taskAssignee);
   }
   if (location.screen === 'clients' && location.clientId) url.searchParams.set('client', location.clientId);
+  if (location.screen === 'projects') {
+    if (location.clientId) url.searchParams.set('client', location.clientId);
+    if (location.projectId) url.searchParams.set('project', location.projectId);
+    if (location.projectStage) url.searchParams.set('stage', location.projectStage);
+    if (location.projectSection) url.searchParams.set('section', location.projectSection);
+  }
   return `${url.pathname}${url.search}${url.hash}`;
 }

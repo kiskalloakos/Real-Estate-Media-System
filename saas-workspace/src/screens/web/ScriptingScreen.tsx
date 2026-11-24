@@ -25,6 +25,7 @@ import type { PropertySummary } from './types';
 
 export interface ScriptingScreenProps {
   properties?: PropertySummary[];
+  projectId?: string;
 }
 
 const emptyBrief: CabanaScriptBrief = {
@@ -55,10 +56,13 @@ function scriptToText(script: GeneratedCabanaScriptDocument) {
   return `${hooks}${script.script}`.trim();
 }
 
-export function ScriptingScreen({ properties = [] }: ScriptingScreenProps) {
+export function ScriptingScreen({ properties = [], projectId }: ScriptingScreenProps) {
   const { notify } = useToast();
-  const [brief, setBrief] = useState<CabanaScriptBrief>(emptyBrief);
-  const [selectedPropertyId, setSelectedPropertyId] = useState('');
+  const [brief, setBrief] = useState<CabanaScriptBrief>(() => {
+    const project = properties.find(item => item.id === projectId);
+    return project ? { ...emptyBrief, clientAccountId: project.clientId, propertyId: project.id, name: project.name, location: project.location, amenities: project.scriptingBrief, mustMention: project.description } : emptyBrief;
+  });
+  const [selectedPropertyId, setSelectedPropertyId] = useState(projectId ?? '');
   const [generatorOpen, setGeneratorOpen] = useState(false);
   const [writerOpen, setWriterOpen] = useState(false);
   const [writerForm, setWriterForm] = useState({ hook: '', script: '', title: '' });
@@ -71,6 +75,7 @@ export function ScriptingScreen({ properties = [] }: ScriptingScreenProps) {
   const [exportingScriptId, setExportingScriptId] = useState('');
   const [savingScript, setSavingScript] = useState(false);
   const [savedScripts, setSavedScripts] = useState<SavedCabanaScript[]>([]);
+  const visibleScripts = projectId ? savedScripts.filter(script => script.propertyId === projectId) : savedScripts;
 
   useEffect(() => {
     let cancelled = false;
@@ -217,6 +222,7 @@ export function ScriptingScreen({ properties = [] }: ScriptingScreenProps) {
     try {
       const saved = await saveCabanaScript({
         model: 'manual',
+        ...(projectId ? { propertyId: projectId, clientAccountId: properties.find(item => item.id === projectId)?.clientId, brief } : {}),
         script: {
           hooks: writerForm.hook.trim() ? [writerForm.hook.trim()] : [],
           id: '',
@@ -298,9 +304,9 @@ export function ScriptingScreen({ properties = [] }: ScriptingScreenProps) {
         <Button onClick={openGenerator}>Generate script</Button>
       </div>} />
 
-      {savedScripts.length ? (
+      {visibleScripts.length ? (
         <section className="rm-document-grid" aria-label="Generated scripts">
-          {savedScripts.map((script) => (
+          {visibleScripts.map((script) => (
             <Card
               aria-label={`Edit ${script.title}`}
               className="rm-document-card rm-document-card--editable rm-scripting-card"
@@ -499,7 +505,7 @@ export function ScriptingScreen({ properties = [] }: ScriptingScreenProps) {
             </div>
           ) : null}
 
-          {properties.length ? (
+          {properties.length && !projectId ? (
             <label className="rm-field rm-form-grid__wide">
               <span>Existing property</span>
               <select onChange={(event) => applyProperty(event.target.value)} value={selectedPropertyId}>

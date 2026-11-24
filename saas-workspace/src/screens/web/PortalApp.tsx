@@ -32,12 +32,14 @@ import { MarketingItemEditor } from './MarketingItemEditor';
 import { StudioHome } from '@/workspace/StudioHome';
 import { ModulesScreen } from '@/workspace/ModulesScreen';
 import { modules } from '@/workspace/modules';
+import { workspacePages } from '@/workspace/navigation';
 import { WorkspaceProvider, useWorkspace } from '@/workspace/WorkspaceProvider';
 import { shouldOnboardAgency } from '@/workspace/agency-settings';
 import { WorkspaceOnboarding } from '@/workspace/WorkspaceOnboarding';
 import { WorkspaceGettingStarted, WorkspaceWelcome } from '@/workspace/WorkspaceGettingStarted';
 import '@/workspace/onboarding.css';
 import { PropertiesScreen } from './PropertiesScreen';
+import { ProjectsScreen } from './ProjectsScreen';
 import { ReviewsScreen } from './ReviewsScreen';
 import { SalesScreen } from './SalesScreen';
 import { ScriptingScreen } from './ScriptingScreen';
@@ -61,7 +63,7 @@ import type {
 } from './types';
 
 const allowedScreens: Record<PortalRole, PortalScreenKey[]> = {
-  admin: ['modules', 'dashboard', 'documents', 'clients', 'sales', 'team', 'gear', 'marketing', 'scripting', 'finances', 'tasks', 'calendar', 'reviews', 'notes'],
+  admin: ['modules', 'dashboard', 'documents', 'projects', 'clients', 'sales', 'team', 'gear', 'marketing', 'scripting', 'finances', 'tasks', 'calendar', 'reviews', 'notes'],
   client: ['dashboard', 'analytics', 'reviews', 'billing'],
   team_member: ['dashboard', 'sops', 'tasks', 'calendar'],
 };
@@ -427,7 +429,7 @@ function PortalAppInner({
           (task) => Boolean(workspaceUserId) && task.assigneeUserId === workspaceUserId,
         )
       : shellData.tasks ?? [];
-    const pageNavigation = effectiveRole === 'admin' ? [{key: 'dashboard' as const, label: 'Overview', icon: 'grid' as const, labelRo: 'Overview'}, ...modules.filter(m => config.enabled.includes(m.id)).map(m => ({key: m.id, label: m.label, icon: m.icon, labelRo: m.label})), {key: 'modules' as const, label: 'Customize workspace', icon: 'settings' as const, labelRo: 'Customize workspace'}] : portalNavigationForRole(effectiveRole);
+    const pageNavigation = effectiveRole === 'admin' ? [...workspacePages(config).map(item => ({...item, labelRo: item.label})), {key: 'modules' as const, label: 'Customize workspace', icon: 'settings' as const, labelRo: 'Customize workspace'}] : portalNavigationForRole(effectiveRole);
     const pageItems = pageNavigation.map((item) => ({
       detail: 'Workspace page',
       icon: item.icon,
@@ -450,8 +452,8 @@ function PortalAppInner({
         detail: `${property.clientName} · ${property.location}`,
         icon: 'building' as const,
         id: `property-${property.id}`,
-        screen: 'properties' as const,
-        targetId: property.clientId,
+        screen: 'projects' as const,
+        targetId: property.id,
         title: property.name,
       })),
       ...(shellData.reviews ?? []).map((review) => ({
@@ -483,8 +485,8 @@ function PortalAppInner({
         screen: 'gear' as const,
         title: item.name,
       })),
-    ].filter((item) => allowedScreens[effectiveRole].includes(item.screen) && (effectiveRole !== 'admin' || !modules.some(m => m.id === item.screen) || config.enabled.some(id => id === item.screen)));
-  }, [authenticatedUser.locale, effectiveRole, shellData, workspaceUserId, config.enabled]);
+    ].filter((item) => allowedScreens[effectiveRole].includes(item.screen) && (effectiveRole !== 'admin' || (item.screen !== 'projects' || config.enabled.includes('clients')) && (!modules.some(m => m.id === item.screen) || config.enabled.some(id => id === item.screen))));
+  }, [authenticatedUser.locale, effectiveRole, shellData, workspaceUserId, config]);
 
   const previewNotifications = useMemo<PortalNotification[]>(() => {
     const reviewNotifications = (shellData.reviews ?? [])
@@ -613,6 +615,23 @@ function PortalAppInner({
 
   const screen = (() => {
     switch (visibleScreen) {
+      case 'projects': {
+        const project = shellData.properties?.find(item => item.id === location.projectId);
+        const clientId = project?.clientId ?? (!location.projectId ? location.clientId : undefined);
+        if (clientId && shellData.clients?.some(client => client.id === clientId)) return (
+          <AdminClientsHubScreen actions={actions} currentUserId={workspaceUserId} data={shellData}
+            key={`project-${project?.id ?? clientId}`}
+            selectedClientId={clientId}
+            projectLocation={{ ...location, clientId }}
+            onProjectLocationChange={changes => visit({ ...location, clientId, ...changes })}
+            onClientSelectionChange={id => visit(id ? { screen: 'projects', clientId: id } : { screen: 'projects' })}
+            onCreateClient={onCreateClient} onOpenTask={openTask}/>
+        );
+        return <ProjectsScreen data={shellData} actions={actions} stage={location.projectStage} onNavigate={navigate}
+          onStageChange={projectStage => visit({ screen: 'projects', projectStage })}
+          onOpenProject={project => visit({ screen: 'projects', clientId: project.clientId, projectId: project.id, projectStage: location.projectStage })}
+          onOpenClients={() => navigate('clients')}/>;
+      }
       case 'clients':
         if (effectiveRole === 'admin') {
           return (
@@ -994,10 +1013,17 @@ function PortalAppInner({
             : undefined
         }
         onNavigate={navigate}
+        onNavigateProjectStage={projectStage => visit({ screen: 'projects', projectStage })}
+        activeProjectStage={visibleScreen === 'projects' ? location.projectStage : undefined}
         onSelectWorkspace={onSelectWorkspace}
         onSearchSelect={(item) => {
           if (!item.targetId) return;
           if (item.screen === 'tasks') { openTask(item.targetId); return true; }
+          if (item.screen === 'projects') {
+            const project = shellData.properties?.find(property => property.id === item.targetId);
+            if (project) visit({ screen: 'projects', projectId: project.id, clientId: project.clientId });
+            return true;
+          }
           if (item.screen === 'clients' || item.screen === 'properties') { openClient(item.targetId); return true; }
         }}
         onReadNotification={

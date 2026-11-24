@@ -1,6 +1,6 @@
 export const modules = [
   { id: 'tasks', label: 'Tasks', icon: 'list-check', description: 'Assignments, deadlines, and the work in between.', group: 'Work' },
-  { id: 'clients', label: 'Clients & properties', icon: 'building', description: 'Your clients, their properties, and every deliverable.', group: 'Work' },
+  { id: 'clients', label: 'Clients & projects', icon: 'building', description: 'Your client directory and project production workspaces.', group: 'Work' },
   { id: 'calendar', label: 'Calendar', icon: 'calendar', description: 'Shoots, reviews, and production schedules.', group: 'Work' },
   { id: 'reviews', label: 'Reviews', icon: 'play', description: 'Versions, feedback, and client approvals.', group: 'Work' },
   { id: 'documents', label: 'Documents', icon: 'folder', description: 'Briefs, references, templates, and company knowledge.', group: 'Studio' },

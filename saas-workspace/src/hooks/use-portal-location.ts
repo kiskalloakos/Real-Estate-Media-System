@@ -17,7 +17,8 @@ export function usePortalLocation(fallback: PortalScreenKey, allowed: readonly P
     saveScroll();
     const url = portalLocationUrl(window.location.href, next);
     const sameCanvas = next.screen === location.screen
-      && (next.screen !== 'clients' || next.clientId === location.clientId);
+      && (!['clients', 'projects'].includes(next.screen) || next.clientId === location.clientId)
+      && (next.screen !== 'projects' || next.projectId === location.projectId);
     restore.current = sameCanvas ? document.querySelector<HTMLElement>('.aw-frame')?.scrollTop ?? 0 : 0;
     if (url !== `${window.location.pathname}${window.location.search}${window.location.hash}`) {
       const state = { ...window.history.state, rmPortal: true, rmScroll: restore.current };
@@ -25,7 +26,7 @@ export function usePortalLocation(fallback: PortalScreenKey, allowed: readonly P
       else window.history.pushState(state, '', url);
     }
     setLocation(next);
-  }, [allowed, location.screen, location.clientId, saveScroll]);
+  }, [allowed, location.screen, location.clientId, location.projectId, saveScroll]);
   useEffect(() => {
     window.history.replaceState({ ...window.history.state, rmPortal: true }, '', portalLocationUrl(window.location.href, location));
   }, [location]);

@@ -1,4 +1,5 @@
 import { ClientsScreen } from './ClientsScreen';
+import type { PortalLocation } from '@/lib/portal-location';
 import type {
   CreateClientInput,
   ClientSummary,
@@ -11,6 +12,8 @@ export interface AdminClientsHubScreenProps {
   currentUserId?: string;
   data?: PortalData;
   selectedClientId?: string | null;
+  projectLocation?: PortalLocation;
+  onProjectLocationChange?: (changes: Partial<PortalLocation>) => void;
   onClientSelectionChange?: (id: string | null) => void;
   onCreateClient?: (client: CreateClientInput) => void | Promise<void>;
   onOpenProductionCalendar?: (eventId: string) => void;
@@ -24,6 +27,8 @@ export function AdminClientsHubScreen({
   currentUserId,
   data,
   selectedClientId,
+  projectLocation,
+  onProjectLocationChange,
   onClientSelectionChange,
   onCreateClient,
   onOpenProductionCalendar,
@@ -36,6 +41,8 @@ export function AdminClientsHubScreen({
       <ClientsScreen
         payments={data?.payments}
         projectWorkspace
+        projectLocation={projectLocation}
+        onProjectLocationChange={onProjectLocationChange}
         actions={actions}
         archivedTasks={data?.archivedTasks}
         accounts={data?.instagramAccounts}

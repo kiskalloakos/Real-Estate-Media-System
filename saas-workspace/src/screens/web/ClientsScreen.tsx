@@ -1,5 +1,6 @@
 import { BillingScreen } from './BillingScreen';
 import { ProjectWorkspace } from './ProjectWorkspace';
+import type { PortalLocation } from '@/lib/portal-location';
 import { upcomingEvents } from '@/lib/upcoming-events';
 import { chronologicalFulfillment, fulfillmentCompletion, simplifiedFulfillmentStatus } from '@/lib/monthly-fulfillment';
 import { useMemo, useState, type ChangeEvent, type CSSProperties, type FormEvent } from 'react';
@@ -56,6 +57,8 @@ import type {
 
 export interface ClientsScreenProps {
   projectWorkspace?: boolean;
+  projectLocation?: PortalLocation;
+  onProjectLocationChange?: (changes: Partial<PortalLocation>) => void;
   payments?: PaymentRecord[];
   actions?: PortalActionHandlers;
   archivedTasks?: TaskSummary[];
@@ -1570,7 +1573,7 @@ function ClientWorkspacePage({
 }
 
 export function ClientsScreen({
-  actions, projectWorkspace, archivedTasks, payments = [],
+  actions, projectWorkspace, projectLocation, onProjectLocationChange, archivedTasks, payments = [],
   accounts = [],
   agreements = [],
   agencyMembers = [],
@@ -1974,6 +1977,7 @@ export function ClientsScreen({
     );
     if (!projectWorkspace) return clientPage();
     return <ProjectWorkspace key={activeSelectedClient.id} actions={actions} archivedTasks={archivedTasks}
+      projectLocation={projectLocation} onProjectLocationChange={onProjectLocationChange}
       client={activeSelectedClient} properties={selectedProperties} members={agencyMembers}
       events={selectedEvents} reviews={selectedReviews} tasks={tasks} currentUserId={currentUserId}
       agreement={agreements.find(item => item.clientId === activeSelectedClient.id)}

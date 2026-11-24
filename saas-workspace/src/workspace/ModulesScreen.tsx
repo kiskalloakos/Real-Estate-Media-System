@@ -4,6 +4,7 @@ import { Icon } from '@/components/web/Icon';
 import { uploadAgencyLogo } from './agency-service';
 
 import { modules, presets, type ModuleId } from './modules';
+import { workspaceModuleGroup, workspaceModuleGroups } from './navigation';
 import { useWorkspace } from './WorkspaceProvider';
 
 type AgencySettings = {
@@ -68,8 +69,12 @@ export function ModulesScreen({ onStartSetup }: { onStartSetup: () => void }) {
   };
   const toggle = (id: ModuleId) => { void applyModules(config.enabled.includes(id) ? config.enabled.filter((item) => item !== id) : [...config.enabled, id]); };
   const move = (id: ModuleId, direction: number) => {
-    const order = [...config.order]; const index = order.indexOf(id); const target = index + direction;
-    if (target < 0 || target >= order.length) return;
+    const group = workspaceModuleGroup(id);
+    if (group === 'Workspace') return;
+    const siblings = config.order.filter(item => workspaceModuleGroup(item) === group);
+    const sibling = siblings[siblings.indexOf(id) + direction];
+    if (!sibling) return;
+    const order = [...config.order]; const index = order.indexOf(id); const target = order.indexOf(sibling);
     [order[index], order[target]] = [order[target], order[index]]; setPresetMessage(''); save({ ...config, order });
   };
   const submit = async (event: FormEvent<HTMLFormElement>) => {
@@ -117,8 +122,27 @@ export function ModulesScreen({ onStartSetup }: { onStartSetup: () => void }) {
     <div className="aw-section-heading"><h2>Start with a setup</h2><span>You can change every module below.</span></div>
     {presetMessage ? <p className="aw-settings-notice" role="status">{presetMessage}</p> : null}
     <div className="aw-presets">{Object.entries(presets).map(([key, preset]) => <button key={key} className="aw-preset" disabled={!canEditAgency} onClick={() => void applyModules([...preset.enabled], `${preset.label} setup applied.`)} type="button"><Icon name={key === 'production' ? 'camera' : key === 'content' ? 'file' : 'grid'} size={22}/><strong>{preset.label}</strong><span>{preset.description}</span><small>Apply setup <Icon name="arrow-right" size={14}/></small></button>)}</div>
-    <div className="aw-section-heading"><h2>Workspace modules</h2><span>Home and agency settings are always available.</span></div>
-    <div className="aw-module-list">{config.order.map((id, index) => { const module = modules.find((item) => item.id === id)!; const enabled = config.enabled.includes(id); return <div className="aw-module-row" key={id}><span className="aw-module-icon"><Icon name={module.icon}/></span><div className="aw-module-copy"><strong>{module.label}</strong><p>{module.description}</p></div><div className="aw-reorder"><button aria-label={`Move ${module.label} up`} disabled={index === 0 || saving} onClick={() => move(id, -1)} type="button"><Icon name="chevron-up" size={16}/></button><button aria-label={`Move ${module.label} down`} disabled={index === config.order.length - 1 || saving} onClick={() => move(id, 1)} type="button"><Icon name="chevron-down" size={16}/></button></div><span className="aw-module-state">{enabled ? 'On' : 'Off'}</span><button className="aw-module-toggle" role="switch" aria-label={`Enable ${module.label}`} aria-checked={enabled} disabled={!canEditAgency} onClick={() => toggle(id)} type="button"><span className="aw-module-toggle__thumb"/></button></div>; })}</div>
+    <div className="aw-section-heading"><h2>Workspace modules</h2><span>Primary navigation stays fixed. Reorder tools within Projects or Agency.</span></div>
+    {workspaceModuleGroups.map(group => {
+      const siblings = config.order.filter(id => workspaceModuleGroup(id) === group);
+      return <section key={group} aria-label={`${group} modules`}>
+        <div className="aw-section-heading"><h3>{group}</h3></div>
+        <div className="aw-module-list">{siblings.map((id, index) => {
+          const module = modules.find(item => item.id === id)!;
+          const enabled = config.enabled.includes(id);
+          return <div className="aw-module-row" key={id}>
+            <span className="aw-module-icon"><Icon name={module.icon}/></span>
+            <div className="aw-module-copy"><strong>{module.label}</strong><p>{module.description}</p></div>
+            {group !== 'Workspace' && <div className="aw-reorder">
+              <button aria-label={`Move ${module.label} up`} disabled={index === 0 || saving} onClick={() => move(id, -1)} type="button"><Icon name="chevron-up" size={16}/></button>
+              <button aria-label={`Move ${module.label} down`} disabled={index === siblings.length - 1 || saving} onClick={() => move(id, 1)} type="button"><Icon name="chevron-down" size={16}/></button>
+            </div>}
+            <span className="aw-module-state">{enabled ? 'On' : 'Off'}</span>
+            <button className="aw-module-toggle" role="switch" aria-label={`Enable ${module.label}`} aria-checked={enabled} disabled={!canEditAgency} onClick={() => toggle(id)} type="button"><span className="aw-module-toggle__thumb"/></button>
+          </div>;
+        })}</div>
+      </section>;
+    })}
     <p className="aw-footnote" role="status">{storageError ? 'Your browser could not save preferences. They will last for this session only.' : isLive ? 'Agency details and enabled tools are shared across your workspace. Sidebar mode and tool order are personal to this browser.' : 'Sample workspace. Changes are saved only in this browser.'}</p>
   </div>;
 }
