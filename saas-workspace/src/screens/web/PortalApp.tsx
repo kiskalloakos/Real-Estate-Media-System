@@ -569,10 +569,11 @@ function PortalAppInner({
             id: notification.id,
             read: Boolean(notification.readAt),
             screen: notification.webScreen,
+            taskId: notification.entityType === 'task' ? notification.entityId ?? undefined : undefined,
             timeLabel: notificationTimeLabel(notification.createdAt),
             title: notification.title,
           }))
-        : previewNotifications;
+        : [...projectPreview.notifications, ...previewNotifications];
 
       return source.filter((notification) =>
         allowedScreens[effectiveRole].includes(notification.screen),
@@ -583,6 +584,7 @@ function PortalAppInner({
       hasLiveIdentity,
       notificationQuery.data,
       previewNotifications,
+      projectPreview.notifications,
       selectedClientMember,
       selectedTeamMember,
     ],
@@ -1026,6 +1028,7 @@ function PortalAppInner({
             : undefined
         }
         onNavigate={navigate}
+        onOpenTaskNotification={taskId => visit({ screen: 'tasks', taskId })}
         onNavigateProjectStatus={projectStatus => visit({ screen: 'projects', projectStatus })}
         activeProjectStatus={visibleScreen === 'projects' ? location.projectStatus : undefined}
         onSelectWorkspace={onSelectWorkspace}

@@ -61,6 +61,34 @@ policies and leaves no fixtures behind. Run the entire file, including its
 `BEGIN` and `ROLLBACK`, against the migrated backend. This live check passed on
 November 24, 2026.
 
+## Automatic task handoffs (step 2)
+
+In a project's task editor, an agency admin can choose **Waits for task** and
+assign the task to its next owner. Each task can wait for one preceding task in
+the same project, across any work sections. Several tasks can follow the same
+preceding task. No task templates are generated.
+
+Completing the preceding task makes the following work ready and sends its
+assigned person a **Task ready** notification. Clicking the notification opens
+that task. Work is not marked in progress automatically. Waiting tasks cannot
+be started or completed until their preceding task is complete. Reopening or
+archiving the preceding task resets readiness; it does not undo work already
+started. Repeated saves do not duplicate the same completion alert.
+
+The separate backend migration is `202611240002_task_handoffs.sql`, applied and
+recorded on November 24, 2026 before its frontend release. It leaves existing
+tasks independent. Links, cycle checks, readiness, and notification delivery
+are enforced by the database, including for native/direct API callers.
+Notifications respect active membership and task visibility, and never include
+private preceding-task details. Existing notification/push preferences apply.
+
+`npm run test:projects` covers handoff UI rules and notification filtering.
+`npm run test:projects:db` also exercises handoff constraints and deduplication
+in the isolated PostgreSQL runtime described above.
+`supabase/tests/task-handoffs.sql` tests the deployed schema with a private
+preceding task, a separate editor, and another agency; its entire transaction
+rolls back. This live-permissions test passed on November 24, 2026.
+
 ## Expo Go on iOS and Android
 
 ```sh

@@ -13,6 +13,7 @@ const id = n => `00000000-0000-4000-8000-${String(n).padStart(12, '0')}`;
 try {
   await db.exec(`
     create role authenticated;
+    create role anon;
     create schema auth;
     create function auth.uid() returns uuid language sql stable as $$ select nullif(current_setting('test.user_id', true), '')::uuid $$;
     create function public.is_agency_admin(a uuid) returns boolean language sql stable as $$ select current_setting('test.role', true) = 'admin' and a::text = current_setting('test.agency', true) $$;
@@ -72,5 +73,39 @@ try {
   await assert.rejects(() => db.exec(`insert into job_sections(agency_id,job_id,name) values('${id(1)}','${id(11)}','Forbidden')`), /row-level security/i);
   await db.exec(`set test.role='admin'; set test.agency='${id(1)}'`);
   assert.equal((await db.query('select count(*)::int n from job_sections')).rows[0].n, 1);
-  console.log('Project migration verified: engagements, contract/client/owner constraints, arbitrary sections, concurrent phases, section deletion, task/event context, and section RLS.');
+  await db.exec(`reset role;
+    alter table tasks add column title text default 'Test task', add column completed_at timestamptz, add column visibility text default 'team', add unique(id,agency_id);
+    alter table agency_memberships add column role text default 'team_member', add column status text default 'active';
+    create table client_memberships(agency_id uuid,client_account_id uuid,user_id uuid,status text);
+    create type public.notification_kind as enum ('task');
+    create table notifications(id uuid default gen_random_uuid(), recipient_user_id uuid, entity_id uuid, dedupe_key text, unique(recipient_user_id,dedupe_key));
+    create function public.create_user_notification(a uuid, recipient uuid, kind public.notification_kind, title text, body text, screen text, route text, entity text, entity_id uuid, dedupe text, metadata jsonb) returns uuid language plpgsql as $$
+    declare result uuid; begin
+      insert into public.notifications(recipient_user_id,entity_id,dedupe_key) values(recipient,entity_id,dedupe) on conflict do nothing returning id into result;
+      return result;
+    end; $$;
+    insert into agency_memberships(agency_id,user_id) values('${id(1)}','${id(4)}');
+  `);
+  await db.exec(await readFile(new URL('../supabase/migrations/202611240002_task_handoffs.sql', import.meta.url), 'utf8'));
+  await db.exec(`insert into tasks(id,agency_id,client_account_id,job_id,title,assignee_user_id,waits_for_task_id) values
+    ('${id(20)}','${id(1)}','${id(5)}','${id(11)}','Edit reel','${id(3)}','${id(16)}'),
+    ('${id(21)}','${id(1)}','${id(5)}','${id(11)}','Select photos','${id(4)}','${id(16)}');`);
+  assert.equal((await db.query('select count(*)::int n from notifications')).rows[0].n, 0);
+  await assert.rejects(() => db.exec(`update tasks set status='in_progress' where id='${id(20)}'`), /Complete the preceding task/i);
+  await assert.rejects(() => db.exec(`update tasks set waits_for_task_id='${id(20)}' where id='${id(16)}'`), /cannot form a loop/i);
+  await assert.rejects(() => db.exec(`update tasks set waits_for_task_id='${id(18)}' where id='${id(20)}'`), /same project/i);
+  await assert.rejects(() => db.exec(`update tasks set job_id='${id(12)}' where id='${id(16)}'`), /Unlink dependent tasks/i);
+  await db.exec(`update tasks set handoff_ready_at=now() where id='${id(20)}'`);
+  assert.equal((await db.query(`select handoff_ready_at from tasks where id='${id(20)}'`)).rows[0].handoff_ready_at, null);
+  await db.exec(`update tasks set status='done',completed_at='2026-11-24T10:00:00Z' where id='${id(16)}'`);
+  assert.equal((await db.query('select count(*)::int n from notifications')).rows[0].n, 2);
+  assert.ok((await db.query(`select handoff_ready_at from tasks where id='${id(20)}'`)).rows[0].handoff_ready_at);
+  await db.exec(`update tasks set title='Edit the hero reel' where id='${id(20)}'; update tasks set status='done' where id='${id(16)}'`);
+  assert.equal((await db.query('select count(*)::int n from notifications')).rows[0].n, 2);
+  await db.exec(`update tasks set status='todo',completed_at=null where id='${id(16)}'`);
+  assert.equal((await db.query(`select handoff_ready_at from tasks where id='${id(20)}'`)).rows[0].handoff_ready_at, null);
+  await db.exec(`update tasks set status='done',completed_at='2026-11-24T11:00:00Z' where id='${id(16)}'`);
+  assert.equal((await db.query('select count(*)::int n from notifications')).rows[0].n, 4);
+  await db.exec(`update tasks set status='in_progress' where id='${id(20)}'`);
+  console.log('Project and handoff migrations verified: engagement constraints and RLS; same-project task links; cycle/start guards; fan-out, readiness, reopening, and notification deduplication.');
 } catch (error) { console.error(error.message); process.exitCode = 1; } finally { await db.close(); }

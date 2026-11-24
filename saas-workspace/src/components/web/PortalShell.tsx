@@ -106,6 +106,7 @@ export interface PortalShellProps {
   activeProjectStatus?: JobSummary['status'];
   onSelectWorkspace?: (agencyId: string) => void;
   onReadNotification?: (notificationId: string) => Promise<void> | void;
+  onOpenTaskNotification?: (taskId: string) => void;
   onSearchSelect?: (item: PortalSearchItem) => boolean | void;
   onSignOut?: () => void;
   onUpdateProfile?: (input: {
@@ -135,6 +136,7 @@ export function PortalShell({
   activeProjectStatus,
   onSelectWorkspace,
   onReadNotification,
+  onOpenTaskNotification,
   onSearchSelect,
   onSignOut,
   onUpdateProfile,
@@ -267,7 +269,10 @@ export function PortalShell({
       }
     }
     setNotificationOpen(false);
-    navigate(notification.screen);
+    if (notification.taskId && onOpenTaskNotification) {
+      setMobileOpen(false);
+      onOpenTaskNotification(notification.taskId);
+    } else navigate(notification.screen);
   };
 
   const saveProfile = async (input: {

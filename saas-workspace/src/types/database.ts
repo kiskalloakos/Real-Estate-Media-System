@@ -382,6 +382,8 @@ export interface CalendarEventAssigneeRow extends AgencyScopedRow {
 }
 
 export interface TaskRow extends AgencyScopedRow, TimestampedRow, ArchivableRow {
+  waits_for_task_id: UUID | null;
+  handoff_ready_at: string | null;
   job_section_id: UUID | null;
   production_phase: 'pre-production' | 'production' | 'post-production' | null;
   client_account_id: UUID | null;

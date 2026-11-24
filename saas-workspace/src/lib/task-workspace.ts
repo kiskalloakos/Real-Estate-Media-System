@@ -52,11 +52,35 @@ export function taskDateParts(value?: string) {
 }
 export function taskUpdateInput(task: TaskSummary): UpdateTaskInput {
   return {
+    waitsForTaskId: task.waitsForTaskId,
     jobId: task.jobId, sectionId: task.sectionId, productionPhase: task.productionPhase,
     taskId: task.id, title: task.title, description: task.description, status: task.status,
     assigneeUserId: task.assigneeUserId, clientId: task.clientId, propertyId: task.propertyId,
     priority: task.priority, visibility: task.visibility, ...taskDateParts(task.dueAt),
   };
+}
+export function isWaitingForTask(task: Pick<TaskSummary, 'waitsForTaskId' | 'handoffReadyAt'>) {
+  return Boolean(task.waitsForTaskId && !task.handoffReadyAt);
+}
+export function taskHandoffLabel(task: TaskSummary, tasks: TaskSummary[]) {
+  if (!task.waitsForTaskId || !isOpenTask(task)) return '';
+  if (!isWaitingForTask(task)) return task.status === 'todo' ? 'Ready to start' : 'Preceding task complete';
+  const preceding = tasks.find(item => item.id === task.waitsForTaskId);
+  return preceding ? `Waiting for: ${preceding.title}` : 'Waiting for preceding task';
+}
+export function handoffTaskOptions(tasks: TaskSummary[], jobId: string, taskId?: string) {
+  const byId = new Map(tasks.map(task => [task.id, task]));
+  return tasks.filter(task => {
+    if (task.jobId !== jobId || task.archivedAt || task.id === taskId) return false;
+    const visited = new Set<string>();
+    let current: TaskSummary | undefined = task;
+    while (current) {
+      if (current.id === taskId || visited.has(current.id)) return false;
+      visited.add(current.id);
+      current = current.waitsForTaskId ? byId.get(current.waitsForTaskId) : undefined;
+    }
+    return true;
+  });
 }
 export function attentionTasks(tasks: TaskSummary[], now = new Date()) {
   const priorities = { urgent: 0, high: 1, normal: 2, low: 3 };

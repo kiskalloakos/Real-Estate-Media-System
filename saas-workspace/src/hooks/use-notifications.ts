@@ -47,12 +47,12 @@ function safeWebScreen(value: string): PortalScreenKey {
     : 'dashboard';
 }
 
-function isNecessaryNotification(
+export function isNecessaryNotification(
   notification: Pick<AppNotification, 'body' | 'kind' | 'title'>,
 ) {
   switch (notification.kind) {
     case 'task':
-      return notification.title.startsWith('New task:');
+      return notification.title.startsWith('New task:') || notification.title.startsWith('Task ready:');
     case 'calendar':
       return (
         notification.title.startsWith('New event:') ||

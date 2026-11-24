@@ -219,6 +219,8 @@ export interface CalendarEvent {
 }
 
 export interface TaskSummary {
+  waitsForTaskId?: string;
+  handoffReadyAt?: string;
   jobId?: string;
   sectionId?: string;
   productionPhase?: TaskProductionPhase;
@@ -520,6 +522,7 @@ export interface CreatePropertyInput {
 }
 
 export interface CreateTaskInput {
+  waitsForTaskId?: string;
   jobId?: string;
   sectionId?: string;
   productionPhase?: TaskProductionPhase;

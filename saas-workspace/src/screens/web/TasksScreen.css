@@ -165,3 +165,4 @@ html body .rm-modal.aw-dialog.aw-task-drawer .rm-modal__body { padding-bottom: 1
   #aw-main-content #aw-tasks .aw-tasks__table td:nth-child(5) { grid-column: 2; grid-row: 3; justify-self: end; }
   #aw-main-content #aw-tasks .aw-tasks__table .aw-tasks__list-archive { width: 44px; height: 44px; }
 }
+.aw-tasks__handoff { display: block; color: var(--rm-accent, #7d82ff); font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; }

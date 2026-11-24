@@ -18,7 +18,7 @@ import { useBrowserPersistedState } from '@/hooks/use-browser-persisted-state';
 import { clearLocalDraft, readLocalDraft, useLocalDraft } from '@/hooks/use-local-draft';
 
 import { taskPhaseLabels, taskProductionPhases } from '@/lib/engagements';
-import { taskViews, taskPreviewText, taskDateParts, taskStatusLabels, taskUpdateInput, matchesTaskSearch, matchesTaskView, type TaskView } from '@/lib/task-workspace';
+import { taskViews, taskPreviewText, taskDateParts, taskStatusLabels, taskUpdateInput, matchesTaskSearch, matchesTaskView, handoffTaskOptions, taskHandoffLabel, type TaskView } from '@/lib/task-workspace';
 import type { PortalLocation } from '@/lib/portal-location';
 import { TaskDetailsDrawer } from './TaskDetailsDrawer';
 import { demoTasks } from './demoData';
@@ -40,6 +40,7 @@ export interface TasksScreenProps {
   projectContext?: { clientId?: string; propertyId?: string; jobId?: string; sectionId?: string; productionPhase?: TaskProductionPhase };
   jobs?: JobSummary[];
   projectSections?: ProjectTaskSection[];
+  handoffTasks?: TaskSummary[];
   archivedTasks?: TaskSummary[];
   clients?: ClientSummary[];
   currentUserId?: string;
@@ -188,6 +189,7 @@ function orderedTasks(
 }
 
 export function TasksScreen({
+  handoffTasks,
   jobs,
   projectSections = [],
   projectContext,
@@ -222,6 +224,7 @@ export function TasksScreen({
       : sourceTasks,
     [currentUserId, role, sourceTasks],
   );
+  const handoffSource = handoffTasks ?? sourceTasks;
   const stateKey = `rm:tasks-state:${currentUserId ?? role}${projectContext ? ":" + (projectContext.jobId ?? projectContext.clientId ?? "internal") + ":" + (projectContext.propertyId ?? "general") : ""}`;
   const [assigneeId, setAssigneeId] = useBrowserPersistedState(`${stateKey}:assignee`, 'all');
   const [taskOrder, setTaskOrder] = useBrowserPersistedState<TaskOrderState>(
@@ -325,7 +328,7 @@ export function TasksScreen({
 
   const previewTask = location
     ? boardTasks.find(task => task.id === location.taskId) ?? null
-    : localPreviewTask;
+    : boardTasks.find(task => task.id === localPreviewTask?.id) ?? null;
   const setPreviewTask = (task: TaskSummary | null) => {
     if (onLocationChange) onLocationChange({ taskId: task?.id });
     else setLocalPreviewTask(task);
@@ -387,6 +390,7 @@ export function TasksScreen({
     const due = taskDateParts(task.dueAt);
     setEditTask(task);
     setEditForm({
+      waitsForTaskId: task.waitsForTaskId ?? '',
       jobId: task.jobId, sectionId: task.sectionId, productionPhase: task.productionPhase,
       attachments: [],
       assigneeUserId: task.assigneeUserId,
@@ -559,7 +563,6 @@ export function TasksScreen({
     }
     if (!onUpdateTask) return;
 
-    const due = taskDateParts(task.dueAt);
     const previousStatus = task.status;
     setPendingTaskIds(current => new Set(current).add(task.id));
     // Move instantly, then reconcile with Supabase in the background. The board
@@ -567,19 +570,7 @@ export function TasksScreen({
     setOptimisticStatuses((current) => ({ ...current, [task.id]: status }));
     saveTaskPosition({ ...task, status }, destination, targetTaskId, edge);
     try {
-      await onUpdateTask({
-        assigneeUserId: task.assigneeUserId,
-        clientId: task.clientId,
-        description: task.description,
-        dueDate: due.dueDate,
-        dueTime: due.dueTime,
-        priority: task.priority,
-        propertyId: task.propertyId,
-        status,
-        taskId: task.id,
-        title: task.title,
-        visibility: task.visibility,
-      });
+      await onUpdateTask({ ...taskUpdateInput(task), status });
       setOptimisticStatuses(current => { const next = { ...current }; delete next[task.id]; return next; });
       offerUndo(`${task.title} moved to ${statusLabels[status]}.`, async () => {
         await onUpdateTask(taskUpdateInput(task));
@@ -604,11 +595,16 @@ export function TasksScreen({
         <div className="rm-form-grid rm-form-grid--two">
           <label className="rm-field"><span>Project</span><select disabled={Boolean(projectContext?.jobId)} value={form.jobId ?? ''} onChange={event => {
             const job = jobs.find(item => item.id === event.target.value);
-            update({ jobId: job?.id ?? '', sectionId: '', ...(job ? { clientId: job.clientId, propertyId: job.propertyId, visibility: job.clientId ? form.visibility : 'team' } : {}) });
+            update({ jobId: job?.id ?? '', sectionId: '', waitsForTaskId: '', ...(job ? { clientId: job.clientId, propertyId: job.propertyId, visibility: job.clientId ? form.visibility : 'team' } : {}) });
           }}><option value="">No project</option>{jobs.map(job => <option value={job.id} key={job.id}>{job.name}</option>)}</select></label>
           <label className="rm-field"><span>Work section</span><select disabled={!form.jobId} value={form.sectionId ?? ''} onChange={event => update({ sectionId: event.target.value })}><option value="">Unsectioned</option>{projectSections.filter(section => section.jobId === form.jobId).map(section => <option key={section.id} value={section.id}>{section.name}</option>)}</select></label>
         </div>
         <label className="rm-field"><span>Production phase</span><select value={form.productionPhase ?? ''} onChange={event => update({ productionPhase: event.target.value as TaskProductionPhase || undefined, jobId: form.jobId ?? '' })}><option value="">No phase</option>{taskProductionPhases.map(phase => <option value={phase} key={phase}>{taskPhaseLabels[phase]}</option>)}</select></label>
+        {role === 'admin' && form.jobId && <label className="rm-field"><span>Waits for task</span><select value={form.waitsForTaskId ?? ''} onChange={event => update({ waitsForTaskId: event.target.value })}>
+          <option value="">Can start independently</option>
+          {form.waitsForTaskId && !handoffSource.some(task => task.id === form.waitsForTaskId && !task.archivedAt) && <option value={form.waitsForTaskId}>Unavailable preceding task</option>}
+          {handoffTaskOptions(handoffSource, form.jobId, 'taskId' in form ? String(form.taskId) : undefined).map(task => <option key={task.id} value={task.id}>{task.title}</option>)}
+        </select><small>When that task is completed, the person assigned here is notified that this task is ready.</small></label>}
       </>}
       <div className="rm-form-grid rm-form-grid--two">
         <label className="rm-field">
@@ -746,7 +742,7 @@ export function TasksScreen({
       {filteredTasks.length && layout === 'list' ? (
         <div className="aw-tasks__table-wrap"><table className="aw-tasks__table"><thead><tr><th scope="col">Task / context</th><th scope="col">Status</th><th scope="col">Assigned to</th><th scope="col">Due</th><th scope="col"><span className="aw-sr-only">Actions</span></th></tr></thead><tbody>
           {taskLists.flatMap(list => orderedTasks(filteredTasks.filter(list.matches), list.key, taskOrder)).map(task => <tr key={task.id}>
-            <td><button className="aw-tasks__list-open" type="button" onClick={() => setPreviewTask(task)}><strong>{task.title}{task.priority === 'urgent' || task.priority === 'high' ? <span className="aw-tasks__priority"> · {task.priority === 'urgent' ? 'Urgent' : 'High'}</span> : null}</strong><span title={taskPreviewText(task)}>{taskPreviewText(task)}</span></button></td>
+            <td><button className="aw-tasks__list-open" type="button" onClick={() => setPreviewTask(task)}><strong>{task.title}{task.priority === 'urgent' || task.priority === 'high' ? <span className="aw-tasks__priority"> · {task.priority === 'urgent' ? 'Urgent' : 'High'}</span> : null}</strong><span title={taskPreviewText(task)}>{taskPreviewText(task)}</span>{taskHandoffLabel(task, handoffSource) && <span className="aw-tasks__handoff">{taskHandoffLabel(task, handoffSource)}</span>}</button></td>
             <td><span data-task-status={task.status} className={task.status === 'blocked' ? 'aw-tasks__priority' : ''}>{statusLabels[task.status]}</span></td><td>{task.assigneeName || 'Unassigned'}</td><td className={taskIsOverdue(task) ? 'is-overdue' : ''}>{task.dueAt ? <time dateTime={task.dueAt}>{taskIsOverdue(task) ? 'Overdue · ' : ''}{formatDue(task.dueAt)}</time> : '—'}</td>
             <td>{task.status === 'done' && canManage && <button type="button" className="aw-tasks__list-archive" aria-label={`Archive ${task.title}`} disabled={undoing || archivingTaskIds.has(task.id)} onClick={() => void archiveTaskImmediately(task)}><Icon name="archive" size={16}/></button>}</td>
           </tr>)}
@@ -859,6 +855,7 @@ export function TasksScreen({
                             >
                               <strong>{task.title}</strong>
                               <span className="aw-tasks__context" title={taskPreviewText(task)}>{taskPreviewText(task)}</span>
+                              {taskHandoffLabel(task, handoffSource) && <span className="aw-tasks__handoff">{taskHandoffLabel(task, handoffSource)}</span>}
                               <small className="aw-tasks__meta">
                                 <span>{task.assigneeName || 'Unassigned'}</span>
                                 {task.dueAt ? <time className={taskIsOverdue(task) ? 'aw-tasks__due is-overdue' : 'aw-tasks__due'} dateTime={task.dueAt}>{taskIsOverdue(task) ? 'Overdue: ' : ''}{formatDue(task.dueAt)}</time> : null}
@@ -994,6 +991,7 @@ export function TasksScreen({
 
       {previewTask && <TaskDetailsDrawer
         key={previewTask.id} task={previewTask} assignees={assigneeOptions} canManage={canManage} canReassign={role === 'admin'}
+        handoffLabel={taskHandoffLabel(previewTask, handoffSource)} nextTasks={handoffSource.filter(task => task.waitsForTaskId === previewTask.id && !task.archivedAt && !isClosed(task))}
         onClose={() => setPreviewTask(null)} onOpenClient={onOpenClient}
         onOpenAttachment={setAttachmentPreview} onSave={onUpdateTask ? saveQuickTask : undefined}
         onEdit={() => { openEdit(previewTask); setPreviewTask(null); }}

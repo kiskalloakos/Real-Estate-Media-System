@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { Button, Modal } from '@/components/web';
 import { portalLocationUrl } from '@/lib/portal-location';
-import { taskContext, taskStatusLabels, taskUpdateInput } from '@/lib/task-workspace';
+import { isWaitingForTask, taskContext, taskStatusLabels, taskUpdateInput } from '@/lib/task-workspace';
 import type { TaskAttachment, TaskSummary, UpdateTaskInput } from './types';
 
 interface TaskDetailsDrawerProps {
   task: TaskSummary;
+  handoffLabel?: string;
+  nextTasks?: TaskSummary[];
   assignees: { id: string; name: string }[];
   canManage: boolean;
   canReassign: boolean;
@@ -16,7 +18,7 @@ interface TaskDetailsDrawerProps {
   onSave?: (input: UpdateTaskInput) => Promise<void>;
 }
 
-export function TaskDetailsDrawer({ task, assignees, canManage, canReassign, onClose, onEdit, onOpenAttachment, onOpenClient, onSave }: TaskDetailsDrawerProps) {
+export function TaskDetailsDrawer({ task, handoffLabel, nextTasks = [], assignees, canManage, canReassign, onClose, onEdit, onOpenAttachment, onOpenClient, onSave }: TaskDetailsDrawerProps) {
   const [form, setForm] = useState(() => taskUpdateInput(task));
   const [baseline, setBaseline] = useState(form);
   const [saving, setSaving] = useState(false);
@@ -50,6 +52,8 @@ export function TaskDetailsDrawer({ task, assignees, canManage, canReassign, onC
           <Button variant="secondary" onClick={() => void copyLink()}>Copy task link</Button>
         </div>
         <section className="aw-task-drawer__description"><h3>Description</h3><p>{task.description.trim() || 'No description added.'}</p></section>
+        {handoffLabel && <p className="aw-tasks__handoff" role="status">{handoffLabel}</p>}
+        {!!nextTasks.length && <section className="aw-task-drawer__description"><h3>Next handoffs</h3><p>Completing this task makes the following work ready and notifies its assigned person.</p><ul>{nextTasks.map(next => <li key={next.id}>{next.title} · {next.assigneeName || 'Unassigned — assign someone to receive the handoff'}</li>)}</ul></section>}
         <form className="aw-task-drawer__form" onSubmit={async event => {
           event.preventDefault();
           if (!onSave || !dirty || saving) return;
@@ -64,7 +68,7 @@ export function TaskDetailsDrawer({ task, assignees, canManage, canReassign, onC
         }}>
           <fieldset disabled={!canManage || !onSave || saving}>
             <legend>Task details</legend>
-            <label className="rm-field"><span>Status</span><select value={form.status} onChange={event => update({ status: event.target.value as TaskSummary['status'] })}>{Object.entries(taskStatusLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
+            <label className="rm-field"><span>Status</span><select value={form.status} onChange={event => update({ status: event.target.value as TaskSummary['status'] })}>{Object.entries(taskStatusLabels).map(([value, label]) => <option key={value} value={value} disabled={isWaitingForTask(task) && value !== task.status && ['in_progress', 'done'].includes(value)}>{label}</option>)}</select></label>
             <label className="rm-field"><span>Assigned to</span><select disabled={!canReassign} value={form.assigneeUserId ?? ''} onChange={event => update({ assigneeUserId: event.target.value || undefined })}><option value="">Unassigned</option>{assignees.map(person => <option key={person.id} value={person.id}>{person.name}</option>)}</select></label>
             <label className="rm-field"><span>Priority</span><select value={form.priority} onChange={event => update({ priority: event.target.value as TaskSummary['priority'] })}>{['low', 'normal', 'high', 'urgent'].map(value => <option key={value} value={value}>{value[0].toUpperCase() + value.slice(1)}</option>)}</select></label>
             <div className="aw-task-drawer__dates"><label className="rm-field"><span>Due date</span><input type="date" value={form.dueDate} onChange={event => update({ dueDate: event.target.value })}/></label><label className="rm-field"><span>Due time</span><input type="time" disabled={!form.dueDate || saving || !canManage || !onSave} value={form.dueTime} onChange={event => update({ dueTime: event.target.value })}/></label></div>

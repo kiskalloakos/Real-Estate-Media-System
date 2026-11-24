@@ -1189,6 +1189,8 @@ async function fetchPortalData(agencyId: string): Promise<PortalData> {
 
     return {
       jobId: task.job_id ?? undefined,
+      waitsForTaskId: task.waits_for_task_id ?? undefined,
+      handoffReadyAt: task.handoff_ready_at ?? undefined,
       sectionId: task.job_section_id ?? undefined,
       productionPhase: task.production_phase ?? undefined,
       archivedAt: task.archived_at ?? undefined,

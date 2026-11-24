@@ -49,6 +49,27 @@ test('quick edits preserve task metadata and round-trip local deadlines', () => 
  assert.equal(input.propertyId,'property'); assert.equal(input.description,original.description); assert.equal(input.priority,'high');
  assert.equal(tasks.taskUpdateInput(task()).dueDate,'');
 });
+test('handoffs stay visible without access to the preceding task and quick edits preserve the link', () => {
+ const waiting=task({waitsForTaskId:'film',jobId:'social'});
+ assert.equal(tasks.isWaitingForTask(waiting),true);
+ assert.equal(tasks.taskHandoffLabel(waiting,[]),'Waiting for preceding task');
+ assert.equal(tasks.taskHandoffLabel(waiting,[task({id:'film',title:'Film reel'})]),'Waiting for: Film reel');
+ assert.equal(tasks.taskUpdateInput(waiting).waitsForTaskId,'film');
+ assert.equal(tasks.isWaitingForTask({...waiting,handoffReadyAt:'2026-11-24T10:00:00Z'}),false);
+ assert.equal(tasks.taskHandoffLabel({...waiting,handoffReadyAt:'2026-11-24T10:00:00Z'},[]),'Ready to start');
+ assert.equal(tasks.taskHandoffLabel({...waiting,status:'done'},[]),'');
+});
+test('handoff picker excludes self, descendants, archived work and other projects across sections', () => {
+ const items=[task({id:'film',jobId:'social',sectionId:'one'}),task({id:'edit',jobId:'social',sectionId:'two',waitsForTaskId:'film'}),task({id:'review',jobId:'social',waitsForTaskId:'edit'}),task({id:'other',jobId:'website'}),task({id:'archived',jobId:'social',archivedAt:'2026-11-24'})];
+ assert.deepEqual(tasks.handoffTaskOptions(items,'social','film').map(t=>t.id),[]);
+ assert.deepEqual(tasks.handoffTaskOptions(items,'social','edit').map(t=>t.id),['film']);
+});
+test('ready-for-handoff notifications survive the notification filter', () => {
+ const rules=load('../hooks/use-notifications.ts');
+ assert.equal(rules.isNecessaryNotification({kind:'task',title:'Task ready: Edit reel',body:'Ready'}),true);
+ assert.equal(rules.isNecessaryNotification({kind:'task',title:'Task updated: Edit reel',body:'Updated'}),false);
+ assert.equal(rules.isNecessaryNotification({kind:'task',title:'New task: Edit reel',body:'Assigned'}),true);
+});
 test('record URLs round-trip safely, retain integration parameters, and enforce screen permissions', () => {
  const route={screen:'tasks',taskId:'task/a b',taskView:'overdue',taskQuery:'photo & cabin',taskAssignee:'alice'};
  const path=navigation.portalLocationUrl('http://localhost/?instagram=connected&screen=clients&client=old',route);
