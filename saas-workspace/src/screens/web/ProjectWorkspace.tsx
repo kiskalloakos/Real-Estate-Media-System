@@ -44,7 +44,7 @@ export function ProjectWorkspace({ client, properties, tasks, archivedTasks = []
   const [storedSelection, select] = useBrowserPersistedState(key + ':project', properties[0]?.id ?? '');
   const [storedSection, setSection] = useBrowserPersistedState<string>(key + ':section', 'Overview');
   const selection = projectLocation ? projectLocation.projectId ?? 'general' : storedSelection;
-  const sections = projectSections.filter(item => item === 'Overview' || item === 'Client details'
+  const sections = projectSections.filter((item): item is Exclude<ProjectSection, 'Pages'> => item !== 'Pages').filter(item => item === 'Overview' || item === 'Client details'
     || (item === 'Scripts' && config.enabled.includes('scripting'))
     || (item === 'Reviews' && config.enabled.includes('reviews'))
     || (item === 'Files' && config.enabled.includes('reviews'))

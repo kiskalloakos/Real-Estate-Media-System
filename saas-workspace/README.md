@@ -129,6 +129,46 @@ It creates fresh test agencies/users and temporary review/storage metadata,
 then rolls all fixtures back. Browser upload/revision checks used the isolated
 local sample; no real client files were uploaded or approved for these tests.
 
+## Project writing pages (step 4)
+
+Each engagement now has a **Pages** tab. **Documents → Project pages** collects
+pages across engagements. Create document or script pages, nest them under other
+pages in the same project, search their text, move pages, and open direct page
+links. Existing agency files remain under **Company library**; the existing
+screenplay, shot planning and PDF tools remain under **Production scripts**.
+
+Pages start **team-only**. Agency admins and active team members can edit them.
+**Share with client** grants the project's signed-in client read access to that
+page only. Sharing never propagates to children. Internal project pages cannot
+be shared. Clients see neither private parent titles nor earlier revision
+history. Projects with pages cannot switch clients and expose writing to a new
+client accidentally.
+
+The web editor supports text, headings, lists, checklists, quotes, callouts,
+code, dividers, and script scene/action/character/dialogue blocks. Use the block
+type selector or type `/`; reorder blocks with the arrow controls. Saves run
+after a short pause, and **Save now** is also available. Each successful save
+creates a revision. **History** previews the latest 50 revisions and restores
+text as a new revision, retaining the current sharing and parent settings.
+**Export text** downloads the current draft.
+
+Saving uses an expected revision and a database lock; simultaneous edits reject
+stale saves instead of merging text. This is conflict detection, not live
+co-editing. Failed drafts stay in the editor and in browser recovery storage,
+scoped to the agency, user and page. Users can retry, download their draft, or
+explicitly reload saved content. Existing company-library documents keep their
+current editing flow; they are not converted or made client-visible.
+
+Backend migration `202611240004_project_pages.sql` was applied separately on
+November 24, 2026. It adds two RLS-protected tables and a checked save RPC;
+existing files, buckets and Edge Functions are unchanged. Run `npm run test:pages`
+and `PROJECT_SQL_RUNTIME=<isolated PGlite module> npm run test:pages:db` for the
+service/navigation helpers and migration checks. `supabase/tests/project-pages.sql`
+tests the actual deployed schema in one rollback transaction using fresh test
+agencies and identities. Interactive browser editing checks use the isolated
+local preview. Production browser verification is read-only. The new page
+editor is a web feature; iOS export checks native compatibility.
+
 ## Expo Go on iOS and Android
 
 ```sh

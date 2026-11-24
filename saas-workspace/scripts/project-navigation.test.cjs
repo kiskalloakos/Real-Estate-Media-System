@@ -26,6 +26,15 @@ const project = { id: 'project-a', status: 'active' };
 const today = '2026-11-24';
 const stage = (reviews = [], events = [], property = project) => workflow.projectStage(property, reviews, events, today);
 
+test('writing page links round-trip inside projects and client documents without leaking into other screens',()=>{
+  const location={screen:'projects',projectId:'engagement',projectSection:'Pages',pageId:'script'};
+  const url=routes.portalLocationUrl('https://app.realtymedia.ro/?sample=1',location);
+  const parsed=routes.readPortalLocation(new URL(url,'https://app.realtymedia.ro').search,'dashboard',['projects','documents','dashboard']);
+  assert.equal(parsed.pageId,'script');assert.equal(parsed.projectSection,'Pages');
+  assert.equal(routes.readPortalLocation('?screen=documents&page=shared-page','dashboard',['documents','dashboard']).pageId,'shared-page');
+  assert.equal(routes.readPortalLocation('?screen=tasks&page=private-page','dashboard',['tasks','dashboard']).pageId,undefined);
+});
+
 test('stages follow project activity and isolate other projects and script approvals', () => {
   assert.equal(stage(), 'pre-production');
   assert.equal(stage([{ propertyId: 'project-b', kind: 'video', status: 'in_review' }]), 'pre-production');

@@ -23,6 +23,8 @@ const initial: PreviewState = {
   calendarEvents: demoEvents,
 };
 
+export const previewJobs = initial.jobs;
+
 /** Sample-only mutations never use the configured backend or production records. */
 export function useProjectPreview(enabled: boolean) {
   const [state, setState] = useBrowserPersistedState<PreviewState>('rm:engagement-preview:v2', initial);

@@ -63,7 +63,7 @@ export interface NavigationItem {
 
 const navigation: NavigationItem[] = [
   { icon: 'grid', key: 'dashboard', label: 'Dashboard', labelRo: 'Panou', roles: ['admin', 'team_member', 'client'] },
-  { icon: 'file', key: 'documents', label: 'Documents', labelRo: 'Documente', roles: ['admin'] },
+  { icon: 'file', key: 'documents', label: 'Documents', labelRo: 'Documente', roles: ['admin', 'team_member', 'client'] },
   { icon: 'file', key: 'sops', label: 'SOPs', labelRo: 'Proceduri', roles: ['team_member'] },
   { icon: 'users', key: 'clients', label: 'Clients', labelRo: 'Clienți', roles: ['admin'] },
   { icon: 'trend-up', key: 'sales', label: 'Sales', labelRo: 'Vânzări', roles: ['admin'] },

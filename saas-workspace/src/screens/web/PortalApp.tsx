@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import type { PortalActionHandlers } from './types';
 import { EngagementWorkspace } from './EngagementWorkspace';
-import { useProjectPreview } from '@/hooks/use-project-preview';
+import { useProjectPreview, previewJobs } from '@/hooks/use-project-preview';
 import { useReviewPreview } from '@/hooks/use-review-preview';
 import { usePortalLocation } from '@/hooks/use-portal-location';
 import type { PortalLocation } from '@/lib/portal-location';
@@ -26,7 +26,7 @@ import { CalendarScreen } from './CalendarScreen';
 import { ClientsScreen } from './ClientsScreen';
 import { DashboardScreen } from './DashboardScreen';
 import { DashboardNotesScreen } from './DashboardNotesScreen';
-import { DocumentsScreen } from './DocumentsScreen';
+import { DocumentsWorkspace } from './DocumentsWorkspace';
 import { FinancesScreen } from './FinancesScreen';
 import { GearScreen } from './GearScreen';
 import { InstagramAnalyticsScreen } from './InstagramAnalyticsScreen';
@@ -68,8 +68,8 @@ import type {
 
 const allowedScreens: Record<PortalRole, PortalScreenKey[]> = {
   admin: ['modules', 'dashboard', 'documents', 'projects', 'clients', 'sales', 'team', 'gear', 'marketing', 'scripting', 'finances', 'tasks', 'calendar', 'reviews', 'notes'],
-  client: ['dashboard', 'analytics', 'reviews', 'billing'],
-  team_member: ['dashboard', 'sops', 'tasks', 'calendar'],
+  client: ['dashboard', 'analytics', 'reviews', 'billing', 'documents'],
+  team_member: ['dashboard', 'sops', 'tasks', 'calendar', 'documents'],
 };
 
 const defaultUsers: Record<PortalRole, PortalUser> = {
@@ -106,6 +106,7 @@ function teamMemberWorkspaceData(
 
   return {
     agencyMembers: data.agencyMembers,
+    jobs: data.jobs,
     agreements: [],
     calendarEvents: (data.calendarEvents ?? []).filter(
       (event) => event.assigneeUserIds?.includes(member.userId),
@@ -171,6 +172,7 @@ function clientMemberWorkspaceData(
     clients: (data.clients ?? []).filter((client) =>
       belongsToClient(client.id),
     ),
+    jobs: (data.jobs ?? []).filter(job => belongsToClient(job.clientId)),
     companyDocumentFolders: [],
     companyDocuments: [],
     costs: [],
@@ -430,8 +432,9 @@ function PortalAppInner({
         reviews: reviewPreview.reviews ?? demoReviews,
         tasks: demoTasks,
         ...projectPreview.data,
+        jobs: !hasLiveIdentity ? projectPreview.data.jobs ?? previewJobs : undefined,
       },
-    [workspaceData, projectPreview.data, reviewPreview.reviews],
+    [workspaceData, projectPreview.data, reviewPreview.reviews, hasLiveIdentity],
   );
   const searchItems = useMemo<PortalSearchItem[]>(() => {
     const searchableTasks = effectiveRole === 'team_member'
@@ -632,7 +635,7 @@ function PortalAppInner({
     switch (visibleScreen) {
       case 'projects': {
         const engagement = shellData.jobs?.find(item => item.id === location.projectId);
-        if (engagement) return <EngagementWorkspace key={engagement.id} project={engagement} data={shellData} actions={projectActions} currentUserId={workspaceUserId} location={location} onLocationChange={changes => visit({ ...location, ...changes })} onBack={() => visit({ screen: 'projects' })} onOpenClient={openClient}/>;
+        if (engagement) return <EngagementWorkspace agencyId={agencyId ?? undefined} key={engagement.id} project={engagement} data={shellData} actions={projectActions} currentUserId={workspaceUserId} location={location} onLocationChange={changes => visit({ ...location, ...changes })} onBack={() => visit({ screen: 'projects' })} onOpenClient={openClient}/>;
         const project = shellData.properties?.find(item => item.id === location.projectId);
         const clientId = project?.clientId ?? (!location.projectId ? location.clientId : undefined);
         if (clientId && shellData.clients?.some(client => client.id === clientId)) return (
@@ -949,22 +952,13 @@ function PortalAppInner({
           <DashboardScreen data={workspaceData} onNavigate={navigate} role={effectiveRole} userName={resolvedUser.name} />
         );
       case 'documents':
-        return effectiveRole === 'admin' ? (
-          <DocumentsScreen
-            folders={workspaceData?.companyDocumentFolders}
-            documents={workspaceData?.companyDocuments}
-            leadLists={[...new Set((workspaceData?.leads ?? []).map((lead) => lead.sourceList.trim()).filter(Boolean))]}
-            members={workspaceData?.agencyMembers}
-            locale={resolvedUser.locale ?? 'en'}
-            onArchiveDocument={actions?.archiveCompanyDocument}
-            onDeleteFolder={actions?.deleteCompanyDocumentFolder}
-            onMoveDocumentToFolder={actions?.moveCompanyDocumentToFolder}
-            onSaveDocument={actions?.upsertCompanyDocument}
-            onSaveFolder={actions?.upsertCompanyDocumentFolder}
-          />
-        ) : (
-          <DashboardScreen data={workspaceData} onNavigate={navigate} role={effectiveRole} userName={resolvedUser.name} />
-        );
+        return <DocumentsWorkspace key={visibleWorkspaceId} agencyId={agencyId ?? undefined} userId={workspaceUserId} role={effectiveRole} clientId={effectiveClientAccountId ?? undefined} jobs={shellData.jobs ?? []} properties={shellData.properties} pageId={location.pageId} onSelectPage={pageId=>visit({...location,pageId})} library={{
+          folders:workspaceData?.companyDocumentFolders, documents:workspaceData?.companyDocuments,
+          leadLists:[...new Set((workspaceData?.leads ?? []).map(lead=>lead.sourceList.trim()).filter(Boolean))],
+          members:workspaceData?.agencyMembers,locale:resolvedUser.locale??'en',
+          onArchiveDocument:actions?.archiveCompanyDocument,onDeleteFolder:actions?.deleteCompanyDocumentFolder,
+          onMoveDocumentToFolder:actions?.moveCompanyDocumentToFolder,onSaveDocument:actions?.upsertCompanyDocument,onSaveFolder:actions?.upsertCompanyDocumentFolder,
+        }}/>;
       case 'marketing':
         return effectiveRole === 'admin' ? (
           <MarketingScreen

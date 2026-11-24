@@ -17,6 +17,14 @@ export type Json =
   | Json[];
 
 export type UUID = string;
+export interface ProjectPageRow {
+  id: UUID; agency_id: UUID; job_id: UUID; parent_page_id: UUID | null;
+  kind: 'document' | 'script'; title: string; blocks: Json; client_visible: boolean;
+  revision: number; created_by: UUID; updated_by: UUID; created_at: string; updated_at: string; archived_at: string | null;
+}
+export interface ProjectPageRevisionRow {
+  id: UUID; page_id: UUID; revision: number; title: string; blocks: Json; saved_by: UUID; created_at: string;
+}
 export type ISODate = string;
 export type ISODateTime = string;
 
@@ -1125,6 +1133,8 @@ export type Database = {
         "agency_id" | "name" | "created_by"
       >;
       job_sections: TableDefinition<JobSectionRow, "agency_id" | "job_id" | "name">;
+      project_pages: TableDefinition<ProjectPageRow, 'agency_id' | 'job_id' | 'title' | 'created_by' | 'updated_by'>;
+      project_page_revisions: TableDefinition<ProjectPageRevisionRow, 'page_id' | 'revision' | 'title' | 'blocks' | 'saved_by'>;
       cabana_scripts: TableDefinition<
         CabanaScriptRow,
         "agency_id" | "title" | "script"
@@ -1144,6 +1154,10 @@ export type Database = {
     };
     Views: Record<string, never>;
     Functions: {
+      save_project_page: {
+        Args: { p_page_id: UUID; p_job_id: UUID; p_parent_id: UUID | null; p_title: string; p_blocks: Json; p_client_visible: boolean; p_expected_revision: number; p_kind?: string; p_archived?: boolean };
+        Returns: ProjectPageRow[];
+      };
       list_assigned_event_property_covers: {
         Args: Record<PropertyKey, never>;
         Returns: {

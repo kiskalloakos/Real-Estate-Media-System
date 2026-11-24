@@ -9,6 +9,7 @@ export interface PortalLocation {
   taskId?: string;
   clientId?: string;
   projectId?: string;
+  pageId?: string;
   projectStatus?: JobSummary['status'];
   projectStage?: ProjectStage;
   projectSection?: ProjectSection;
@@ -16,13 +17,14 @@ export interface PortalLocation {
   taskQuery?: string;
   taskAssignee?: string;
 }
-const routeKeys = ['screen', 'task', 'client', 'project', 'stage', 'status', 'section', 'view', 'q', 'assignee'];
+const routeKeys = ['screen', 'task', 'client', 'project', 'stage', 'status', 'section', 'view', 'q', 'assignee', 'page'];
 export function readPortalLocation(search: string, fallback: PortalScreenKey, allowed: readonly PortalScreenKey[]): PortalLocation {
   const params = new URLSearchParams(search);
   const requested = params.get('screen') as PortalScreenKey;
   const screen = allowed.includes(requested) ? requested : fallback;
   return {
     screen,
+    ...(['documents','projects'].includes(screen) && params.get('page') ? {pageId: params.get('page')!} : {}),
     ...(screen === 'tasks' ? {
       taskId: params.get('task') || undefined,
       taskView: isTaskView(params.get('view')) ? params.get('view') as TaskView : 'all',
@@ -43,6 +45,7 @@ export function portalLocationUrl(current: string, location: PortalLocation) {
   const url = new URL(current);
   routeKeys.forEach(key => url.searchParams.delete(key));
   url.searchParams.set('screen', location.screen);
+  if (['documents','projects'].includes(location.screen) && location.pageId) url.searchParams.set('page',location.pageId);
   if (location.screen === 'tasks') {
     if (location.taskId) url.searchParams.set('task', location.taskId);
     if (location.taskView && location.taskView !== 'all') url.searchParams.set('view', location.taskView);

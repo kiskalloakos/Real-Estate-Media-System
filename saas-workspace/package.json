@@ -65,7 +65,9 @@
     "test:projects": "node --test scripts/project-navigation.test.cjs scripts/task-workspace.test.cjs",
     "test:projects:db": "node scripts/project-engagements-db.test.mjs",
     "test:reviews": "node --test scripts/reviews.test.cjs",
-    "test:reviews:db": "node scripts/reviews-db.test.mjs"
+    "test:reviews:db": "node scripts/reviews-db.test.mjs",
+    "test:pages": "node --test scripts/project-pages.test.cjs",
+    "test:pages:db": "node scripts/project-pages-db.test.mjs"
   },
   "private": true
 }

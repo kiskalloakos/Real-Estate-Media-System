@@ -8,11 +8,12 @@ import { ProjectForm } from './ProjectForm';
 import { TasksScreen } from './TasksScreen';
 import { CalendarScreen } from './CalendarScreen';
 import { ReviewsScreen } from './ReviewsScreen';
+import { ProjectPagesScreen } from './ProjectPagesScreen';
 import './ProjectsScreen.css';
 
-const sections = ['Overview', 'Tasks', 'Calendar', 'Reviews', 'Details'] as const;
+const sections = ['Overview', 'Tasks', 'Calendar', 'Pages', 'Reviews', 'Details'] as const;
 
-export function EngagementWorkspace({ project, data, actions, location, onLocationChange, onBack, onOpenClient, currentUserId }: {
+export function EngagementWorkspace({ project, data, actions, location, onLocationChange, onBack, onOpenClient, currentUserId, agencyId }: {
   project: JobSummary;
   data: PortalData;
   actions?: PortalActionHandlers;
@@ -21,6 +22,7 @@ export function EngagementWorkspace({ project, data, actions, location, onLocati
   onBack: () => void;
   onOpenClient: (id: string) => void;
   currentUserId?: string;
+  agencyId?: string;
 }) {
   const { notify } = useToast();
   const [editing, setEditing] = useState(false);
@@ -64,6 +66,7 @@ export function EngagementWorkspace({ project, data, actions, location, onLocati
       </section>
       <section className="engagement-panel"><h2>Production work</h2><p>Tasks in different production phases can run at the same time.</p><div className="engagement-metrics">{taskProductionPhases.map(phase => <button type="button" key={phase} onClick={() => { setSelectedPhase(phase); setSelectedGroup('all'); onLocationChange({ projectSection: 'Tasks' }); }}><strong>{tasks.filter(task => task.productionPhase === phase && !['done', 'cancelled'].includes(task.status)).length}</strong>{taskPhaseLabels[phase]}</button>)}</div></section>
     </>}
+    {section === 'Pages' && <ProjectPagesScreen agencyId={agencyId} userId={currentUserId} projectId={project.id} jobs={data.jobs ?? [project]} role="admin" pageId={location.pageId} onSelectPage={pageId=>onLocationChange({pageId})}/>}
     {section === 'Tasks' && <>
       <div className="engagement-task-filters"><label className="rm-field"><span>Work section</span><select value={selectedGroup} onChange={event => setSelectedGroup(event.target.value)}><option value="all">All sections</option>{groups.map(group => <option value={group.id} key={group.id}>{group.name}</option>)}</select></label><label className="rm-field"><span>Production phase</span><select value={selectedPhase} onChange={event => setSelectedPhase(event.target.value)}><option value="all">All phases</option>{taskProductionPhases.map(phase => <option key={phase} value={phase}>{taskPhaseLabels[phase]}</option>)}</select></label><Button variant="secondary" disabled={!actions || !ready} onClick={() => { setError(''); setSectionEditor({ name: '' }); }}>Add section</Button></div>
       <TasksScreen key={`${project.id}:${selectedGroup}:${selectedPhase}`} role="admin" projectContext={{ ...context, ...(selectedGroup !== 'all' ? { sectionId: selectedGroup } : {}), ...(taskProductionPhases.some(phase => phase === selectedPhase) ? { productionPhase: selectedPhase as typeof taskProductionPhases[number] } : {}) }}
