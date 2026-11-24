@@ -169,6 +169,34 @@ agencies and identities. Interactive browser editing checks use the isolated
 local preview. Production browser verification is read-only. The new page
 editor is a web feature; iOS export checks native compatibility.
 
+## Calendar categories and client requests (step 5)
+
+Calendar events now support a **Call** category alongside Shoot, Review,
+Deadline and Internal. Set it when creating or editing an event, and use the
+category selector to filter the calendar. Existing event metadata remains
+compatible with web and native views.
+
+Signed-in clients can open **Calendar → Request a booking**, propose a call or
+shoot, and see their request status. Agency owners confirm or decline requests
+in the same Calendar view. Confirmation creates one client-visible calendar
+event, assigns the confirming owner, and rejects overlaps with existing agency
+calendar events. Retrying the same submission or confirmation is idempotent.
+Clients cannot approve requests or access another client's requests. Requests
+remain separate from calendar events until confirmed.
+
+The existing Google Calendar action creates an add-event link; Apple Calendar
+exports an ICS file. These are retained exports, not automatic two-way sync or
+provider availability checks. Client requests therefore require agency approval,
+as authorized for this step. No public booking links, recurring availability
+rules, external calendar integration changes or new task templates were added.
+
+Migration `202611240005_calendar_requests.sql` is a separate backend release.
+`PROJECT_SQL_RUNTIME=<isolated PGlite module> npm run test:calendar:db` checks
+permissions, duplicates, confirmation, conflict rejection and persisted category.
+`supabase/tests/calendar-bookings.sql` exercises the actual schema with fresh
+identities and agencies in a rollback transaction. Browser request/confirmation
+checks use the isolated local preview; production verification is read-only.
+
 ## Expo Go on iOS and Android
 
 ```sh

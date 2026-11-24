@@ -256,7 +256,7 @@ export interface CalendarEvent {
   propertyName: string;
   start: string;
   title: string;
-  type: 'shoot' | 'deadline' | 'review' | 'internal';
+  type: 'call' | 'shoot' | 'deadline' | 'review' | 'internal';
   visibility?: 'admin_only' | 'team' | 'client';
   workScope: 'internal' | 'client' | 'other';
 }
@@ -967,6 +967,8 @@ export interface PortalData {
 }
 
 export interface PortalActionHandlers {
+  requestCalendarBooking:(input:import('@/lib/calendar-booking-service').CalendarBookingInput)=>Promise<void>;
+  decideCalendarBooking:(id:string,confirm:boolean)=>Promise<void>;
   archiveAgreement: (agreementId: string) => Promise<void>;
   archiveClient: (clientId: string) => Promise<void>;
   archiveEvent: (eventId: string) => Promise<void>;

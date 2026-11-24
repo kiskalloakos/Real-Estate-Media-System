@@ -340,6 +340,7 @@ export function CalendarScreen({
       }),
     [activeMembers, marketingContent],
   );
+  const [categoryFilter,setCategoryFilter]=useState('all');
   const sourceEvents = useMemo(
     // Keep a pending move visible without masking colors edited on either app.
     () => [...agencyEvents, ...marketingEvents].map((event) => optimisticEvents[event.id]
@@ -392,6 +393,7 @@ export function CalendarScreen({
         (property) => property.id === propertyFilter,
       );
       return sourceEvents.filter((event) => {
+        if(categoryFilter!=='all' && event.type!==categoryFilter) return false;
         if (event.date > visibleDays[visibleDays.length - 1].date || (event.endDate || event.date) < visibleDays[0].date) return false;
         if (clientWorkOnly && !event.clientId && !event.propertyId) return false;
         const isMarketing = event.id.startsWith('marketing:');
@@ -410,7 +412,7 @@ export function CalendarScreen({
         );
       });
     },
-    [activeCalendarFilter, clientWorkOnly, properties, propertyFilter, sourceEvents, visibleDays],
+    [categoryFilter,activeCalendarFilter, clientWorkOnly, properties, propertyFilter, sourceEvents, visibleDays],
   );
   const eventsByDate = useMemo(() => indexCalendarEvents(visibleDays, visibleEvents), [visibleDays, visibleEvents]);
   const agendaDays = useMemo(() => monthDays.filter(day => day.inCurrentMonth && (eventsByDate.get(day.date)?.length ?? 0) > 0), [monthDays, eventsByDate]);
@@ -747,7 +749,7 @@ export function CalendarScreen({
                 size="sm"
               />
             </div>
-            <div className="rm-calendar-toolbar__controls">
+            <div className="rm-calendar-toolbar__controls"><label className="rm-calendar-property-filter"><select aria-label="Event category" value={categoryFilter} onChange={e=>setCategoryFilter(e.target.value)}><option value="all">All categories</option><option value="call">Calls</option><option value="shoot">Shoots</option><option value="review">Reviews</option><option value="deadline">Deadlines</option><option value="internal">Internal</option></select></label>
               <div aria-label="Calendar view" className="rm-calendar-view-switch">
                 {(!isPhone ? ['month', 'week', 'agenda'] as const : ['agenda'] as const).map((view) => (
                   <button
@@ -1004,6 +1006,7 @@ export function CalendarScreen({
             </label>
           </div>
           : null}
+          {activeCalendarFilter !== 'marketing' ? <label className="rm-field"><span>Category</span><select value={eventForm.type} onChange={e=>setEventField('type',e.target.value as CreateCalendarEventInput['type'])}><option value="call">Call</option><option value="shoot">Shoot</option><option value="review">Review</option><option value="deadline">Deadline</option><option value="internal">Internal</option></select></label> : null}
           {activeCalendarFilter !== 'marketing' ? <label className="rm-field">
             <span>Property</span>
             <select
@@ -1259,6 +1262,7 @@ export function CalendarScreen({
                 value={editEventForm.title}
               />
             </label>
+            <label className="rm-field"><span>Category</span><select value={editEventForm.type} onChange={e=>setEditEventForm(current=>current?{...current,type:e.target.value as CreateCalendarEventInput['type']}:current)}><option value="call">Call</option><option value="shoot">Shoot</option><option value="review">Review</option><option value="deadline">Deadline</option><option value="internal">Internal</option></select></label>
             <CalendarColorPicker value={editEventForm.color} type={editEventForm.type} disabled={saving} onChange={(color) => setEditEventForm((current) => current ? { ...current, color } : current)} />
             <div className="rm-form-grid">
               <label className="rm-field">

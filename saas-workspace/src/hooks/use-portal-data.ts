@@ -1118,10 +1118,10 @@ async function fetchPortalData(agencyId: string): Promise<PortalData> {
       const assignedEventProperty = assignedEventPropertiesByEvent.get(event.id);
       const lowerTitle = event.title.toLowerCase();
       const storedType = event.description?.match(
-        /^\[rm:type=(shoot|deadline|review|internal)\]/,
+        /^\[rm:type=(call|shoot|deadline|review|internal)\]/,
       )?.[1] as CalendarEvent['type'] | undefined;
       const storedWorkScope = event.description?.match(
-        /^\[rm:type=(?:shoot|deadline|review|internal)\]\[rm:scope=(internal|client|other)\]/,
+        /^\[rm:type=(?:call|shoot|deadline|review|internal)\]\[rm:scope=(internal|client|other)\]/,
       )?.[1] as CalendarEvent['workScope'] | undefined;
       const type: CalendarEvent['type'] = storedType ?? (
         lowerTitle.includes('shoot')
@@ -1146,7 +1146,7 @@ async function fetchPortalData(agencyId: string): Promise<PortalData> {
         date: calendarDate(event.starts_at),
         description:
           event.description
-            ?.replace(/^\[rm:type=(shoot|deadline|review|internal)\](?:\[rm:scope=(internal|client|other)\])?\n?/, '')
+            ?.replace(/^\[rm:type=(call|shoot|deadline|review|internal)\](?:\[rm:scope=(internal|client|other)\])?\n?/, '')
             .trim() || undefined,
         end: formatTime(event.ends_at),
         endDate: event.ends_at ? calendarDate(event.ends_at) : calendarDate(event.starts_at),

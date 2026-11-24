@@ -1,4 +1,5 @@
 import React from 'react';
+import {requestCalendarBooking,decideCalendarBooking} from '@/lib/calendar-booking-service';
 import { Redirect } from 'expo-router';
 
 import { usePortalData } from '@/hooks/use-portal-data';
@@ -200,6 +201,8 @@ export default function PortalWebLayout() {
         mutate((context) => createRecurringCost(input, context)),
       createDebt: (input) =>
         mutate((context) => createFinanceDebt(input, context)),
+      requestCalendarBooking: input=>mutate(()=>requestCalendarBooking(input)),
+      decideCalendarBooking: (id,confirm)=>mutate(()=>decideCalendarBooking(id,confirm)),
       createEvent: (input) =>
         mutate((context) => createCalendarEvent(input, context)),
       createGear: (input) =>

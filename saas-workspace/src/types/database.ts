@@ -17,6 +17,10 @@ export type Json =
   | Json[];
 
 export type UUID = string;
+export interface CalendarBookingRow {
+  id:UUID;agency_id:UUID;client_account_id:UUID;requested_by:UUID;category:'call'|'shoot';title:string;
+  starts_at:string;ends_at:string;location:string;note:string;status:'pending'|'confirmed'|'declined';calendar_event_id:UUID|null;created_at:string;
+}
 export interface ProjectPageRow {
   id: UUID; agency_id: UUID; job_id: UUID; parent_page_id: UUID | null;
   kind: 'document' | 'script'; title: string; blocks: Json; client_visible: boolean;
@@ -986,6 +990,7 @@ export type Database = {
         CalendarEventRow,
         "agency_id" | "title" | "starts_at" | "created_by"
       >;
+      calendar_booking_requests: TableDefinition<CalendarBookingRow,'agency_id'|'client_account_id'|'requested_by'|'category'|'title'|'starts_at'|'ends_at'>;
       calendar_event_assignees: TableDefinition<
         CalendarEventAssigneeRow,
         "agency_id" | "calendar_event_id" | "user_id"
@@ -1154,6 +1159,8 @@ export type Database = {
     };
     Views: Record<string, never>;
     Functions: {
+      request_calendar_booking:{Args:{p_client_id:UUID;p_category:string;p_title:string;p_starts_at:string;p_ends_at:string;p_location?:string;p_note?:string};Returns:UUID};
+      decide_calendar_booking:{Args:{p_request_id:UUID;p_confirm:boolean};Returns:UUID|null};
       save_project_page: {
         Args: { p_page_id: UUID; p_job_id: UUID; p_parent_id: UUID | null; p_title: string; p_blocks: Json; p_client_visible: boolean; p_expected_revision: number; p_kind?: string; p_archived?: boolean };
         Returns: ProjectPageRow[];

@@ -13,7 +13,7 @@ export type CalendarColor = (typeof calendarColors)[number]['id'];
 
 export function calendarColor(value?: string | null, type = 'shoot') {
   const defaults: Record<string, CalendarColor> = {
-    shoot: 'blue', review: 'purple', deadline: 'red', internal: 'green',
+    call: 'green', shoot: 'blue', review: 'purple', deadline: 'red', internal: 'green',
     meeting: 'green', reminder: 'amber', payment: 'amber', marketing: 'slate',
   };
   return calendarColors.find((option) => option.id === value)

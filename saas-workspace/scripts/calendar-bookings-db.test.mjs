@@ -1,0 +1,35 @@
+import assert from 'node:assert/strict';import {readFile} from 'node:fs/promises';import {pathToFileURL} from 'node:url';
+const {PGlite}=await import(pathToFileURL(process.env.PROJECT_SQL_RUNTIME).href);const db=new PGlite();
+const id=n=>`00000000-0000-4000-8000-${String(n).padStart(12,'0')}`;
+const user=async n=>db.exec(`reset role;select set_config('request.jwt.claim.sub','${id(n)}',false);set role authenticated;`);
+try{
+await db.exec(`create role authenticated;create role anon;create schema auth;
+create function auth.uid() returns uuid language sql stable as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$;
+create table agencies(id uuid primary key);create table profiles(id uuid primary key);
+create table client_accounts(id uuid primary key,agency_id uuid,archived_at timestamptz,unique(id,agency_id));
+create table calendar_events(id uuid primary key default gen_random_uuid(),agency_id uuid,client_account_id uuid,title text,description text,starts_at timestamptz,ends_at timestamptz,location text,visibility text,created_by uuid,archived_at timestamptz,unique(id,agency_id));
+create table calendar_event_assignees(agency_id uuid,calendar_event_id uuid,user_id uuid);
+create function is_agency_admin(a uuid) returns boolean language sql stable as $$select auth.uid()='${id(3)}' and a='${id(1)}'$$;
+create function has_client_access(c uuid) returns boolean language sql stable as $$select auth.uid()='${id(4)}' and c='${id(5)}'$$;
+grant usage on schema public,auth to authenticated,anon;grant select on calendar_events to authenticated;
+insert into agencies values('${id(1)}'),('${id(2)}');insert into profiles values('${id(3)}'),('${id(4)}'),('${id(6)}');insert into client_accounts values('${id(5)}','${id(1)}',null),('${id(7)}','${id(2)}',null);`);
+await db.exec(await readFile(new URL('../supabase/migrations/202611240005_calendar_requests.sql',import.meta.url),'utf8'));
+const request=(title='Call',start='2030-01-01 09:00Z',end='2030-01-01 10:00Z')=>`select request_calendar_booking('${id(5)}','call','${title}','${start}','${end}') id;`;
+await user(4);const first=(await db.query(request())).rows[0].id;
+assert.equal((await db.query(request())).rows[0].id,first);
+assert.equal((await db.query('select count(*)::int n from calendar_booking_requests')).rows[0].n,1);
+await assert.rejects(()=>db.exec(`select request_calendar_booking('${id(7)}','shoot','Foreign','2030-01-01 09:00Z','2030-01-01 10:00Z')`),/Sign in/);
+await assert.rejects(()=>db.exec(`select decide_calendar_booking('${first}',true)`),/Only agency/);
+await assert.rejects(()=>db.exec(`update calendar_booking_requests set status='confirmed'`),/permission denied/);
+await user(6);assert.equal((await db.query('select count(*)::int n from calendar_booking_requests')).rows[0].n,0);
+await user(3);const event=(await db.query(`select decide_calendar_booking('${first}',true) id`)).rows[0].id;
+assert.equal((await db.query(`select decide_calendar_booking('${first}',true) id`)).rows[0].id,event);
+assert.equal((await db.query('select count(*)::int n from calendar_events')).rows[0].n,1);
+assert.match((await db.query('select description from calendar_events')).rows[0].description,/\[rm:type=call\]\[rm:scope=client\]/);
+await user(4);const second=(await db.query(request('Overlap'))).rows[0].id;
+await user(3);await assert.rejects(()=>db.exec(`select decide_calendar_booking('${second}',true)`),/overlaps/);
+await db.exec(`select decide_calendar_booking('${second}',false)`);
+await user(4);assert.equal((await db.query(`select status from calendar_booking_requests where id='${second}'`)).rows[0].status,'declined');
+await db.exec('reset role;set role anon');await assert.rejects(()=>db.exec(request()),/permission denied/);
+console.log('Calendar booking permissions, deduplication, approval, conflicts and category persistence passed.');
+}finally{await db.close();}

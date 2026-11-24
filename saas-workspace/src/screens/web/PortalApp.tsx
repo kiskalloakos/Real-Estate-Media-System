@@ -26,6 +26,7 @@ import { CalendarScreen } from './CalendarScreen';
 import { ClientsScreen } from './ClientsScreen';
 import { DashboardScreen } from './DashboardScreen';
 import { DashboardNotesScreen } from './DashboardNotesScreen';
+import {CalendarBookings} from './CalendarBookings';
 import { DocumentsWorkspace } from './DocumentsWorkspace';
 import { FinancesScreen } from './FinancesScreen';
 import { GearScreen } from './GearScreen';
@@ -68,7 +69,7 @@ import type {
 
 const allowedScreens: Record<PortalRole, PortalScreenKey[]> = {
   admin: ['modules', 'dashboard', 'documents', 'projects', 'clients', 'sales', 'team', 'gear', 'marketing', 'scripting', 'finances', 'tasks', 'calendar', 'reviews', 'notes'],
-  client: ['dashboard', 'analytics', 'reviews', 'billing', 'documents'],
+  client: ['dashboard', 'analytics', 'reviews', 'billing', 'documents', 'calendar'],
   team_member: ['dashboard', 'sops', 'tasks', 'calendar', 'documents'],
 };
 
@@ -846,6 +847,7 @@ function PortalAppInner({
       case 'calendar':
         return (
           <>
+            <CalendarBookings key={visibleWorkspaceId} agencyId={agencyId} clientId={effectiveClientAccountId} userId={workspaceUserId} role={effectiveRole} actions={projectActions} clients={shellData.clients}/>
             <CalendarScreen
               clients={shellData.clients}
               currentUserId={workspaceUserId}

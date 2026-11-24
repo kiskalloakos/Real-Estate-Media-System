@@ -77,7 +77,7 @@ const navigation: NavigationItem[] = [
     key: 'calendar',
     label: 'Calendar',
     labelRo: 'Calendar',
-    roles: ['admin', 'team_member'],
+    roles: ['admin', 'team_member', 'client'],
   },
   { icon: 'receipt', key: 'billing', label: 'Deal', labelRo: 'Acord', roles: ['client'] },
   { icon: 'camera', key: 'gear', label: 'Gear', labelRo: 'Echipamente', roles: ['admin'] },

@@ -67,7 +67,8 @@
     "test:reviews": "node --test scripts/reviews.test.cjs",
     "test:reviews:db": "node scripts/reviews-db.test.mjs",
     "test:pages": "node --test scripts/project-pages.test.cjs",
-    "test:pages:db": "node scripts/project-pages-db.test.mjs"
+    "test:pages:db": "node scripts/project-pages-db.test.mjs",
+    "test:calendar:db": "node scripts/calendar-bookings-db.test.mjs"
   },
   "private": true
 }
