@@ -105,7 +105,7 @@ const emptyPortalData: PortalData = {
 };
 
 export default function PortalWebLayout() {
-  const { authReady, identity, isPreview, selectWorkspace, signOut, updateProfile, workspaces } = useApp();
+  const { authReady, identity, isPreview, session, selectWorkspace, signOut, updateProfile, workspaces } = useApp();
   const portalData = usePortalData({
     agencyId: identity?.agencyId,
     enabled: Boolean(identity) && !isPreview,
@@ -319,6 +319,8 @@ export default function PortalWebLayout() {
         clientRole={identity.clientRole}
         currentUserId={identity.userId}
         data={data}
+        dataReady={isPreview || portalData.isSuccess}
+        onboardingRequested={!isPreview && session?.user.user_metadata.workspace_onboarding_version === 1}
         onCreateClient={identity.role === 'admin' ? createClient : undefined}
         onSignOut={() => void signOut()}
         role={identity.role}

@@ -5,7 +5,7 @@ import { useWorkspace } from '@/workspace/WorkspaceProvider';
 
 
 
-import realtyMark from '../../../assets/images/realty-media-mark-black.png';
+import { AgencyAvatar } from '@/workspace/AgencyAvatar';
 import { useToast } from './feedback';
 import { Avatar, IconButton, cx } from './ui';
 import { Icon, type IconName } from './Icon';
@@ -134,7 +134,7 @@ export function PortalShell({
   isAdminViewingWorkspace = false,
   onReturnToOwnerWorkspace,
 }: PortalShellProps) {
-  const { config, save } = useWorkspace();
+  const { config, save, logoUrl } = useWorkspace();
   const [sidebarControlOpen, setSidebarControlOpen] = useState(false);
   const isRo = user.locale === 'ro';
   const { notify } = useToast();
@@ -336,8 +336,7 @@ export function PortalShell({
           />
         </div>
 
-        <div className="aw-studio-brand"><img className="aw-original-mark" src={realtyMark} alt="Realty Media"/><div><strong title={config.name}>{config.name}</strong><small>AGENCY WORKSPACE</small></div></div>
-        <div className="aw-workspace-label"><span className="aw-workspace-avatar">{config.name.slice(0,1).toUpperCase()}</span><div><strong>{config.name}</strong><small>{role === 'admin' ? 'Agency workspace' : role === 'client' ? 'Client portal' : 'Team workspace'}</small></div></div>
+        <div className="aw-studio-brand"><AgencyAvatar name={config.name} logoUrl={logoUrl} /><div><strong title={config.name}>{config.name}</strong></div></div>
         <div className="aw-nav-caption">WORKSPACE</div>
         <nav className="aw-nav">
           <ul>

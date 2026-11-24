@@ -19,10 +19,10 @@ export const presets = {
   content: { label: 'Content agency', description: 'Client work, content, and collaboration.', enabled: ['tasks', 'clients', 'calendar', 'reviews', 'documents', 'team', 'marketing', 'scripting'] },
   essentials: { label: 'Just the essentials', description: 'A focused place to start.', enabled: ['tasks', 'clients', 'calendar', 'documents'] },
 } satisfies Record<string, {label: string; description: string; enabled: ModuleId[]}>;
-export const defaultConfig: WorkspaceConfig = { sidebarMode: 'hover', name: 'Realty Media Studio', enabled: [...presets.production.enabled], order: modules.map(m => m.id) };
+export const defaultConfig: WorkspaceConfig = { sidebarMode: 'hover', name: 'Your workspace', enabled: [...presets.production.enabled], order: modules.map(m => m.id) };
 export function normalizeConfig(value: unknown): WorkspaceConfig {
   const config = value && typeof value === 'object' ? value as Partial<WorkspaceConfig> : {};
   const valid = (items: unknown): ModuleId[] => Array.isArray(items) ? [...new Set(items.filter((id): id is ModuleId => modules.some(m => m.id === id)))] : [];
   const order = valid(config.order);
-  return { sidebarMode: config.sidebarMode === 'expanded' || config.sidebarMode === 'collapsed' ? config.sidebarMode : 'hover', name: typeof config.name === 'string' && config.name.trim() ? config.name.trim().slice(0, 60) : defaultConfig.name, enabled: Array.isArray(config.enabled) ? valid(config.enabled) : [...defaultConfig.enabled], order: [...order, ...modules.map(m => m.id).filter(id => !order.includes(id))] };
+  return { sidebarMode: config.sidebarMode === 'expanded' || config.sidebarMode === 'collapsed' ? config.sidebarMode : 'hover', name: typeof config.name === 'string' && config.name.trim() ? config.name.trim().slice(0, 120) : defaultConfig.name, enabled: Array.isArray(config.enabled) ? valid(config.enabled) : [...defaultConfig.enabled], order: [...order, ...modules.map(m => m.id).filter(id => !order.includes(id))] };
 }

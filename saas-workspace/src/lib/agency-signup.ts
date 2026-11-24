@@ -14,6 +14,7 @@ export async function signUpAgencyOwner(input: AgencySignupInput) {
       emailRedirectTo,
       data: {
         signup_role: 'agency_owner',
+        workspace_onboarding_version: 1,
         agency_name: account.agencyName,
         full_name: account.fullName,
         display_name: account.fullName,

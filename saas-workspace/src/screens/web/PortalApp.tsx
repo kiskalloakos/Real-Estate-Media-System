@@ -33,6 +33,10 @@ import { StudioHome } from '@/workspace/StudioHome';
 import { ModulesScreen } from '@/workspace/ModulesScreen';
 import { modules } from '@/workspace/modules';
 import { WorkspaceProvider, useWorkspace } from '@/workspace/WorkspaceProvider';
+import { shouldOnboardAgency } from '@/workspace/agency-settings';
+import { WorkspaceOnboarding } from '@/workspace/WorkspaceOnboarding';
+import { WorkspaceGettingStarted, WorkspaceWelcome } from '@/workspace/WorkspaceGettingStarted';
+import '@/workspace/onboarding.css';
 import { PropertiesScreen } from './PropertiesScreen';
 import { ReviewsScreen } from './ReviewsScreen';
 import { SalesScreen } from './SalesScreen';
@@ -237,17 +241,18 @@ function PortalAppInner({
   clientRole,
   currentUserId,
   data,
+  dataReady = true,
   initialScreen = 'dashboard',
   onCreateClient,
   onNavigate,
   onSelectWorkspace,
   onSignOut,
-  organizationName = 'Realty Media',
+  onStartSetup,
   role = 'admin',
   user,
   workspaces,
-}: PortalAppProps) {
-  const { config } = useWorkspace();
+}: PortalAppProps & { onStartSetup: () => void }) {
+  const { config, error: workspaceError, retry: retryWorkspace } = useWorkspace();
   const navigationStorageKey = `rm:portal-navigation:${currentUserId ?? role}`;
   const storedNavigation = readStoredNavigation(navigationStorageKey);
   const hasInstagramCallback =
@@ -942,7 +947,7 @@ function PortalAppInner({
           <DashboardScreen data={workspaceData} onNavigate={navigate} role={effectiveRole} userName={resolvedUser.name} />
         );
       case 'modules':
-        return effectiveRole === 'admin' ? <ModulesScreen agencyId={agencyId} /> : null;
+        return effectiveRole === 'admin' ? <ModulesScreen onStartSetup={onStartSetup} /> : null;
       case 'dashboard':
       default:
         return effectiveRole === 'admin' ? (
@@ -1011,13 +1016,16 @@ function PortalAppInner({
         role={effectiveRole}
         searchItems={searchItems}
         user={resolvedUser}
-        organizationName={organizationName}
-        workspaces={workspaces}
+        organizationName={config.name}
+        workspaces={workspaces?.map(workspace => workspace.agencyId === agencyId ? { ...workspace, name: config.name } : workspace)}
       >
         <div
           className="rm-page-transition"
           key={`${effectiveRole}-${visibleWorkspaceId}-${visibleScreen}`}
         >
+          {workspaceError && <p role="alert">{workspaceError.message} <button type="button" onClick={retryWorkspace}>Try again</button></p>}
+          {visibleScreen === 'dashboard' && effectiveRole === 'admin' ? <WorkspaceGettingStarted data={workspaceData} ready={dataReady} onNavigate={navigate} /> : null}
+          {visibleScreen === 'dashboard' && role !== 'admin' ? <WorkspaceWelcome role={role} scope={`${agencyId}:${currentUserId}`} /> : null}
           {screen}
         </div>
       </PortalShell>
@@ -1026,7 +1034,32 @@ function PortalAppInner({
 }
 
 export function PortalApp(props: PortalAppProps) {
-  const scope = `${props.organizationName ?? 'studio'}:${props.currentUserId ?? props.role ?? 'admin'}`;
-  return <WorkspaceProvider key={scope} scope={scope}><PortalAppInner {...props}/></WorkspaceProvider>;
+  const scope = `${props.agencyId ?? 'preview'}:${props.currentUserId ?? props.role ?? 'admin'}`;
+  const legacyScope = `${props.organizationName ?? 'studio'}:${props.currentUserId ?? props.role ?? 'admin'}`;
+  return <WorkspaceProvider key={scope} scope={scope} legacyScope={legacyScope} agencyId={props.agencyId}
+    currentUserId={props.currentUserId} organizationName={props.organizationName} role={props.role}>
+    <WorkspaceEntry {...props} />
+  </WorkspaceProvider>;
+}
+
+function WorkspaceEntry(props: PortalAppProps) {
+  const { agency, loading, error, retry } = useWorkspace();
+  const [setupOpen, setSetupOpen] = useState(false);
+  const requested = Boolean(props.onboardingRequested && props.role === 'admin');
+  const unavailable = requested && !props.agencyId;
+  if ((requested || setupOpen) && (loading || error || unavailable)) return <main className="aw-setup"><div className="aw-setup__status">
+    <h1>Getting your workspace ready.</h1><p role={error || unavailable ? 'alert' : 'status'}>{error?.message ?? (unavailable ? 'Your agency membership is not available yet. Please try again.' : 'Loading your saved setup…')}</p>
+    {(error || unavailable) && <button type="button" onClick={unavailable ? () => window.location.reload() : retry}>Try again</button>}
+    {props.onSignOut && <button type="button" onClick={props.onSignOut}>Sign out</button>}
+  </div></main>;
+  if (setupOpen || shouldOnboardAgency(agency, props.currentUserId, props.role ?? 'admin', requested)) {
+    return <WorkspaceOnboarding onSignOut={props.onSignOut} onCancel={setupOpen ? () => setSetupOpen(false) : undefined} onComplete={() => {
+      const url = new URL(window.location.href);
+      url.searchParams.set('screen', 'dashboard');
+      window.history.replaceState(window.history.state, '', `${url.pathname}${url.search}${url.hash}`);
+      setSetupOpen(false);
+    }} />;
+  }
+  return <PortalAppInner {...props} onStartSetup={() => setSetupOpen(true)} />;
 }
 export default PortalApp;

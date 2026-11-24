@@ -969,12 +969,14 @@ export interface PortalAppProps {
   clientRole?: 'owner' | 'member' | null;
   currentUserId?: string;
   data?: PortalData;
+  dataReady?: boolean;
   initialScreen?: PortalScreenKey;
   onCreateClient?: (client: CreateClientInput) => void | Promise<void>;
   onNavigate?: (screen: PortalScreenKey) => void;
   onSelectWorkspace?: (agencyId: string) => void;
   onSignOut?: () => void;
   organizationName?: string;
+  onboardingRequested?: boolean;
   role?: PortalRole;
   user?: PortalUser;
   workspaces?: Array<{ agencyId: string; name: string }>;
