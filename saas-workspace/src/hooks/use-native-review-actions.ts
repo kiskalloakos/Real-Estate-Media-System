@@ -15,11 +15,13 @@ type ReviewAction =
       kind: 'comment';
       reviewId: string;
       timestamp: string;
+      versionId?: string;
     }
   | {
       decision: 'approved' | 'changes_requested';
       kind: 'decision';
       reviewId: string;
+      versionId?: string;
     };
 
 export function useNativeReviewActions({
@@ -43,20 +45,12 @@ export function useNativeReviewActions({
         agencyId: identity.agencyId,
         userId: identity.userId,
       };
+      if (!action.versionId) throw new Error('Reopen this review to load its file version before saving feedback.');
 
       if (action.kind === 'comment') {
-        await addReviewComment(
-          action.reviewId,
-          action.body,
-          action.timestamp,
-          context,
-        );
+        await addReviewComment({ mediaAssetId: action.reviewId, versionId: action.versionId, body: action.body, timestamp: action.timestamp, visibility: 'client' }, context);
       } else {
-        await recordReviewDecision(
-          action.reviewId,
-          action.decision,
-          context,
-        );
+        await recordReviewDecision({ targets: [{ assetId: action.reviewId, versionId: action.versionId }], decision: action.decision }, context);
       }
     },
     onSuccess: async () => {
@@ -72,22 +66,26 @@ export function useNativeReviewActions({
       reviewId: string,
       body: string,
       timestamp: string,
+      versionId?: string,
     ) =>
       mutation.mutateAsync({
         body,
         kind: 'comment',
         reviewId,
         timestamp,
+        versionId,
       }),
     busy: mutation.isPending,
     decide: (
       reviewId: string,
       decision: 'approved' | 'changes_requested',
+      versionId?: string,
     ) =>
       mutation.mutateAsync({
         decision,
         kind: 'decision',
         reviewId,
+        versionId,
       }),
     errorMessage:
       mutation.error instanceof Error ? mutation.error.message : null,

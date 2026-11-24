@@ -169,6 +169,12 @@ export interface PropertyTeamAssignmentSummary {
 }
 
 export interface ReviewComment {
+  versionId?: string;
+  parentId?: string;
+  authorId?: string;
+  visibility?: 'client' | 'internal';
+  resolved?: boolean;
+  createdAt?: string;
   author: string;
   avatarUrl?: string;
   body: string;
@@ -176,7 +182,44 @@ export interface ReviewComment {
   timestamp: string;
 }
 
+export interface ReviewVersion {
+  id: string;
+  number: number;
+  fileUrl?: string;
+  filename?: string;
+  mimeType?: string;
+  durationSeconds?: number;
+  contentHtml?: string;
+  createdAt: string;
+  comments: ReviewComment[];
+  decisions: { id: string; decision: 'approved' | 'changes_requested' | 'approval_revoked' | 'ready_for_review'; actor: string; createdAt: string; note?: string; batchId?: string }[];
+}
+
+export interface CreateReviewCommentInput {
+  mediaAssetId: string;
+  versionId: string;
+  body: string;
+  timestamp: string;
+  parentId?: string;
+  visibility: 'client' | 'internal';
+}
+export interface ReviewDecisionInput {
+  targets: { assetId: string; versionId: string }[];
+  decision: 'approved' | 'changes_requested' | 'approval_revoked';
+  note?: string;
+}
+export interface UploadReviewVersionInput {
+  mediaAssetId: string;
+  file: File;
+  contentHtml?: string;
+}
+
 export interface ReviewItem {
+  jobId?: string;
+  clientId?: string;
+  clientVisible?: boolean;
+  currentVersionId?: string;
+  versions?: ReviewVersion[];
   assignee: string;
   clientName: string;
   comments: ReviewComment[];
@@ -699,11 +742,12 @@ export interface UpdateCostInput extends CreateCostInput {
 }
 
 export interface UploadDeliverableInput {
+  jobId?: string;
   clientVisible?: boolean;
   contentHtml?: string;
   file?: File | null;
   kind: 'script' | 'video' | 'image' | 'document' | 'other';
-  propertyId: string;
+  propertyId?: string;
   title: string;
 }
 
@@ -960,11 +1004,10 @@ export interface PortalActionHandlers {
   importLeads: (input: LeadImportInput[]) => Promise<void>;
   markPaymentPaid: (paymentId: string) => Promise<void>;
   recordDebtPayment: (debtId: string, amount: string, note: string) => Promise<void>;
-  reviewComment: (reviewId: string, body: string, timestamp: string) => Promise<void>;
-  reviewDecision: (
-    reviewId: string,
-    decision: 'approved' | 'changes_requested' | 'approval_revoked',
-  ) => Promise<void>;
+  reviewComment: (input: CreateReviewCommentInput) => Promise<void>;
+  reviewDecision: (input: ReviewDecisionInput) => Promise<void>;
+  resolveReviewComment: (commentId: string, resolved: boolean) => Promise<void>;
+  uploadReviewVersion: (input: UploadReviewVersionInput) => Promise<void>;
   archiveDeliverable: (mediaAssetId: string) => Promise<void>;
   toggleRecurringCost: (costId: string, paid: boolean) => Promise<void>;
   updateDebt: (input: UpdateDebtInput) => Promise<void>;

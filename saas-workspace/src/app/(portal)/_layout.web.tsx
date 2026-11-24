@@ -27,6 +27,8 @@ import {
 import { setPropertyTeamAssignments } from '@/lib/property-assignment-service';
 import {
   addReviewComment,
+  resolveReviewComment,
+  uploadReviewVersion,
   archiveCalendarEvent,
   archiveFinanceDebt,
   archiveClientWorkspace,
@@ -239,10 +241,13 @@ export default function PortalWebLayout() {
         mutate((context) => markPaymentScheduleItemPaid(paymentId, context)),
       recordDebtPayment: (debtId, amount, note) =>
         mutate((context) => recordFinanceDebtPayment(debtId, amount, note, context)),
-      reviewComment: (reviewId, body, timestamp) =>
-        mutate((context) => addReviewComment(reviewId, body, timestamp, context)),
-      reviewDecision: (reviewId, decision) =>
-        mutate((context) => recordReviewDecision(reviewId, decision, context)),
+      reviewComment: input => mutate(context => addReviewComment(input, context)),
+      reviewDecision: input => mutate(async context => {
+        try { await recordReviewDecision(input, context); }
+        catch (error) { await refetchPortalData(); throw error; }
+      }),
+      resolveReviewComment: (id, resolved) => mutate(() => resolveReviewComment(id, resolved)),
+      uploadReviewVersion: input => mutate(context => uploadReviewVersion(input, context)),
       toggleRecurringCost: (costId, paid) =>
         mutate((context) => toggleRecurringCostPaid(costId, paid, context)),
       updateRecurringCost: (input) =>

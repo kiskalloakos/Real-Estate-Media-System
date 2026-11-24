@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import type { PortalActionHandlers } from './types';
 import { EngagementWorkspace } from './EngagementWorkspace';
 import { useProjectPreview } from '@/hooks/use-project-preview';
+import { useReviewPreview } from '@/hooks/use-review-preview';
 import { usePortalLocation } from '@/hooks/use-portal-location';
 import type { PortalLocation } from '@/lib/portal-location';
 import type { TaskView } from '@/lib/task-workspace';
@@ -191,9 +192,9 @@ function clientMemberWorkspaceData(
     properties,
     propertyAssignments: [],
     reviews: (data.reviews ?? []).filter((review) =>
-      review.propertyId
+      review.clientVisible !== false && (belongsToClient(review.clientId) || (review.propertyId
         ? propertyIds.has(review.propertyId)
-        : propertyNames.has(review.propertyName),
+        : propertyNames.has(review.propertyName))),
     ),
     tasks: (data.tasks ?? []).filter(
       (task) =>
@@ -290,7 +291,7 @@ function PortalAppInner({
   );
   const clientWorkspaceMembers = useMemo<ClientMemberSummary[]>(
     () =>
-      (data?.clients ?? []).map((client) => {
+      (data?.clients ?? (currentUserId?.startsWith('preview-') ? demoClients : [])).map((client) => {
         const existingMember = activeClientMembers.find(
           (member) => member.clientAccountId === client.id,
         );
@@ -308,7 +309,7 @@ function PortalAppInner({
           userId: `workspace-preview:${client.id}`,
         };
       }),
-    [activeClientMembers, data?.clients],
+    [activeClientMembers, currentUserId, data?.clients],
   );
   const selectedTeamMember =
     role === 'admin'
@@ -351,6 +352,7 @@ function PortalAppInner({
   const [location, visit] = usePortalLocation(initialAllowedScreen, allowedScreens[effectiveRole], visibleWorkspaceId);
   const activeScreen = location.screen;
   const [openedReviewId, setOpenedReviewId] = useState<string | undefined>();
+  const [openedReviewVersionId, setOpenedReviewVersionId] = useState<string | undefined>();
   const [openedCalendarEventId, setOpenedCalendarEventId] = useState<string | undefined>();
   const [openedMarketingContentId, setOpenedMarketingContentId] = useState<string | undefined>();
   const [adminHubTarget, setAdminHubTarget] = useState<PortalHubNavigation & { revision: number }>({
@@ -414,7 +416,9 @@ function PortalAppInner({
     ? activeScreen
     : 'dashboard';
   const projectPreview = useProjectPreview(!hasLiveIdentity && effectiveRole === 'admin');
-  const projectActions: PortalActionHandlers | undefined = actions && !hasLiveIdentity && effectiveRole === 'admin' ? { ...actions, ...projectPreview.actions } : actions;
+  const reviewPreview = useReviewPreview(!hasLiveIdentity, effectiveRole);
+  const reviewActions = hasLiveIdentity ? actions : reviewPreview.actions;
+  const projectActions: PortalActionHandlers | undefined = actions && !hasLiveIdentity && effectiveRole === 'admin' ? { ...actions, ...projectPreview.actions, ...reviewPreview.actions } : actions;
   const shellData = useMemo(
     () =>
       workspaceData ?? {
@@ -423,11 +427,11 @@ function PortalAppInner({
         gear: demoGear,
         payments: demoPayments,
         properties: demoProperties,
-        reviews: demoReviews,
+        reviews: reviewPreview.reviews ?? demoReviews,
         tasks: demoTasks,
         ...projectPreview.data,
       },
-    [workspaceData, projectPreview.data],
+    [workspaceData, projectPreview.data, reviewPreview.reviews],
   );
   const searchItems = useMemo<PortalSearchItem[]>(() => {
     const searchableTasks = effectiveRole === 'team_member'
@@ -570,6 +574,8 @@ function PortalAppInner({
             read: Boolean(notification.readAt),
             screen: notification.webScreen,
             taskId: notification.entityType === 'task' ? notification.entityId ?? undefined : undefined,
+            reviewId: notification.kind === 'review' && typeof notification.metadata.mediaAssetId === 'string' ? notification.metadata.mediaAssetId : undefined,
+            versionId: typeof notification.metadata.versionId === 'string' ? notification.metadata.versionId : undefined,
             timeLabel: notificationTimeLabel(notification.createdAt),
             title: notification.title,
           }))
@@ -661,7 +667,7 @@ function PortalAppInner({
                 navigate('calendar');
               }}
               onOpenReview={(reviewId) => {
-                setOpenedReviewId(reviewId);
+                setOpenedReviewVersionId(undefined); setOpenedReviewId(reviewId);
                 navigate('reviews');
               }}
               onOpenTask={openTask}
@@ -710,7 +716,7 @@ function PortalAppInner({
               navigate('calendar');
             }}
             onOpenReview={(reviewId) => {
-              setOpenedReviewId(reviewId);
+              setOpenedReviewVersionId(undefined); setOpenedReviewId(reviewId);
               navigate('reviews');
             }}
             role={effectiveRole}
@@ -744,7 +750,7 @@ function PortalAppInner({
               navigate('calendar');
             }}
             onOpenReview={(reviewId) => {
-              setOpenedReviewId(reviewId);
+              setOpenedReviewVersionId(undefined); setOpenedReviewId(reviewId);
               navigate('reviews');
             }}
             role={effectiveRole}
@@ -805,19 +811,13 @@ function PortalAppInner({
           />
         );
       case 'reviews':
-        return (
-          <ReviewsScreen
-            initialReviewId={openedReviewId}
-            onArchive={effectiveRole !== 'client' ? actions?.archiveDeliverable : undefined}
-            onComment={actions?.reviewComment}
-            onDecision={(reviewId, decision) => actions?.reviewDecision(reviewId, decision)}
-            onUpload={actions?.uploadDeliverable}
-            onUpdate={effectiveRole !== 'client' ? actions?.updateDeliverable : undefined}
-            properties={shellData.properties}
-            reviews={workspaceData?.reviews}
-            role={effectiveRole}
-          />
-        );
+        return <ReviewsScreen initialReviewId={openedReviewId} initialVersionId={openedReviewVersionId} currentUserId={hasLiveIdentity ? workspaceUserId : reviewPreview.currentUserId}
+          jobs={shellData.jobs} properties={shellData.properties} reviews={shellData.reviews}
+          onArchive={effectiveRole !== 'client' ? reviewActions?.archiveDeliverable : undefined}
+          onComment={reviewActions?.reviewComment} onDecision={reviewActions?.reviewDecision} onResolve={reviewActions?.resolveReviewComment}
+          onUploadVersion={effectiveRole !== 'client' ? reviewActions?.uploadReviewVersion : undefined}
+          onUpload={effectiveRole !== 'client' ? reviewActions?.uploadDeliverable : undefined}
+          onUpdate={effectiveRole !== 'client' ? reviewActions?.updateDeliverable : undefined} role={effectiveRole}/>;
       case 'tasks':
         return (
           <TasksScreen
@@ -996,7 +996,7 @@ function PortalAppInner({
               navigate('calendar');
             }}
             onOpenReview={(reviewId) => {
-              setOpenedReviewId(reviewId);
+              setOpenedReviewVersionId(undefined); setOpenedReviewId(reviewId);
               navigate('reviews');
             }}
             role={effectiveRole}
@@ -1029,6 +1029,7 @@ function PortalAppInner({
         }
         onNavigate={navigate}
         onOpenTaskNotification={taskId => visit({ screen: 'tasks', taskId })}
+        onOpenReviewNotification={(reviewId,versionId) => { setOpenedReviewId(reviewId); setOpenedReviewVersionId(versionId); navigate('reviews'); }}
         onNavigateProjectStatus={projectStatus => visit({ screen: 'projects', projectStatus })}
         activeProjectStatus={visibleScreen === 'projects' ? location.projectStatus : undefined}
         onSelectWorkspace={onSelectWorkspace}

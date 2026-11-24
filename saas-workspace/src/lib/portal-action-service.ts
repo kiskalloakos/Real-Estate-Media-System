@@ -1,5 +1,8 @@
 import { supabase } from '@/lib/supabase';
 import type {
+  CreateReviewCommentInput,
+  ReviewDecisionInput,
+  UploadReviewVersionInput,
   CreateCalendarEventInput,
   CreateCostInput,
   CreateDebtInput,
@@ -144,21 +147,6 @@ function scriptVersionText(value: string) {
     .replace(/&nbsp;/g, ' ')
     .replace(/\n{3,}/g, '\n\n')
     .trim();
-}
-
-async function latestMediaVersion(mediaAssetId: string) {
-  const client = requireClient();
-  const { data, error } = await client
-    .from('media_versions')
-    .select('id')
-    .eq('media_asset_id', mediaAssetId)
-    .order('version_number', { ascending: false })
-    .limit(1)
-    .maybeSingle();
-
-  if (error) throw new Error(`Could not load the current version: ${error.message}`);
-  if (!data) throw new Error('Upload a file version before adding review feedback.');
-  return data.id;
 }
 
 async function uploadPropertyCover(
@@ -1510,140 +1498,94 @@ export async function archiveRecurringCost(costId: string) {
   if (error) throw new Error(`Could not delete the recurring cost: ${error.message}`);
 }
 
-export async function addReviewComment(
-  mediaAssetId: string,
-  body: string,
-  timestamp: string,
-  context: PortalActionContext,
-) {
+export async function addReviewComment(input: CreateReviewCommentInput, context: PortalActionContext) {
   const client = requireClient();
-  const comment = body.trim();
-  if (!comment) throw new Error('Write a comment before saving.');
-  const versionId = await latestMediaVersion(mediaAssetId);
+  if (!input.body.trim() || !input.versionId) throw new Error('Choose a version and write a comment.');
+  const timestamp = timestampSeconds(input.timestamp);
+  if (input.timestamp !== 'General' && timestamp === null) throw new Error('Use a valid MM:SS timestamp.');
   const { error } = await client.from('review_comments').insert({
-    agency_id: context.agencyId,
-    author_id: context.userId,
-    body: comment,
-    media_asset_id: mediaAssetId,
-    media_version_id: versionId,
-    timestamp_seconds: timestampSeconds(timestamp),
-    visibility: 'client',
+    agency_id: context.agencyId, author_id: context.userId, body: input.body.trim(),
+    media_asset_id: input.mediaAssetId, media_version_id: input.versionId,
+    parent_comment_id: input.parentId || null, timestamp_seconds: timestamp, visibility: input.visibility,
   });
-
   if (error) throw new Error(`Could not add the comment: ${error.message}`);
 }
 
-export async function recordReviewDecision(
-  mediaAssetId: string,
-  decision: 'approved' | 'changes_requested' | 'approval_revoked',
-  context: PortalActionContext,
-) {
-  const client = requireClient();
-  const versionId = await latestMediaVersion(mediaAssetId);
-  const { error: eventError } = await client.from('review_approval_events').insert({
-    actor_id: context.userId,
-    agency_id: context.agencyId,
-    decision,
-    media_asset_id: mediaAssetId,
-    media_version_id: versionId,
+export async function recordReviewDecision(input: ReviewDecisionInput, _context: PortalActionContext) {
+  const { error } = await requireClient().rpc('decide_review_versions', {
+    p_targets: input.targets, p_decision: input.decision, p_note: input.note ?? '',
   });
-
-  if (eventError) throw new Error(`Could not save the review decision: ${eventError.message}`);
+  if (error) throw new Error(`Could not save the review decision: ${error.message}`);
 }
 
-export async function uploadDeliverable(
-  input: UploadDeliverableInput,
-  context: PortalActionContext,
-) {
+export async function resolveReviewComment(commentId: string, resolved: boolean) {
+  const { error } = await requireClient().from('review_comments').update({ status: resolved ? 'resolved' : 'open' })
+    .eq('id', commentId).select('id').single();
+  if (error) throw new Error(`Could not update the comment: ${error.message}`);
+}
+
+async function storeReviewVersion(asset: { id: string; agency_id: string; client_account_id: string | null; property_id: string | null; job_id: string | null }, file: File, userId: string, contentHtml?: string) {
   const client = requireClient();
-  const isScript = input.kind === 'script';
-  const contentHtml = input.contentHtml?.trim() ?? '';
-  if (isScript && !input.file && !plainText(contentHtml)) {
-    throw new Error('Write the script before saving content.');
-  }
-  if (!isScript && !input.file) {
-    throw new Error('Choose a content file before uploading.');
-  }
-  const { data: property, error: propertyError } = await client
-    .from('properties')
-    .select('client_account_id')
-    .eq('id', input.propertyId)
-    .single();
-
-  if (propertyError || !property) {
-    throw new Error(`Could not load the selected property: ${propertyError?.message ?? 'Unknown error'}`);
-  }
-
-  const { data: asset, error: assetError } = await client
-    .from('media_assets')
-    .insert({
-      agency_id: context.agencyId,
-      client_visible: true,
-      created_by: context.userId,
-      description: isScript ? contentHtml : null,
-      kind: input.kind,
-      property_id: input.propertyId,
-      status: 'ready_for_review',
-      title: input.title.trim(),
-    })
-    .select('id')
-    .single();
-
-  if (assetError || !asset) {
-    throw new Error(`Could not create the deliverable: ${assetError?.message ?? 'Unknown error'}`);
-  }
-
-  const generatedScriptFile = isScript && !input.file
-    ? new File([scriptVersionText(contentHtml)], `${safeFilename(input.title)}.txt`, { type: 'text/plain' })
-    : null;
-  const uploadFile = input.file ?? generatedScriptFile;
-  if (!uploadFile) return;
-
-  const storagePath = [
-    context.agencyId,
-    property.client_account_id,
-    input.propertyId,
-    asset.id,
-    `${Date.now()}-${safeFilename(uploadFile.name)}`,
-  ].join('/');
-  const { error: uploadError } = await client.storage
-    .from('media-review')
-    .upload(storagePath, uploadFile, {
-      contentType: uploadFile.type || 'application/octet-stream',
-      upsert: false,
-    });
-
-  if (uploadError) throw new Error(`Could not upload ${uploadFile.name}: ${uploadError.message}`);
-
-  const { error: versionError } = await client.from('media_versions').insert({
-    agency_id: context.agencyId,
-    byte_size: uploadFile.size,
-    media_asset_id: asset.id,
-    mime_type: uploadFile.type || 'application/octet-stream',
-    original_filename: uploadFile.name,
-    storage_path: storagePath,
-    uploaded_by: context.userId,
-    version_number: 1,
+  const path = [asset.agency_id, asset.client_account_id ?? 'internal', asset.property_id ?? asset.job_id, asset.id, `${clientUuid()}-${safeFilename(file.name)}`].join('/');
+  const { error: uploadError } = await client.storage.from('media-review').upload(path, file, { contentType: file.type || 'application/octet-stream', upsert: false });
+  if (uploadError) throw new Error(`Could not upload ${file.name}: ${uploadError.message}`);
+  const { error } = await client.from('media_versions').insert({
+    agency_id: asset.agency_id, media_asset_id: asset.id, version_number: 1,
+    storage_path: path, original_filename: file.name, mime_type: file.type || 'application/octet-stream',
+    byte_size: file.size, uploaded_by: userId, metadata: contentHtml ? { content_html: contentHtml } : {},
   });
+  if (error) {
+    await client.storage.from('media-review').remove([path]);
+    throw new Error(`Could not register this revision: ${error.message}`);
+  }
+}
 
-  if (versionError) {
-    throw new Error(`The file uploaded, but its review version failed: ${versionError.message}`);
+export async function uploadReviewVersion(input: UploadReviewVersionInput, context: PortalActionContext) {
+  const { data: asset, error } = await requireClient().from('media_assets')
+    .select('id, agency_id, client_account_id, property_id, job_id').eq('id', input.mediaAssetId)
+    .eq('agency_id', context.agencyId).is('archived_at', null).single();
+  if (error || !asset) throw new Error('This review is no longer available.');
+  await storeReviewVersion(asset, input.file, context.userId, input.contentHtml);
+}
+
+export async function uploadDeliverable(input: UploadDeliverableInput, context: PortalActionContext) {
+  const client = requireClient();
+  if (!input.title.trim()) throw new Error('Give the deliverable a title.');
+  if (!input.jobId && !input.propertyId) throw new Error('Choose a project or property.');
+  const contentHtml = input.contentHtml?.trim() ?? '';
+  const file = input.file ?? (input.kind === 'script' && plainText(contentHtml)
+    ? new File([scriptVersionText(contentHtml)], `${safeFilename(input.title)}.txt`, { type: 'text/plain' }) : null);
+  if (!file) throw new Error('Choose a file or write the script before uploading.');
+  const scopeQuery = input.jobId
+    ? client.from('jobs').select('client_account_id').eq('id', input.jobId)
+    : client.from('properties').select('client_account_id').eq('id', input.propertyId!);
+  const { data: scope, error: scopeError } = await scopeQuery.eq('agency_id', context.agencyId).is('archived_at', null).single();
+  if (scopeError || !scope) throw new Error('The selected project or property is unavailable.');
+  const asset = { id: clientUuid(), agency_id: context.agencyId, client_account_id: scope.client_account_id,
+    property_id: input.propertyId || null, job_id: input.jobId || null };
+  // RLS cannot read the newly inserted row inside INSERT RETURNING. Allocate its ID first.
+  const { error } = await client.from('media_assets').insert({
+    ...asset, created_by: context.userId, kind: input.kind, title: input.title.trim(), description: contentHtml || null,
+    client_visible: input.clientVisible ?? true, status: 'draft',
+  });
+  if (error) throw new Error(`Could not create the deliverable: ${error.message}`);
+  try { await storeReviewVersion(asset, file, context.userId, contentHtml); }
+  catch (failure) {
+    await client.from('media_assets').update({ archived_at: new Date().toISOString() }).eq('id', asset.id);
+    throw failure;
   }
 }
 
 export async function updateDeliverable(input: UpdateDeliverableInput) {
   const client = requireClient();
   if (!input.title.trim()) throw new Error('Content title is required.');
-  const { error } = await client
-    .from('media_assets')
-    .update({
-      client_visible: input.clientVisible ?? true,
-      property_id: input.propertyId,
-      status: input.status,
-      title: input.title.trim(),
-    })
-    .eq('id', input.mediaAssetId)
-    .is('archived_at', null);
+  const { data: current, error: readError } = await client.from('media_assets').select('status')
+    .eq('id', input.mediaAssetId).is('archived_at', null).single();
+  if (readError || !current) throw new Error('This review is no longer available.');
+  const { error } = await client.from('media_assets').update({
+    client_visible: input.clientVisible, title: input.title.trim(),
+    status: current.status === 'draft' && input.clientVisible ? 'ready_for_review' : current.status,
+  }).eq('id', input.mediaAssetId).is('archived_at', null).select('id').single();
   if (error) throw new Error(`Could not update the content: ${error.message}`);
 }
 
@@ -1662,22 +1604,7 @@ export async function updateContractDeliverableStatus(
 }
 
 export async function archiveDeliverable(mediaAssetId: string) {
-  const client = requireClient();
-  const { data: versions, error: versionsError } = await client
-    .from('media_versions')
-    .select('storage_path')
-    .eq('media_asset_id', mediaAssetId);
-  if (versionsError) throw new Error(`Could not prepare the content for deletion: ${versionsError.message}`);
-
-  const { error } = await client
-    .from('media_assets')
-    .delete()
-    .eq('id', mediaAssetId);
-  if (error) throw new Error(`Could not delete the content: ${error.message}`);
-
-  const paths = (versions ?? []).map((version) => version.storage_path).filter(Boolean);
-  if (paths.length) {
-    const { error: storageError } = await client.storage.from('media-review').remove(paths);
-    if (storageError) throw new Error(`Content was removed, but its stored file could not be removed: ${storageError.message}`);
-  }
+  const { error } = await requireClient().from('media_assets').update({ archived_at: new Date().toISOString() })
+    .eq('id', mediaAssetId).select('id').single();
+  if (error) throw new Error(`Could not archive the content: ${error.message}`);
 }

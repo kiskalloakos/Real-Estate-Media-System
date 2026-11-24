@@ -73,7 +73,7 @@ export default function ReviewDetailRoute() {
         {
           onPress: () => {
             void actions
-              .decide(summary.id, decision)
+              .decide(summary.id, decision, review?.currentVersionId)
               .then(() => {
                 Alert.alert(
                   approving ? 'Version approved' : 'Changes requested',
@@ -119,7 +119,7 @@ export default function ReviewDetailRoute() {
               onPress={() =>
                 router.push({
                   pathname: '/(portal)/(reviews)/comment/[reviewId]',
-                  params: { reviewId: summary.id },
+                  params: { reviewId: summary.id, versionId: review?.currentVersionId },
                 })
               }
             >

@@ -124,7 +124,7 @@ export function ProjectWorkspace({ client, properties, tasks, archivedTasks = []
         onCreateEvent={actions && (input => actions.createEvent({ ...input, ...context, workScope: 'client' }))}
         onArchiveEvent={actions?.archiveEvent} onUpdateEvent={actions?.updateEvent}/>}
       {section === 'Reviews' && <>{project && composer(scopedProperties)}<ReviewsScreen role="admin" reviews={projectReviews} properties={scopedProperties}
-        onComment={actions?.reviewComment} onDecision={actions?.reviewDecision} onArchive={actions?.archiveDeliverable}
+        currentUserId={currentUserId} projectContext={project ? {propertyId:project.id} : undefined} onUpload={actions?.uploadDeliverable} onResolve={actions?.resolveReviewComment} onUploadVersion={actions?.uploadReviewVersion} onComment={actions?.reviewComment} onDecision={actions?.reviewDecision} onArchive={actions?.archiveDeliverable}
         onUpdate={actions?.updateDeliverable}/></>}
       {section === 'Files' && <section className="project-summary"><h2>{phase === 'delivery' ? 'Approved delivery files' : 'Project files'}</h2>
         {files.map(file => <a key={file.id} href={file.fileUrl} target="_blank" rel="noreferrer">{file.title} · {file.version}</a>)}

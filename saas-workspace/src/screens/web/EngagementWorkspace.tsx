@@ -7,9 +7,10 @@ import type { JobSummary, PortalActionHandlers, PortalData, ProjectTaskSection }
 import { ProjectForm } from './ProjectForm';
 import { TasksScreen } from './TasksScreen';
 import { CalendarScreen } from './CalendarScreen';
+import { ReviewsScreen } from './ReviewsScreen';
 import './ProjectsScreen.css';
 
-const sections = ['Overview', 'Tasks', 'Calendar', 'Details'] as const;
+const sections = ['Overview', 'Tasks', 'Calendar', 'Reviews', 'Details'] as const;
 
 export function EngagementWorkspace({ project, data, actions, location, onLocationChange, onBack, onOpenClient, currentUserId }: {
   project: JobSummary;
@@ -73,6 +74,7 @@ export function EngagementWorkspace({ project, data, actions, location, onLocati
     {section === 'Calendar' && <CalendarScreen role="admin" projectContext={context} currentUserId={currentUserId} events={events} notes={[]} clients={data.clients} properties={property ? [property] : []} members={data.agencyMembers}
       onCreateEvent={ready && actions ? input => actions.createEvent({ ...input, ...context, workScope: project.clientId ? 'client' : 'internal' }) : undefined}
       onUpdateEvent={ready && actions ? input => actions.updateEvent({ ...input, ...context }) : undefined} onArchiveEvent={actions?.archiveEvent}/>}
+    {section === 'Reviews' && <ReviewsScreen role="admin" currentUserId={currentUserId} projectContext={{jobId:project.id}} jobs={data.jobs} properties={data.properties} reviews={(data.reviews ?? []).filter(review => review.jobId === project.id)} onComment={actions?.reviewComment} onDecision={actions?.reviewDecision} onResolve={actions?.resolveReviewComment} onUploadVersion={actions?.uploadReviewVersion} onArchive={actions?.archiveDeliverable} onUpdate={actions?.updateDeliverable} onUpload={actions ? input => actions.uploadDeliverable({...input,jobId:project.id}) : undefined}/> }
     {section === 'Details' && <section className="engagement-panel"><h2>Engagement details</h2><dl className="engagement-details"><dt>Client</dt><dd>{client?.name ?? 'Internal agency work'}</dd><dt>Contract</dt><dd>{agreement?.title ?? 'No linked contract'}</dd><dt>Property / location</dt><dd>{property?.name ?? 'Not linked to a property'}</dd><dt>Owner</dt><dd>{owner?.name ?? 'Unassigned'}</dd></dl>{client && <Button variant="secondary" onClick={() => onOpenClient(client.id)}>Open client workspace</Button>}</section>}
     <Modal open={editing} title="Edit project" onClose={() => setEditing(false)}>{editing && <ProjectForm project={project} data={data} onCancel={() => setEditing(false)} onSave={async input => { if (!actions) return; await actions.updateJob({ ...input, jobId: project.id }); setEditing(false); notify('Project updated.'); }}/>}</Modal>
     <Modal open={Boolean(sectionEditor)} title={sectionEditor?.id ? 'Edit section' : 'New section'} onClose={() => { if (!saving) setSectionEditor(null); }}>

@@ -23,6 +23,8 @@ export interface PortalSearchItem {
 
 export interface PortalNotification {
   taskId?: string;
+  reviewId?: string;
+  versionId?: string;
   body: string;
   id: string;
   read: boolean;

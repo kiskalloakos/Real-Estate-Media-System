@@ -63,7 +63,9 @@
     "start:go:tunnel": "expo start --go --tunnel --clear",
     "start:dev-client": "expo start --dev-client",
     "test:projects": "node --test scripts/project-navigation.test.cjs scripts/task-workspace.test.cjs",
-    "test:projects:db": "node scripts/project-engagements-db.test.mjs"
+    "test:projects:db": "node scripts/project-engagements-db.test.mjs",
+    "test:reviews": "node --test scripts/reviews.test.cjs",
+    "test:reviews:db": "node scripts/reviews-db.test.mjs"
   },
   "private": true
 }

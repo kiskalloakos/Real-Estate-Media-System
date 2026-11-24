@@ -89,6 +89,46 @@ in the isolated PostgreSQL runtime described above.
 preceding task, a separate editor, and another agency; its entire transaction
 rolls back. This live-permissions test passed on November 24, 2026.
 
+## Versioned client reviews (step 3)
+
+Clients sign in with their existing account. Each engagement has a **Reviews**
+tab; the global review room can filter by engagement or legacy property work.
+Uploads support videos, photos, scripts and documents, including engagements
+without a property. Upload multiple new files together or use **Upload revision**
+to add a version to an existing item. New versions reopen review and preserve
+previous files, feedback and decisions.
+
+Clients can approve one displayed version or select items from one collection
+and approve a batch. The confirmation lists the exact versions. The database
+locks decisions against uploads, rejects stale targets, and commits a batch
+atomically. Previous-version feedback remains accessible; decisions require
+the latest version. Native comments and decisions also send explicit version IDs.
+
+Feedback supports video timestamps, replies, resolved comments, and team-only
+notes. Client access and notification recipients exclude internal notes and
+private files. Alerts open the relevant review/version. Archiving retains the
+files and history. Existing property-based review paths remain supported.
+
+Backend migration `202611240003_versioned_reviews.sql` was applied separately on
+November 24, 2026, before the frontend release. It derives existing assets'
+client IDs from their properties and preserves the private `media-review`
+bucket. The three November 24 migration-history source copies were verified
+against the repository after correcting dollar-quote escaping in the stored
+copies; the applied database functions were unaffected.
+
+When preparing a separately authorized SQL-editor release, use
+`node scripts/build-migration-release.mjs supabase/migrations/<migration.sql>`.
+It prints transactional SQL with an exact source copy in migration history;
+it does not connect to or modify a database. Do not reapply historical migrations.
+
+Run `npm run test:reviews`, and use `PROJECT_SQL_RUNTIME` as described above for
+`npm run test:reviews:db`. The isolated database test exercises real PostgreSQL
+RLS and the retained review schema. The deployed-schema check is
+`supabase/tests/versioned-reviews.sql`; run the complete rollback transaction.
+It creates fresh test agencies/users and temporary review/storage metadata,
+then rolls all fixtures back. Browser upload/revision checks used the isolated
+local sample; no real client files were uploaded or approved for these tests.
+
 ## Expo Go on iOS and Android
 
 ```sh

@@ -107,6 +107,7 @@ export interface PortalShellProps {
   onSelectWorkspace?: (agencyId: string) => void;
   onReadNotification?: (notificationId: string) => Promise<void> | void;
   onOpenTaskNotification?: (taskId: string) => void;
+  onOpenReviewNotification?: (reviewId: string, versionId?: string) => void;
   onSearchSelect?: (item: PortalSearchItem) => boolean | void;
   onSignOut?: () => void;
   onUpdateProfile?: (input: {
@@ -137,6 +138,7 @@ export function PortalShell({
   onSelectWorkspace,
   onReadNotification,
   onOpenTaskNotification,
+  onOpenReviewNotification,
   onSearchSelect,
   onSignOut,
   onUpdateProfile,
@@ -272,6 +274,9 @@ export function PortalShell({
     if (notification.taskId && onOpenTaskNotification) {
       setMobileOpen(false);
       onOpenTaskNotification(notification.taskId);
+    } else if (notification.reviewId && onOpenReviewNotification) {
+      setMobileOpen(false);
+      onOpenReviewNotification(notification.reviewId, notification.versionId);
     } else navigate(notification.screen);
   };
 

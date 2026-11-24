@@ -311,7 +311,8 @@ export interface MediaAssetRow
   extends AgencyScopedRow,
     TimestampedRow,
     ArchivableRow {
-  property_id: UUID;
+  property_id: UUID | null;
+  client_account_id: UUID | null;
   job_id: UUID | null;
   kind: MediaKind;
   title: string;
@@ -349,6 +350,7 @@ export interface ReviewCommentRow extends AgencyScopedRow, TimestampedRow {
 }
 
 export interface ReviewApprovalEventRow extends AgencyScopedRow {
+  batch_id: UUID | null;
   media_asset_id: UUID;
   media_version_id: UUID;
   decision: ReviewDecision;
@@ -952,7 +954,7 @@ export type Database = {
       >;
       media_assets: TableDefinition<
         MediaAssetRow,
-        "agency_id" | "property_id" | "kind" | "title"
+        "agency_id" | "kind" | "title"
       >;
       media_versions: TableDefinition<
         MediaVersionRow,
@@ -1209,6 +1211,10 @@ export type Database = {
           client_account_id: UUID | null;
           agency_role: AgencyRole;
         }[];
+      };
+      decide_review_versions: {
+        Args: { p_targets: Json; p_decision: ReviewDecision; p_note?: string };
+        Returns: undefined;
       };
       acknowledge_gear_transfer: {
         Args: { p_history_id: UUID };

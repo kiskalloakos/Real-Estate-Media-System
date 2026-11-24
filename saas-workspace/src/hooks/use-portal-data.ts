@@ -217,6 +217,7 @@ async function fetchPortalData(agencyId: string): Promise<PortalData> {
     mediaResult,
     versionResult,
     commentResult,
+    approvalResult,
     calendarResult,
     calendarAssigneeResult,
     taskResult,
@@ -284,19 +285,20 @@ async function fetchPortalData(agencyId: string): Promise<PortalData> {
       .order('assigned_at', { ascending: true }),
     supabase
       .from('media_assets')
-      .select('id, property_id, kind, title, description, status, updated_at')
+      .select('*')
       .eq('agency_id', agencyId)
       .is('archived_at', null)
       .order('updated_at', { ascending: false }),
     supabase
       .from('media_versions')
-      .select('id, media_asset_id, version_number, duration_seconds, storage_path, mime_type, created_at')
+      .select('id, media_asset_id, version_number, duration_seconds, storage_path, mime_type, original_filename, metadata, created_at')
       .eq('agency_id', agencyId)
       .order('version_number', { ascending: false }),
     supabase
       .from('review_comments')
-      .select('id, media_asset_id, author_id, body, timestamp_seconds, created_at')
-      .eq('agency_id', agencyId),
+      .select('id, media_asset_id, media_version_id, parent_comment_id, author_id, body, timestamp_seconds, visibility, status, created_at')
+      .eq('agency_id', agencyId).order('created_at'),
+    supabase.from('review_approval_events').select('*').eq('agency_id', agencyId).order('created_at', { ascending: false }),
     supabase
       .from('calendar_events')
       .select(
@@ -519,6 +521,7 @@ async function fetchPortalData(agencyId: string): Promise<PortalData> {
     ['Reviews', mediaResult.error],
     ['Review versions', versionResult.error],
     ['Review comments', commentResult.error],
+    ['Review decisions', approvalResult.error],
     ['Calendar', calendarResult.error],
     ['Calendar assignees', calendarAssigneeResult.error],
     ['Tasks', taskResult.error],
@@ -1050,55 +1053,54 @@ async function fetchPortalData(agencyId: string): Promise<PortalData> {
     };
   });
 
-  const versionsByAsset = new Map<
-    string,
-    NonNullable<typeof versionResult.data>[number]
-  >();
+  const reviewVersionsByAsset = new Map<string, NonNullable<typeof versionResult.data>>();
   for (const version of versionResult.data ?? []) {
-    if (!versionsByAsset.has(version.media_asset_id)) {
-      versionsByAsset.set(version.media_asset_id, version);
-    }
+    const group=reviewVersionsByAsset.get(version.media_asset_id) ?? []; group.push(version); reviewVersionsByAsset.set(version.media_asset_id,group);
   }
-  const commentsByAsset = new Map<string, ReviewItem['comments']>();
+  const reviewCommentsByVersion = new Map<string, NonNullable<typeof commentResult.data>>();
   for (const comment of commentResult.data ?? []) {
-    const current = commentsByAsset.get(comment.media_asset_id) ?? [];
-    current.push({
-      author: profileNames.get(comment.author_id) ?? 'Workspace member',
-      avatarUrl: profileAvatarUrls.get(comment.author_id),
-      body: comment.body,
-      id: comment.id,
-      timestamp:
-        comment.timestamp_seconds == null
-          ? 'General'
-          : formatTimestamp(comment.timestamp_seconds),
-    });
-    commentsByAsset.set(comment.media_asset_id, current);
+    const group=reviewCommentsByVersion.get(comment.media_version_id) ?? []; group.push(comment); reviewCommentsByVersion.set(comment.media_version_id,group);
   }
-
-  const reviews: ReviewItem[] = (mediaResult.data ?? []).map((asset) => {
-    const property = propertiesById.get(asset.property_id);
-    const client = property
-      ? clientsById.get(property.client_account_id)
-      : undefined;
-    const version = versionsByAsset.get(asset.id);
-
+  const reviewDecisionsByVersion = new Map<string, NonNullable<typeof approvalResult.data>>();
+  for (const event of approvalResult.data ?? []) {
+    const group=reviewDecisionsByVersion.get(event.media_version_id) ?? []; group.push(event); reviewDecisionsByVersion.set(event.media_version_id,group);
+  }
+  const reviews: ReviewItem[] = (mediaResult.data ?? []).map(asset => {
+    const property = asset.property_id ? propertiesById.get(asset.property_id) : undefined;
+    const job = jobs.find(item => item.id === asset.job_id);
+    const clientId = asset.client_account_id ?? property?.client_account_id;
+    const clientAccount = clientId ? clientsById.get(clientId) : undefined;
+    const versions = (reviewVersionsByAsset.get(asset.id) ?? []).map(version => {
+      const metadata = version.metadata && typeof version.metadata === 'object' && !Array.isArray(version.metadata) ? version.metadata : {};
+      return {
+        id: version.id, number: version.version_number, fileUrl: mediaVersionUrls.get(version.id),
+        filename: version.original_filename, mimeType: version.mime_type,
+        durationSeconds: version.duration_seconds == null ? undefined : Number(version.duration_seconds),
+        contentHtml: typeof metadata.content_html === 'string' ? metadata.content_html : undefined,
+        createdAt: version.created_at,
+        comments: (reviewCommentsByVersion.get(version.id) ?? []).map(comment => ({
+          id: comment.id, versionId: comment.media_version_id, parentId: comment.parent_comment_id ?? undefined,
+          authorId: comment.author_id, author: profileNames.get(comment.author_id) ?? 'Workspace member',
+          avatarUrl: profileAvatarUrls.get(comment.author_id), body: comment.body, visibility: comment.visibility,
+          resolved: comment.status === 'resolved', createdAt: comment.created_at,
+          timestamp: comment.timestamp_seconds == null ? 'General' : formatTimestamp(comment.timestamp_seconds),
+        })),
+        decisions: (reviewDecisionsByVersion.get(version.id) ?? []).map(event => ({
+          id: event.id, decision: event.decision, actor: profileNames.get(event.actor_id) ?? 'Workspace member',
+          createdAt: event.created_at, note: event.note ?? undefined, batchId: event.batch_id ?? undefined,
+        })),
+      };
+    });
+    const latest = versions[0];
+    if (latest && !latest.contentHtml && versions.length === 1) latest.contentHtml = asset.description ?? undefined;
     return {
-      assignee: 'Realty Media',
-      clientName: client?.name ?? 'Client',
-      comments: commentsByAsset.get(asset.id) ?? [],
-      contentHtml: asset.description ?? undefined,
-      dueLabel: 'Open review',
-      durationSeconds:
-        version?.duration_seconds == null ? undefined : Number(version.duration_seconds),
-      fileUrl: version ? mediaVersionUrls.get(version.id) : undefined,
-      id: asset.id,
-      kind: asset.kind,
-      mimeType: version?.mime_type,
-      propertyId: property?.id,
-      propertyName: property?.name ?? 'Property',
-      status: statusForReview(asset.status),
-      title: asset.title,
-      version: version ? `v${version.version_number}` : 'Draft',
+      assignee: 'Realty Media', clientId: clientId ?? undefined, clientName: clientAccount?.name ?? 'Agency',
+      jobId: asset.job_id ?? undefined, clientVisible: asset.client_visible, currentVersionId: latest?.id, versions,
+      comments: latest?.comments ?? [], contentHtml: latest?.contentHtml,
+      dueLabel: 'Open review', durationSeconds: latest?.durationSeconds, fileUrl: latest?.fileUrl,
+      id: asset.id, kind: asset.kind, mimeType: latest?.mimeType, propertyId: property?.id,
+      propertyName: property?.name ?? job?.name ?? 'Project', status: statusForReview(asset.status),
+      title: asset.title, version: latest ? `v${latest.number}` : 'Draft',
     };
   });
 

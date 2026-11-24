@@ -18,7 +18,7 @@ function validTimestamp(value: string) {
 }
 
 export default function ReviewCommentRoute() {
-  const params = useLocalSearchParams<{ reviewId: string | string[] }>();
+  const params = useLocalSearchParams<{ reviewId: string | string[]; versionId?: string | string[] }>();
   const router = useRouter();
   const { identity, isPreview } = useApp();
   const actions = useNativeReviewActions({ identity, isPreview });
@@ -47,6 +47,7 @@ export default function ReviewCommentRoute() {
         reviewId,
         comment,
         timestamp.trim() || 'General',
+        Array.isArray(params.versionId) ? params.versionId[0] : params.versionId,
       );
       router.back();
     } catch {
