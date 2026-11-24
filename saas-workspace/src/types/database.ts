@@ -19,7 +19,7 @@ export type Json =
 export type UUID = string;
 export interface CalendarBookingRow {
   id:UUID;agency_id:UUID;client_account_id:UUID;requested_by:UUID;category:'call'|'shoot';title:string;
-  starts_at:string;ends_at:string;location:string;note:string;status:'pending'|'confirmed'|'declined';calendar_event_id:UUID|null;created_at:string;
+  starts_at:string;ends_at:string;location:string;note:string;status:'pending'|'confirmed'|'declined'|'cancelled';calendar_event_id:UUID|null;created_at:string;
 }
 export interface ProjectPageRow {
   id: UUID; agency_id: UUID; job_id: UUID; parent_page_id: UUID | null;

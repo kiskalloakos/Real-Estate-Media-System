@@ -13,7 +13,7 @@ create function is_agency_admin(a uuid) returns boolean language sql stable as $
 create function has_client_access(c uuid) returns boolean language sql stable as $$select auth.uid()='${id(4)}' and c='${id(5)}'$$;
 grant usage on schema public,auth to authenticated,anon;grant select on calendar_events to authenticated;
 insert into agencies values('${id(1)}'),('${id(2)}');insert into profiles values('${id(3)}'),('${id(4)}'),('${id(6)}');insert into client_accounts values('${id(5)}','${id(1)}',null),('${id(7)}','${id(2)}',null);`);
-await db.exec(await readFile(new URL('../supabase/migrations/202611240005_calendar_requests.sql',import.meta.url),'utf8'));
+for(const file of ['202611240005_calendar_requests.sql','202611240006_calendar_request_cancellation.sql'])await db.exec(await readFile(new URL('../supabase/migrations/'+file,import.meta.url),'utf8'));
 const request=(title='Call',start='2030-01-01 09:00Z',end='2030-01-01 10:00Z')=>`select request_calendar_booking('${id(5)}','call','${title}','${start}','${end}') id;`;
 await user(4);const first=(await db.query(request())).rows[0].id;
 assert.equal((await db.query(request())).rows[0].id,first);
@@ -30,6 +30,7 @@ await user(4);const second=(await db.query(request('Overlap'))).rows[0].id;
 await user(3);await assert.rejects(()=>db.exec(`select decide_calendar_booking('${second}',true)`),/overlaps/);
 await db.exec(`select decide_calendar_booking('${second}',false)`);
 await user(4);assert.equal((await db.query(`select status from calendar_booking_requests where id='${second}'`)).rows[0].status,'declined');
-await db.exec('reset role;set role anon');await assert.rejects(()=>db.exec(request()),/permission denied/);
+await db.exec(`reset role;delete from calendar_events where id='${event}'`);assert.equal((await db.query(`select status from calendar_booking_requests where id='${first}'`)).rows[0].status,'cancelled');
+await db.exec('set role anon');await assert.rejects(()=>db.exec(request()),/permission denied/);
 console.log('Calendar booking permissions, deduplication, approval, conflicts and category persistence passed.');
 }finally{await db.close();}

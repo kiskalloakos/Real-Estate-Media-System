@@ -190,7 +190,9 @@ provider availability checks. Client requests therefore require agency approval,
 as authorized for this step. No public booking links, recurring availability
 rules, external calendar integration changes or new task templates were added.
 
-Migration `202611240005_calendar_requests.sql` is a separate backend release.
+Migrations `202611240005_calendar_requests.sql` and
+`202611240006_calendar_request_cancellation.sql` are separate backend releases.
+Deleting a confirmed calendar event retains its request as cancelled.
 `PROJECT_SQL_RUNTIME=<isolated PGlite module> npm run test:calendar:db` checks
 permissions, duplicates, confirmation, conflict rejection and persisted category.
 `supabase/tests/calendar-bookings.sql` exercises the actual schema with fresh

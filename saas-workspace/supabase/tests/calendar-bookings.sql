@@ -54,6 +54,8 @@ select pg_temp.page_reject('update public.calendar_booking_requests set status='
 select set_config('request.jwt.claim.sub',owner_a::text,true) from page_test_context;
 select pg_temp.page_reject(format('select public.decide_calendar_booking(%L,true)',(select id from public.calendar_booking_requests where client_account_id=client_a and title='Overlapping shoot')),'overlaps') from page_test_context;
 select public.decide_calendar_booking((select id from public.calendar_booking_requests where client_account_id=client_a and title='Overlapping shoot'),false) from page_test_context;
+delete from public.calendar_events where title='Booking call' and agency_id in(select agency_a from page_test_context);
+select pg_temp.page_assert((select status='cancelled' from public.calendar_booking_requests where client_account_id=client_a and title='Booking call'),'deleted booking becomes cancelled') from page_test_context;
 select set_config('request.jwt.claim.sub',owner_b::text,true) from page_test_context;
 select pg_temp.page_assert(not exists(select 1 from public.calendar_booking_requests where agency_id=agency_a),'other agency cannot read requests') from page_test_context;
 reset role;
