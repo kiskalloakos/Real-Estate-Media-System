@@ -1,3 +1,5 @@
+import { engagementStatusLabels } from './engagements';
+import type { JobSummary } from '../screens/web/types';
 import type { PortalScreenKey } from '../components/web/PortalShell';
 import { isTaskView, type TaskView } from './task-workspace';
 import { projectSections, projectStages, type ProjectSection, type ProjectStage } from './project-workspace';
@@ -7,13 +9,14 @@ export interface PortalLocation {
   taskId?: string;
   clientId?: string;
   projectId?: string;
+  projectStatus?: JobSummary['status'];
   projectStage?: ProjectStage;
   projectSection?: ProjectSection;
   taskView?: TaskView;
   taskQuery?: string;
   taskAssignee?: string;
 }
-const routeKeys = ['screen', 'task', 'client', 'project', 'stage', 'section', 'view', 'q', 'assignee'];
+const routeKeys = ['screen', 'task', 'client', 'project', 'stage', 'status', 'section', 'view', 'q', 'assignee'];
 export function readPortalLocation(search: string, fallback: PortalScreenKey, allowed: readonly PortalScreenKey[]): PortalLocation {
   const params = new URLSearchParams(search);
   const requested = params.get('screen') as PortalScreenKey;
@@ -31,6 +34,7 @@ export function readPortalLocation(search: string, fallback: PortalScreenKey, al
       clientId: params.get('client') || undefined,
       projectId: params.get('project') || undefined,
       projectStage: projectStages.find(stage => stage === params.get('stage')),
+      ...(params.get('status') && Object.hasOwn(engagementStatusLabels, params.get('status')!) ? { projectStatus: params.get('status') as JobSummary['status'] } : {}),
       projectSection: projectSections.find(section => section === params.get('section')),
     } : {}),
   };
@@ -50,6 +54,7 @@ export function portalLocationUrl(current: string, location: PortalLocation) {
     if (location.clientId) url.searchParams.set('client', location.clientId);
     if (location.projectId) url.searchParams.set('project', location.projectId);
     if (location.projectStage) url.searchParams.set('stage', location.projectStage);
+    if (location.projectStatus) url.searchParams.set('status', location.projectStatus);
     if (location.projectSection) url.searchParams.set('section', location.projectSection);
   }
   return `${url.pathname}${url.search}${url.hash}`;

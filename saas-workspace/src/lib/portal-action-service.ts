@@ -198,6 +198,7 @@ export async function createCalendarEvent(
     .insert({
       agency_id: context.agencyId,
       all_day: Boolean(input.allDay),
+      ...(input.jobId !== undefined ? { job_id: input.jobId || null } : {}),
       client_account_id: input.clientId || null,
       created_by: context.userId,
       description: calendarDescription(input.type, input.workScope, input.description),
@@ -673,6 +674,7 @@ export async function updateCalendarEvent(
   const { data: updatedEvent, error } = await client
     .from('calendar_events')
     .update({
+      ...(input.jobId !== undefined ? { job_id: input.jobId || null } : {}),
       client_account_id: input.clientId || null,
       all_day: Boolean(input.allDay),
       description: calendarDescription(input.type, input.workScope, input.description),
@@ -763,6 +765,7 @@ export async function createWorkspaceTask(
   const { error } = await client
     .from('tasks')
     .insert({
+      ...(input.jobId !== undefined || input.productionPhase !== undefined ? { job_id: input.jobId || null, job_section_id: input.sectionId || null, production_phase: input.productionPhase || null } : {}),
       agency_id: context.agencyId,
       assignee_user_id: input.assigneeUserId || null,
       client_account_id: input.clientId || null,
@@ -837,6 +840,7 @@ export async function updateWorkspaceTask(input: UpdateTaskInput, context?: Port
   const { error } = await client
     .from('tasks')
     .update({
+      ...(input.jobId !== undefined || input.productionPhase !== undefined ? { job_id: input.jobId || null, job_section_id: input.sectionId || null, production_phase: input.productionPhase || null } : {}),
       assignee_user_id: input.assigneeUserId || null,
       client_account_id: input.clientId || null,
       completed_at: completedAt,

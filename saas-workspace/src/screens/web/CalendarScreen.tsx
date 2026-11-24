@@ -43,7 +43,7 @@ import type {
 } from './types';
 
 export interface CalendarScreenProps {
-  projectContext?: { clientId: string; propertyId?: string };
+  projectContext?: { clientId?: string; propertyId?: string; jobId?: string };
   clients?: ClientSummary[];
   clientWorkOnly?: boolean;
   currentUserId?: string;
@@ -246,7 +246,7 @@ export function CalendarScreen({
   role,
 }: CalendarScreenProps) {
   const { notify } = useToast();
-  const stateKey = `rm:calendar-state:${currentUserId ?? role}${projectContext ? ":" + projectContext.clientId + ":" + (projectContext.propertyId ?? "general") : ""}`;
+  const stateKey = `rm:calendar-state:${currentUserId ?? role}${projectContext ? ":" + (projectContext.jobId ?? projectContext.clientId ?? "internal") + ":" + (projectContext.propertyId ?? "general") : ""}`;
   const [anchorDateValue, setAnchorDateValue] = useBrowserPersistedState(
     `${stateKey}:anchor-date`,
     isoDate(new Date()),
@@ -505,6 +505,7 @@ export function CalendarScreen({
       ...emptyEventForm,
       ...(draft?.eventForm ?? {}),
       ...projectContext,
+      ...(projectContext?.jobId ? { workScope: projectContext.clientId ? 'client' as const : 'internal' as const } : {}),
       date,
       endDate: date,
       visibility: 'team',
@@ -552,6 +553,7 @@ export function CalendarScreen({
         });
       } else if (onUpdateEvent) {
         await onUpdateEvent({
+          jobId: calendarEvent.jobId,
           allDay: calendarEvent.allDay,
           assigneeUserIds: calendarEvent.assigneeUserIds,
           clientId: calendarEvent.clientId,
@@ -665,6 +667,7 @@ export function CalendarScreen({
     setFormError('');
     setEditEvent(calendarEvent);
     setEditEventForm({
+      jobId: calendarEvent.jobId,
       allDay: calendarEvent.allDay,
       assigneeUserIds: calendarEvent.assigneeUserIds ?? [],
       clientId: calendarEvent.clientId,

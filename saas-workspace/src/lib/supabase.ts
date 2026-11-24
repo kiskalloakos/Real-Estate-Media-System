@@ -9,7 +9,12 @@ import type { Database } from '@/types/database';
 const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL?.trim();
 const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY?.trim();
 
-export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey);
+// Explicit development-only sample mode also defeats stale Metro environment
+// transforms. It cannot activate on the hosted app or in a production export.
+const localSample = __DEV__ && process.env.EXPO_OS === 'web'
+  && typeof window !== 'undefined' && window.location.hostname === 'localhost'
+  && new URLSearchParams(window.location.search).get('sample') === '1';
+export const isSupabaseConfigured = !localSample && Boolean(supabaseUrl && supabaseAnonKey);
 
 const nativeStorage = {
   getItem: (key: string) => SecureStore.getItemAsync(key),

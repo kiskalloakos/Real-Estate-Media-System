@@ -10,7 +10,7 @@ import {
   updateTeamMemberAccess,
 } from '@/lib/access-management-service';
 import { createClientWorkspace } from '@/lib/admin-client-service';
-import { createJob } from '@/lib/job-service';
+import { createJob, updateJob, saveProjectSection, deleteProjectSection } from '@/lib/job-service';
 import {
   archiveAgencyLead,
   deleteAgencyLeadList,
@@ -204,6 +204,9 @@ export default function PortalWebLayout() {
         mutate((context) => createGearItem(input, context)),
       createJob: (input) =>
         mutate(async (context) => { await createJob(input, context); }),
+      updateJob: (input) => mutate(context => updateJob(input, context)),
+      saveProjectSection: (input) => mutate(context => saveProjectSection(input, context)),
+      deleteProjectSection: (id) => mutate(context => deleteProjectSection(id, context)),
       createMoneyMovement: (input) =>
         mutate((context) => createFinanceMoneyMovement(input, context)),
       updateFinanceMoneyMovement: (input) =>

@@ -11,7 +11,7 @@ export const projectStageLabels: Record<ProjectStage, string> = {
   delivery: 'Delivery',
   completed: 'Completed',
 };
-export const projectSections = ['Overview', 'Scripts', 'Reviews', 'Files', 'Tasks', 'Calendar', 'Client details'] as const;
+export const projectSections = ['Overview', 'Scripts', 'Reviews', 'Files', 'Tasks', 'Calendar', 'Client details', 'Details'] as const;
 export type ProjectSection = typeof projectSections[number];
 
 /** A view of existing production activity, not a separately saved workflow status. */

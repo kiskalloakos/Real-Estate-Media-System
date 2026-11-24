@@ -2,7 +2,8 @@ import { useEffect, useMemo, useState, type ReactNode } from 'react';
 
 import { type SidebarMode } from '@/workspace/modules';
 import { agencyModuleIds, workspacePages } from '@/workspace/navigation';
-import { projectStageLabels, productionPhases, type ProjectStage } from '@/lib/project-workspace';
+import { engagementStatuses, engagementStatusLabels } from '@/lib/engagements';
+import type { JobSummary } from '@/screens/web/types';
 import './WorkspaceNavigation.css';
 import { useWorkspace } from '@/workspace/WorkspaceProvider';
 
@@ -101,8 +102,8 @@ export interface PortalShellProps {
   onMarkAllNotificationsRead?: () => Promise<void> | void;
   onDeleteNotification?: (notificationId: string) => Promise<void> | void;
   onNavigate: (screen: PortalScreenKey) => void;
-  onNavigateProjectStage?: (stage?: ProjectStage) => void;
-  activeProjectStage?: ProjectStage;
+  onNavigateProjectStatus?: (stage?: JobSummary['status']) => void;
+  activeProjectStatus?: JobSummary['status'];
   onSelectWorkspace?: (agencyId: string) => void;
   onReadNotification?: (notificationId: string) => Promise<void> | void;
   onSearchSelect?: (item: PortalSearchItem) => boolean | void;
@@ -130,8 +131,8 @@ export function PortalShell({
   onClearNotifications,
   onDeleteNotification,
   onNavigate,
-  onNavigateProjectStage,
-  activeProjectStage,
+  onNavigateProjectStatus,
+  activeProjectStatus,
   onSelectWorkspace,
   onReadNotification,
   onSearchSelect,
@@ -189,9 +190,9 @@ export function PortalShell({
     setFlyoutTop(Math.max(72, Math.min(element.getBoundingClientRect().top, window.innerHeight - 460)));
     setOpenNavigation(openNavigation === group ? null : group);
   };
-  const openProjectStage = (stage?: ProjectStage) => {
+  const openProjectStatus = (stage?: JobSummary['status']) => {
     setMobileOpen(false);
-    onNavigateProjectStage?.(stage);
+    onNavigateProjectStatus?.(stage);
   };
   const visibleNotifications = useMemo(
     () =>
@@ -383,14 +384,14 @@ export function PortalShell({
                   if (event.key === 'Escape') { setOpenNavigation(null); event.currentTarget.querySelector<HTMLButtonElement>('.aw-nav-group__toggle')?.focus(); }
                 }}>
                   <div className={cx('aw-nav-group__row', groupForScreen(activeScreen) === 'projects' && 'has-active-page')}>
-                    <button type="button" className={cx('aw-nav__item', active && 'is-active')} aria-current={active ? 'page' : undefined} aria-label="Projects" title="Projects" onClick={() => { setOpenNavigation('projects'); openProjectStage(); }}>
+                    <button type="button" className={cx('aw-nav__item', active && 'is-active')} aria-current={active ? 'page' : undefined} aria-label="Projects" title="Projects" onClick={() => { setOpenNavigation('projects'); openProjectStatus(); }}>
                       <span className="aw-nav__icon"><Icon name="folder" size={19}/></span><span className="aw-nav__text">Projects</span>
                     </button>
                     <button type="button" className="aw-nav-group__toggle" aria-label="Project navigation" aria-expanded={openNavigation === 'projects'} aria-controls="aw-project-navigation" onClick={event => toggleNavigation('projects', event.currentTarget)}><Icon name={openNavigation === 'projects' ? 'chevron-up' : 'chevron-down'} size={15}/></button>
                   </div>
                   {openNavigation === 'projects' && <ul className="aw-nav-group__children" id="aw-project-navigation" style={{ top: flyoutTop }} aria-label="Project navigation">
                     <li className="aw-nav-group__heading">Projects</li>
-                    {productionPhases.map(stage => <li key={stage}><button type="button" aria-current={active && activeProjectStage === stage ? 'page' : undefined} onClick={() => openProjectStage(stage)}>{projectStageLabels[stage]}</button></li>)}
+                    {engagementStatuses.map(stage => <li key={stage}><button type="button" aria-current={active && activeProjectStatus === stage ? 'page' : undefined} onClick={() => openProjectStatus(stage)}>{engagementStatusLabels[stage]}</button></li>)}
                   </ul>}
                 </li>
               );

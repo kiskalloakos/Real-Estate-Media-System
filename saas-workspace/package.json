@@ -61,7 +61,9 @@
     "build:android": "expo export --platform android --output-dir dist-android",
     "start:go": "expo start --go --lan --clear",
     "start:go:tunnel": "expo start --go --tunnel --clear",
-    "start:dev-client": "expo start --dev-client"
+    "start:dev-client": "expo start --dev-client",
+    "test:projects": "node --test scripts/project-navigation.test.cjs scripts/task-workspace.test.cjs",
+    "test:projects:db": "node scripts/project-engagements-db.test.mjs"
   },
   "private": true
 }

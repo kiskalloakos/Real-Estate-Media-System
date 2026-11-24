@@ -37,7 +37,6 @@ import type {
   CalendarEvent,
   CreateCalendarEventInput,
   CreateClientInput,
-  CreateJobInput,
   CreateClientPropertyInput,
   CreateClientMemberInput,
   CreatePropertyInput,
@@ -75,7 +74,8 @@ export interface ClientsScreenProps {
   onCreateClient?: (client: CreateClientInput) => void | Promise<void>;
   onCreateClientMember?: (input: CreateClientMemberInput) => Promise<void>;
   onCreateEvent?: (input: CreateCalendarEventInput) => Promise<void>;
-  onCreateJob?: (input: CreateJobInput) => Promise<void>;
+  onOpenProject?: (jobId: string) => void;
+  onManageProjects?: () => void;
   onCreateProperty?: (input: CreatePropertyInput) => Promise<void>;
   onCreateTask?: (input: CreateTaskInput) => Promise<void>;
   onOpenTask?: (taskId: string) => void;
@@ -211,7 +211,8 @@ interface ClientWorkspacePageProps {
   onConnectInstagram: (client: ClientSummary) => Promise<void>;
   onCreateClientMember?: (input: CreateClientMemberInput) => Promise<void>;
   onCreateEvent?: (input: CreateCalendarEventInput) => Promise<void>;
-  onCreateJob?: (input: CreateJobInput) => Promise<void>;
+  onOpenProject?: (jobId: string) => void;
+  onManageProjects?: () => void;
   onCreateProperty?: (input: CreatePropertyInput) => Promise<void>;
   onCreateTask?: (input: CreateTaskInput) => Promise<void>;
   onOpenTask?: (taskId: string) => void;
@@ -246,7 +247,8 @@ function ClientWorkspacePage({
   onConnectInstagram,
   onCreateClientMember,
   onCreateEvent,
-  onCreateJob,
+  onOpenProject,
+  onManageProjects,
   onCreateProperty,
   onCreateTask,
   onOpenTask,
@@ -273,8 +275,6 @@ function ClientWorkspacePage({
   const [contractDocumentTarget, setContractDocumentTarget] = useState<NonNullable<AgreementSummary['documents']>[number] | null>(null);
   const [contentOpen, setContentOpen] = useState(false);
   const [eventOpen, setEventOpen] = useState(false);
-  const [jobOpen, setJobOpen] = useState(false);
-  const [jobForm, setJobForm] = useState<CreateJobInput>({ brief: '', clientId: client.id, dueOn: '', kind: 'content_campaign', name: '', startsOn: '' });
   const [taskOpen, setTaskOpen] = useState(false);
   const [teamOpen, setTeamOpen] = useState(false);
   const [teamDraft, setTeamDraft] = useState(client.assignedTeam ?? []);
@@ -797,19 +797,9 @@ function ClientWorkspacePage({
       </section>
 
       <section className="rm-client-workspace__section">
-        <header><div><h2>Campaigns & jobs</h2><p>Work that can span a property or stand on its own.</p></div><Button icon="plus" onClick={() => { setJobForm({ brief: '', clientId: client.id, dueOn: '', kind: 'content_campaign', name: '', startsOn: '' }); setJobOpen(true); }}>New job</Button></header>
-        {jobs.length ? <div className="rm-client-workspace__list">{jobs.map((job) => <div className="rm-client-workspace__calendar-link" key={job.id}><span className="rm-client-workspace__list-icon"><Icon name="briefcase" size={17}/></span><div><strong>{job.name}</strong><small>{job.kind.replaceAll('_', ' ')} · {job.status.replaceAll('_', ' ')}</small></div>{job.dueOn ? <span>{job.dueOn}</span> : null}</div>)}</div> : <div className="rm-client-workspace__empty rm-client-workspace__empty--small"><strong>No jobs planned yet</strong><p>Add a property launch or a client campaign to coordinate production.</p></div>}
+        <header><div><h2>Projects</h2><p>This client's engagements and ongoing work.</p></div>{onManageProjects && <Button variant="secondary" onClick={onManageProjects}>Manage projects</Button>}</header>
+        {jobs.length ? <div className="rm-client-workspace__list">{jobs.map(job => <button type="button" className="rm-client-workspace__calendar-link" key={job.id} disabled={!onOpenProject} onClick={() => onOpenProject?.(job.id)}><span className="rm-client-workspace__list-icon"><Icon name="briefcase" size={17}/></span><div><strong>{job.name}</strong><small>{job.status.replaceAll('_', ' ')}</small></div><Icon name="arrow-right" size={16}/></button>)}</div> : <div className="rm-client-workspace__empty rm-client-workspace__empty--small"><strong>No projects yet</strong><p>Create a client engagement in Projects.</p></div>}
       </section>
-
-      <Modal onClose={() => setJobOpen(false)} open={jobOpen} title="New job or campaign">
-        <form className="rm-profile-form" onSubmit={(event) => { event.preventDefault(); if (!onCreateJob || !jobForm.name.trim()) return; setSavingWorkspaceItem(true); setWorkspaceError(''); void onCreateJob(jobForm).then(() => { setJobOpen(false); notify('Job created.'); }).catch((error) => setWorkspaceError(error instanceof Error ? error.message : 'Could not create the job.')).finally(() => setSavingWorkspaceItem(false)); }}>
-          <label className="rm-field"><span>Name</span><input autoFocus onChange={(event) => setJobForm((current) => ({ ...current, name: event.target.value }))} placeholder="e.g. September personal brand campaign" required value={jobForm.name} /></label>
-          <label className="rm-field"><span>Type</span><select onChange={(event) => setJobForm((current) => ({ ...current, kind: event.target.value as CreateJobInput['kind'] }))} value={jobForm.kind}><option value="content_campaign">Content campaign</option><option value="recurring_content">Recurring content</option><option value="property_launch">Property launch</option><option value="internal">Internal</option></select></label>
-          <label className="rm-field"><span>Property (optional)</span><select onChange={(event) => setJobForm((current) => ({ ...current, propertyId: event.target.value || undefined }))} value={jobForm.propertyId ?? ''}><option value="">No property — campaign only</option>{properties.map((property) => <option key={property.id} value={property.id}>{property.name}</option>)}</select></label>
-          <label className="rm-field"><span>Brief</span><textarea onChange={(event) => setJobForm((current) => ({ ...current, brief: event.target.value }))} rows={3} value={jobForm.brief} /></label>
-          <footer className="rm-dialog-actions"><Button disabled={savingWorkspaceItem} onClick={() => setJobOpen(false)} variant="secondary">Cancel</Button><Button disabled={savingWorkspaceItem || !jobForm.name.trim()} type="submit">{savingWorkspaceItem ? 'Creating…' : 'Create job'}</Button></footer>
-        </form>
-      </Modal>
 
       <div className="rm-client-workspace__columns">
       <section className="rm-client-workspace__section rm-fulfillment">
@@ -1587,7 +1577,8 @@ export function ClientsScreen({
   onCreateClient,
   onCreateClientMember,
   onCreateEvent,
-  onCreateJob,
+  onOpenProject,
+  onManageProjects,
   onCreateProperty,
   onCreateTask,
   onOpenTask,
@@ -1956,7 +1947,8 @@ export function ClientsScreen({
         onConnectInstagram={connectClientInstagram}
         onCreateClientMember={onCreateClientMember}
         onCreateEvent={onCreateEvent}
-        onCreateJob={onCreateJob}
+        onOpenProject={onOpenProject}
+        onManageProjects={onManageProjects}
         onCreateProperty={onCreateProperty}
         onCreateTask={onCreateTask}
         onOpenTask={onOpenTask}

@@ -208,6 +208,7 @@ async function fetchPortalData(agencyId: string): Promise<PortalData> {
   const marketingContentPromise = fetchMarketingContent(agencyId);
   const companyDocumentAssigneePromise = fetchCompanyDocumentAssignees(agencyId);
   const [
+    projectSectionResult,
     clientResult,
     contractResult,
     deliverableResult,
@@ -248,6 +249,7 @@ async function fetchPortalData(agencyId: string): Promise<PortalData> {
     marketingContentResult,
     assignedEventPropertyCoverResult,
   ] = await Promise.all([
+    supabase.from('job_sections').select('*').eq('agency_id', agencyId).order('sort_order'),
     supabase
       .from('client_accounts')
       .select(
@@ -298,7 +300,7 @@ async function fetchPortalData(agencyId: string): Promise<PortalData> {
     supabase
       .from('calendar_events')
       .select(
-        'id, client_account_id, property_id, title, starts_at, ends_at, all_day, location, description, visibility, color',
+        'id, job_id, client_account_id, property_id, title, starts_at, ends_at, all_day, location, description, visibility, color',
       )
       .eq('agency_id', agencyId)
       .is('archived_at', null)
@@ -310,7 +312,7 @@ async function fetchPortalData(agencyId: string): Promise<PortalData> {
     supabase
       .from('tasks')
       .select(
-        'id, client_account_id, property_id, title, description, status, priority, due_at, completed_at, visibility, assignee_user_id, created_by, created_at, archived_at',
+        '*',
       )
       .eq('agency_id', agencyId)
       .order('due_at', { ascending: true, nullsFirst: false }),
@@ -421,7 +423,7 @@ async function fetchPortalData(agencyId: string): Promise<PortalData> {
       .order('connected_at', { ascending: false }),
     supabase
       .from('jobs')
-      .select('id, client_account_id, property_id, name, kind, status, brief, starts_on, due_on')
+      .select('*')
       .eq('agency_id', agencyId)
       .is('archived_at', null)
       .order('due_on', { ascending: true, nullsFirst: false }),
@@ -551,6 +553,8 @@ async function fetchPortalData(agencyId: string): Promise<PortalData> {
     (clientResult.data ?? []).map((client) => [client.id, client]),
   );
   const jobs: JobSummary[] = (isMissingJobsTable(jobResult.error) ? [] : jobResult.data ?? []).map((job) => ({
+    agreementId: job.agreement_id ?? undefined,
+    ownerUserId: job.owner_user_id ?? undefined,
     brief: job.brief ?? '',
     clientId: job.client_account_id ?? undefined,
     dueOn: job.due_on ?? undefined,
@@ -1144,6 +1148,7 @@ async function fetchPortalData(agencyId: string): Promise<PortalData> {
             .trim() || undefined,
         end: formatTime(event.ends_at),
         endDate: event.ends_at ? calendarDate(event.ends_at) : calendarDate(event.starts_at),
+        jobId: event.job_id ?? undefined,
         id: event.id,
         location: event.location ?? '',
         propertyCoverUrl:
@@ -1183,6 +1188,9 @@ async function fetchPortalData(agencyId: string): Promise<PortalData> {
     const creator = profilesById.get(task.created_by);
 
     return {
+      jobId: task.job_id ?? undefined,
+      sectionId: task.job_section_id ?? undefined,
+      productionPhase: task.production_phase ?? undefined,
       archivedAt: task.archived_at ?? undefined,
       attachments: attachmentsByTask.get(task.id) ?? [],
       assigneeName:
@@ -1491,6 +1499,8 @@ async function fetchPortalData(agencyId: string): Promise<PortalData> {
   }));
 
   return {
+    projectFoundationReady: !projectSectionResult.error,
+    projectSections: (projectSectionResult.data ?? []).map(section => ({ id: section.id, jobId: section.job_id, name: section.name, sortOrder: section.sort_order })),
     agencyMembers,
     agreements,
     archivedTasks,

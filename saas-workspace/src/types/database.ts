@@ -382,6 +382,8 @@ export interface CalendarEventAssigneeRow extends AgencyScopedRow {
 }
 
 export interface TaskRow extends AgencyScopedRow, TimestampedRow, ArchivableRow {
+  job_section_id: UUID | null;
+  production_phase: 'pre-production' | 'production' | 'post-production' | null;
   client_account_id: UUID | null;
   property_id: UUID | null;
   job_id: UUID | null;
@@ -397,6 +399,8 @@ export interface TaskRow extends AgencyScopedRow, TimestampedRow, ArchivableRow 
 }
 
 export interface JobRow extends AgencyScopedRow, TimestampedRow, ArchivableRow {
+  agreement_id: UUID | null;
+  owner_user_id: UUID | null;
   client_account_id: UUID | null;
   property_id: UUID | null;
   name: string;
@@ -406,6 +410,12 @@ export interface JobRow extends AgencyScopedRow, TimestampedRow, ArchivableRow {
   starts_on: ISODate | null;
   due_on: ISODate | null;
   created_by: UUID;
+}
+
+export interface JobSectionRow extends AgencyScopedRow, TimestampedRow {
+  job_id: UUID;
+  name: string;
+  sort_order: number;
 }
 
 export interface NoteRow extends AgencyScopedRow, TimestampedRow, ArchivableRow {
@@ -1110,6 +1120,7 @@ export type Database = {
         JobRow,
         "agency_id" | "name" | "created_by"
       >;
+      job_sections: TableDefinition<JobSectionRow, "agency_id" | "job_id" | "name">;
       cabana_scripts: TableDefinition<
         CabanaScriptRow,
         "agency_id" | "title" | "script"

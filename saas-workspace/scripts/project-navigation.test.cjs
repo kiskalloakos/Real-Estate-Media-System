@@ -18,7 +18,8 @@ function load(path, dependencies = {}) {
 
 const workflow = load('lib/project-workspace.ts');
 const tasks = load('lib/task-workspace.ts');
-const routes = load('lib/portal-location.ts', { './project-workspace': workflow, './task-workspace': tasks });
+const engagements = load('lib/engagements.ts');
+const routes = load('lib/portal-location.ts', { './engagements': engagements, './project-workspace': workflow, './task-workspace': tasks });
 const modules = load('workspace/modules.ts');
 const navigation = load('workspace/navigation.ts', { './modules': modules });
 const project = { id: 'project-a', status: 'active' };
@@ -78,4 +79,53 @@ test('enabled pages remain searchable once each and Projects follows the client 
   const ordered = navigation.workspacePages({ ...config, order: [...config.order].reverse() });
   const agencyKeys = ordered.filter(page => navigation.agencyModuleIds.includes(page.key)).map(page => page.key);
   assert.deepEqual(agencyKeys, [...config.order].reverse().filter(id => navigation.agencyModuleIds.includes(id)));
+});
+
+
+test('one client can have independent engagements without inheriting property work', () => {
+  const records = [
+    { id: 'social-task', jobId: 'social', clientId: 'client-a', propertyId: 'property-a' },
+    { id: 'website-task', jobId: 'website', clientId: 'client-a', propertyId: 'property-a' },
+    { id: 'historical-task', clientId: 'client-a', propertyId: 'property-a' },
+    { id: 'internal-task', jobId: 'agency' },
+  ];
+  assert.deepEqual(records.filter(record => engagements.belongsToEngagement(record, 'social')).map(record => record.id), ['social-task']);
+  assert.deepEqual(records.filter(record => engagements.belongsToEngagement(record, 'agency')).map(record => record.id), ['internal-task']);
+});
+
+test('arbitrary task sections preserve empty groups and simultaneous production phases', () => {
+  const sections = [
+    { id: 'launch', jobId: 'social', name: 'Launch', sortOrder: 2 },
+    { id: 'trial', jobId: 'social', name: 'Trial', sortOrder: 1 },
+    { id: 'other', jobId: 'website', name: 'Trial', sortOrder: 0 },
+  ];
+  const tasks = [
+    { id: 'one', jobId: 'social', sectionId: 'trial', productionPhase: 'post-production' },
+    { id: 'two', jobId: 'social', sectionId: 'trial', productionPhase: 'pre-production' },
+    { id: 'three', jobId: 'social', sectionId: 'removed' },
+    { id: 'four', jobId: 'website', sectionId: 'other' },
+  ];
+  const groups = engagements.projectTaskGroups(tasks, sections, 'social');
+  assert.deepEqual(groups.map(group => group.name), ['Unsectioned', 'Trial', 'Launch']);
+  assert.deepEqual(groups.map(group => group.tasks.map(task => task.id)), [['three'], ['one', 'two'], []]);
+  assert.equal(sections[0].id, 'launch');
+});
+
+test('project status is independent of phase and survives deep links for internal projects', () => {
+  const location = { screen: 'projects', projectId: 'internal', projectStatus: 'active', projectSection: 'Details' };
+  const url = routes.portalLocationUrl('https://example.com/?stage=production', location);
+  const decoded = routes.readPortalLocation(new URL(url, 'https://example.com').search, 'dashboard', ['dashboard', 'projects']);
+  assert.equal(decoded.projectStatus, 'active');
+  assert.equal(decoded.projectSection, 'Details');
+  assert.equal(decoded.projectStage, undefined);
+  assert.equal(decoded.clientId, undefined);
+  assert.equal(engagements.projectFormValues().startsOn, '');
+  assert.equal(engagements.projectFormValues().dueOn, '');
+});
+
+test('quick task updates preserve project, custom section, and production phase', () => {
+  const input = tasks.taskUpdateInput({ id: 'task-a', title: 'Edit', description: '', status: 'todo', priority: 'normal', visibility: 'team', jobId: 'social', sectionId: 'trial', productionPhase: 'post-production' });
+  assert.equal(input.jobId, 'social');
+  assert.equal(input.sectionId, 'trial');
+  assert.equal(input.productionPhase, 'post-production');
 });

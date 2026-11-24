@@ -1,5 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 
+import type { PortalActionHandlers } from './types';
+import { EngagementWorkspace } from './EngagementWorkspace';
+import { useProjectPreview } from '@/hooks/use-project-preview';
 import { usePortalLocation } from '@/hooks/use-portal-location';
 import type { PortalLocation } from '@/lib/portal-location';
 import type { TaskView } from '@/lib/task-workspace';
@@ -410,6 +413,8 @@ function PortalAppInner({
   const visibleScreen = allowedScreens[effectiveRole].includes(activeScreen)
     ? activeScreen
     : 'dashboard';
+  const projectPreview = useProjectPreview(!hasLiveIdentity && effectiveRole === 'admin');
+  const projectActions: PortalActionHandlers | undefined = actions && !hasLiveIdentity && effectiveRole === 'admin' ? { ...actions, ...projectPreview.actions } : actions;
   const shellData = useMemo(
     () =>
       workspaceData ?? {
@@ -420,8 +425,9 @@ function PortalAppInner({
         properties: demoProperties,
         reviews: demoReviews,
         tasks: demoTasks,
+        ...projectPreview.data,
       },
-    [workspaceData],
+    [workspaceData, projectPreview.data],
   );
   const searchItems = useMemo<PortalSearchItem[]>(() => {
     const searchableTasks = effectiveRole === 'team_member'
@@ -448,6 +454,7 @@ function PortalAppInner({
         targetId: client.id,
         title: client.name,
       })),
+      ...(shellData.jobs ?? []).map(project => ({ detail: shellData.clients?.find(client => client.id === project.clientId)?.name ?? 'Internal agency work', icon: 'folder' as const, id: `project-${project.id}`, screen: 'projects' as const, targetId: project.id, title: project.name })),
       ...(shellData.properties ?? []).map((property) => ({
         detail: `${property.clientName} · ${property.location}`,
         icon: 'building' as const,
@@ -616,10 +623,12 @@ function PortalAppInner({
   const screen = (() => {
     switch (visibleScreen) {
       case 'projects': {
+        const engagement = shellData.jobs?.find(item => item.id === location.projectId);
+        if (engagement) return <EngagementWorkspace key={engagement.id} project={engagement} data={shellData} actions={projectActions} currentUserId={workspaceUserId} location={location} onLocationChange={changes => visit({ ...location, ...changes })} onBack={() => visit({ screen: 'projects' })} onOpenClient={openClient}/>;
         const project = shellData.properties?.find(item => item.id === location.projectId);
         const clientId = project?.clientId ?? (!location.projectId ? location.clientId : undefined);
         if (clientId && shellData.clients?.some(client => client.id === clientId)) return (
-          <AdminClientsHubScreen actions={actions} currentUserId={workspaceUserId} data={shellData}
+          <AdminClientsHubScreen onOpenProject={projectId => visit({ screen: 'projects', projectId })} onManageProjects={() => visit({ screen: 'projects' })} actions={actions} currentUserId={workspaceUserId} data={shellData}
             key={`project-${project?.id ?? clientId}`}
             selectedClientId={clientId}
             projectLocation={{ ...location, clientId }}
@@ -627,18 +636,20 @@ function PortalAppInner({
             onClientSelectionChange={id => visit(id ? { screen: 'projects', clientId: id } : { screen: 'projects' })}
             onCreateClient={onCreateClient} onOpenTask={openTask}/>
         );
-        return <ProjectsScreen data={shellData} actions={actions} stage={location.projectStage} onNavigate={navigate}
-          onStageChange={projectStage => visit({ screen: 'projects', projectStage })}
-          onOpenProject={project => visit({ screen: 'projects', clientId: project.clientId, projectId: project.id, projectStage: location.projectStage })}
-          onOpenClients={() => navigate('clients')}/>;
+        return <ProjectsScreen data={shellData} actions={projectActions} status={location.projectStatus}
+          onStatusChange={projectStatus => visit({ screen: 'projects', projectStatus })}
+          onOpenProject={project => visit({ screen: 'projects', clientId: project.clientId, projectId: project.id })}
+          onOpenProperty={property => visit({ screen: 'projects', clientId: property.clientId, projectId: property.id })}/>;
       }
       case 'clients':
         if (effectiveRole === 'admin') {
           return (
             <AdminClientsHubScreen
+              onOpenProject={projectId => visit({ screen: 'projects', projectId })}
+              onManageProjects={() => visit({ screen: 'projects' })}
               actions={actions}
               currentUserId={workspaceUserId}
-              data={workspaceData}
+              data={shellData}
               key={`clients-${adminHubTarget.revision}`}
               selectedClientId={location.clientId ?? null}
               onClientSelectionChange={clientId => visit({ screen: 'clients', clientId: clientId ?? undefined })}
@@ -808,21 +819,23 @@ function PortalAppInner({
       case 'tasks':
         return (
           <TasksScreen
-            archivedTasks={workspaceData?.archivedTasks}
+            jobs={shellData.projectFoundationReady !== false ? shellData.jobs : undefined}
+            projectSections={shellData.projectSections}
+            archivedTasks={shellData.archivedTasks}
             clients={shellData.clients}
             currentUserId={workspaceUserId}
             location={location}
             onLocationChange={changeTaskLocation}
             onOpenClient={effectiveRole === 'admin' ? openClient : undefined}
-            members={workspaceData?.agencyMembers}
-            onArchiveTask={effectiveRole !== 'client' ? actions?.archiveTask : undefined}
-            onCreateTask={effectiveRole !== 'client' ? actions?.createTask : undefined}
+            members={shellData.agencyMembers}
+            onArchiveTask={effectiveRole !== 'client' ? projectActions?.archiveTask : undefined}
+            onCreateTask={effectiveRole !== 'client' ? projectActions?.createTask : undefined}
             onDeleteAttachment={effectiveRole === 'admin' ? actions?.deleteTaskAttachment : undefined}
-            onRestoreTask={effectiveRole !== 'client' ? actions?.restoreTask : undefined}
-            onUpdateTask={effectiveRole !== 'client' ? actions?.updateTask : undefined}
+            onRestoreTask={effectiveRole !== 'client' ? projectActions?.restoreTask : undefined}
+            onUpdateTask={effectiveRole !== 'client' ? projectActions?.updateTask : undefined}
             properties={shellData.properties}
             role={effectiveRole}
-            tasks={workspaceData?.tasks}
+            tasks={shellData.tasks}
           />
         );
       case 'calendar':
@@ -831,17 +844,17 @@ function PortalAppInner({
             <CalendarScreen
               clients={shellData.clients}
               currentUserId={workspaceUserId}
-              events={workspaceData?.calendarEvents}
+              events={shellData.calendarEvents}
               gear={workspaceData?.gear}
               marketingContent={workspaceData?.marketingContent}
-              members={workspaceData?.agencyMembers}
+              members={shellData.agencyMembers}
               notes={workspaceData?.notes}
               initialEventId={openedCalendarEventId}
               onInitialEventOpened={() => setOpenedCalendarEventId(undefined)}
-              onArchiveEvent={effectiveRole === 'admin' ? actions?.archiveEvent : undefined}
-              onCreateEvent={actions?.createEvent}
+              onArchiveEvent={effectiveRole === 'admin' ? projectActions?.archiveEvent : undefined}
+              onCreateEvent={projectActions?.createEvent}
               onCreateNote={actions?.createNote}
-              onUpdateEvent={effectiveRole === 'admin' ? actions?.updateEvent : undefined}
+              onUpdateEvent={effectiveRole === 'admin' ? projectActions?.updateEvent : undefined}
               onSaveMarketingContent={effectiveRole === 'admin' ? actions?.upsertMarketingContent : undefined}
               onEditMarketingContent={effectiveRole === 'admin' ? setOpenedMarketingContentId : undefined}
               properties={shellData.properties}
@@ -851,7 +864,7 @@ function PortalAppInner({
               <MarketingItemEditor
                 content={workspaceData?.marketingContent}
                 initialContentId={openedMarketingContentId}
-                members={workspaceData?.agencyMembers}
+                members={shellData.agencyMembers}
                 onArchive={actions?.archiveMarketingContent}
                 onSave={actions?.upsertMarketingContent}
                 onInitialContentOpened={() => setOpenedMarketingContentId(undefined)}
@@ -1013,14 +1026,14 @@ function PortalAppInner({
             : undefined
         }
         onNavigate={navigate}
-        onNavigateProjectStage={projectStage => visit({ screen: 'projects', projectStage })}
-        activeProjectStage={visibleScreen === 'projects' ? location.projectStage : undefined}
+        onNavigateProjectStatus={projectStatus => visit({ screen: 'projects', projectStatus })}
+        activeProjectStatus={visibleScreen === 'projects' ? location.projectStatus : undefined}
         onSelectWorkspace={onSelectWorkspace}
         onSearchSelect={(item) => {
           if (!item.targetId) return;
           if (item.screen === 'tasks') { openTask(item.targetId); return true; }
           if (item.screen === 'projects') {
-            const project = shellData.properties?.find(property => property.id === item.targetId);
+            const project = shellData.jobs?.find(project => project.id === item.targetId) ?? shellData.properties?.find(property => property.id === item.targetId);
             if (project) visit({ screen: 'projects', projectId: project.id, clientId: project.clientId });
             return true;
           }

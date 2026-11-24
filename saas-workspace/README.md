@@ -17,6 +17,50 @@ For an isolated sample workspace on macOS/Linux:
 EXPO_NO_DOTENV=1 EXPO_PUBLIC_SUPABASE_URL='' EXPO_PUBLIC_SUPABASE_ANON_KEY='' npm run web -- --clear
 ```
 
+## Engagement projects (step 1)
+
+Projects are client engagements or internal agency projects, backed by `jobs`.
+One client can have multiple projects. Dates and contract/property links are
+optional. Task sections have freely chosen names; no monthly sections are generated.
+Pre-production, production and post-production are optional task attributes,
+independent of the overall project status.
+
+Existing property production history remains accessible under **Projects → Property
+work**. Shared client/property records are not automatically assigned to a new
+engagement; project tasks and events use an explicit `job_id`.
+
+The backend migration is `supabase/migrations/202611240001_project_engagements.sql`.
+It adds project contract/owner links, task sections, task phases, context constraints,
+and section RLS. It does not rewrite existing records. Apply it through the normal
+linked migration workflow as a separate backend release before releasing this UI.
+Creating/editing projects is disabled when the section table is unavailable.
+
+Applied to the existing Realty Media Supabase project on November 24, 2026,
+before the frontend release. The dashboard SQL editor was used because the CLI
+login-role endpoint denied access. The migration and its history entry were
+committed together; historical migrations were not reapplied.
+
+For an explicitly isolated development browser session, use the sample startup
+command above with `--port 8092 --clear`, then open
+`http://localhost:8092/?screen=projects&sample=1`. The development-only `sample=1`
+guard disables Supabase on localhost even if Metro has a stale environment transform.
+It cannot activate in a production export or on the hosted app. Project sample
+changes stay in this browser's local storage.
+
+Run `npm run test:projects` for project isolation, task metadata and route tests.
+For the migration test, install `@electric-sql/pglite` into a temporary directory
+outside the repository, then set `PROJECT_SQL_RUNTIME` to that package's
+`dist/index.js` and run `npm run test:projects:db`. The test creates an isolated
+PostgreSQL-compatible database with minimal foundation fixtures; it never uses
+`.env.local` or connects to Supabase. It verifies the new constraints and section
+policies, not all deployed application policies.
+
+`supabase/tests/project-engagements.sql` also verifies the deployed schema with
+fresh test agencies inside a rollback transaction. It checks real admin/tenant
+policies and leaves no fixtures behind. Run the entire file, including its
+`BEGIN` and `ROLLBACK`, against the migrated backend. This live check passed on
+November 24, 2026.
+
 ## Expo Go on iOS and Android
 
 ```sh

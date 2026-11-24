@@ -196,6 +196,7 @@ export interface ReviewItem {
 }
 
 export interface CalendarEvent {
+  jobId?: string;
   color?: CalendarColor | null;
   allDay?: boolean;
   assignee: string;
@@ -218,6 +219,9 @@ export interface CalendarEvent {
 }
 
 export interface TaskSummary {
+  jobId?: string;
+  sectionId?: string;
+  productionPhase?: TaskProductionPhase;
   archivedAt?: string;
   attachments?: TaskAttachment[];
   assigneeName: string;
@@ -481,6 +485,7 @@ export interface MarketingContentSummary {
 }
 
 export interface CreateCalendarEventInput {
+  jobId?: string;
   color?: CalendarColor | null;
   allDay?: boolean;
   assigneeUserIds?: string[];
@@ -515,6 +520,9 @@ export interface CreatePropertyInput {
 }
 
 export interface CreateTaskInput {
+  jobId?: string;
+  sectionId?: string;
+  productionPhase?: TaskProductionPhase;
   attachments?: File[];
   assigneeUserId?: string;
   clientId?: string;
@@ -842,6 +850,8 @@ export interface UpdatePropertyAssignmentsInput {
 }
 
 export interface JobSummary {
+  agreementId?: string;
+  ownerUserId?: string;
   brief: string;
   clientId?: string;
   dueOn?: string;
@@ -854,6 +864,9 @@ export interface JobSummary {
 }
 
 export interface CreateJobInput {
+  agreementId?: string;
+  ownerUserId?: string;
+  status?: JobSummary['status'];
   brief: string;
   clientId?: string;
   dueOn: string;
@@ -863,7 +876,21 @@ export interface CreateJobInput {
   startsOn: string;
 }
 
+export type TaskProductionPhase = 'pre-production' | 'production' | 'post-production';
+
+export interface ProjectTaskSection {
+  id: string;
+  jobId: string;
+  name: string;
+  sortOrder: number;
+}
+
+export interface UpdateJobInput extends CreateJobInput { jobId: string }
+export interface SaveProjectSectionInput { jobId: string; sectionId?: string; name: string; sortOrder: number }
+
 export interface PortalData {
+  projectSections?: ProjectTaskSection[];
+  projectFoundationReady?: boolean;
   agencyMembers?: AgencyMemberSummary[];
   agreements?: AgreementSummary[];
   calendarEvents?: CalendarEvent[];
@@ -915,6 +942,9 @@ export interface PortalActionHandlers {
   createEvent: (input: CreateCalendarEventInput) => Promise<void>;
   createGear: (input: CreateGearInput) => Promise<void>;
   createJob: (input: CreateJobInput) => Promise<void>;
+  updateJob: (input: UpdateJobInput) => Promise<void>;
+  saveProjectSection: (input: SaveProjectSectionInput) => Promise<void>;
+  deleteProjectSection: (sectionId: string) => Promise<void>;
   createMoneyMovement: (input: CreateMoneyMovementInput) => Promise<void>;
   upsertFinanceAccount: (input: UpsertFinanceAccountInput) => Promise<void>;
   createClientMember: (input: CreateClientMemberInput) => Promise<void>;

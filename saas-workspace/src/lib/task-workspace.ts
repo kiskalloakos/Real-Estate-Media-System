@@ -52,6 +52,7 @@ export function taskDateParts(value?: string) {
 }
 export function taskUpdateInput(task: TaskSummary): UpdateTaskInput {
   return {
+    jobId: task.jobId, sectionId: task.sectionId, productionPhase: task.productionPhase,
     taskId: task.id, title: task.title, description: task.description, status: task.status,
     assigneeUserId: task.assigneeUserId, clientId: task.clientId, propertyId: task.propertyId,
     priority: task.priority, visibility: task.visibility, ...taskDateParts(task.dueAt),

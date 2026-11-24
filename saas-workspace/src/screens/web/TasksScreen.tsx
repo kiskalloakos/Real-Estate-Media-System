@@ -17,11 +17,15 @@ import {
 import { useBrowserPersistedState } from '@/hooks/use-browser-persisted-state';
 import { clearLocalDraft, readLocalDraft, useLocalDraft } from '@/hooks/use-local-draft';
 
+import { taskPhaseLabels, taskProductionPhases } from '@/lib/engagements';
 import { taskViews, taskPreviewText, taskDateParts, taskStatusLabels, taskUpdateInput, matchesTaskSearch, matchesTaskView, type TaskView } from '@/lib/task-workspace';
 import type { PortalLocation } from '@/lib/portal-location';
 import { TaskDetailsDrawer } from './TaskDetailsDrawer';
 import { demoTasks } from './demoData';
 import type {
+  JobSummary,
+  ProjectTaskSection,
+  TaskProductionPhase,
   AgencyMemberSummary,
   ClientSummary,
   CreateTaskInput,
@@ -33,7 +37,9 @@ import type {
 import './TasksScreen.css';
 
 export interface TasksScreenProps {
-  projectContext?: { clientId: string; propertyId?: string };
+  projectContext?: { clientId?: string; propertyId?: string; jobId?: string; sectionId?: string; productionPhase?: TaskProductionPhase };
+  jobs?: JobSummary[];
+  projectSections?: ProjectTaskSection[];
   archivedTasks?: TaskSummary[];
   clients?: ClientSummary[];
   currentUserId?: string;
@@ -182,6 +188,8 @@ function orderedTasks(
 }
 
 export function TasksScreen({
+  jobs,
+  projectSections = [],
   projectContext,
   archivedTasks = [],
   clients = [],
@@ -214,7 +222,7 @@ export function TasksScreen({
       : sourceTasks,
     [currentUserId, role, sourceTasks],
   );
-  const stateKey = `rm:tasks-state:${currentUserId ?? role}${projectContext ? ":" + projectContext.clientId + ":" + (projectContext.propertyId ?? "general") : ""}`;
+  const stateKey = `rm:tasks-state:${currentUserId ?? role}${projectContext ? ":" + (projectContext.jobId ?? projectContext.clientId ?? "internal") + ":" + (projectContext.propertyId ?? "general") : ""}`;
   const [assigneeId, setAssigneeId] = useBrowserPersistedState(`${stateKey}:assignee`, 'all');
   const [taskOrder, setTaskOrder] = useBrowserPersistedState<TaskOrderState>(
     `${stateKey}:order`,
@@ -379,6 +387,7 @@ export function TasksScreen({
     const due = taskDateParts(task.dueAt);
     setEditTask(task);
     setEditForm({
+      jobId: task.jobId, sectionId: task.sectionId, productionPhase: task.productionPhase,
       attachments: [],
       assigneeUserId: task.assigneeUserId,
       clientId: task.clientId,
@@ -591,6 +600,16 @@ export function TasksScreen({
     update: (changes: Partial<CreateTaskInput>) => void,
   ) => (
     <>
+      {jobs && <>
+        <div className="rm-form-grid rm-form-grid--two">
+          <label className="rm-field"><span>Project</span><select disabled={Boolean(projectContext?.jobId)} value={form.jobId ?? ''} onChange={event => {
+            const job = jobs.find(item => item.id === event.target.value);
+            update({ jobId: job?.id ?? '', sectionId: '', ...(job ? { clientId: job.clientId, propertyId: job.propertyId, visibility: job.clientId ? form.visibility : 'team' } : {}) });
+          }}><option value="">No project</option>{jobs.map(job => <option value={job.id} key={job.id}>{job.name}</option>)}</select></label>
+          <label className="rm-field"><span>Work section</span><select disabled={!form.jobId} value={form.sectionId ?? ''} onChange={event => update({ sectionId: event.target.value })}><option value="">Unsectioned</option>{projectSections.filter(section => section.jobId === form.jobId).map(section => <option key={section.id} value={section.id}>{section.name}</option>)}</select></label>
+        </div>
+        <label className="rm-field"><span>Production phase</span><select value={form.productionPhase ?? ''} onChange={event => update({ productionPhase: event.target.value as TaskProductionPhase || undefined, jobId: form.jobId ?? '' })}><option value="">No phase</option>{taskProductionPhases.map(phase => <option value={phase} key={phase}>{taskPhaseLabels[phase]}</option>)}</select></label>
+      </>}
       <div className="rm-form-grid rm-form-grid--two">
         <label className="rm-field">
           <span>Client</span>
@@ -603,7 +622,7 @@ export function TasksScreen({
                 visibility: clientId ? 'client' : 'team',
               });
             }}
-            disabled={Boolean(projectContext)}
+            disabled={Boolean(projectContext || form.jobId)}
             value={form.clientId ?? ''}
           >
             <option value="">Choose a client</option>
@@ -638,7 +657,7 @@ export function TasksScreen({
           >
             {role === 'admin' ? <option value="admin_only">Founders</option> : null}
             <option value="team">Team</option>
-            <option value="client">Client</option>
+            <option value="client" disabled={!form.clientId}>Client</option>
           </select>
         </label>
         <div className="rm-field">

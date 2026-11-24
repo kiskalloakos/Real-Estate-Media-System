@@ -8,6 +8,8 @@ import type {
 } from './types';
 
 export interface AdminClientsHubScreenProps {
+  onOpenProject?: (jobId: string) => void;
+  onManageProjects?: () => void;
   actions?: PortalActionHandlers;
   currentUserId?: string;
   data?: PortalData;
@@ -23,6 +25,8 @@ export interface AdminClientsHubScreenProps {
 }
 
 export function AdminClientsHubScreen({
+  onOpenProject,
+  onManageProjects,
   actions,
   currentUserId,
   data,
@@ -62,7 +66,8 @@ export function AdminClientsHubScreen({
         onCreateClient={onCreateClient}
         onCreateClientMember={actions?.createClientMember}
         onCreateEvent={actions?.createEvent}
-        onCreateJob={actions?.createJob}
+        onOpenProject={onOpenProject}
+        onManageProjects={onManageProjects}
         onCreateProperty={actions?.createProperty}
         onCreateTask={actions?.createTask}
         onOpenProductionCalendar={onOpenProductionCalendar}

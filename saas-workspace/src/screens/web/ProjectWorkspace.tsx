@@ -12,7 +12,7 @@ import { TasksScreen } from './TasksScreen';
 import type { AgencyMemberSummary, AgreementSummary, CalendarEvent, ClientSummary, PortalActionHandlers, PropertySummary, ReviewItem, TaskSummary } from './types';
 import './ProjectWorkspace.css';
 
-const sectionIcons = { Overview: 'grid', Scripts: 'file', Tasks: 'list-check', Calendar: 'calendar', Reviews: 'play', Files: 'folder', 'Client details': 'settings' } as const;
+const sectionIcons = { Details: 'settings', Overview: 'grid', Scripts: 'file', Tasks: 'list-check', Calendar: 'calendar', Reviews: 'play', Files: 'folder', 'Client details': 'settings' } as const;
 const phaseDescriptions: Record<ProductionPhase, string> = {
   'pre-production': 'Shape the brief, write the scripts, and plan the shoot.',
   production: 'Coordinate the shoot, the team, and the work on location.',
