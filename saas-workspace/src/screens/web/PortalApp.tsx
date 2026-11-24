@@ -946,7 +946,7 @@ function PortalAppInner({
           {workspaceError && <p role="alert">{workspaceError.message} <button type="button" onClick={retryWorkspace}>Try again</button></p>}
           {visibleScreen === 'dashboard' && effectiveRole === 'admin' ? <WorkspaceGettingStarted data={workspaceData} ready={dataReady} onNavigate={navigate} /> : null}
           {visibleScreen === 'dashboard' && role !== 'admin' ? <WorkspaceWelcome role={role} scope={`${agencyId}:${currentUserId}`} /> : null}
-          {readOnlyPreview && <p className="rm-feedback" role="status">You’re previewing this workspace. Changes require that person’s signed-in account.</p>}
+          {readOnlyPreview && <p className="rm-feedback rm-preview-notice" role="status">You’re previewing this workspace. Changes require that person’s signed-in account.</p>}
           {screen}
         </div>
       </PortalShell>

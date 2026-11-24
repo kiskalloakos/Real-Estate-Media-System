@@ -82,6 +82,12 @@ html body .aw-shell #aw-main-content.aw-main #aw-feature-content:has(.aw-overvie
 }
 
 /* Neutral controls, with a separate filled brand variant. */
+html body .aw-shell #aw-main-content.aw-main #aw-feature-content .rm-preview-notice {
+  background: var(--aw-input) !important;
+  color: var(--aw-ink) !important;
+  border: 1px solid var(--aw-line) !important;
+}
+
 :is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) :is(
   button:not(.studio-client-open):not([data-event-color]),.rm-button,.rm-icon-button
 ) {
