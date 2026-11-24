@@ -46,6 +46,7 @@ export interface DashboardScreenProps {
   data?: PortalData;
   onOpenCalendarEvent?: (eventId: string) => void;
   onOpenReview?: (reviewId: string) => void;
+  onOpenTask?: (taskId: string) => void;
   onNavigate?: (screen: PortalScreenKey) => void;
   role: PortalRole;
   userName?: string;
@@ -583,6 +584,7 @@ function TeamDashboard({
   currentUserId,
   data,
   onNavigate,
+  onOpenTask,
   userName = 'Soma Irsai',
 }: Omit<DashboardScreenProps, 'role'>) {
   const isPreview = data === undefined;
@@ -594,10 +596,7 @@ function TeamDashboard({
   const openAssignedTasks = assignedTasks.filter(
     (task) => task.status !== 'done' && task.status !== 'cancelled',
   );
-  const today = localDateKey();
-  const shoots = sortedEvents(events.filter(
-    (event) => event.type === 'shoot' && (isPreview || event.date >= today),
-  ));
+  const shoots = sortedEvents(futureEvents(events).filter(event=>event.type==='shoot'));
   const nextShoot = shoots[0];
   const nextShootProperty = (isPreview ? demoProperties : (data.properties ?? []))
     .find((property) => property.id === nextShoot?.propertyId);
@@ -607,6 +606,7 @@ function TeamDashboard({
     <div className="rm-page rm-dashboard">
       <PageHeader
         description="Your next production dates and directly assigned work."
+        actions={<div style={{display:'flex',gap:8,flexWrap:'wrap'}}><Button variant="secondary" onClick={()=>onNavigate?.('documents')}>Project pages</Button><Button variant="secondary" onClick={()=>onNavigate?.('reviews')}>Reviews</Button></div>}
         eyebrow="Production workspace"
         title={`Ready for the week, ${firstName(userName)}?`}
       />
@@ -671,7 +671,7 @@ function TeamDashboard({
                 <button
                   className="rm-compact-list__row"
                   key={task.id}
-                  onClick={() => onNavigate?.('tasks')}
+                  onClick={() => onOpenTask ? onOpenTask(task.id) : onNavigate?.('tasks')}
                   type="button"
                 >
                   <span className="rm-compact-thumb rm-compact-thumb--paper">
@@ -679,7 +679,7 @@ function TeamDashboard({
                   </span>
                   <span className="rm-compact-list__copy">
                     <strong>{task.title}</strong>
-                    <span>{task.propertyName || 'Team task'} · {taskDueLabel(task.dueAt)}</span>
+                    <span>{data?.jobs?.find(job=>job.id===task.jobId)?.name || task.propertyName || 'Team task'} · {taskDueLabel(task.dueAt)}</span>
                   </span>
                   <StatusPill tone="neutral">{taskStatusLabels[task.status]}</StatusPill>
                 </button>
@@ -710,11 +710,10 @@ function ClientDashboard({
     ? demoProperties.filter((property) => property.clientId === 'client-cabana')
     : (data.properties ?? []);
   const clients = isPreview ? demoClients : (data.clients ?? []);
-  const events = (isPreview ? demoEvents : (data.calendarEvents ?? []))
-    .filter((event) => !event.allDay);
+  const events = (isPreview ? demoEvents : (data.calendarEvents ?? [])).filter(event=>event.visibility==='client');
   const payments = isPreview ? demoPayments : (data.payments ?? []);
   const agreements = data?.agreements ?? [];
-  const reviews = isPreview ? demoReviews : (data.reviews ?? []);
+  const reviews = (isPreview ? demoReviews : (data.reviews ?? [])).filter(review=>review.clientVisible===true);
   const tasks = (isPreview
     ? demoTasks.filter((task) => task.clientId === 'client-cabana')
     : (data.tasks ?? []))
@@ -734,11 +733,11 @@ function ClientDashboard({
   ) ?? agreements.find((agreement) => agreement.clientId === clientRecord?.id);
   const currentMonthlyScope = agreementScopeForMonth(currentAgreement);
   const approvals = reviews.filter((review) =>
-    review.status === 'in_review' || review.status === 'needs_changes',
+    review.status === 'in_review',
   );
   const deliveredAssets = reviews.filter((review) => review.status === 'approved');
   const upcomingShoots = sortedEvents(futureEvents(events))
-    .filter((event) => event.type === 'shoot')
+    .filter((event) => event.type === 'shoot' || event.type === 'call')
     .slice(0, 3);
   const nextEvent = sortedEvents(futureEvents(events))[0];
   const nextPayment = [...payments]
@@ -747,7 +746,8 @@ function ClientDashboard({
   return (
     <div className="rm-page rm-dashboard">
       <PageHeader
-        description="Your property, deliverables, schedule and results — all in one place."
+        description="Your projects, shared pages, files and schedule — all in one place."
+        actions={<div style={{display:'flex',gap:8,flexWrap:'wrap'}}><Button variant="secondary" onClick={()=>onNavigate?.('documents')}>Shared pages</Button><Button variant="secondary" onClick={()=>onNavigate?.('calendar')}>Calendar & bookings</Button><Button variant="secondary" onClick={()=>onNavigate?.('reviews')}>Reviews</Button></div>}
         eyebrow={
           isPreview
             ? 'Cabana The One'
@@ -776,7 +776,7 @@ function ClientDashboard({
         </Card>
 
         <Card className="rm-client-action-card" tone="bright">
-          <SectionHeader kicker="Production" title="Upcoming shoots" />
+          <SectionHeader kicker="Production" title="Upcoming schedule" />
           {upcomingShoots.length ? (
             <div className="rm-client-action-card__list">
               {upcomingShoots.map((event) => (
@@ -786,7 +786,7 @@ function ClientDashboard({
                 </button>
               ))}
             </div>
-          ) : <EmptyState description="Your next production day will appear here as soon as it is scheduled." icon="calendar" title="No shoot scheduled" />}
+          ) : <EmptyState description="Confirmed calls and production dates will appear here." icon="calendar" title="No calls or shoots scheduled" />}
         </Card>
 
         <Card className="rm-client-action-card" tone="bright">
@@ -829,9 +829,9 @@ function ClientDashboard({
         ) : (
           <Card className="rm-client-hero__image rm-client-hero__empty">
             <EmptyState
-              description="Your Realty Media team will add your first property workspace here."
+              description="Your shared pages, files and schedule are available from the buttons above."
               icon="building"
-              title="No property connected yet"
+              title="Your project workspace"
             />
           </Card>
         )}

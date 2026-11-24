@@ -683,3 +683,8 @@ html body .rm-modal.aw-form-dialog .rm-modal__body .rm-action-form .rm-field tex
   box-shadow:inset 3px 0 0 #bbc0ff;
 }
 .aw-shell .aw-sidebar :is(.aw-nav__item,.aw-customize)[aria-current="page"] :is(span,svg) { color:inherit; }
+
+@media(max-width:760px){
+  .aw-workspace-return{left:0;right:auto;bottom:16px;width:44px;height:44px;justify-content:center}
+  .aw-workspace-return span{display:none}
+}

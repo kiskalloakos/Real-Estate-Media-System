@@ -69,7 +69,7 @@ const navigation: NavigationItem[] = [
   { icon: 'trend-up', key: 'sales', label: 'Sales', labelRo: 'Vânzări', roles: ['admin'] },
   { icon: 'briefcase', key: 'team', label: 'Team', labelRo: 'Echipă', roles: ['admin'] },
   { icon: 'trend-up', key: 'analytics', label: 'Analytics', labelRo: 'Analize', roles: ['client'] },
-  { icon: 'play', key: 'reviews', label: 'Reviews', labelRo: 'Revizuiri', roles: ['client'] },
+  { icon: 'play', key: 'reviews', label: 'Reviews', labelRo: 'Revizuiri', roles: ['client', 'team_member'] },
   { icon: 'list-check', key: 'tasks', label: 'Tasks', labelRo: 'Sarcini', roles: ['admin', 'team_member'] },
   { icon: 'file', key: 'scripting', label: 'Scripting', labelRo: 'Scripturi', roles: ['admin'] },
   {

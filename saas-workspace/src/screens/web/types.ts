@@ -215,6 +215,7 @@ export interface UploadReviewVersionInput {
 }
 
 export interface ReviewItem {
+  createdByUserId?: string;
   jobId?: string;
   clientId?: string;
   clientVisible?: boolean;
@@ -239,6 +240,7 @@ export interface ReviewItem {
 }
 
 export interface CalendarEvent {
+  createdByUserId?: string;
   jobId?: string;
   color?: CalendarColor | null;
   allDay?: boolean;
@@ -262,6 +264,7 @@ export interface CalendarEvent {
 }
 
 export interface TaskSummary {
+  createdByUserId?: string;
   waitsForTaskId?: string;
   handoffReadyAt?: string;
   jobId?: string;

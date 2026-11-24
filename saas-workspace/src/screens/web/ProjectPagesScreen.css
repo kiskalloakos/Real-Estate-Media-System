@@ -10,3 +10,5 @@ html body .aw-shell #aw-main-content.aw-main #aw-feature-content .pp-tree-page[a
 html body .aw-shell #aw-main-content.aw-main #aw-feature-content .pp-hub-tabs button[aria-pressed=true] {
   background:var(--aw-tint)!important;color:var(--aw-accent)!important;
 }
+
+.pp-header button:disabled{opacity:.45;cursor:not-allowed}

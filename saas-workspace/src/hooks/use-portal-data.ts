@@ -302,7 +302,7 @@ async function fetchPortalData(agencyId: string): Promise<PortalData> {
     supabase
       .from('calendar_events')
       .select(
-        'id, job_id, client_account_id, property_id, title, starts_at, ends_at, all_day, location, description, visibility, color',
+        'id, job_id, client_account_id, property_id, title, starts_at, ends_at, all_day, location, description, visibility, color, created_by',
       )
       .eq('agency_id', agencyId)
       .is('archived_at', null)
@@ -1098,7 +1098,7 @@ async function fetchPortalData(agencyId: string): Promise<PortalData> {
       jobId: asset.job_id ?? undefined, clientVisible: asset.client_visible, currentVersionId: latest?.id, versions,
       comments: latest?.comments ?? [], contentHtml: latest?.contentHtml,
       dueLabel: 'Open review', durationSeconds: latest?.durationSeconds, fileUrl: latest?.fileUrl,
-      id: asset.id, kind: asset.kind, mimeType: latest?.mimeType, propertyId: property?.id,
+      createdByUserId:asset.created_by ?? undefined, id: asset.id, kind: asset.kind, mimeType: latest?.mimeType, propertyId: property?.id,
       propertyName: property?.name ?? job?.name ?? 'Project', status: statusForReview(asset.status),
       title: asset.title, version: latest ? `v${latest.number}` : 'Draft',
     };
@@ -1134,6 +1134,7 @@ async function fetchPortalData(agencyId: string): Promise<PortalData> {
       );
 
       return {
+        createdByUserId:event.created_by,
         allDay: event.all_day,
         color: event.color,
         assignee:
@@ -1204,6 +1205,7 @@ async function fetchPortalData(agencyId: string): Promise<PortalData> {
       clientName: clientAccount?.name ?? 'Internal',
       completedAt: task.completed_at ?? undefined,
       createdAt: task.created_at,
+      createdByUserId:task.created_by,
       createdByName:
         creator?.full_name ?? creator?.email ?? 'Realty Media',
       description: task.description ?? '',

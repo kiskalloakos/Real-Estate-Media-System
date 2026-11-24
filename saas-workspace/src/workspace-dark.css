@@ -211,3 +211,27 @@ html body .aw-shell #aw-main-content.aw-main #aw-feature-content .aw-calendar-mo
   background: var(--rm-event-color) !important;
   color: #fff !important;
 }
+
+/* Calendar details use the dialog palette, including retained legacy fields. */
+html body .rm-modal.aw-dialog:not(.sp-workspace-modal) .rm-event-detail .rm-detail-list > div {
+  background: var(--aw-input) !important;
+  border: 1px solid var(--aw-line) !important;
+  padding: 12px 14px !important;
+}
+html body .rm-modal.aw-dialog:not(.sp-workspace-modal) .rm-event-detail .rm-detail-list dt {
+  color: var(--aw-muted) !important;
+}
+html body .rm-modal.aw-dialog:not(.sp-workspace-modal) .rm-event-detail .rm-detail-list dd {
+  color: var(--aw-ink) !important;
+}
+
+html body .aw-shell #aw-main-content.aw-main #aw-feature-content .rm-next-shoot-event--empty {
+  background:var(--aw-input)!important;
+  border-color:var(--aw-line)!important;
+  color:var(--aw-ink)!important;
+}
+
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) .rm-button:disabled {
+  opacity: .45 !important;
+  cursor: not-allowed !important;
+}

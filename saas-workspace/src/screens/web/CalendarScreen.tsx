@@ -43,6 +43,7 @@ import type {
 } from './types';
 
 export interface CalendarScreenProps {
+  readOnly?: boolean;
   projectContext?: { clientId?: string; propertyId?: string; jobId?: string };
   clients?: ClientSummary[];
   clientWorkOnly?: boolean;
@@ -225,6 +226,7 @@ function dateDistance(from: string, to: string) {
 }
 
 export function CalendarScreen({
+  readOnly = false,
   projectContext,
   clients = [],
   clientWorkOnly = false,
@@ -306,11 +308,7 @@ export function CalendarScreen({
     }
   }, [calendarFilter, setCalendarFilter]);
   useLocalDraft(marketingDraftKey, { eventForm, marketingEventForm }, eventFormOpen && activeCalendarFilter === 'marketing', (draft) => Boolean(draft.eventForm.title.trim() || draft.marketingEventForm.caption.trim() || draft.marketingEventForm.script.trim()));
-  const agencyEvents =
-    events ??
-    (role === 'client'
-      ? demoEvents.filter((event) => event.propertyName === 'Cabana The One')
-      : demoEvents);
+  const agencyEvents = (events ?? demoEvents).filter(event=>role!=='client'||event.visibility==='client');
   const marketingEvents = useMemo<CalendarEvent[]>(
     () => marketingContent
       .filter((item) => item.plannedFor)
@@ -517,7 +515,7 @@ export function CalendarScreen({
   };
 
   const moveEventToDate = async (calendarEvent: CalendarEvent, targetDate: string) => {
-    if (role === 'client' || calendarEvent.date === targetDate) return;
+    if (readOnly || role === 'client' || calendarEvent.date === targetDate) return;
     const offset = dateDistance(calendarEvent.date, targetDate);
     const movedEvent: CalendarEvent = {
       ...calendarEvent,
@@ -805,7 +803,7 @@ export function CalendarScreen({
               >
                 Today
               </Button>
-              {role !== 'client' ? (
+              {role !== 'client' && !readOnly ? (
                 <Button icon="plus" onClick={() => openEventForm()}>{activeCalendarFilter === 'marketing' ? 'New marketing item' : 'New event'}</Button>
               ) : null}
             </div>
@@ -905,7 +903,7 @@ export function CalendarScreen({
 
       <Card className="rm-reminders-card rm-reminders-card--full" hidden tone="bright">
         <SectionHeader
-          action={role !== 'client' ? (
+          action={role !== 'client' && !readOnly ? (
             <Button icon="plus" onClick={() => setNoteFormOpen(true)} variant="secondary">New note</Button>
           ) : undefined}
           kicker="Pinned"

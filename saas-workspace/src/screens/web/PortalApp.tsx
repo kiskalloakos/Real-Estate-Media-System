@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import type { PortalActionHandlers } from './types';
 import { EngagementWorkspace } from './EngagementWorkspace';
-import { useProjectPreview, previewJobs } from '@/hooks/use-project-preview';
+import {clientMemberWorkspaceData,teamMemberWorkspaceData} from '@/lib/portal-workspace-data';
+import { useProjectPreview } from '@/hooks/use-project-preview';
 import { useReviewPreview } from '@/hooks/use-review-preview';
 import { usePortalLocation } from '@/hooks/use-portal-location';
 import type { PortalLocation } from '@/lib/portal-location';
@@ -61,8 +61,8 @@ import {
   demoTasks,
 } from './demoData';
 import type {
-  AgencyMemberSummary,
   ClientMemberSummary,
+  PortalActionHandlers,
   PortalAppProps,
   PortalData,
 } from './types';
@@ -70,7 +70,7 @@ import type {
 const allowedScreens: Record<PortalRole, PortalScreenKey[]> = {
   admin: ['modules', 'dashboard', 'documents', 'projects', 'clients', 'sales', 'team', 'gear', 'marketing', 'scripting', 'finances', 'tasks', 'calendar', 'reviews', 'notes'],
   client: ['dashboard', 'analytics', 'reviews', 'billing', 'documents', 'calendar'],
-  team_member: ['dashboard', 'sops', 'tasks', 'calendar', 'documents'],
+  team_member: ['dashboard', 'sops', 'tasks', 'calendar', 'documents', 'reviews'],
 };
 
 const defaultUsers: Record<PortalRole, PortalUser> = {
@@ -91,122 +91,6 @@ const defaultUsers: Record<PortalRole, PortalUser> = {
     name: 'Soma Irsai',
   },
 };
-
-function teamMemberWorkspaceData(
-  data: PortalData | undefined,
-  member: AgencyMemberSummary | undefined,
-): PortalData | undefined {
-  if (!data || !member) return data;
-
-  const properties = (data.properties ?? []).filter((property) =>
-    property.assignedTeamUserIds.includes(member.userId),
-  );
-  const propertyIds = new Set(properties.map((property) => property.id));
-  const propertyNames = new Set(properties.map((property) => property.name));
-  const clientIds = new Set(properties.map((property) => property.clientId));
-
-  return {
-    agencyMembers: data.agencyMembers,
-    jobs: data.jobs,
-    agreements: [],
-    calendarEvents: (data.calendarEvents ?? []).filter(
-      (event) => event.assigneeUserIds?.includes(member.userId),
-    ),
-    clientMembers: [],
-    clients: (data.clients ?? []).filter((client) => clientIds.has(client.id)),
-    companyDocumentFolders: data.companyDocumentFolders,
-    companyDocuments: data.companyDocuments,
-    costs: [],
-    debts: [],
-    financeMoneyMovements: [],
-    financeAccounts: [],
-    gear: [],
-    gearHistory: [],
-    instagramAccounts: [],
-    tiktokAccounts: [],
-    notes: (data.notes ?? []).filter((note) => note.visibility === 'team'),
-    payments: [],
-    properties,
-    propertyAssignments: (data.propertyAssignments ?? []).filter(
-      (assignment) => assignment.userId === member.userId,
-    ),
-    reviews: (data.reviews ?? []).filter((review) =>
-      review.propertyId
-        ? propertyIds.has(review.propertyId)
-        : propertyNames.has(review.propertyName),
-    ),
-    tasks: (data.tasks ?? []).filter(
-      (task) =>
-        task.assigneeUserId === member.userId || task.visibility === 'team',
-    ),
-  };
-}
-
-function clientMemberWorkspaceData(
-  data: PortalData | undefined,
-  member: ClientMemberSummary | undefined,
-): PortalData | undefined {
-  if (!data || !member) return data;
-
-  const properties = (data.properties ?? []).filter(
-    (property) => property.clientId === member.clientAccountId,
-  );
-  const propertyIds = new Set(properties.map((property) => property.id));
-  const propertyNames = new Set(properties.map((property) => property.name));
-  const belongsToClient = (clientId: string | undefined) =>
-    clientId === member.clientAccountId;
-
-  return {
-    agencyMembers: [],
-    agreements: (data.agreements ?? []).filter((agreement) =>
-      belongsToClient(agreement.clientId),
-    ),
-    calendarEvents: (data.calendarEvents ?? []).filter(
-      (event) =>
-        event.visibility !== 'admin_only' &&
-        (belongsToClient(event.clientId) ||
-          Boolean(event.propertyId && propertyIds.has(event.propertyId))),
-    ),
-    clientMembers: (data.clientMembers ?? []).filter(
-      (clientMember) => clientMember.clientAccountId === member.clientAccountId,
-    ),
-    clients: (data.clients ?? []).filter((client) =>
-      belongsToClient(client.id),
-    ),
-    jobs: (data.jobs ?? []).filter(job => belongsToClient(job.clientId)),
-    companyDocumentFolders: [],
-    companyDocuments: [],
-    costs: [],
-    debts: [],
-    financeMoneyMovements: [],
-    financeAccounts: [],
-    gear: [],
-    gearHistory: [],
-    instagramAccounts: (data.instagramAccounts ?? []).filter((account) =>
-      belongsToClient(account.clientId ?? undefined),
-    ),
-    tiktokAccounts: (data.tiktokAccounts ?? []).filter((account) =>
-      belongsToClient(account.clientId ?? undefined),
-    ),
-    notes: (data.notes ?? []).filter((note) => note.visibility === 'client'),
-    payments: (data.payments ?? []).filter((payment) =>
-      belongsToClient(payment.clientId),
-    ),
-    properties,
-    propertyAssignments: [],
-    reviews: (data.reviews ?? []).filter((review) =>
-      review.clientVisible !== false && (belongsToClient(review.clientId) || (review.propertyId
-        ? propertyIds.has(review.propertyId)
-        : propertyNames.has(review.propertyName))),
-    ),
-    tasks: (data.tasks ?? []).filter(
-      (task) =>
-        task.visibility !== 'admin_only' &&
-        (belongsToClient(task.clientId) ||
-          Boolean(task.propertyId && propertyIds.has(task.propertyId))),
-    ),
-  };
-}
 
 function notificationTimeLabel(value: string) {
   const date = new Date(value);
@@ -277,13 +161,17 @@ function PortalAppInner({
   const [activeWorkspaceId, setActiveWorkspaceId] = useState(
     storedNavigation.workspaceId ?? 'owner',
   );
+  const hasLiveIdentity = Boolean(
+    currentUserId && !currentUserId.startsWith('preview-'),
+  );
+  const projectPreview = useProjectPreview(!hasLiveIdentity);
   const activeTeamMembers = useMemo(
     () =>
-      (data?.agencyMembers ?? []).filter(
+      (data?.agencyMembers ?? projectPreview.data.agencyMembers ?? []).filter(
         (member) =>
           member.role === 'team_member' && member.status === 'active',
       ),
-    [data?.agencyMembers],
+    [data?.agencyMembers,projectPreview.data.agencyMembers],
   );
   const activeClientMembers = useMemo(
     () =>
@@ -342,16 +230,6 @@ function PortalAppInner({
   const effectiveClientAccountId =
     selectedClientMember?.clientAccountId ?? clientAccountId;
   const effectiveClientRole = selectedClientMember?.role ?? clientRole;
-  const workspaceData = useMemo(
-    () =>
-      selectedClientMember
-        ? clientMemberWorkspaceData(data, selectedClientMember)
-        : teamMemberWorkspaceData(data, selectedTeamMember),
-    [data, selectedClientMember, selectedTeamMember],
-  );
-  const hasLiveIdentity = Boolean(
-    currentUserId && !currentUserId.startsWith('preview-'),
-  );
   const [location, visit] = usePortalLocation(initialAllowedScreen, allowedScreens[effectiveRole], visibleWorkspaceId);
   const activeScreen = location.screen;
   const [openedReviewId, setOpenedReviewId] = useState<string | undefined>();
@@ -418,25 +296,20 @@ function PortalAppInner({
   const visibleScreen = allowedScreens[effectiveRole].includes(activeScreen)
     ? activeScreen
     : 'dashboard';
-  const projectPreview = useProjectPreview(!hasLiveIdentity && effectiveRole === 'admin');
   const reviewPreview = useReviewPreview(!hasLiveIdentity, effectiveRole);
-  const reviewActions = hasLiveIdentity ? actions : reviewPreview.actions;
-  const projectActions: PortalActionHandlers | undefined = actions && !hasLiveIdentity && effectiveRole === 'admin' ? { ...actions, ...projectPreview.actions, ...reviewPreview.actions } : actions;
-  const shellData = useMemo(
-    () =>
-      workspaceData ?? {
-        calendarEvents: demoEvents,
-        clients: demoClients,
-        gear: demoGear,
-        payments: demoPayments,
-        properties: demoProperties,
-        reviews: reviewPreview.reviews ?? demoReviews,
-        tasks: demoTasks,
-        ...projectPreview.data,
-        jobs: !hasLiveIdentity ? projectPreview.data.jobs ?? previewJobs : undefined,
-      },
-    [workspaceData, projectPreview.data, reviewPreview.reviews, hasLiveIdentity],
-  );
+  const readOnlyPreview = hasLiveIdentity && Boolean(selectedClientMember || selectedTeamMember);
+  const reviewActions = readOnlyPreview ? undefined : hasLiveIdentity ? actions : reviewPreview.actions;
+  const projectActions: PortalActionHandlers | undefined = readOnlyPreview ? undefined : actions && !hasLiveIdentity && effectiveRole !== 'client' ? {...actions,...projectPreview.actions,...reviewPreview.actions} : actions;
+  const sourceData=useMemo<PortalData>(()=>data ?? (hasLiveIdentity?{}:{
+    calendarEvents:demoEvents,clients:demoClients,gear:demoGear,payments:demoPayments,properties:demoProperties,
+    tasks:demoTasks,...projectPreview.data,reviews:reviewPreview.reviews??demoReviews,
+  }),[data,hasLiveIdentity,projectPreview.data,reviewPreview.reviews]);
+  const workspaceData=useMemo(()=>selectedClientMember || (effectiveRole==='client' && effectiveClientAccountId)
+    ? clientMemberWorkspaceData(sourceData,selectedClientMember??{clientAccountId:effectiveClientAccountId!})!
+    : teamMemberWorkspaceData(sourceData,selectedTeamMember)!,[sourceData,selectedClientMember,selectedTeamMember,effectiveRole,effectiveClientAccountId]);
+  const shellData=workspaceData;
+  const reviewJobs=effectiveRole==='team_member' ? (shellData.jobs??[]).filter(job=>job.ownerUserId===workspaceUserId) : shellData.jobs;
+  const reviewProperties=effectiveRole==='team_member' ? (shellData.properties??[]).filter(property=>Boolean(workspaceUserId && property.assignedTeamUserIds.includes(workspaceUserId))) : shellData.properties;
   const searchItems = useMemo<PortalSearchItem[]>(() => {
     const searchableTasks = effectiveRole === 'team_member'
       ? (shellData.tasks ?? []).filter(
@@ -477,6 +350,7 @@ function PortalAppInner({
         id: `review-${review.id}`,
         screen: 'reviews' as const,
         title: review.title,
+        targetId: review.id,
       })),
       ...(shellData.calendarEvents ?? []).map((event) => ({
         detail: `${event.date} · ${event.location || event.propertyName}`,
@@ -484,6 +358,7 @@ function PortalAppInner({
         id: `event-${event.id}`,
         screen: 'calendar' as const,
         title: event.title,
+        targetId: event.id,
       })),
       ...searchableTasks.map((task) => ({
         detail: `${task.propertyName} · ${task.assigneeName}`,
@@ -713,6 +588,7 @@ function PortalAppInner({
         ) : (
           <DashboardScreen
             currentUserId={workspaceUserId}
+            onOpenTask={openTask}
             data={workspaceData}
             onNavigate={navigate}
             onOpenCalendarEvent={(eventId) => {
@@ -747,6 +623,7 @@ function PortalAppInner({
         ) : (
           <DashboardScreen
             currentUserId={workspaceUserId}
+            onOpenTask={openTask}
             data={workspaceData}
             onNavigate={navigate}
             onOpenCalendarEvent={(eventId) => {
@@ -816,11 +693,11 @@ function PortalAppInner({
         );
       case 'reviews':
         return <ReviewsScreen initialReviewId={openedReviewId} initialVersionId={openedReviewVersionId} currentUserId={hasLiveIdentity ? workspaceUserId : reviewPreview.currentUserId}
-          jobs={shellData.jobs} properties={shellData.properties} reviews={shellData.reviews}
+          jobs={reviewJobs} properties={reviewProperties} reviews={shellData.reviews}
           onArchive={effectiveRole !== 'client' ? reviewActions?.archiveDeliverable : undefined}
           onComment={reviewActions?.reviewComment} onDecision={reviewActions?.reviewDecision} onResolve={reviewActions?.resolveReviewComment}
           onUploadVersion={effectiveRole !== 'client' ? reviewActions?.uploadReviewVersion : undefined}
-          onUpload={effectiveRole !== 'client' ? reviewActions?.uploadDeliverable : undefined}
+          onUpload={effectiveRole !== 'client' && (effectiveRole !== 'team_member' || Boolean(reviewJobs?.length || reviewProperties?.length)) ? reviewActions?.uploadDeliverable : undefined}
           onUpdate={effectiveRole !== 'client' ? reviewActions?.updateDeliverable : undefined} role={effectiveRole}/>;
       case 'tasks':
         return (
@@ -849,6 +726,7 @@ function PortalAppInner({
           <>
             <CalendarBookings key={visibleWorkspaceId} agencyId={agencyId} clientId={effectiveClientAccountId} userId={workspaceUserId} role={effectiveRole} actions={projectActions} clients={shellData.clients}/>
             <CalendarScreen
+              readOnly={readOnlyPreview}
               clients={shellData.clients}
               currentUserId={workspaceUserId}
               events={shellData.calendarEvents}
@@ -860,7 +738,7 @@ function PortalAppInner({
               onInitialEventOpened={() => setOpenedCalendarEventId(undefined)}
               onArchiveEvent={effectiveRole === 'admin' ? projectActions?.archiveEvent : undefined}
               onCreateEvent={projectActions?.createEvent}
-              onCreateNote={actions?.createNote}
+              onCreateNote={readOnlyPreview ? undefined : actions?.createNote}
               onUpdateEvent={effectiveRole === 'admin' ? projectActions?.updateEvent : undefined}
               onSaveMarketingContent={effectiveRole === 'admin' ? actions?.upsertMarketingContent : undefined}
               onEditMarketingContent={effectiveRole === 'admin' ? setOpenedMarketingContentId : undefined}
@@ -954,7 +832,7 @@ function PortalAppInner({
           <DashboardScreen data={workspaceData} onNavigate={navigate} role={effectiveRole} userName={resolvedUser.name} />
         );
       case 'documents':
-        return <DocumentsWorkspace key={visibleWorkspaceId} agencyId={agencyId ?? undefined} userId={workspaceUserId} role={effectiveRole} clientId={effectiveClientAccountId ?? undefined} jobs={shellData.jobs ?? []} properties={shellData.properties} pageId={location.pageId} onSelectPage={pageId=>visit({...location,pageId})} library={{
+        return <DocumentsWorkspace key={visibleWorkspaceId} agencyId={agencyId ?? undefined} userId={workspaceUserId} role={effectiveRole} clientId={effectiveClientAccountId ?? undefined} readOnly={readOnlyPreview} onOpenProjects={effectiveRole === 'admin' && config.enabled.includes('clients') ? ()=>visit({screen:'projects'}) : undefined} jobs={shellData.jobs ?? []} properties={shellData.properties} pageId={location.pageId} onSelectPage={pageId=>visit({...location,pageId})} library={{
           folders:workspaceData?.companyDocumentFolders, documents:workspaceData?.companyDocuments,
           leadLists:[...new Set((workspaceData?.leads ?? []).map(lead=>lead.sourceList.trim()).filter(Boolean))],
           members:workspaceData?.agencyMembers,locale:resolvedUser.locale??'en',
@@ -985,6 +863,7 @@ function PortalAppInner({
         ) : (
           <DashboardScreen
             currentUserId={workspaceUserId}
+            onOpenTask={openTask}
             data={workspaceData}
             onNavigate={navigate}
             onOpenCalendarEvent={(eventId) => {
@@ -1031,6 +910,8 @@ function PortalAppInner({
         onSelectWorkspace={onSelectWorkspace}
         onSearchSelect={(item) => {
           if (!item.targetId) return;
+          if (item.screen === 'reviews') { setOpenedReviewId(item.targetId);setOpenedReviewVersionId(undefined);navigate('reviews');return true; }
+          if (item.screen === 'calendar') {setOpenedCalendarEventId(item.targetId);navigate('calendar');return true;}
           if (item.screen === 'tasks') { openTask(item.targetId); return true; }
           if (item.screen === 'projects') {
             const project = shellData.jobs?.find(project => project.id === item.targetId) ?? shellData.properties?.find(property => property.id === item.targetId);
@@ -1065,6 +946,7 @@ function PortalAppInner({
           {workspaceError && <p role="alert">{workspaceError.message} <button type="button" onClick={retryWorkspace}>Try again</button></p>}
           {visibleScreen === 'dashboard' && effectiveRole === 'admin' ? <WorkspaceGettingStarted data={workspaceData} ready={dataReady} onNavigate={navigate} /> : null}
           {visibleScreen === 'dashboard' && role !== 'admin' ? <WorkspaceWelcome role={role} scope={`${agencyId}:${currentUserId}`} /> : null}
+          {readOnlyPreview && <p className="rm-feedback" role="status">You’re previewing this workspace. Changes require that person’s signed-in account.</p>}
           {screen}
         </div>
       </PortalShell>

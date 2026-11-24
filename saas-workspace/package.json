@@ -68,7 +68,8 @@
     "test:reviews:db": "node scripts/reviews-db.test.mjs",
     "test:pages": "node --test scripts/project-pages.test.cjs",
     "test:pages:db": "node scripts/project-pages-db.test.mjs",
-    "test:calendar:db": "node scripts/calendar-bookings-db.test.mjs"
+    "test:calendar:db": "node scripts/calendar-bookings-db.test.mjs",
+    "test:workflow": "node --test scripts/workflow-polish.test.cjs"
   },
   "private": true
 }

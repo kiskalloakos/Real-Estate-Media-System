@@ -199,6 +199,30 @@ permissions, duplicates, confirmation, conflict rejection and persisted category
 identities and agencies in a rollback transaction. Browser request/confirmation
 checks use the isolated local preview; production verification is read-only.
 
+## Workflow polish (step 6)
+
+Agency previews, dashboards and work screens now share the same scoped data.
+Client previews exclude other clients' records and team-only events/tasks; review
+matching uses stable client/property IDs. The client dashboard links to shared
+pages, bookings and reviews, shows upcoming calls as well as shoots, and opens
+the selected review or calendar event. Team task cards open their exact task;
+team members can reach Reviews under the existing creator/project-owner/property
+assignment permissions. No database access rules were broadened.
+
+When owners preview real client or team accounts, the view is read-only and
+labelled. Editing requires that person's signed-in account, preserving actor
+identity in saved work. Local sample previews remain interactive. Project pages
+with no projects offer an **Open projects** action. Booking requests default to
+pending work for owners, with decided requests under **Request history**, and
+load failures offer retry. Event details, team empty states, disabled buttons
+and the mobile preview return control use the shared palette and clearer states.
+
+Run `npm run test:workflow` for role/data scoping regressions. This is a UI release;
+no migrations, bucket changes or Edge Function deployments are required. Browser
+verification uses the live owner session for read-only paths and an isolated
+local preview for populated team/client paths. Native export verifies
+compatibility; new UI remains web-first.
+
 ## Expo Go on iOS and Android
 
 ```sh
