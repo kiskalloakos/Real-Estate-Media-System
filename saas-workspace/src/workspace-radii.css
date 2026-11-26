@@ -25,7 +25,7 @@ html body .rm-modal.aw-dialog.aw-task-drawer { border-radius: 0 !important; }
 
 /* Standalone panels, cards and menus. */
 :is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog) :is(
-  .rm-card,.aw-panel,.aw-pulse,.aw-preset,.aw-name-form,.aw-module-list,.aw-agency-settings,
+  .rm-card,.aw-panel,.aw-pulse,.aw-name-form,.aw-module-list,.aw-agency-settings,
   .aw-overview__panel,.studio-client,.studio-production-strip>button,
   .project-card,.projects-empty,.engagement-panel,.engagement-legacy,.project-phase-summary,
   .project-summary,.project-billing,.project-work>main,
@@ -43,7 +43,7 @@ html body .rm-modal.aw-dialog.aw-task-drawer { border-radius: 0 !important; }
 :is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog) :is(
   .rm-button,.rm-icon-button,.aw-button,
   input:where(:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]):not([type=hidden])),
-  select,textarea,.rm-input-with-icon,.rm-input-with-action,.rm-inline-search,
+  select,textarea,.rm-input-with-icon,.rm-input-with-action,.rm-inline-search,.pp-rich-text .rm-rich-text-toolbar,
   .rm-command__input,.projects-search,.aw-tasks__search,.studio-library-search,
   .rm-checkbox-field,.rm-task-upload__control,.rm-upload-tile,.rm-upload-document-button,
   .rm-task-priority-switch,.rm-calendar-view-switch,.aw-tasks__layouts,
@@ -86,7 +86,7 @@ html body .rm-modal.aw-dialog.aw-task-drawer { border-radius: 0 !important; }
   .rm-task-item__open,.rm-gear-board__item,.aw-tasks__list-open,
   .aw-review-directory__item,.aw-overview__task,.aw-overview__event,
   .studio-client-open,.project-card__cover,
-  .rm-rich-text-toolbar,.rm-rich-text-content,
+  .rm-rich-text-toolbar:where(:not(.pp-rich-text *)),.rm-rich-text-content,
   .rm-input-with-icon>input,.rm-inline-search input,.projects-search input,.studio-library-search input,
   .aw-tasks__search input,.rm-command__input input,
   .pp-paper input.pp-title,.pp-block textarea,.sp-paper input,.sp-paper textarea

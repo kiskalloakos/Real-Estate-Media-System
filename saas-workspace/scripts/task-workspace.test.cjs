@@ -11,7 +11,11 @@ function load(file, dependencies = {}) {
   return compiled.exports;
 }
 const tasks = load('task-workspace.ts');
-const navigation = load('portal-location.ts', { './task-workspace': tasks });
+const navigation = load('portal-location.ts', {
+  './task-workspace': tasks,
+  './project-workspace': load('project-workspace.ts'),
+  './engagements': load('engagements.ts'),
+});
 const task = (extra = {}) => ({ id:'one', title:'Photo selects', description:'Review sunrise shots', status:'todo', priority:'normal', assigneeUserId:'alice', assigneeName:'Alice', clientName:'Chalet', propertyName:'Mountain cabin', createdAt:'2026-10-01', visibility:'team', ...extra });
 test('saved views exclude closed tasks from deadlines and handle missing identity', () => {
  const now = new Date(2026,9,31,12);

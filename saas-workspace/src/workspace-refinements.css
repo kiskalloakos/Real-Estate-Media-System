@@ -119,11 +119,8 @@
 #aw-main-content.aw-refined #aw-feature-content .rm-client-workspace__metrics>article { min-height: 0; padding: 8px 16px !important; border: 0 !important; border-radius: 0 !important; background: transparent !important; }
 #aw-main-content.aw-refined #aw-feature-content .rm-client-workspace__metrics>article>span { font-size: 13px; text-transform: none; letter-spacing: 0; color: var(--aw-muted); }
 #aw-main-content.aw-refined #aw-feature-content .rm-client-workspace__metrics>article>strong { font-size: 24px; color: var(--aw-ink); }
-#aw-main-content.aw-refined #aw-feature-content .aw-presets { margin-top: 0; gap: 12px; }
-#aw-main-content.aw-refined #aw-feature-content .aw-preset { padding: 16px; border-radius: 8px; }
 #aw-main-content.aw-refined #aw-feature-content .aw-module-list { margin-top: 0; border-radius: 8px; }
 #aw-main-content.aw-refined #aw-feature-content .aw-module-icon { background: transparent; color: var(--aw-muted); }
-#aw-main-content.aw-refined #aw-feature-content .aw-settings-page>.aw-eyebrow { display: none; }
 #aw-main-content.aw-refined #aw-feature-content :is(.rm-sales-page,.rm-leads-page) { gap: 16px; }
 #aw-main-content.aw-refined #aw-feature-content .rm-hub-toolbar { margin: 0; padding: 0; gap: 12px; }
 #aw-main-content.aw-refined #aw-feature-content .rm-caller-card { min-height: 0; padding: 24px !important; gap: 16px; }
@@ -216,7 +213,7 @@
 }
 
 /* One content grid; individual panels own their surfaces and spacing. */
-html body .aw-shell #aw-main-content.aw-main #aw-feature-content :is(.project-card,.aw-preset) { --aw-button-bg:var(--aw-surface); }
+html body .aw-shell #aw-main-content.aw-main #aw-feature-content .project-card { --aw-button-bg:var(--aw-surface); }
 html body .aw-shell #aw-main-content.aw-main #aw-feature-content { padding:0!important; }
 html body .aw-shell #aw-main-content.aw-main #aw-feature-content :is(.rm-page-header,.aw-heading) {
   margin:0!important; padding:0!important; border:0!important;
@@ -225,9 +222,6 @@ html body .aw-shell #aw-main-content.aw-main #aw-feature-content :is(.rm-page-he
   font-size:clamp(26px,2.4vw,32px)!important; line-height:1.2!important; letter-spacing:-.025em!important;
 }
 html body .aw-shell #aw-main-content.aw-main #aw-feature-content .rm-page-header p { line-height:1.6; }
-#aw-main-content #aw-feature-content .aw-booking-requests { padding:20px 24px!important; margin:0; }
-.aw-booking-requests p { margin:8px 0 0; font-size:13px; line-height:1.5; }
-.aw-booking-requests[data-empty=true]>div>div>p { display:none; }
 #aw-main-content #aw-feature-content .aw-calendar-page .rm-calendar-toolbar__date { flex:0 1 auto; gap:12px; }
 
 /* Empty states should not reserve the height of a populated analytics screen. */
@@ -243,33 +237,6 @@ html body .aw-shell #aw-main-content.aw-main #aw-feature-content .rm-page-header
 #aw-main-content #aw-feature-content .rm-leads-table { min-width:1380px!important; }
 #aw-main-content #aw-feature-content .rm-leads-table th { white-space:nowrap!important; text-overflow:clip; }
 
-/* Compact document tools; the actual page remains an uninterrupted canvas. */
-#aw-main-content.aw-refined #aw-feature-content .pp-paper { padding:24px clamp(20px,3vw,40px) 40px; }
-#aw-main-content.aw-refined #aw-feature-content .pp-page-settings { justify-content:flex-start; align-items:center; gap:24px; }
-#aw-main-content.aw-refined #aw-feature-content .pp-editor-bar .rm-button,
-#aw-main-content.aw-refined #aw-feature-content .pp-page-actions .rm-button {
-  min-height:32px!important; padding:6px 10px!important; font-size:12px!important;
-}
-#aw-main-content.aw-refined #aw-feature-content .pp-block-tools select {
-  height:30px!important; min-height:30px!important; padding:4px 24px 4px 8px!important; font-size:12px!important;
-}
-#aw-main-content.aw-refined #aw-feature-content .pp-block-tools button {
-  display:grid; place-items:center; width:30px; height:30px; min-height:30px!important; padding:0!important;
-}
-#aw-main-content.aw-refined #aw-feature-content .pp-tree-page { gap:8px; }
-#aw-main-content.aw-refined #aw-feature-content .pp-tree-page>svg { flex-shrink:0; }
-#aw-main-content.aw-refined #aw-feature-content .pp-tree-page>small { font-size:11px; }
-#aw-main-content.aw-refined #aw-feature-content .pp-privacy,
-#aw-main-content.aw-refined #aw-feature-content .pp-editor-bar { font-size:12px; line-height:1.5; }
-
-/* Inset section navigation uses the existing compact/control radius scale. */
-#aw-main-content #aw-feature-content .project-work>nav { gap:4px; padding:4px; width:fit-content; max-width:100%; }
-#aw-main-content #aw-feature-content .project-work>nav>button { padding:10px 12px; font-size:14px; }
-
-/* Nested workspace titles and empty states stay below the page title. */
-html body .aw-shell #aw-main-content.aw-main #aw-feature-content :is(.engagement-workspace,.project-work>main) :is(.rm-page-header,.aw-heading) h1 {
-  font-size:24px!important; line-height:1.3!important;
-}
 html body .aw-shell #aw-main-content.aw-main #aw-feature-content .rm-dashboard .rm-section-header h2 {
   font-size:18px!important; line-height:1.4!important; letter-spacing:-.2px!important;
 }
@@ -296,8 +263,6 @@ html body .aw-shell #aw-main-content.aw-main #aw-feature-content .rm-client-hero
 #aw-main-content #aw-feature-content .pp-hub-tabs { margin-bottom:0; }
 #aw-main-content #aw-feature-content .pp-workspace :is(input,select,button,textarea) { font-family:OutfitRegular,system-ui,sans-serif!important; }
 #aw-main-content #aw-feature-content .pp-workspace .pp-paper input.pp-title { font-family:OutfitSemiBold,system-ui,sans-serif!important; }
-#aw-main-content #aw-feature-content .pp-workspace .pp-block:is(.pp-block--heading1,.pp-block--heading2) textarea { font-family:OutfitSemiBold,system-ui,sans-serif!important; }
-#aw-main-content #aw-feature-content .pp-workspace .pp-block:is(.pp-block--code,.pp-block--scene,.pp-block--action,.pp-block--character,.pp-block--dialogue) textarea { font-family:monospace!important; }
 
 html body .rm-modal.aw-dialog .rm-calendar-colors__option {
   min-height:38px; border:1px solid var(--aw-control-line); padding:7px 10px; font-size:13px;
@@ -305,7 +270,6 @@ html body .rm-modal.aw-dialog .rm-calendar-colors__option {
 html body .rm-modal.aw-dialog .rm-calendar-colors__option:has(input:checked) { border-color:var(--aw-accent); background:var(--aw-tint); }
 
 @media(max-width:760px) {
-  #aw-main-content #aw-feature-content .aw-booking-requests { padding:16px!important; }
   #aw-main-content #aw-feature-content .studio-library-toolbar { align-items:flex-start; }
   #aw-main-content #aw-feature-content .studio-library-toolbar>span { line-height:1.6; }
   html body .aw-shell #aw-main-content.aw-main #aw-feature-content .aw-overview__header { align-items:flex-start!important; text-align:left!important; }
@@ -324,3 +288,16 @@ html body .rm-modal.aw-dialog .rm-calendar-colors__option:has(input:checked) { b
 @media(min-width:761px) {
   #aw-main-content #aw-feature-content .aw-tasks__table :is(th,td):last-child { width:56px!important; min-width:56px; }
 }
+/* Reading and empty states share the same deliberate content inset. */
+html body .aw-shell #aw-main-content.aw-main #aw-feature-content .aw-reviews-empty .rm-empty {
+  min-height:0; padding:40px 24px; gap:12px;
+}
+html body .aw-shell #aw-main-content.aw-main #aw-feature-content .aw-reviews-empty :is(h3,p) { margin:0; }
+html body .aw-shell #aw-main-content.aw-main #aw-feature-content .aw-reviews-empty p { max-width:48ch; line-height:1.6; }
+html body .rm-modal.aw-dialog .rm-document-preview { display:grid; min-width:0; gap:16px; }
+html body .rm-modal.aw-dialog .rm-document-preview>p { margin:0; font-size:13px; }
+html body .rm-modal.aw-dialog .rm-document-preview>iframe {
+  display:block; width:100%; max-width:100%; height:clamp(320px,58dvh,680px);
+  border:1px solid var(--aw-line); border-radius:12px; background:var(--aw-input);
+}
+html body .rm-modal.aw-dialog .rm-account-security-action { border:1px solid var(--aw-line); }

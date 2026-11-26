@@ -1,3 +1,4 @@
+import { useTabTransition } from '@/hooks/use-tab-transition';
 import {
   useMemo,
   useState,
@@ -242,6 +243,7 @@ export function TasksScreen({
   const [savedQuery, setSavedQuery] = useBrowserPersistedState(`${stateKey}:query`, '');
   const [layout, setLayout] = useBrowserPersistedState<'list' | 'board'>(`${stateKey}:layout`, 'list');
   const view = location ? location.taskView ?? 'all' : savedView;
+  const transitionRef = useTabTransition(`${view}:${layout}`);
   const query = location ? location.taskQuery ?? '' : savedQuery;
   const effectiveAssignee = location ? location.taskAssignee ?? 'all' : assigneeId;
   const [recovery, setRecovery] = useState<{ message: string; undo: () => Promise<void> } | null>(null);
@@ -691,7 +693,7 @@ export function TasksScreen({
   );
 
   return (
-    <div className="rm-page rm-tasks-page aw-tasks" id="aw-tasks">
+    <div className="rm-page rm-tasks-page aw-tasks" id="aw-tasks" ref={transitionRef}>
       <PageHeader
         actions={(
           <div className="rm-task-page-actions">

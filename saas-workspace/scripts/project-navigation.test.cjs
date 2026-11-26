@@ -44,6 +44,17 @@ test('writing page links round-trip inside projects and client documents without
   assert.equal(routes.readPortalLocation('?screen=tasks&page=private-page','dashboard',['tasks','dashboard']).pageId,undefined);
 });
 
+test('property sections opened through Clients retain context in their links and clear when leaving', () => {
+  const root = 'https://app.realtymedia.ro/';
+  const location = { screen: 'clients', clientId: 'client-a', projectId: 'property-a', projectSection: 'Tasks' };
+  const url = routes.portalLocationUrl(root, location);
+  const parsed = routes.readPortalLocation(new URL(url, root).search, 'dashboard', ['clients', 'dashboard']);
+  assert.equal(parsed.clientId, location.clientId);
+  assert.equal(parsed.projectId, location.projectId);
+  assert.equal(parsed.projectSection, 'Tasks');
+  assert.equal(routes.portalLocationUrl(new URL(url, root).href, { screen: 'clients' }), '/?screen=clients');
+});
+
 test('stages follow project activity and isolate other projects and script approvals', () => {
   assert.equal(stage(), 'pre-production');
   assert.equal(stage([{ propertyId: 'project-b', kind: 'video', status: 'in_review' }]), 'pre-production');

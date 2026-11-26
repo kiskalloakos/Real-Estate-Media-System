@@ -1,0 +1,72 @@
+.aw-project-overview {
+  display: grid;
+  gap: 18px;
+  max-width: 760px;
+}
+
+.aw-project-overview__header, .aw-project-overview__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 0;
+}
+
+.aw-project-overview__header h1, .engagement-panel-heading h1 {
+  margin: 0;
+  font-size: 26px;
+  line-height: 1.25;
+}
+
+.aw-project-overview__brief {
+  margin: 0;
+  max-width: 65ch;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.aw-project-tools {
+  border: 1px solid var(--aw-line);
+  border-radius: var(--rm-radius-card);
+  background: var(--aw-surface);
+  padding: 4px;
+}
+
+html body .aw-shell #aw-main-content.aw-main #aw-feature-content .aw-project-tools > button {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr) 16px;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 52px;
+  padding: 10px 14px;
+  border: 0 !important;
+  border-radius: var(--rm-radius-control);
+  background: transparent !important;
+  text-align: left;
+  font: inherit;
+  font-size: 14px;
+}
+
+html body .aw-shell #aw-main-content.aw-main #aw-feature-content .aw-project-tools > button:is(:hover, :focus-visible) {
+  background: var(--aw-bg) !important;
+}
+
+.aw-project-tools > button > span {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 2px 12px;
+  min-width: 0;
+}
+
+.aw-project-tools small { font-size: 13px; }
+.aw-project-tools > button > svg { color: var(--aw-muted) !important; }
+.aw-project-content { min-width: 0; }
+.aw-project-settings { max-width: 760px; }
+.aw-project-settings > summary { cursor: pointer; }
+.aw-project-setting { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 12px 0; }
+.aw-project-settings[open] > summary { margin-bottom: 12px; }

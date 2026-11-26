@@ -8,11 +8,13 @@ import '@/workspace-dark.css';
 import '@/workspace-radii.css';
 import '@/workspace-interactions.css';
 import '@/workspace-mobile.css';
+import '@/workspace-motion.css';
 
 import Head from 'expo-router/head';
 import { useEffect } from 'react';
 
 import { RootLayout } from '@/providers/root-layout';
+import { WorkspaceLoading } from '@/components/web/WorkspaceLoading';
 
 export default function WebRootLayout() {
   useEffect(() => {
@@ -57,7 +59,7 @@ export default function WebRootLayout() {
           name="description"
         />
       </Head>
-      <RootLayout />
+      <RootLayout loadingFallback={<WorkspaceLoading />} />
     </>
   );
 }

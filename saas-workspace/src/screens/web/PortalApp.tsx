@@ -6,6 +6,7 @@ import { useProjectPreview } from '@/hooks/use-project-preview';
 import { useReviewPreview } from '@/hooks/use-review-preview';
 import { usePortalLocation } from '@/hooks/use-portal-location';
 import type { PortalLocation } from '@/lib/portal-location';
+import { engagementSections, propertyProjectSections } from '@/lib/project-workspace';
 import type { TaskView } from '@/lib/task-workspace';
 import { useNotifications } from '@/hooks/use-notifications';
 import { useBrowserPersistedState } from '@/hooks/use-browser-persisted-state';
@@ -26,7 +27,6 @@ import { CalendarScreen } from './CalendarScreen';
 import { ClientsScreen } from './ClientsScreen';
 import { DashboardScreen } from './DashboardScreen';
 import { DashboardNotesScreen } from './DashboardNotesScreen';
-import {CalendarBookings} from './CalendarBookings';
 import { DocumentsWorkspace } from './DocumentsWorkspace';
 import { FinancesScreen } from './FinancesScreen';
 import { GearScreen } from './GearScreen';
@@ -319,7 +319,7 @@ function PortalAppInner({
       : shellData.tasks ?? [];
     const pageNavigation = effectiveRole === 'admin' ? [...workspacePages(config).map(item => ({...item, labelRo: item.label})), {key: 'modules' as const, label: 'Customize workspace', icon: 'settings' as const, labelRo: 'Customize workspace'}] : portalNavigationForRole(effectiveRole);
     const pageItems = pageNavigation.map((item) => ({
-      detail: 'Workspace page',
+      detail: '',
       icon: item.icon,
       id: `page-${item.key}`,
       screen: item.key,
@@ -508,21 +508,44 @@ function PortalAppInner({
   const openTaskView = (taskView: TaskView) => visit({ screen: 'tasks', taskView, taskAssignee: 'all', taskQuery: '' });
   const changeTaskLocation = (changes: Partial<PortalLocation>, replace = false) => visit({ ...location, ...changes }, replace);
 
+  const engagement = visibleScreen === 'projects'
+    ? shellData.jobs?.find(item => item.id === location.projectId)
+    : undefined;
+  const requestedProperty = !engagement && (visibleScreen === 'projects' || visibleScreen === 'clients')
+    ? shellData.properties?.find(item => item.id === location.projectId)
+    : undefined;
+  const propertyClientId = visibleScreen === 'clients'
+    ? location.clientId
+    : requestedProperty?.clientId ?? (!location.projectId || location.projectId === 'general' ? location.clientId : undefined);
+  const propertyClient = !engagement && (visibleScreen === 'projects' || visibleScreen === 'clients')
+    ? shellData.clients?.find(client => client.id === propertyClientId)
+    : undefined;
+  const property = propertyClient && location.projectId !== 'general'
+    ? requestedProperty?.clientId === propertyClient.id
+      ? requestedProperty
+      : visibleScreen === 'clients'
+        ? shellData.properties?.find(item => item.clientId === propertyClient.id)
+        : undefined
+    : undefined;
+  const propertyLocation = propertyClient
+    ? { ...location, clientId: propertyClient.id, projectId: property?.id ?? 'general' }
+    : undefined;
+  const projectName = engagement?.name ?? property?.name ?? propertyClient?.name;
+  const recordSection = (engagement ? engagementSections : propertyProjectSections(config.enabled))
+    .find(section => section === location.projectSection);
+
   const screen = (() => {
     switch (visibleScreen) {
       case 'agency':
         return <AgencyScreen onNavigate={navigate} />;
       case 'projects': {
-        const engagement = shellData.jobs?.find(item => item.id === location.projectId);
-        if (engagement) return <EngagementWorkspace agencyId={agencyId ?? undefined} key={engagement.id} project={engagement} data={shellData} actions={projectActions} currentUserId={workspaceUserId} location={location} onLocationChange={changes => visit({ ...location, ...changes })} onBack={() => visit({ screen: 'projects' })} onOpenClient={openClient}/>;
-        const project = shellData.properties?.find(item => item.id === location.projectId);
-        const clientId = project?.clientId ?? (!location.projectId ? location.clientId : undefined);
-        if (clientId && shellData.clients?.some(client => client.id === clientId)) return (
+        if (engagement) return <EngagementWorkspace agencyId={agencyId ?? undefined} key={engagement.id} project={engagement} data={shellData} actions={projectActions} currentUserId={workspaceUserId} location={location} onLocationChange={changes => visit({ ...location, ...changes })} onOpenClient={openClient}/>;
+        if (propertyLocation) return (
           <AdminClientsHubScreen onOpenProject={projectId => visit({ screen: 'projects', projectId })} onManageProjects={() => visit({ screen: 'projects' })} actions={actions} currentUserId={workspaceUserId} data={shellData}
-            key={`project-${project?.id ?? clientId}`}
-            selectedClientId={clientId}
-            projectLocation={{ ...location, clientId }}
-            onProjectLocationChange={changes => visit({ ...location, clientId, ...changes })}
+            key={`project-${propertyLocation.projectId}-${propertyLocation.clientId}`}
+            selectedClientId={propertyLocation.clientId}
+            projectLocation={propertyLocation}
+            onProjectLocationChange={changes => visit({ ...propertyLocation, ...changes })}
             onClientSelectionChange={id => visit(id ? { screen: 'projects', clientId: id } : { screen: 'projects' })}
             onCreateClient={onCreateClient} onOpenTask={openTask}/>
         );
@@ -543,6 +566,8 @@ function PortalAppInner({
               data={shellData}
               key={`clients-${adminHubTarget.revision}`}
               selectedClientId={location.clientId ?? null}
+              projectLocation={propertyLocation}
+              onProjectLocationChange={propertyLocation ? changes => visit({ ...propertyLocation, ...changes }) : undefined}
               onClientSelectionChange={clientId => visit({ screen: 'clients', clientId: clientId ?? undefined })}
               onCreateClient={onCreateClient}
               onOpenProductionCalendar={(eventId) => {
@@ -729,7 +754,6 @@ function PortalAppInner({
         return (
           <>
             <CalendarScreen
-              bookingRequests={<CalendarBookings key={visibleWorkspaceId} agencyId={agencyId} clientId={effectiveClientAccountId} userId={workspaceUserId} role={effectiveRole} actions={projectActions} clients={shellData.clients}/>}
               readOnly={readOnlyPreview}
               clients={shellData.clients}
               currentUserId={workspaceUserId}
@@ -863,7 +887,7 @@ function PortalAppInner({
       case 'dashboard':
       default:
         return effectiveRole === 'admin' ? (
-          <StudioHome data={workspaceData} onNavigate={navigate} onOpenTask={openTask} onOpenTaskView={openTaskView} onOpenClient={openClient} onOpenCalendarEvent={eventId => { setOpenedCalendarEventId(eventId); navigate('calendar'); }} userName={resolvedUser.name} />
+          <StudioHome data={workspaceData} onNavigate={navigate} onOpenTask={openTask} onOpenTaskView={openTaskView} onOpenProperty={property => visit({ screen: 'projects', clientId: property.clientId, projectId: property.id })} onOpenCalendarEvent={eventId => { setOpenedCalendarEventId(eventId); navigate('calendar'); }} userName={resolvedUser.name} />
         ) : (
           <DashboardScreen
             currentUserId={workspaceUserId}
@@ -889,6 +913,12 @@ function PortalAppInner({
     <ToastProvider>
       <PortalShell
         activeScreen={visibleScreen}
+        recordPath={projectName ? {
+          name: projectName,
+          section: recordSection === 'Overview' ? undefined : recordSection,
+          onBack: () => visit({ screen: visibleScreen }),
+          onOverview: () => visit({ ...(propertyLocation ?? location), projectSection: undefined, pageId: undefined }),
+        } : undefined}
         notificationCount={notifications.length}
         notifications={notifications}
         onMarkAllNotificationsRead={
@@ -977,10 +1007,12 @@ function WorkspaceEntry(props: PortalAppProps) {
   </div></main>;
   if (setupOpen || shouldOnboardAgency(agency, props.currentUserId, props.role ?? 'admin', requested)) {
     return <WorkspaceOnboarding onSignOut={props.onSignOut} onCancel={setupOpen ? () => setSetupOpen(false) : undefined} onComplete={() => {
-      const url = new URL(window.location.href);
-      url.searchParams.set('screen', 'dashboard');
-      window.history.replaceState(window.history.state, '', `${url.pathname}${url.search}${url.hash}`);
-      setSetupOpen(false);
+      if (setupOpen) setSetupOpen(false);
+      else {
+        const url = new URL(window.location.href);
+        url.searchParams.set('screen', 'dashboard');
+        window.history.replaceState(window.history.state, '', `${url.pathname}${url.search}${url.hash}`);
+      }
     }} />;
   }
   return <PortalAppInner {...props} onStartSetup={() => setSetupOpen(true)} />;

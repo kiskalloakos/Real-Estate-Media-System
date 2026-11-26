@@ -17,6 +17,7 @@ import { useBrowserPersistedState } from '@/hooks/use-browser-persisted-state';
 
 import { demoClients, demoCosts, demoDebts } from './demoData';
 import { formatRon, ScreenTabs } from './shared';
+import { useTabTransition } from '@/hooks/use-tab-transition';
 import type {
   ClientSummary,
   CreateCostInput,
@@ -203,6 +204,7 @@ export function FinancesScreen({
   const [accountForm, setAccountForm] =
     useState<UpsertFinanceAccountInput>(emptyAccount);
   const [financeTab, setFinanceTab] = useBrowserPersistedState<FinanceTab>('rm:finances-state:tab', 'business');
+  const transitionRef = useTabTransition(financeTab);
   const [debtOpen, setDebtOpen] = useState(false);
   const [editingDebtId, setEditingDebtId] = useState<string | null>(null);
   const [costOpen, setCostOpen] = useState(false);
@@ -331,7 +333,7 @@ export function FinancesScreen({
   };
 
   return (
-    <div className="rm-page rm-finances-page">
+    <div className="rm-page rm-finances-page" ref={transitionRef}>
       <PageHeader title="Finances" />
       <div className="rm-finance-tabbar">
         <ScreenTabs

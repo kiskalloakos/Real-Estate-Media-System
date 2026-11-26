@@ -22,6 +22,11 @@ export function readPortalLocation(search: string, fallback: PortalScreenKey, al
   const params = new URLSearchParams(search);
   const requested = params.get('screen') as PortalScreenKey;
   const screen = allowed.includes(requested) ? requested : fallback;
+  const clientId = params.get('client') || undefined;
+  const hasProjectContext = screen === 'projects' || (screen === 'clients' && Boolean(clientId));
+  const projectId = hasProjectContext ? params.get('project') : undefined;
+  const projectStage = hasProjectContext ? projectStages.find(stage => stage === params.get('stage')) : undefined;
+  const projectSection = hasProjectContext ? projectSections.find(section => section === params.get('section')) : undefined;
   return {
     screen,
     ...(['documents','projects'].includes(screen) && params.get('page') ? {pageId: params.get('page')!} : {}),
@@ -31,13 +36,12 @@ export function readPortalLocation(search: string, fallback: PortalScreenKey, al
       taskQuery: params.get('q') ?? '',
       taskAssignee: params.get('assignee') || 'all',
     } : {}),
-    ...(screen === 'clients' ? { clientId: params.get('client') || undefined } : {}),
+    ...(hasProjectContext && clientId ? { clientId } : {}),
+    ...(projectId ? { projectId } : {}),
+    ...(projectStage ? { projectStage } : {}),
+    ...(projectSection ? { projectSection } : {}),
     ...(screen === 'projects' ? {
-      clientId: params.get('client') || undefined,
-      projectId: params.get('project') || undefined,
-      projectStage: projectStages.find(stage => stage === params.get('stage')),
       ...(params.get('status') && Object.hasOwn(engagementStatusLabels, params.get('status')!) ? { projectStatus: params.get('status') as JobSummary['status'] } : {}),
-      projectSection: projectSections.find(section => section === params.get('section')),
     } : {}),
   };
 }
@@ -52,12 +56,11 @@ export function portalLocationUrl(current: string, location: PortalLocation) {
     if (location.taskQuery) url.searchParams.set('q', location.taskQuery);
     if (location.taskAssignee && location.taskAssignee !== 'all') url.searchParams.set('assignee', location.taskAssignee);
   }
-  if (location.screen === 'clients' && location.clientId) url.searchParams.set('client', location.clientId);
-  if (location.screen === 'projects') {
+  if (location.screen === 'projects' || (location.screen === 'clients' && location.clientId)) {
     if (location.clientId) url.searchParams.set('client', location.clientId);
     if (location.projectId) url.searchParams.set('project', location.projectId);
     if (location.projectStage) url.searchParams.set('stage', location.projectStage);
-    if (location.projectStatus) url.searchParams.set('status', location.projectStatus);
+    if (location.screen === 'projects' && location.projectStatus) url.searchParams.set('status', location.projectStatus);
     if (location.projectSection) url.searchParams.set('section', location.projectSection);
   }
   return `${url.pathname}${url.search}${url.hash}`;

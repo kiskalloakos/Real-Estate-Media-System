@@ -16,9 +16,13 @@ export function usePortalLocation(fallback: PortalScreenKey, allowed: readonly P
     if (!allowed.includes(next.screen)) return;
     saveScroll();
     const url = portalLocationUrl(window.location.href, next);
-    const sameCanvas = next.screen === location.screen
-      && (!['clients', 'projects'].includes(next.screen) || next.clientId === location.clientId)
-      && (next.screen !== 'projects' || next.projectId === location.projectId);
+    const inProject = next.screen === 'projects' || next.screen === 'clients';
+    const sameCanvas = next.screen === location.screen && next.pageId === location.pageId
+      && (!inProject || (
+        next.clientId === location.clientId
+        && next.projectId === location.projectId
+        && (next.projectSection ?? 'Overview') === (location.projectSection ?? 'Overview')
+      ));
     restore.current = sameCanvas ? document.querySelector<HTMLElement>('.aw-frame')?.scrollTop ?? 0 : 0;
     if (url !== `${window.location.pathname}${window.location.search}${window.location.hash}`) {
       const state = { ...window.history.state, rmPortal: true, rmScroll: restore.current };
@@ -26,7 +30,7 @@ export function usePortalLocation(fallback: PortalScreenKey, allowed: readonly P
       else window.history.pushState(state, '', url);
     }
     setLocation(next);
-  }, [allowed, location.screen, location.clientId, location.projectId, saveScroll]);
+  }, [allowed, location.screen, location.clientId, location.projectId, location.projectSection, location.pageId, saveScroll]);
   useEffect(() => {
     window.history.replaceState({ ...window.history.state, rmPortal: true }, '', portalLocationUrl(window.location.href, location));
   }, [location]);
@@ -39,9 +43,18 @@ export function usePortalLocation(fallback: PortalScreenKey, allowed: readonly P
       setLocation(readPortalLocation(window.location.search, fallback, allowed));
     };
     const frame = document.querySelector('.aw-frame');
+    let scrollTimer: ReturnType<typeof setTimeout>;
+    const rememberScroll = () => {
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(saveScroll, 150);
+    };
     window.addEventListener('popstate', pop, true);
-    frame?.addEventListener('scroll', saveScroll, { passive: true });
-    return () => { window.removeEventListener('popstate', pop, true); frame?.removeEventListener('scroll', saveScroll); };
+    frame?.addEventListener('scroll', rememberScroll, { passive: true });
+    return () => {
+      clearTimeout(scrollTimer);
+      window.removeEventListener('popstate', pop, true);
+      frame?.removeEventListener('scroll', rememberScroll);
+    };
   }, [allowed, fallback, saveScroll]);
   useLayoutEffect(() => {
     const frame = requestAnimationFrame(() => {

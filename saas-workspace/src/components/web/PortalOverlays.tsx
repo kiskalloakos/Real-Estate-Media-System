@@ -67,13 +67,12 @@ export function WorkspaceSearch({
   return (
     <Modal
       className="aw-clean-dialog aw-search-dialog"
-      description="Jump to a client, property, review, event, or workspace page."
       onClose={() => {
         setQuery('');
         onClose();
       }}
       open={open}
-      title="Search Realty Media"
+      title="Search workspace"
     >
       <div className="rm-command">
         <label className="rm-command__input">
@@ -83,12 +82,12 @@ export function WorkspaceSearch({
             autoFocus
             data-modal-autofocus
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Type a client, file, property…"
+            placeholder="Search anything…"
             ref={inputRef}
             type="search"
             value={query}
           />
-          <kbd>ESC</kbd>
+          <kbd aria-hidden="true">ESC</kbd>
         </label>
         <div className="rm-command__results">
           {results.map((item) => (
@@ -105,7 +104,7 @@ export function WorkspaceSearch({
               </span>
               <span>
                 <strong>{item.title}</strong>
-                <small>{item.detail}</small>
+                {item.detail && <small>{item.detail}</small>}
               </span>
               <Icon name="arrow-right" size={16} />
             </button>
@@ -118,10 +117,6 @@ export function WorkspaceSearch({
             </div>
           ) : null}
         </div>
-        <footer className="rm-command__footer">
-          <span><kbd>↵</kbd> Open</span>
-          <span><kbd>⌘K</kbd> Search anywhere</span>
-        </footer>
       </div>
     </Modal>
   );

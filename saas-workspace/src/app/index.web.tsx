@@ -1,8 +1,7 @@
 import { Redirect } from 'expo-router';
-import { ActivityIndicator, View } from 'react-native';
 import { useSyncExternalStore } from 'react';
 
-import { nativeColors } from '@/components/native';
+import { WorkspaceLoading } from '@/components/web/WorkspaceLoading';
 import { useApp } from '@/providers/app-provider';
 import { LoginScreen } from '@/screens/login';
 import PortalWebLayout from './(portal)/_layout.web';
@@ -18,18 +17,7 @@ export default function IndexRoute() {
   // Browser-only record URLs and saved workspace preferences are read after
   // hydration, so a phone deep link never hydrates against another screen.
   if (!authReady || !hydrated) {
-    return (
-      <View
-        style={{
-          alignItems: 'center',
-          backgroundColor: nativeColors.background,
-          flex: 1,
-          justifyContent: 'center',
-        }}
-      >
-        <ActivityIndicator color={nativeColors.accent} />
-      </View>
-    );
+    return <WorkspaceLoading />;
   }
 
   if (identity) {

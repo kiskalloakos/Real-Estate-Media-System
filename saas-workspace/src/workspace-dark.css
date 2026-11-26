@@ -49,7 +49,7 @@ html body .aw-shell #aw-main-content.aw-main #aw-feature-content {
 }
 
 :is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) :is(
-  .rm-card,.aw-panel,.aw-pulse,.aw-preset,.aw-name-form,.aw-module-list,.aw-agency-settings,
+  .rm-card,.aw-panel,.aw-pulse,.aw-name-form,.aw-module-list,.aw-agency-settings,
   .rm-task-list-card,.rm-task-item,.aw-tasks__table-wrap,.aw-tasks__empty,.aw-tasks__recovery,
   .rm-table-card,.rm-client-directory,.rm-team-directory,.rm-access-panel,.rm-member-row,
   .rm-client-workspace__section,.rm-client-workspace__metrics>article,
@@ -64,8 +64,8 @@ html body .aw-shell #aw-main-content.aw-main #aw-feature-content {
   .rm-week-stack-grid__day,.rm-week-stack-grid__events,.rm-calendar-overflow-list,
   .aw-calendar-filters>summary,.aw-calendar-filters__body,.rm-reminders-card,.rm-reminder-list>article,
   .rm-action-form,.rm-profile-form,.rm-client-form,.rm-form-footer,.rm-checkbox-field,
-  .rm-task-archive-list article,.rm-notification-list__row,.rm-command__input,
-  .rm-rich-text-editor,.rm-rich-text-toolbar,.rm-rich-text-content,
+  .rm-task-archive-list article,.rm-notification-list__row,
+  .rm-rich-text-editor,.rm-rich-text-toolbar,.rm-rich-text-content,.rm-account-security-action,
   .project-summary,.project-billing,.project-work>main,
   .aw-task-drawer__actions,.aw-task-drawer__discard
 ) {
@@ -73,6 +73,13 @@ html body .aw-shell #aw-main-content.aw-main #aw-feature-content {
   color: var(--aw-ink) !important;
   border-color: var(--aw-line) !important;
   box-shadow: none !important;
+}
+
+/* Row focus and touch hover must keep the dark surface and readable labels. */
+html body .aw-shell #aw-main-content.aw-main #aw-feature-content .rm-table tbody tr:not(.is-selected):is(:hover,:focus-visible,:focus-within),
+html body .aw-shell #aw-main-content.aw-main #aw-feature-content .rm-table tbody tr:not(.is-selected):is(:hover,:focus-visible,:focus-within)>td {
+  background:var(--aw-bg)!important;
+  color:var(--aw-ink)!important;
 }
 
 :is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) :is(
@@ -150,7 +157,7 @@ html body .aw-shell #aw-main-content.aw-main #aw-feature-content .rm-preview-not
   input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]),
   select,textarea,.rm-inline-search,.rm-input-with-icon,.aw-tasks__search,
   .studio-library-search,.rm-task-upload__control,.rm-upload-tile,.rm-upload-document-button
-):not(:where(.pp-paper .pp-title,.pp-block textarea)) {
+):not(:where(.pp-paper .pp-title,.pp-block textarea,.rm-command__input input)) {
   background-color: var(--aw-input) !important;
   color: var(--aw-ink) !important;
   border-color: var(--aw-control-line) !important;
@@ -230,10 +237,29 @@ html body .rm-modal.aw-dialog:not(.sp-workspace-modal) .rm-modal__body .rm-comma
   background: var(--aw-bg) !important;
 }
 
-/* Keep workspace settings switches legible, and preserve actual event colors. */
-html body .aw-shell #aw-main-content.aw-main #aw-feature-content .aw-module-toggle { background: #555660 !important; }
-html body .aw-shell #aw-main-content.aw-main #aw-feature-content .aw-module-toggle[aria-checked=true] { background: #5256e0 !important; }
-html body .aw-shell #aw-main-content.aw-main #aw-feature-content .aw-module-toggle__thumb { background: #fff !important; }
+/* Search uses the field wrapper as one continuous surface and focus target. */
+html body .rm-modal.aw-dialog.aw-search-dialog .rm-modal__body .rm-command__input {
+  margin: 0 0 12px;
+  min-height: 48px;
+  background: var(--aw-input) !important;
+  color: var(--aw-muted) !important;
+  border-color: var(--aw-control-line) !important;
+}
+html body .rm-modal.aw-dialog.aw-search-dialog .rm-modal__body .rm-command__input :is(input, kbd) {
+  background: transparent !important;
+}
+html body .rm-modal.aw-dialog.aw-search-dialog .rm-modal__body .rm-command__input input {
+  outline: 0 !important;
+}
+html body .rm-modal.aw-dialog.aw-search-dialog .rm-command__input:focus-within {
+  outline: 2px solid var(--aw-accent);
+  outline-offset: 2px;
+}
+html body .rm-modal.aw-dialog.aw-search-dialog .rm-command__results > button:last-child {
+  border-bottom: 0 !important;
+}
+
+/* Preserve actual event colors. */
 html body .aw-shell #aw-main-content.aw-main #aw-feature-content .aw-calendar-month__day.is-today button.aw-calendar-month__date {
   background: #5256e0 !important;
   color: #fff !important;

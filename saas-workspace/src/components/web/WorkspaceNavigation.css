@@ -1,2 +1,49 @@
 .aw-nav :is(button):focus-visible { outline:2px solid #a8aaff; outline-offset:2px; }
 @media(prefers-reduced-motion:reduce) { .aw-shell .aw-sidebar { transition:none; } }
+
+.aw-shell .aw-topbar__left { min-width: 0; }
+.aw-record-path, .aw-record-path__location { display: flex; align-items: center; min-width: 0; gap: 10px; }
+.aw-record-path__location { border-left: 1px solid var(--aw-line); padding-left: 12px; }
+.aw-record-path :is(button, strong) { font-size: 14px; }
+.aw-record-path > button, .aw-record-path__location > button {
+  border: 0;
+  padding: 4px 6px;
+  border-radius: var(--rm-radius-compact);
+  background: transparent;
+  color: inherit;
+}
+.aw-record-path > button:hover, .aw-record-path__location > button:hover { background: var(--aw-bg); }
+.aw-record-path__parent, .aw-record-path__section { flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px; color: var(--aw-muted); }
+.aw-record-path .aw-record-path__name {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
+  font-family: OutfitSemiBold, system-ui, sans-serif;
+}
+.aw-record-path__section { font-size: 13px; }
+.aw-shell .aw-topbar:has(.aw-record-path) :is(.aw-search, .aw-topbar__right) { flex-shrink: 0; }
+
+@media (max-width:760px), (max-width:960px) and (max-height:540px) {
+  .aw-record-path { width: 100%; gap: 8px; }
+  .aw-record-path > .aw-record-path__parent { min-height: 44px; gap: 3px; padding: 4px; font-size: 12px; }
+  .aw-record-path__location { flex: 1; flex-direction: column; align-items: stretch; gap: 0; padding-left: 8px; }
+  .aw-record-path .aw-record-path__name {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    line-height: 16px;
+    padding: 4px 0;
+  }
+  .aw-record-path__section { font-size: 11px; }
+  .aw-record-path__section > svg { display: none; }
+}
+
+@media (max-width:380px) {
+  .aw-record-path > .aw-record-path__parent { width: 44px; justify-content: center; }
+  .aw-record-path__parent > span { display: none; }
+}

@@ -10,6 +10,7 @@ import {
 } from '@/components/web';
 import { leadsCsv } from '@/lib/leads-csv';
 import { ScreenTabs } from './shared';
+import { useTabTransition } from '@/hooks/use-tab-transition';
 
 import type {
   LeadImportInput,
@@ -245,6 +246,7 @@ export function LeadsScreen({
   const deferredQuery = useDeferredValue(query);
   const [status, setStatus] = useState<'all' | LeadStatus>('all');
   const [leadList, setLeadList] = useState<LeadList>('all');
+  const transitionRef = useTabTransition(leadList);
   const [exportList, setExportList] = useState<LeadList>('all');
   const [importList, setImportList] = useState<Exclude<LeadList, 'all'> | ''>('');
   const [editing, setEditing] = useState<UpsertLeadInput | null>(null);
@@ -390,7 +392,7 @@ export function LeadsScreen({
   };
 
   return (
-    <div className="rm-subpage rm-leads-page">
+    <div className="rm-subpage rm-leads-page" ref={transitionRef}>
       <div className="rm-hub-toolbar">
         <div>
           <h2>Leads</h2>

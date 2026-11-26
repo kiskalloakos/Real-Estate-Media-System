@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTabTransition } from '@/hooks/use-tab-transition';
 import { Button, Icon, Modal, PageHeader, useToast } from '@/components/web';
 import { engagementStatuses, engagementStatusLabels, belongsToEngagement } from '@/lib/engagements';
 import type { JobSummary, PortalActionHandlers, PortalData, PortalScreenKey, PropertySummary } from './types';
@@ -22,6 +23,7 @@ export function ProjectsScreen({ data, actions, status, onStatusChange, onOpenPr
   const { config } = useWorkspace();
   const [query, setQuery] = useState('');
   const [creating, setCreating] = useState(false);
+  const transitionRef = useTabTransition(status ?? 'all');
   const projects = data.jobs ?? [];
   const clients = data.clients ?? [];
   const search = query.trim().toLowerCase();
@@ -29,7 +31,7 @@ export function ProjectsScreen({ data, actions, status, onStatusChange, onOpenPr
   const visible = projects.filter(project => (!status || status === project.status)
     && (!search || [project.name, clientName(project), project.brief].join(' ').toLowerCase().includes(search)));
   const ready = data.projectFoundationReady !== false;
-  return <div className="rm-page projects-page">
+  return <div className="rm-page projects-page" ref={transitionRef}>
     <PageHeader eyebrow="ENGAGEMENTS" title="Projects" description="One place for each client engagement or internal project."
       actions={<>
         {workspacePages(config).filter(page => page.key === 'reviews' || page.key === 'scripting').map(page =>
@@ -37,6 +39,7 @@ export function ProjectsScreen({ data, actions, status, onStatusChange, onOpenPr
         )}
         <Button icon="plus" disabled={!actions?.createJob || !ready} onClick={() => setCreating(true)}>New project</Button>
       </>}/>
+    {!!data.properties?.length && <section className="engagement-legacy"><h2>Property projects</h2><p>Production, tasks, reviews, and files for each property.</p><div className="engagement-legacy-list">{data.properties.filter(property => !search || [property.name, property.clientName].join(' ').toLowerCase().includes(search)).map(property => <button type="button" key={property.id} onClick={() => onOpenProperty(property)}><Icon name="building" size={18}/><span><strong>{property.name}</strong><small>{property.clientName}</small></span><Icon name="arrow-right" size={16}/></button>)}</div></section>}
     {!ready && <p className="rm-feedback" role="status">Project setup is temporarily unavailable. You can still open existing work.</p>}
     <div className="projects-toolbar">
       <nav className="projects-filters" aria-label="Filter projects by status">
@@ -61,7 +64,7 @@ export function ProjectsScreen({ data, actions, status, onStatusChange, onOpenPr
       <p>{projects.length ? 'Try another status or search for a different project.' : 'Create a client engagement, trial job, or internal project. Choose any duration.'}</p>
       {projects.length ? <Button variant="secondary" onClick={() => { setQuery(''); onStatusChange(); }}>Show all projects</Button> : ready ? <Button disabled={!actions?.createJob} onClick={() => setCreating(true)}>Create your first project</Button> : null}
     </div>}
-    {!!data.properties?.length && <section className="engagement-legacy"><h2>Property work</h2><p>Open a property's existing production history, reviews, and files.</p><div className="engagement-legacy-list">{data.properties.filter(property => !search || [property.name, property.clientName].join(' ').toLowerCase().includes(search)).map(property => <button type="button" key={property.id} onClick={() => onOpenProperty(property)}><Icon name="building" size={18}/><span><strong>{property.name}</strong><small>{property.clientName}</small></span><Icon name="arrow-right" size={16}/></button>)}</div></section>}
+
     <Modal title="New project" description="A client engagement or internal project, for any duration." open={creating} onClose={() => setCreating(false)}>
       {creating && <ProjectForm data={data} onCancel={() => setCreating(false)} onSave={async input => {
         if (!actions?.createJob) throw new Error('Project creation is unavailable.');

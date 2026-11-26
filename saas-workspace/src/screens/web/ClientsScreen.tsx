@@ -1984,7 +1984,7 @@ export function ClientsScreen({
             onUpdateAgreement={actions?.updateAgreement} onArchiveAgreement={actions?.archiveAgreement}/>
         </details>
         {clientPage()}
-      </>} composer={items => clientPage(items, true)} onBack={closeClient} />;
+      </>} composer={items => clientPage(items, true)} />;
   }
 
   return (

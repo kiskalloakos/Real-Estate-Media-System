@@ -14,6 +14,19 @@ export const projectStageLabels: Record<ProjectStage, string> = {
 export const projectSections = ['Overview', 'Pages', 'Scripts', 'Reviews', 'Files', 'Tasks', 'Calendar', 'Client details', 'Details'] as const;
 export type ProjectSection = typeof projectSections[number];
 
+export const engagementSections = ['Overview', 'Tasks', 'Calendar', 'Pages', 'Reviews', 'Details'] as const;
+const propertySections = ['Overview', 'Tasks', 'Calendar', 'Scripts', 'Reviews', 'Files', 'Client details'] as const;
+
+export function propertyProjectSections(enabled: readonly string[]) {
+  return propertySections.filter(section =>
+    section === 'Overview' || section === 'Client details'
+    || (section === 'Scripts' && enabled.includes('scripting'))
+    || (section === 'Tasks' && enabled.includes('tasks'))
+    || (section === 'Calendar' && enabled.includes('calendar'))
+    || ((section === 'Reviews' || section === 'Files') && enabled.includes('reviews')),
+  );
+}
+
 /** A view of existing production activity, not a separately saved workflow status. */
 export function projectStage(property: PropertySummary, reviews: ReviewItem[], events: CalendarEvent[], today: string): ProjectStage {
   if (property.status === 'complete') return 'completed';

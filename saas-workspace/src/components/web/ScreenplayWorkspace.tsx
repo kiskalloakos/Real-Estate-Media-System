@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useLayoutEffect, useReducer, useRef, useState, type KeyboardEvent } from 'react';
+import { useTabTransition } from '@/hooks/use-tab-transition';
 import { Button, Modal } from './ui';
 import { Icon } from './Icon';
 import { cycleBlockType, splitBlock, productionHistory, reduceProductionHistory } from '@/lib/screenplay-editing';
@@ -76,6 +77,7 @@ export function ScreenplayWorkspace({ initial, saving, aiAvailable, onClose, onS
   const [selectedShotId, setSelectedShotId] = useState('');
   const [activeBlockId, setActiveBlockId] = useState(production?.scenes[0]?.blocks[0]?.id ?? '');
   const [view, setView] = useState<'script' | 'plan' | 'split'>('script');
+  const transitionRef = useTabTransition(`${view}:${selectedShotId}`);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [outlineOpen, setOutlineOpen] = useState(() => typeof window === 'undefined' || window.innerWidth >= 900);
   const [saved, setSaved] = useState(Boolean(initial.id));
@@ -191,7 +193,7 @@ export function ScreenplayWorkspace({ initial, saving, aiAvailable, onClose, onS
       {initial.productionInvalid ? <p className="sp-error" role="alert">This script contains production data this editor cannot read. Export the original text or recover the production data before editing.</p> : null}
       {!production ? <div className="sp-legacy"><h3>Original script</h3><p>Your existing text is preserved. Convert it when you are ready to organize it into scenes and add a floor plan.</p><label className="sp-field">Script<textarea disabled={busy || initial.productionInvalid} onChange={(event) => { setLegacyText(event.target.value); setDirty(true); }} rows={16} value={legacyText} /></label><Button disabled={busy || initial.productionInvalid} onClick={() => { const converted = productionFromText(legacyText); setProduction(converted); setSelectedSceneId(converted.scenes[0].id); setDirty(true); }}>Convert to screenplay</Button></div> : <>
         <nav aria-label="Writing views" className="sp-view-tabs">{([{ id: 'script', label: 'Script' }, { id: 'plan', label: 'Floor Plan' }, { id: 'split', label: 'Split View' }] as const).map((item) => <button aria-pressed={view === item.id} key={item.id} onClick={() => setView(item.id)} type="button">{item.label}</button>)}<span className="sp-view-actions"><button aria-pressed={outlineOpen} onClick={() => { setOutlineOpen(!outlineOpen); if (!outlineOpen) setDetailsOpen(false); }} type="button"><Icon name="list-check" size={16}/>Scenes</button><button aria-expanded={detailsOpen} onClick={() => { setDetailsOpen(!detailsOpen); if (!detailsOpen) setOutlineOpen(false); }} type="button"><Icon name="settings" size={16}/>Scene setup</button><button aria-label="Undo script or plan edit" disabled={!history.past.length || busy} onClick={undo} type="button">Undo</button><button aria-label="Redo script or plan edit" disabled={!history.future.length || busy} onClick={redo} type="button">Redo</button></span></nav>
-        <div className={`sp-workspace-body sp-view--${view}${outlineOpen ? ' has-outline' : ''}${detailsOpen ? ' has-details' : ''}`} inert={busy || undefined}>
+        <div className={`sp-workspace-body sp-view--${view}${outlineOpen ? ' has-outline' : ''}${detailsOpen ? ' has-details' : ''}`} inert={busy || undefined} ref={transitionRef}>
           {outlineOpen ? <aside className="sp-outline" aria-label="Scene outline">
             <div className="sp-panel-heading"><h3>Scenes <small>{production.scenes.length}</small></h3><button aria-label="Close scene list" onClick={() => setOutlineOpen(false)} type="button"><Icon name="x" size={18}/></button></div>
             <ol>{production.scenes.map((item, index) => <li className={scene?.id === item.id ? 'is-selected' : ''} key={item.id}>

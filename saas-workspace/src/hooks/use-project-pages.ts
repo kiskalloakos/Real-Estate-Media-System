@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { isSupabaseConfigured } from '@/lib/supabase';
 import { listPageRevisions, listProjectPages, saveProjectPage } from '@/lib/project-pages-service';
-import { newPageBlock, type PageDraft, type PageRevision, type ProjectPage } from '@/lib/project-pages';
+import { newPageBlock, newPageId, type PageDraft, type PageRevision, type ProjectPage } from '@/lib/project-pages';
 import type { JobSummary } from '@/screens/web/types';
 
 interface SampleState { pages: ProjectPage[]; history: Record<string,PageRevision[]> }
@@ -13,7 +13,7 @@ function readSample(jobs: JobSummary[]): SampleState {
   const pages:ProjectPage[]=[{...base,id:'preview-brief',parentId:null,title:'Creative brief',clientVisible:true,blocks:[newPageBlock('heading1','Make the next stay memorable'),newPageBlock('paragraph','A quiet retreat, warm interiors and weekends worth sharing.'),newPageBlock('check','Confirm the shoot location')]},
     {...base,id:'preview-concepts',parentId:'preview-brief',title:'Content concepts',blocks:[newPageBlock('heading2','A weekend, told in moments'),newPageBlock('bullet','Arrival and first impressions'),newPageBlock('bullet','Morning light in the cabin')]},
     {...base,id:'preview-script',parentId:'preview-concepts',title:'The weekend story',kind:'script',blocks:[newPageBlock('scene','INT. CABIN — MORNING'),newPageBlock('action','Sunlight moves across the wooden floor. A kettle starts to steam.'),newPageBlock('character','NARRATOR (V.O.)'),newPageBlock('dialogue','Some weekends deserve a little more space.')]}];
-  return {pages,history:Object.fromEntries(pages.map(p=>[p.id,[{id:crypto.randomUUID(),revision:1,title:p.title,blocks:p.blocks,createdAt:p.updatedAt}]]))};
+  return {pages,history:Object.fromEntries(pages.map(p=>[p.id,[{id:newPageId(),revision:1,title:p.title,blocks:p.blocks,createdAt:p.updatedAt}]]))};
 }
 export function useProjectPages(agencyId: string | undefined, jobs: JobSummary[], writable: boolean) {
   const [pages,setPages]=useState<ProjectPage[]>(); const [error,setError]=useState(''); const [refreshing,setRefreshing]=useState(false);
@@ -40,7 +40,7 @@ export function useProjectPages(agencyId: string | undefined, jobs: JobSummary[]
       const state=readSample(jobs); const old=state.pages.find(p=>p.id===page.id);
       if((old?.revision??0)!==page.revision) throw new Error('PAGE_CONFLICT: This page changed elsewhere. Your draft has been kept');
       saved={...page,...draft,agencyId:agencyId??'preview-agency',revision:page.revision+1,updatedAt:new Date().toISOString()};
-      const revision={id:crypto.randomUUID(),revision:saved.revision,title:saved.title,blocks:saved.blocks,createdAt:saved.updatedAt};
+      const revision={id:newPageId(),revision:saved.revision,title:saved.title,blocks:saved.blocks,createdAt:saved.updatedAt};
       const next={pages:old?state.pages.map(p=>p.id===saved.id?saved:p):[...state.pages,saved],history:{...state.history,[saved.id]:[revision,...(state.history[saved.id]??[])]}};
       window.localStorage.setItem(sampleKey,JSON.stringify(next)); sample.current=next;
     }

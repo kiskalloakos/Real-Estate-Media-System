@@ -3,8 +3,9 @@ import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { Icon } from '@/components/web/Icon';
 import { uploadAgencyLogo } from './agency-service';
 
-import { modules, presets, type ModuleId } from './modules';
+import { modules, type ModuleId } from './modules';
 import { workspaceModuleGroup, workspaceModuleGroups } from './navigation';
+import { WorkspaceLogoPicker } from './WorkspaceLogoPicker';
 import { useWorkspace } from './WorkspaceProvider';
 
 type AgencySettings = {
@@ -28,10 +29,11 @@ function packagesFromText(value: string) {
 }
 
 export function ModulesScreen({ onStartSetup }: { onStartSetup: () => void }) {
-  const { config, save, saveModules, storageError, agency, loading, error: loadError, retry, updateAgency, isLive } = useWorkspace();
+  const { config, save, saveModules, storageError, agency, logoUrl, loading, error: loadError, retry, updateAgency, isLive } = useWorkspace();
   const [name, setName] = useState(config.name);
   const [message, setMessage] = useState('');
-  const [presetMessage, setPresetMessage] = useState('');
+  const [moduleMessage, setModuleMessage] = useState('');
+  const [moduleError, setModuleError] = useState('');
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const loadedAgencyId = useRef<string | null>(null);
@@ -60,14 +62,14 @@ export function ModulesScreen({ onStartSetup }: { onStartSetup: () => void }) {
 
   const canEditAgency = Boolean(agency && !loading && !saving);
   const update = (changes: Partial<typeof form>) => setForm((current) => ({ ...current, ...changes }));
-  const applyModules = async (enabled: ModuleId[], message = 'Workspace tools saved.') => {
+  const toggle = async (id: ModuleId) => {
     if (!canEditAgency) return;
-    setSaving(true); setError(''); setPresetMessage('');
-    try { await saveModules(enabled); setPresetMessage(message); }
-    catch (caught) { setError(caught instanceof Error ? caught.message : 'Could not save workspace tools. Try again.'); }
+    const enabled = config.enabled.includes(id) ? config.enabled.filter(item => item !== id) : [...config.enabled, id];
+    setSaving(true); setModuleError(''); setModuleMessage('');
+    try { await saveModules(enabled); setModuleMessage('Workspace tools saved.'); }
+    catch (caught) { setModuleError(caught instanceof Error ? caught.message : 'Could not save workspace tools. Try again.'); }
     finally { setSaving(false); }
   };
-  const toggle = (id: ModuleId) => { void applyModules(config.enabled.includes(id) ? config.enabled.filter((item) => item !== id) : [...config.enabled, id]); };
   const move = (id: ModuleId, direction: number) => {
     const group = workspaceModuleGroup(id);
     if (group === 'Workspace') return;
@@ -75,7 +77,7 @@ export function ModulesScreen({ onStartSetup }: { onStartSetup: () => void }) {
     const sibling = siblings[siblings.indexOf(id) + direction];
     if (!sibling) return;
     const order = [...config.order]; const index = order.indexOf(id); const target = order.indexOf(sibling);
-    [order[index], order[target]] = [order[target], order[index]]; setPresetMessage(''); save({ ...config, order });
+    [order[index], order[target]] = [order[target], order[index]]; setModuleMessage(''); save({ ...config, order });
   };
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); if (!canEditAgency || !agency) return;
@@ -96,33 +98,11 @@ export function ModulesScreen({ onStartSetup }: { onStartSetup: () => void }) {
   };
 
   return <div className="aw-page aw-settings-page">
-    <div className="aw-eyebrow">MAKE IT YOURS</div>
-    <div className="aw-heading"><div><h1>Workspace settings</h1><p>Set the agency identity, operating defaults, and workspace modules.</p></div><span className="aw-tag">{config.enabled.length} modules enabled</span></div>
-    <div className="aw-section-heading"><div><h2>Guided setup</h2><p>Review your agency details and choose a starting set of tools.</p></div><button type="button" className="aw-button aw-button-secondary" disabled={!canEditAgency} onClick={onStartSetup}>Set up workspace</button></div>
+    <div className="aw-heading"><h1>Workspace settings</h1></div>
     {loadError ? <p role="alert">{loadError.message} <button type="button" onClick={retry}>Try again</button></p> : null}
-    {error ? <p className="rm-feedback rm-feedback--warning" role="alert">{error}</p> : null}
-    <form className="rm-profile-form aw-agency-settings" onSubmit={submit}>
-      <div className="aw-section-heading"><h2>Agency configuration</h2><span>Applies to this agency workspace.</span></div>
-      {loading ? <p role="status">Loading agency settings…</p> : null}
-      <div className="rm-form-grid rm-form-grid--two">
-        <label className="rm-field"><span>Agency name</span><input disabled={!canEditAgency} maxLength={120} required value={name} onChange={(event) => setName(event.target.value)} /></label>
-        <label className="rm-field"><span>Legal name</span><input disabled={!canEditAgency} value={form.legalName} onChange={(event) => update({ legalName: event.target.value })} /></label>
-        <label className="rm-field"><span>Timezone</span><select disabled={!canEditAgency} value={form.timezone} onChange={(event) => update({ timezone: event.target.value })}>{Array.from(new Set([form.timezone, 'Europe/Bucharest', 'Europe/London', 'Europe/Paris', 'America/New_York'])).map(value => <option key={value}>{value}</option>)}</select></label>
-        <label className="rm-field"><span>Default currency</span><select disabled={!canEditAgency} value={form.currency} onChange={(event) => update({ currency: event.target.value })}>{Array.from(new Set([form.currency, 'RON', 'EUR', 'USD', 'GBP'])).map(value => <option key={value}>{value}</option>)}</select></label>
-        <label className="rm-field rm-form-grid__wide"><span>Logo</span><input accept="image/png,image/jpeg,image/webp" disabled={!canEditAgency || !isLive} onChange={(event) => update({ logo: event.target.files?.[0] ?? null })} type="file" /><small>{form.logo ? form.logo.name : form.logoPath ? 'Current logo saved' : 'Optional. PNG, JPG, or WebP, up to 5 MB.'}</small></label>
-      </div>
-      <div className="aw-section-heading"><h2>Workflow defaults</h2><span>Saved preferences; automatic task and review defaults are not connected yet.</span></div>
-      <div className="rm-form-grid rm-form-grid--three"><label className="rm-field"><span>Default owner role</span><select disabled={!canEditAgency} value={form.workflowRole} onChange={(event) => update({ workflowRole: event.target.value })}><option value="account_manager">Account manager</option><option value="producer">Producer</option><option value="videographer">Videographer</option><option value="editor">Editor</option></select></label><label className="rm-field"><span>Task due in days</span><input disabled={!canEditAgency} min="0" onChange={(event) => update({ taskDueDays: event.target.value })} type="number" value={form.taskDueDays} /></label><label className="rm-field"><span>Review due in days</span><input disabled={!canEditAgency} min="0" onChange={(event) => update({ reviewDueDays: event.target.value })} type="number" value={form.reviewDueDays} /></label></div>
-      <div className="aw-section-heading"><h2>Service packages</h2><span>Saved templates; not connected to client creation yet. Name | Price | Deliverables.</span></div>
-      <label className="rm-field"><span>Package defaults</span><textarea disabled={!canEditAgency} onChange={(event) => update({ packageLines: event.target.value })} placeholder={'Property launch | 4500 | 1 shoot, 8 videos, 20 photos\nMonthly content | 7200 | 1 shoot, 16 videos, reporting'} rows={4} value={form.packageLines} /></label>
-      <div className="aw-section-heading"><h2>Client notification wording</h2><span>Saved wording; not connected to outgoing notifications yet.</span></div>
-      <div className="rm-form-grid rm-form-grid--two"><label className="rm-field"><span>Review ready</span><input disabled={!canEditAgency} onChange={(event) => update({ reviewReady: event.target.value })} value={form.reviewReady} /></label><label className="rm-field"><span>Delivery ready</span><input disabled={!canEditAgency} onChange={(event) => update({ deliveryReady: event.target.value })} value={form.deliveryReady} /></label></div>
-      <div className="rm-dialog-actions"><span role="status">{message}</span><button className="aw-button" disabled={!canEditAgency || !name.trim()} type="submit">{saving ? 'Saving…' : 'Save agency settings'}</button></div>
-    </form>
-    <div className="aw-section-heading"><h2>Start with a setup</h2><span>You can change every module below.</span></div>
-    {presetMessage ? <p className="aw-settings-notice" role="status">{presetMessage}</p> : null}
-    <div className="aw-presets">{Object.entries(presets).map(([key, preset]) => <button key={key} className="aw-preset" disabled={!canEditAgency} onClick={() => void applyModules([...preset.enabled], `${preset.label} setup applied.`)} type="button"><Icon name={key === 'production' ? 'camera' : key === 'content' ? 'file' : 'grid'} size={22}/><strong>{preset.label}</strong><span>{preset.description}</span><small>Apply setup <Icon name="arrow-right" size={14}/></small></button>)}</div>
-    <div className="aw-section-heading"><h2>Workspace modules</h2><span>Primary navigation stays fixed. Reorder tools within Projects or Agency.</span></div>
+    <div className="aw-section-heading"><h2>Workspace modules</h2><span>{config.enabled.length} enabled</span></div>
+    <span className="rm-visually-hidden" role="status">{moduleMessage}</span>
+    {moduleError && <p className="rm-feedback rm-feedback--warning" role="alert">{moduleError}</p>}
     {workspaceModuleGroups.map(group => {
       const siblings = config.order.filter(id => workspaceModuleGroup(id) === group);
       return <section key={group} aria-label={`${group} modules`}>
@@ -133,16 +113,44 @@ export function ModulesScreen({ onStartSetup }: { onStartSetup: () => void }) {
           return <div className="aw-module-row" key={id}>
             <span className="aw-module-icon"><Icon name={module.icon}/></span>
             <div className="aw-module-copy"><strong>{module.label}</strong><p>{module.description}</p></div>
-            {group !== 'Workspace' && <div className="aw-reorder">
-              <button aria-label={`Move ${module.label} up`} disabled={index === 0 || saving} onClick={() => move(id, -1)} type="button"><Icon name="chevron-up" size={16}/></button>
-              <button aria-label={`Move ${module.label} down`} disabled={index === siblings.length - 1 || saving} onClick={() => move(id, 1)} type="button"><Icon name="chevron-down" size={16}/></button>
-            </div>}
-            <span className="aw-module-state">{enabled ? 'On' : 'Off'}</span>
-            <button className="aw-module-toggle" role="switch" aria-label={`Enable ${module.label}`} aria-checked={enabled} disabled={!canEditAgency} onClick={() => toggle(id)} type="button"><span className="aw-module-toggle__thumb"/></button>
+            <div className="aw-module-controls">
+              {group !== 'Workspace' && <div className="aw-reorder">
+                <button aria-label={`Move ${module.label} up`} disabled={index === 0 || saving} onClick={() => move(id, -1)} type="button"><Icon name="chevron-up" size={16}/></button>
+                <button aria-label={`Move ${module.label} down`} disabled={index === siblings.length - 1 || saving} onClick={() => move(id, 1)} type="button"><Icon name="chevron-down" size={16}/></button>
+              </div>}
+              <span className="aw-module-state" aria-hidden="true">{enabled ? 'On' : 'Off'}</span>
+              <button className="aw-module-toggle" role="switch" aria-label={`Enable ${module.label}`} aria-checked={enabled} disabled={!canEditAgency} onClick={() => void toggle(id)} type="button"><span className="aw-module-toggle__thumb"/></button>
+            </div>
           </div>;
         })}</div>
       </section>;
     })}
+    <details className="aw-settings-setup">
+      <summary>Guided setup <Icon name="chevron-down" size={18}/></summary>
+      <div>
+        <p>Review your agency details or choose a setup preset.</p>
+        <button type="button" className="aw-button aw-button-secondary" disabled={!canEditAgency} onClick={onStartSetup}>Set up workspace</button>
+      </div>
+    </details>
+    <form className="rm-profile-form aw-agency-settings" onSubmit={submit}>
+      <div className="aw-section-heading"><h2>Agency configuration</h2><span>Applies to this agency workspace.</span></div>
+      {loading ? <p role="status">Loading agency settings…</p> : null}
+      <div className="rm-form-grid rm-form-grid--two">
+        <label className="rm-field"><span>Agency name</span><input disabled={!canEditAgency} maxLength={120} required value={name} onChange={(event) => setName(event.target.value)} /></label>
+        <label className="rm-field"><span>Legal name</span><input disabled={!canEditAgency} value={form.legalName} onChange={(event) => update({ legalName: event.target.value })} /></label>
+        <label className="rm-field"><span>Timezone</span><select disabled={!canEditAgency} value={form.timezone} onChange={(event) => update({ timezone: event.target.value })}>{Array.from(new Set([form.timezone, 'Europe/Bucharest', 'Europe/London', 'Europe/Paris', 'America/New_York'])).map(value => <option key={value}>{value}</option>)}</select></label>
+        <label className="rm-field"><span>Default currency</span><select disabled={!canEditAgency} value={form.currency} onChange={(event) => update({ currency: event.target.value })}>{Array.from(new Set([form.currency, 'RON', 'EUR', 'USD', 'GBP'])).map(value => <option key={value}>{value}</option>)}</select></label>
+        <WorkspaceLogoPicker name={name} logoUrl={logoUrl} fileName={form.logo?.name} available={isLive} disabled={!canEditAgency} onChange={logo => update({ logo })}/>
+      </div>
+      <div className="aw-section-heading"><h2>Workflow defaults</h2><span>Saved preferences; automatic task and review defaults are not connected yet.</span></div>
+      <div className="rm-form-grid rm-form-grid--three"><label className="rm-field"><span>Default owner role</span><select disabled={!canEditAgency} value={form.workflowRole} onChange={(event) => update({ workflowRole: event.target.value })}><option value="account_manager">Account manager</option><option value="producer">Producer</option><option value="videographer">Videographer</option><option value="editor">Editor</option></select></label><label className="rm-field"><span>Task due in days</span><input disabled={!canEditAgency} min="0" onChange={(event) => update({ taskDueDays: event.target.value })} type="number" value={form.taskDueDays} /></label><label className="rm-field"><span>Review due in days</span><input disabled={!canEditAgency} min="0" onChange={(event) => update({ reviewDueDays: event.target.value })} type="number" value={form.reviewDueDays} /></label></div>
+      <div className="aw-section-heading"><h2>Service packages</h2><span>Saved templates; not connected to client creation yet. Name | Price | Deliverables.</span></div>
+      <label className="rm-field"><span>Package defaults</span><textarea disabled={!canEditAgency} onChange={(event) => update({ packageLines: event.target.value })} placeholder={'Property launch | 4500 | 1 shoot, 8 videos, 20 photos\nMonthly content | 7200 | 1 shoot, 16 videos, reporting'} rows={4} value={form.packageLines} /></label>
+      <div className="aw-section-heading"><h2>Client notification wording</h2><span>Saved wording; not connected to outgoing notifications yet.</span></div>
+      <div className="rm-form-grid rm-form-grid--two"><label className="rm-field"><span>Review ready</span><input disabled={!canEditAgency} onChange={(event) => update({ reviewReady: event.target.value })} value={form.reviewReady} /></label><label className="rm-field"><span>Delivery ready</span><input disabled={!canEditAgency} onChange={(event) => update({ deliveryReady: event.target.value })} value={form.deliveryReady} /></label></div>
+      {error && <p className="rm-feedback rm-feedback--warning" role="alert">{error}</p>}
+      <div className="rm-dialog-actions"><span role="status">{message}</span><button className="aw-button" disabled={!canEditAgency || !name.trim()} type="submit">{saving ? 'Saving…' : 'Save agency settings'}</button></div>
+    </form>
     <p className="aw-footnote" role="status">{storageError ? 'Your browser could not save preferences. They will last for this session only.' : isLive ? 'Agency details and enabled tools are shared across your workspace. Sidebar mode and tool order are personal to this browser.' : 'Sample workspace. Changes are saved only in this browser.'}</p>
   </div>;
 }

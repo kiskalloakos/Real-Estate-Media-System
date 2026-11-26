@@ -39,3 +39,13 @@ test('numbered lists restart after headings and other block types',()=>{
  const blocks=[{type:'heading1'},{type:'number'},{type:'number'},{type:'paragraph'},{type:'number'}];
  assert.equal(rules.pageListNumber(blocks,1),1);assert.equal(rules.pageListNumber(blocks,2),2);assert.equal(rules.pageListNumber(blocks,4),1);
 });
+
+test('folder markers and rich text remain compatible with existing page records', () => {
+ const folder = rules.newPageFolder();
+ const rich = { id:'rich', type:'paragraph', text:'Project notes', html:'<h2>Project notes</h2>' };
+ const [storedFolder, storedText] = rules.readPageBlocks(JSON.parse(JSON.stringify([folder, rich])));
+ assert.equal(rules.isPageFolder({blocks:[storedFolder]}), true);
+ assert.equal(rules.isPageFolder({blocks:[storedText]}), false);
+ assert.equal(storedText.html, rich.html);
+ assert.equal(rules.pageText({title:'Brief',blocks:[storedText]}), 'Brief\n\n\n\nProject notes');
+});

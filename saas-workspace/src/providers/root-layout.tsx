@@ -17,22 +17,22 @@ import { NativeChoiceProvider } from '@/components/native/native-choice';
 import { RootProviders } from '@/providers/root-providers';
 
 void SplashScreen.preventAutoHideAsync();
-void SystemUI.setBackgroundColorAsync(nativeColors.card);
+void SystemUI.setBackgroundColorAsync(Platform.OS === 'web' ? '#2b2d2f' : nativeColors.card);
 
 const realtyTheme: Theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    background: nativeColors.background,
+    background: Platform.OS === 'web' ? '#2b2d2f' : nativeColors.background,
     border: nativeColors.separator,
-    card: nativeColors.card,
+    card: Platform.OS === 'web' ? '#2b2d2f' : nativeColors.card,
     notification: nativeColors.accent,
     primary: nativeColors.accent,
     text: nativeColors.label,
   },
 };
 
-export function RootLayout() {
+export function RootLayout({ loadingFallback = null }: { loadingFallback?: React.ReactNode }) {
   const [fontsLoaded, fontError] = useFonts({
     OutfitRegular: require('../../assets/fonts/Outfit-Regular.ttf'),
     OutfitSemiBold: require('../../assets/fonts/Outfit-SemiBold.ttf'),
@@ -51,7 +51,7 @@ export function RootLayout() {
   }, [fontsLoaded]);
 
   if (!fontsLoaded) {
-    return null;
+    return loadingFallback;
   }
 
   return (

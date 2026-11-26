@@ -47,17 +47,6 @@ html body .rm-modal.aw-dialog { border-radius:24px!important; background:#faf9f6
 html body .aw-dialog-backdrop { background:rgba(16,17,22,.52)!important; backdrop-filter:blur(5px)!important; }
 #aw-main-content #aw-feature-content :is(.rm-client-workspace__section,.aw-overview__panel,.project-billing,.project-summary) { border-radius:20px!important; }
 #aw-main-content #aw-tasks :is(.rm-task-list-card,.aw-task-table) { border-radius:16px!important; }
-#aw-main-content .project-work { gap:20px; }
-#aw-main-content .project-work > .project-heading { min-height:126px; padding-block:18px; border-radius:24px; align-items:end; }
-#aw-main-content .project-heading h1 { font-size:clamp(36px,4vw,58px); }
-#aw-main-content .project-work > main { min-width:0; padding:clamp(16px,2vw,28px); background:var(--studio-paper); border-radius:22px; }
-#aw-main-content .project-work > main:has(.project-summary) { padding:0; }
-#aw-main-content .project-work .project-summary { background:var(--studio-paper); border:0; border-radius:22px!important; }
-#aw-main-content #aw-feature-content .project-summary button { background:transparent!important; }
-#aw-main-content .project-work > nav { align-self:start; background:var(--studio-raised); padding:8px; border-radius:18px; border:1px solid #3c3c42; }
-#aw-main-content #aw-feature-content .project-work > nav button:not([aria-current]) { background:transparent!important; color:#dfdde4!important; border:0!important; }
-#aw-main-content #aw-feature-content .project-work > nav button:is(:hover,:focus-visible):not([aria-current]) { background:#37383f!important; }
-#aw-main-content .project-work > nav button { border-radius:12px!important; }
 #aw-main-content .aw-overview {
   --overview-radius:20px;
   --overview-surface:var(--aw-surface);
@@ -72,11 +61,9 @@ html body .aw-shell #aw-main-content .aw-overview .aw-overview__summary button:i
 #aw-main-content .aw-overview [data-production-library] .aw-overview__property-image { width:clamp(70px,12vw,160px); height:70px; border-radius:12px; }
 @media(max-width:760px){
   #aw-main-content > #aw-feature-content { padding:0; }
-  #aw-main-content .project-work > nav { width:100%; max-width:100%; }
-  #aw-main-content .project-heading h1 { font-size:32px; }
 }
 @media(prefers-reduced-motion:no-preference){
-  .aw-shell .aw-nav__item,.project-work > nav button { transition:background-color 140ms ease,color 140ms ease; }
+  .aw-shell .aw-nav__item { transition:background-color 140ms ease,color 140ms ease; }
 }
 @media(prefers-reduced-transparency:reduce){ html body .aw-dialog-backdrop { backdrop-filter:none!important; } }
 /* Apply foreground pairs to the actual label nodes: legacy controls set text colors on children. */
@@ -86,21 +73,6 @@ html body #aw-main-content #aw-feature-content .studio-client footer button {
   background:transparent!important; border:0!important; box-shadow:none!important; backdrop-filter:none!important;
 }
 .studio-client:only-child { grid-column:1/-1; max-width:740px; width:100%; }
-#aw-main-content .project-work .project-heading h1 { font-size:32px; margin:5px 0; }
-.studio-agenda header { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:baseline; gap:8px; padding-bottom:20px; }
-.studio-agenda h2 { margin:0; font:24px/1.2 OutfitSemiBold,sans-serif; letter-spacing:-.04em; }
-.studio-agenda header > span,.studio-agenda small { font-size:13px; color:var(--studio-secondary); }
-html body #aw-main-content #aw-feature-content .studio-agenda button {
-  display:flex; align-items:center; text-align:left; gap:16px; padding:16px; margin-block:4px; width:100%; cursor:pointer;
-  background:transparent!important; color:var(--studio-type)!important; border:0!important;
-  border-radius:var(--rm-radius-control)!important; box-shadow:none!important; backdrop-filter:none!important;
-}
-.studio-agenda button > span { display:grid; gap:5px; min-width:0; overflow-wrap:anywhere; }
-.studio-agenda button > svg { flex-shrink:0; }
-.studio-agenda button > svg:last-child { margin-left:auto; flex-shrink:0; }
-.studio-agenda button strong { font-size:17px; line-height:1.35; }
-.studio-agenda .studio-date { flex:0 0 60px; min-height:64px; place-content:center; text-align:center; background:#e3e2ef; border-radius:16px; }
-.studio-agenda .studio-date strong { font-size:26px; line-height:1; }
 #aw-main-content #aw-tasks .aw-tasks__table-wrap { background:var(--studio-paper); border:0; border-radius:16px; }
 #aw-main-content #aw-tasks .aw-tasks__table { font-size:13px; }
 #aw-main-content #aw-tasks .aw-tasks__table thead { background:#eae7e1; }
@@ -111,10 +83,6 @@ html body #aw-main-content #aw-feature-content .studio-agenda button {
 .aw-tasks__table [data-task-status="blocked"]::before { background:#b86043; }
 @media(min-width:761px) {
   #aw-main-content #aw-tasks .aw-tasks__table td { padding:7px 12px!important; }
-}
-@media(max-width:760px) {
-  #aw-main-content > #aw-feature-content:has(.project-work) { max-width:100%; }
-  #aw-main-content .project-work { grid-template-columns:minmax(0,1fr); }
 }
 @media(min-width:761px) {
   .aw-shell.aw-sidebar-mode-hover:has(.aw-sidebar:is(:hover,:has(:focus-visible),.has-control-open)) { --aw-rail:240px; }
@@ -156,16 +124,16 @@ html body #aw-main-content .aw-overview .studio-production-identity :is(small,st
 
 /* One inset indicator for native single-choice controls, including portaled forms. */
 :root { --studio-chevron:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23666975' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4 6 4 4 4-4'/%3E%3C/svg%3E"); }
-html body :is(#aw-main-content #aw-feature-content,.aw-shell,.rm-modal) select:not([multiple]):not([size]),
+html body :is(#aw-main-content #aw-feature-content,.aw-shell,.rm-modal,.aw-setup) select:not([multiple]):not([size]),
 html body .rm-modal.aw-dialog .rm-modal__body select:not([multiple]):not([size]) {
   appearance:none!important; -webkit-appearance:none!important;
   background-image:var(--studio-chevron)!important; background-repeat:no-repeat!important;
-  background-position:right 14px center!important; background-size:16px 16px!important;
+  background-position:right var(--studio-chevron-inset,14px) center!important; background-size:16px 16px!important;
   padding-right:42px!important; border-radius:12px!important;
 }
 :is(.aw-select-control,.aw-fulfillment-select) > select + svg { display:none; }
 @media(forced-colors:active){
-  html body :is(#aw-main-content #aw-feature-content,.aw-shell,.rm-modal) select:not([multiple]):not([size]) {
+  html body :is(#aw-main-content #aw-feature-content,.aw-shell,.rm-modal,.aw-setup) select:not([multiple]):not([size]) {
     appearance:auto!important; background-image:none!important;
   }
 }

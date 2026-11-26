@@ -12,5 +12,6 @@ export default function RootHtml({ children }: PropsWithChildren) {
     <link rel="apple-touch-icon" href="/workspace-icon.png"/>
     <link rel="manifest" href="/manifest.webmanifest"/>
     <ScrollViewStyleReset/>
+    <style dangerouslySetInnerHTML={{ __html: 'html{color-scheme:dark;background:#2b2d2f}body,#root{background:#2b2d2f;min-height:100%}' }}/>
   </head><body>{children}</body></html>;
 }

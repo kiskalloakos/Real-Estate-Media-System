@@ -4,6 +4,7 @@ import { Button, Card, Icon, Modal, PageHeader, useToast } from '@/components/we
 
 import { LeadsScreen } from './LeadsScreen';
 import { ScreenTabs } from './shared';
+import { useTabTransition } from '@/hooks/use-tab-transition';
 import type {
   LeadStatus,
   PortalActionHandlers,
@@ -159,6 +160,7 @@ export function SalesScreen({ actions, data, initialTab = 'leads', onOpenDocumen
       setSaving(false);
     }
   };
+  const transitionRef = useTabTransition(`${tab}:${callerList}`);
   const callerScript = (data?.companyDocuments ?? []).find(
     (document) => document.kind === 'sales'
       && document.salesDocumentType === 'script'
@@ -172,7 +174,7 @@ export function SalesScreen({ actions, data, initialTab = 'leads', onOpenDocumen
   };
 
   return (
-    <div className="rm-page rm-hub-page rm-sales-page">
+    <div className="rm-page rm-hub-page rm-sales-page" ref={transitionRef}>
       <PageHeader title="Sales" />
       <div className="rm-hub-tabs-wrap">
         <ScreenTabs

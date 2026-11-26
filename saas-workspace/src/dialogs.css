@@ -259,3 +259,29 @@ html body .rm-modal.aw-dialog .rm-event-detail__actions .rm-button {
   html body .rm-modal.aw-dialog .rm-event-detail__exports .rm-button { flex: 1 1 140px; }
   html body .rm-modal.aw-dialog .rm-event-detail__manage .rm-button { flex: 1; }
 }
+
+.rm-rich-text-toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; }
+.rm-rich-text-toolbar select { width: auto !important; padding-inline: 8px 28px !important; }
+.rm-rich-text-toolbar button { min-width: 36px; }
+.rm-rich-link { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 8px 0; }
+.rm-rich-link input { min-width: 0; flex: 1 1 150px; }
+.rm-rich-link button {
+  min-height: 36px;
+  padding: 6px 10px;
+  border: 1px solid var(--aw-line);
+  border-radius: var(--rm-radius-control);
+  color: var(--aw-ink);
+  background: var(--aw-surface);
+  font: inherit;
+}
+.rm-rich-link > span { flex: 1 0 100%; color: #ffada7; }
+
+html body .rm-modal.aw-dialog.aw-document-editor .rm-rich-editor {
+  background: var(--aw-input) !important;
+  color: var(--aw-ink) !important;
+  border-color: var(--aw-line) !important;
+  min-height: 220px;
+}
+.aw-library-settings > summary { cursor: pointer; padding: 8px 0; }
+.aw-library-settings > div { display: grid; gap: 12px; margin: 8px 0; }
+.aw-library-reader { padding: 12px 0; max-width: 72ch; }

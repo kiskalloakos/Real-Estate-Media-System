@@ -95,6 +95,7 @@ const sectionForScreen = (screen: PortalScreenKey) =>
 
 export interface PortalShellProps {
   activeScreen: PortalScreenKey;
+  recordPath?: { name: string; section?: string; onBack: () => void; onOverview: () => void };
   children: ReactNode;
   notificationCount?: number;
   onClearNotifications?: () => Promise<void> | void;
@@ -125,6 +126,7 @@ export interface PortalShellProps {
 
 export function PortalShell({
   activeScreen,
+  recordPath,
   children,
   onMarkAllNotificationsRead,
   onClearNotifications,
@@ -251,8 +253,22 @@ export function PortalShell({
               </div> : null}
             </div>
           ) : null}
-          <div className="aw-breadcrumb"><span>{organizationName ?? 'Workspace'}</span><Icon name="chevron-right" size={14}/><strong>{activeScreen === 'modules' ? 'Customize' : activeScreen === 'notes' ? 'Notes' : visibleNavigation.find(item => item.key === activeScreen)?.label ?? activeScreen}</strong></div>
-          <div className="aw-mobile-brand"><AgencyAvatar name={config.name} logoUrl={logoUrl}/><span><small>{config.name}</small><strong>{pageTitle}</strong></span></div>
+          {recordPath ? (
+            <nav className="aw-record-path" aria-label="Workspace location">
+              <button aria-label={pageTitle} className="aw-record-path__parent" type="button" onClick={recordPath.onBack}>
+                <Icon name="chevron-left" size={16} /><span>{pageTitle}</span>
+              </button>
+              <div className="aw-record-path__location">
+                {recordPath.section ? (
+                  <button className="aw-record-path__name" title={recordPath.name} type="button" onClick={recordPath.onOverview}>{recordPath.name}</button>
+                ) : <strong className="aw-record-path__name" title={recordPath.name} aria-current="page">{recordPath.name}</strong>}
+                {recordPath.section && <span className="aw-record-path__section" aria-current="page"><Icon name="chevron-right" size={14} />{recordPath.section}</span>}
+              </div>
+            </nav>
+          ) : <>
+            <div className="aw-breadcrumb"><span>{organizationName ?? 'Workspace'}</span><Icon name="chevron-right" size={14}/><strong>{pageTitle}</strong></div>
+            <div className="aw-mobile-brand"><AgencyAvatar name={config.name} logoUrl={logoUrl}/><span><small>{config.name}</small><strong>{pageTitle}</strong></span></div>
+          </>}
         </div>
 
         <button

@@ -8,6 +8,7 @@ import {
   Modal,
   PageHeader,
   RichTextEditor,
+  cleanEditorHtml,
   useToast,
 } from '@/components/web';
 import { ArchiveConfirmModal } from './ArchiveConfirmModal';
@@ -552,16 +553,12 @@ export function DocumentsScreen({
         </Card>
       ) : null}
 
-      <Modal onClose={() => setPreviewDocument(null)} open={Boolean(previewDocument)} title={previewDocument?.title ?? 'Document preview'} wide>
+      <Modal className="aw-document-viewer" onClose={() => setPreviewDocument(null)} open={Boolean(previewDocument)} title={previewDocument?.title ?? 'Document preview'} wide>
         {previewDocument ? (
           <div className="rm-document-preview">
             <p>Updated {new Date(previewDocument.updatedAt).toLocaleDateString()} · {documentKinds.find((kind) => kind.value === previewDocument.kind)?.label ?? previewDocument.kind}</p>
             {previewDocument.contentHtml ? (
-              <iframe
-                title={`${previewDocument.title} content`}
-                sandbox=""
-                srcDoc={`<!doctype html><meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src https: data:; style-src 'unsafe-inline'"><style>body{font:16px/1.6 system-ui;color:#191b22;padding:16px;overflow-wrap:anywhere}img{max-width:100%;height:auto}table{max-width:100%}</style>${previewDocument.contentHtml}`}
-              />
+              <div className="pp-reading aw-library-reader" dangerouslySetInnerHTML={{ __html: cleanEditorHtml(previewDocument.contentHtml) }}/>
             ) : !previewDocument.fileUrl ? <p>No content has been added.</p> : null}
             {previewDocument.fileUrl ? (
               <div className="rm-task-attachment-preview">
@@ -580,6 +577,7 @@ export function DocumentsScreen({
       </Modal>
 
       <Modal
+        className="aw-document-editor"
         onClose={closeDocumentForm}
         open={Boolean(documentForm)}
         title={documentForm?.documentId ? 'Edit document' : 'New document'}
@@ -587,84 +585,6 @@ export function DocumentsScreen({
       >
         {documentForm ? (
           <form className="rm-document-form" onSubmit={saveDocument}>
-            <label className="rm-field">
-              <span>Document type</span>
-              <select
-                onChange={(event) => {
-                  const kind = event.target.value as CompanyDocumentKind;
-                  setDocumentForm((current) => current ? {
-                    ...current,
-                    callerList: kind === 'sales' ? current.callerList : '',
-                    kind,
-                    salesDocumentType: kind === 'sales' ? current.salesDocumentType ?? 'general' : undefined,
-                  } : current);
-                  if (kind !== 'sop') setSopAssigneeDraft([]);
-                }}
-                value={documentKindValue(documentForm.kind)}
-              >
-                {documentKinds.map((kind) => <option key={kind.value} value={kind.value}>{kind.label}</option>)}
-              </select>
-            </label>
-            <label className="rm-field">
-              <span>Folder</span>
-              <select onChange={(event) => setDocumentFolderDraft(event.target.value)} value={documentFolderDraft}>
-                <option value="">No folder</option>
-                {folders.map((folder) => <option key={folder.id} value={folder.id}>{folderPath(folder, folders)}</option>)}
-              </select>
-            </label>
-            {documentForm.kind === 'sales' ? (
-              <>
-                <label className="rm-field">
-                  <span>Sales document type</span>
-                  <select
-                    onChange={(event) => setDocumentForm((current) => current ? {
-                      ...current,
-                      callerList: event.target.value === 'script' ? current.callerList : '',
-                      salesDocumentType: event.target.value as SalesDocumentType,
-                    } : current)}
-                    value={documentForm.salesDocumentType ?? 'general'}
-                  >
-                    {salesDocumentTypes.map((type) => <option key={type.value} value={type.value}>{type.label}</option>)}
-                  </select>
-                </label>
-                {documentForm.salesDocumentType === 'script' ? (
-                  <label className="rm-field">
-                    <span>Show this script in Caller for</span>
-                    <select onChange={(event) => setDocumentForm((current) => current ? { ...current, callerList: event.target.value } : current)} required value={documentForm.callerList ?? ''}>
-                      <option value="">Choose a lead list</option>
-                      <option value="all">All leads</option>
-                      {leadLists.map((list) => <option key={list} value={list}>{list}</option>)}
-                    </select>
-                    {!leadLists.length ? <small>Import a named lead list to assign a list-specific script.</small> : null}
-                  </label>
-                ) : null}
-              </>
-            ) : null}
-            {documentForm.kind === 'sop' ? (
-              <div className="rm-field">
-                <span>Assigned to</span>
-                <div className="rm-event-assignee-picker">
-                  {members.filter((member) => member.role === 'team_member' && member.status === 'active').map((member) => {
-                    const checked = sopAssigneeDraft.includes(member.userId);
-                    return (
-                      <label className="rm-event-assignee-option" key={member.userId}>
-                        <input
-                          checked={checked}
-                          onChange={() => setSopAssigneeDraft((current) => checked
-                            ? current.filter((userId) => userId !== member.userId)
-                            : [...current, member.userId])}
-                          type="checkbox"
-                        />
-                        <span>{member.name}</span>
-                      </label>
-                    );
-                  })}
-                </div>
-                {!members.some((member) => member.role === 'team_member' && member.status === 'active')
-                  ? <small>Add an active team member before assigning this SOP.</small>
-                  : null}
-              </div>
-            ) : null}
             <label className="rm-field">
               <span>Title</span>
               <input
@@ -683,6 +603,89 @@ export function DocumentsScreen({
               resetKey={documentForm.documentId ?? 'new'}
               value={documentForm.contentHtml}
             />
+            <details className="aw-library-settings">
+              <summary>Document settings</summary>
+              <div>
+                <label className="rm-field">
+                  <span>Document type</span>
+                  <select
+                    onChange={(event) => {
+                      const kind = event.target.value as CompanyDocumentKind;
+                      setDocumentForm((current) => current ? {
+                        ...current,
+                        callerList: kind === 'sales' ? current.callerList : '',
+                        kind,
+                        salesDocumentType: kind === 'sales' ? current.salesDocumentType ?? 'general' : undefined,
+                      } : current);
+                      if (kind !== 'sop') setSopAssigneeDraft([]);
+                    }}
+                    value={documentKindValue(documentForm.kind)}
+                  >
+                    {documentKinds.map((kind) => <option key={kind.value} value={kind.value}>{kind.label}</option>)}
+                  </select>
+                </label>
+                <label className="rm-field">
+                  <span>Folder</span>
+                  <select onChange={(event) => setDocumentFolderDraft(event.target.value)} value={documentFolderDraft}>
+                    <option value="">No folder</option>
+                    {folders.map((folder) => <option key={folder.id} value={folder.id}>{folderPath(folder, folders)}</option>)}
+                  </select>
+                </label>
+                {documentForm.kind === 'sales' ? (
+                  <>
+                    <label className="rm-field">
+                      <span>Sales document type</span>
+                      <select
+                        onChange={(event) => setDocumentForm((current) => current ? {
+                          ...current,
+                          callerList: event.target.value === 'script' ? current.callerList : '',
+                          salesDocumentType: event.target.value as SalesDocumentType,
+                        } : current)}
+                        value={documentForm.salesDocumentType ?? 'general'}
+                      >
+                        {salesDocumentTypes.map((type) => <option key={type.value} value={type.value}>{type.label}</option>)}
+                      </select>
+                    </label>
+                    {documentForm.salesDocumentType === 'script' ? (
+                      <label className="rm-field">
+                        <span>Show this script in Caller for</span>
+                        <select onChange={(event) => setDocumentForm((current) => current ? { ...current, callerList: event.target.value } : current)} required value={documentForm.callerList ?? ''}>
+                          <option value="">Choose a lead list</option>
+                          <option value="all">All leads</option>
+                          {leadLists.map((list) => <option key={list} value={list}>{list}</option>)}
+                        </select>
+                        {!leadLists.length ? <small>Import a named lead list to assign a list-specific script.</small> : null}
+                      </label>
+                    ) : null}
+                  </>
+                ) : null}
+                {documentForm.kind === 'sop' ? (
+                  <div className="rm-field">
+                    <span>Assigned to</span>
+                    <div className="rm-event-assignee-picker">
+                      {members.filter((member) => member.role === 'team_member' && member.status === 'active').map((member) => {
+                        const checked = sopAssigneeDraft.includes(member.userId);
+                        return (
+                          <label className="rm-event-assignee-option" key={member.userId}>
+                            <input
+                              checked={checked}
+                              onChange={() => setSopAssigneeDraft((current) => checked
+                                ? current.filter((userId) => userId !== member.userId)
+                                : [...current, member.userId])}
+                              type="checkbox"
+                            />
+                            <span>{member.name}</span>
+                          </label>
+                        );
+                      })}
+                    </div>
+                    {!members.some((member) => member.role === 'team_member' && member.status === 'active')
+                      ? <small>Add an active team member before assigning this SOP.</small>
+                      : null}
+                  </div>
+                ) : null}
+              </div>
+            </details>
             <label className="rm-upload-document-button">
               <input
                 onChange={(event) => setDocumentForm((current) => current ? {

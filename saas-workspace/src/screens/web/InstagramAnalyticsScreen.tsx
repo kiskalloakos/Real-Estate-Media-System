@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 
+import { useTabTransition } from '@/hooks/use-tab-transition';
 import {
   Avatar,
   Button,
@@ -387,6 +388,7 @@ export function InstagramAnalyticsScreen({
     }
   };
 
+  const transitionRef = useTabTransition(`${range}:${visibleAccountId ?? ''}`);
   const selectedClient = clients.find((client) => client.id === selectedClientId);
   const canConnect = scope === 'agency' || Boolean(selectedClientId);
   const kpis = activeProvider === 'instagram'
@@ -408,7 +410,7 @@ export function InstagramAnalyticsScreen({
       ];
 
   return (
-    <div className="rm-page rm-instagram">
+    <div className="rm-page rm-instagram" ref={transitionRef}>
       {scope === 'client' ? <PageHeader title="Analytics" /> : null}
       {!canConnect || scopedAccounts.length === 0 ? (
         <Card className="rm-instagram-empty" tone="paper">

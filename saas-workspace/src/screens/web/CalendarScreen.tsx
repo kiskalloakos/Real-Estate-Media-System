@@ -1,10 +1,11 @@
+import { useTabTransition } from '@/hooks/use-tab-transition';
+import { upcomingEvents } from '@/lib/upcoming-events';
 import {
   useEffect,
   useMemo,
   useState,
   type CSSProperties,
   type FormEvent,
-  type ReactNode,
 } from 'react';
 
 import {
@@ -44,7 +45,6 @@ import type {
 } from './types';
 
 export interface CalendarScreenProps {
-  bookingRequests?: ReactNode;
   readOnly?: boolean;
   projectContext?: { clientId?: string; propertyId?: string; jobId?: string };
   clients?: ClientSummary[];
@@ -228,7 +228,6 @@ function dateDistance(from: string, to: string) {
 }
 
 export function CalendarScreen({
-  bookingRequests,
   readOnly = false,
   projectContext,
   clients = [],
@@ -267,6 +266,7 @@ export function CalendarScreen({
     return () => media.removeEventListener('change', update);
   }, []);
   const displayView = isPhone ? 'agenda' : calendarView;
+  const transitionRef = useTabTransition(`${displayView}:${anchorDateValue}`);
   const [calendarFilter, setCalendarFilter] = useBrowserPersistedState(`${stateKey}:calendar-filter`, 'all');
   const [propertyFilter, setPropertyFilter] = useBrowserPersistedState(`${stateKey}:property-filter`, 'all');
   const [eventForm, setEventForm] = useState<CreateCalendarEventInput>(emptyEventForm);
@@ -379,7 +379,11 @@ export function CalendarScreen({
       };
     });
   }, [anchorDate]);
-  const visibleDays = displayView === 'week' ? weekDays : monthDays;
+  const agendaRange = useMemo(() => Array.from({ length: 31 }, (_, index) => {
+    const date = addDays(anchorDate, index);
+    return { date: isoDate(date), isToday: isoDate(date) === isoDate(new Date()) };
+  }), [anchorDate]);
+  const visibleDays = displayView === 'week' ? weekDays : displayView === 'agenda' ? agendaRange : monthDays;
   const clientCalendars = useMemo(
     () => {
       const grouped = new Map(clients.map((client) => [client.id, { id: client.id, name: client.name }]));
@@ -415,8 +419,13 @@ export function CalendarScreen({
     },
     [categoryFilter,activeCalendarFilter, clientWorkOnly, properties, propertyFilter, sourceEvents, visibleDays],
   );
-  const eventsByDate = useMemo(() => indexCalendarEvents(visibleDays, visibleEvents), [visibleDays, visibleEvents]);
-  const agendaDays = useMemo(() => monthDays.filter(day => day.inCurrentMonth && (eventsByDate.get(day.date)?.length ?? 0) > 0), [monthDays, eventsByDate]);
+  const [agendaNow, setAgendaNow] = useState(() => new Date());
+  const eventsByDate = useMemo(() => {
+    const now = agendaNow;
+    const from = anchorDateValue === isoDate(now) ? now : new Date(`${anchorDateValue}T00:00:00`);
+    return indexCalendarEvents(visibleDays, displayView === 'agenda' ? upcomingEvents(visibleEvents, from) : visibleEvents);
+  }, [agendaNow, anchorDateValue, displayView, visibleDays, visibleEvents]);
+  const agendaDays = useMemo(() => agendaRange.filter(day => (eventsByDate.get(day.date)?.length ?? 0) > 0), [agendaRange, eventsByDate]);
   const monthOverflowEvents = useMemo(
     () => monthOverflowDate
       ? (eventsByDate.get(monthOverflowDate) ?? [])
@@ -588,14 +597,16 @@ export function CalendarScreen({
 
   const moveCalendar = (direction: -1 | 1) => {
     setAnchorDateValue(isoDate(
-      displayView !== 'week'
+      displayView === 'agenda' ? addDays(anchorDate, direction * 31) : displayView !== 'week'
         ? addMonths(anchorDate, direction)
         : addDays(anchorDate, direction * 7),
     ));
   };
 
   const calendarRangeLabel =
-    displayView !== 'week'
+    displayView === 'agenda'
+      ? `${calendarRangeDateLabel.format(anchorDate)} — ${calendarRangeDateLabel.format(addDays(anchorDate, 30))}`
+      : displayView !== 'week'
       ? monthLabel.format(anchorDate)
       : `${calendarRangeDateLabel.format(startOfWeek(anchorDate))} — ${calendarRangeDateLabel.format(addDays(startOfWeek(anchorDate), 6))}`;
 
@@ -731,22 +742,21 @@ export function CalendarScreen({
         }
         title="Calendar"
       />
-      {bookingRequests}
 
-      <div className="rm-calendar-layout">
+      <div className="rm-calendar-layout" ref={transitionRef}>
         <Card className="rm-calendar-card" tone="bright">
           <div className="rm-calendar-toolbar">
             <div className="rm-calendar-toolbar__date">
               <IconButton
                 icon="chevron-left"
-                label={`Previous ${displayView === 'week' ? 'week' : 'month'}`}
+                label={`Previous ${displayView === 'week' ? 'week' : displayView === 'agenda' ? '31 days' : 'month'}`}
                 onClick={() => moveCalendar(-1)}
                 size="sm"
               />
               <h2>{calendarRangeLabel}</h2>
               <IconButton
                 icon="chevron-right"
-                label={`Next ${displayView === 'week' ? 'week' : 'month'}`}
+                label={`Next ${displayView === 'week' ? 'week' : displayView === 'agenda' ? '31 days' : 'month'}`}
                 onClick={() => moveCalendar(1)}
                 size="sm"
               />
@@ -802,7 +812,7 @@ export function CalendarScreen({
             <div className="rm-calendar-toolbar__actions">
               <Button
                 icon="calendar"
-                onClick={() => setAnchorDateValue(isoDate(new Date()))}
+                onClick={() => { const now = new Date(); setAgendaNow(now); setAnchorDateValue(isoDate(now)); }}
                 variant="secondary"
               >
                 Today
@@ -815,7 +825,7 @@ export function CalendarScreen({
 
           {displayView === 'agenda' ? (
             <div className="aw-calendar-agenda" aria-label="Calendar agenda">
-              {!agendaDays.length ? <p className="rm-empty-copy">No events this month. Choose another month or add an event.</p> : null}
+              {!agendaDays.length ? <p className="rm-empty-copy">Nothing scheduled in this period.</p> : null}
               {agendaDays.map(day => <section key={day.date} className="aw-calendar-agenda__day">
                 <h3>{new Date(`${day.date}T12:00:00`).toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'short' })}{day.isToday ? ' · Today' : ''}</h3>
                 {(eventsByDate.get(day.date) ?? []).map(event => <button className="aw-calendar-agenda__event" key={eventInstanceKey(event)} onClick={() => setSelectedEvent(event)} type="button">

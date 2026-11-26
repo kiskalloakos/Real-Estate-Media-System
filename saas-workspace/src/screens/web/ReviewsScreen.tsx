@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Button, Card, Icon, Modal, PageHeader, cleanEditorHtml, useToast, type PortalRole } from '@/components/web';
+import { Button, Card, EmptyState, Icon, Modal, PageHeader, cleanEditorHtml, useToast, type PortalRole } from '@/components/web';
 import { downloadScriptPdf } from '@/lib/review-script-pdf';
 import { reviewScope, reviewSelectionError, reviewVersion, reviewVersions, reviewVersionStatus } from '@/lib/review-workspace';
 import { ReviewUploadDialog } from './ReviewUploadDialog';
@@ -89,7 +89,7 @@ export function ReviewsScreen({ initialReviewId, initialVersionId, projectContex
         {!!targets.length && <><Button disabled={busy || !onDecision || Boolean(selectionError)} onClick={() => setBatchOpen(true)}>Approve selected ({targets.length})</Button><Button variant="secondary" disabled={busy} onClick={() => setSelection({})}>Clear selection</Button></>}
       </div>}
       {selectionError && <p role="alert">{selectionError}</p>}
-      {!visible.length ? <Card><h2>No review files yet</h2><p>{role === 'client' ? 'Files shared with your account will appear here.' : role === 'team_member' ? 'Files you can work on will appear here. Ask your agency to assign a project or property.' : 'Upload files to a project or its existing property work.'}</p></Card> : <section className="review-directory" aria-label="Review items">{visible.map(review => {
+      {!visible.length ? <Card className="aw-reviews-empty"><EmptyState icon="play" title="No review files yet" description={role === 'client' ? 'Files shared with your account will appear here.' : role === 'team_member' ? 'Files you can work on will appear here. Ask your agency to assign a project or property.' : 'Upload a file to a project to start a review.'}/></Card> : <section className="review-directory" aria-label="Review items">{visible.map(review => {
         const current = reviewVersions(review)[0];
         const otherScope = targets.length > 0 && reviewScope(review) !== reviewScope(reviews.find(item => item.id === targets[0].assetId) ?? review);
         return <article className="review-directory-row" key={review.id}>

@@ -1,0 +1,75 @@
+/* One timing scale across mouse, keyboard, and touch interactions. */
+:root {
+  --aw-motion-fast:160ms;
+  --aw-motion-standard:220ms;
+  --aw-motion-deliberate:280ms;
+  --aw-ease-out:cubic-bezier(.22,1,.36,1);
+}
+
+.aw-loading {
+  display:grid; place-items:center; flex:1; min-height:100vh; min-height:100dvh;
+  width:100%; background:#2b2d2f; color:#eeeef1; color-scheme:dark;
+  font-family:OutfitRegular,system-ui,sans-serif;
+}
+.aw-loading__content { display:grid; justify-items:center; gap:16px; padding:32px; text-align:center; }
+.aw-loading__content>img { border-radius:12px; }
+.aw-loading__content>strong { font-family:OutfitSemiBold,system-ui,sans-serif; font-size:18px; font-weight:600; letter-spacing:-.3px; }
+.aw-loading__message { display:flex; align-items:center; gap:10px; font-size:14px; color:#bdbdc7; }
+.aw-loading__spinner { width:16px; height:16px; border:2px solid #55565f; border-top-color:#a8aaff; border-radius:50%; }
+
+/* Press feedback never changes layout or moves a hover target. */
+html body :is(.aw-shell,.aw-dialog) :is(
+  button,.rm-button,.rm-icon-button,a.rm-property-card
+) {
+  transition:background-color var(--aw-motion-fast) ease,
+    color var(--aw-motion-fast) ease,border-color var(--aw-motion-fast) ease,
+    box-shadow var(--aw-motion-fast) ease,scale var(--aw-motion-fast) var(--aw-ease-out)!important;
+}
+html body :is(.aw-shell,.aw-dialog) :is(
+  .rm-button,.rm-icon-button,.aw-nav__item,.aw-bottom-nav>button,
+  .rm-tabs>button,.rm-tab-list>button,.pp-hub-tabs>button,.aw-project-tools>button,
+  .aw-record-path button,.projects-filters>button,
+  .aw-tasks__views>button,.aw-tasks__layouts>button,.rm-calendar-view-switch>button,
+  .sp-view-tabs>button,.sp-shot-tabs>button,.aw-mobile-menu-links>button
+):not(:disabled):not([aria-disabled=true]):active { scale:.975; transition-duration:80ms!important; }
+
+@keyframes aw-page-enter {
+  from { opacity:.45; transform:translateY(6px); }
+  to { opacity:1; transform:translateY(0); }
+}
+@keyframes aw-surface-enter {
+  from { opacity:0; transform:translateY(8px) scale(.985); }
+  to { opacity:1; transform:translateY(0) scale(1); }
+}
+@keyframes aw-fade-enter { from { opacity:0; } to { opacity:1; } }
+@keyframes aw-tab-select { from { scale:.88; } to { scale:1; } }
+@keyframes aw-sheet-enter { from { opacity:.5; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+@keyframes aw-loading-turn { to { transform:rotate(360deg); } }
+
+@media(prefers-reduced-motion:no-preference) {
+  html body .aw-shell .rm-page-transition { animation:aw-page-enter var(--aw-motion-deliberate) var(--aw-ease-out); }
+  html body .aw-dialog-backdrop { animation:aw-fade-enter var(--aw-motion-fast) ease-out; }
+  html body .rm-modal.aw-dialog { animation:aw-surface-enter var(--aw-motion-standard) var(--aw-ease-out); }
+  html body .rm-modal.aw-dialog.rm-modal--fullscreen { animation-name:aw-page-enter; }
+  html body :is(.aw-sidebar-popover,.aw-workspace-switcher__menu,.rm-toast) {
+    animation:aw-surface-enter var(--aw-motion-standard) var(--aw-ease-out);
+  }
+  html body .aw-tasks__recovery { animation:aw-fade-enter var(--aw-motion-standard) ease-out; }
+  html body :is(.aw-nav__item,.aw-bottom-nav>button):is(.is-active,[aria-current=page])>:is(svg,.aw-nav__icon) {
+    animation:aw-tab-select var(--aw-motion-standard) var(--aw-ease-out);
+  }
+  .aw-loading__spinner { animation:aw-loading-turn 900ms linear infinite; }
+  .aw-loading__content { animation:aw-fade-enter var(--aw-motion-deliberate) ease-out; }
+}
+
+@media(prefers-reduced-motion:no-preference) and (max-width:760px),
+  (prefers-reduced-motion:no-preference) and (max-width:960px) and (max-height:540px) {
+  html body .rm-modal.aw-dialog:not(.rm-modal--fullscreen) { animation:aw-sheet-enter var(--aw-motion-deliberate) var(--aw-ease-out); }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  html body :is(.aw-shell,.aw-dialog,.aw-dialog-backdrop,.aw-loading,.rm-toast-viewport),
+  html body :is(.aw-shell,.aw-dialog,.aw-loading,.rm-toast-viewport) * {
+    animation:none!important; transition:none!important; scroll-behavior:auto!important; scale:none!important;
+  }
+}
