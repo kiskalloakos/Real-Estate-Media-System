@@ -15,6 +15,7 @@
   --aw-ink: #eeeef1;
   --aw-muted: #b0afb8;
   --aw-line: #383940;
+  --aw-control-line: #858796;
   --aw-accent: #5256e0;
   --aw-tint: #30314e;
   --rm-paper: var(--aw-surface);
@@ -28,6 +29,13 @@
   color: var(--aw-ink);
 }
 
+/* Initials need the same foreground as their badge, including in the topbar. */
+.aw-shell .rm-avatar {
+  background: var(--aw-tint) !important;
+  color: #c7c8ff !important;
+}
+.aw-shell .rm-avatar > span { color: inherit !important; }
+
 /* Beat the retained light-screen rules at the shared content boundary. */
 html body .aw-shell #aw-main-content.aw-main #aw-feature-content,
 html body .rm-modal.aw-dialog:not(.sp-workspace-modal) {
@@ -36,7 +44,7 @@ html body .rm-modal.aw-dialog:not(.sp-workspace-modal) {
   color: var(--aw-ink) !important;
   border-color: var(--aw-line) !important;
 }
-html body .aw-shell #aw-main-content.aw-main #aw-feature-content:has(.aw-overview,.project-work,.studio-library) {
+html body .aw-shell #aw-main-content.aw-main #aw-feature-content {
   background: transparent !important;
 }
 
@@ -50,7 +58,7 @@ html body .aw-shell #aw-main-content.aw-main #aw-feature-content:has(.aw-overvie
   .rm-document-card,.rm-folder-card,.rm-review-directory,.aw-review-directory,
   .rm-gear-board__column,.rm-agreement-card,.rm-payment-due-card,.rm-note-card,
   .rm-agreement-facts,.rm-agreement-facts>div,.rm-fulfillment__metrics>div,.rm-fulfillment__item,
-  .rm-cost-list__record,
+  .rm-cost-list__record,.rm-client-task-list li,
   .rm-manual-badge,.studio-date,
   .rm-calendar-card,.aw-calendar-month,.aw-calendar-agenda,.aw-calendar-month__day,
   .rm-week-stack-grid__day,.rm-week-stack-grid__events,.rm-calendar-overflow-list,
@@ -81,6 +89,21 @@ html body .aw-shell #aw-main-content.aw-main #aw-feature-content:has(.aw-overvie
   color: inherit !important;
 }
 
+/* Photo captions must beat the shared heading and muted-copy rules. */
+html body .aw-shell #aw-main-content.aw-main #aw-feature-content .studio-client-open,
+html body .aw-shell #aw-main-content.aw-main #aw-feature-content .studio-client-open :is(small,strong,span,svg) {
+  color: #fff !important;
+}
+
+/* Completed records remain readable; their explicit status communicates completion. */
+html body .aw-shell #aw-main-content.aw-main #aw-feature-content :is(
+  .rm-cost-list__record.is-paid,.rm-cost-list article.is-paid,.review-comment-list article.is-resolved,.pp-block-tools
+) { opacity: 1; }
+
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) :is(
+  .rm-empty__icon,.rm-client-task-list__icon
+) { background: var(--aw-tint) !important; color: var(--aw-accent) !important; }
+
 /* Neutral controls, with a separate filled brand variant. */
 html body .aw-shell #aw-main-content.aw-main #aw-feature-content .rm-preview-notice {
   background: var(--aw-input) !important;
@@ -91,7 +114,7 @@ html body .aw-shell #aw-main-content.aw-main #aw-feature-content .rm-preview-not
 :is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) :is(
   button:not(.studio-client-open):not([data-event-color]),.rm-button,.rm-icon-button
 ) {
-  background-color: transparent !important;
+  background-color: var(--aw-button-bg,transparent) !important;
   background-image: none !important;
   color: var(--aw-ink) !important;
   border-color: var(--aw-line) !important;
@@ -100,7 +123,7 @@ html body .aw-shell #aw-main-content.aw-main #aw-feature-content .rm-preview-not
 }
 :is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) :is(
   button:not(.studio-client-open):not([data-event-color]),.rm-button,.rm-icon-button
-):is(:hover,:focus-visible):not(:disabled) { background-color: var(--aw-bg) !important; }
+):is(:hover,:focus-visible):not(:disabled):not(:where([aria-pressed=true],[aria-selected=true],[aria-current],.is-active,.is-selected)) { background-color: var(--aw-bg) !important; }
 :is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) :is(
   .rm-button--blue,.rm-button--primary,.aw-button:not(.aw-button-secondary),
   .project-work nav button[aria-current],.rm-task-priority-switch label.is-active
@@ -113,6 +136,9 @@ html body .aw-shell #aw-main-content.aw-main #aw-feature-content .rm-preview-not
   .rm-button--blue,.rm-button--primary,.aw-button:not(.aw-button-secondary)
 ):is(:hover,:focus-visible):not(:disabled) { background: #6266eb !important; }
 :is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) :is(
+  .rm-button--blue,.rm-button--primary,.rm-button--danger,.aw-button:not(.aw-button-secondary)
+):is(:hover,:focus-visible):not(:disabled) { opacity: 1; }
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) :is(
   button,.rm-button,a
 ) :is(strong,span,svg) { color: inherit !important; }
 :is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) :is(
@@ -124,10 +150,10 @@ html body .aw-shell #aw-main-content.aw-main #aw-feature-content .rm-preview-not
   input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]),
   select,textarea,.rm-inline-search,.rm-input-with-icon,.aw-tasks__search,
   .studio-library-search,.rm-task-upload__control,.rm-upload-tile,.rm-upload-document-button
-) {
+):not(:where(.pp-paper .pp-title,.pp-block textarea)) {
   background-color: var(--aw-input) !important;
   color: var(--aw-ink) !important;
-  border-color: var(--aw-line) !important;
+  border-color: var(--aw-control-line) !important;
   box-shadow: none !important;
 }
 :is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) option {
@@ -139,7 +165,8 @@ html body .aw-shell #aw-main-content.aw-main #aw-feature-content .rm-preview-not
   opacity: 1;
 }
 :is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) :focus-visible {
-  outline-color: var(--aw-accent) !important;
+  outline: 2px solid var(--aw-accent) !important;
+  outline-offset: 2px;
 }
 
 /* Table headers, calendar cells, filters and board headers use gentle elevation. */
@@ -155,7 +182,7 @@ html body .aw-shell #aw-main-content.aw-main #aw-feature-content .rm-preview-not
   .aw-calendar-month__day,.aw-calendar-month__weekdays>span
 ) { border-color: var(--aw-line) !important; }
 :is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) :is(
-  .rm-tabs,.rm-tab-list,.aw-tasks__views,.aw-tasks__layouts,.rm-calendar-view-switch
+  .rm-tabs,.rm-tab-list,.aw-tasks__views,.aw-tasks__layouts,.rm-calendar-view-switch,.engagement-tabs,.pp-hub-tabs,.project-phases
 ) button:is(.is-active,.is-selected,[aria-selected=true],[aria-pressed=true]),
 :is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog:not(.sp-workspace-modal)) :is(
   .rm-status,.rm-avatar,.aw-tasks__count,.rm-owner-task-urgent,.aw-tag

@@ -1,15 +1,23 @@
 import { Redirect } from 'expo-router';
 import { ActivityIndicator, View } from 'react-native';
+import { useSyncExternalStore } from 'react';
 
 import { nativeColors } from '@/components/native';
 import { useApp } from '@/providers/app-provider';
 import { LoginScreen } from '@/screens/login';
 import PortalWebLayout from './(portal)/_layout.web';
 
+const subscribeToHydration = () => () => {};
+const clientSnapshot = () => true;
+const serverSnapshot = () => false;
+
 export default function IndexRoute() {
   const { authReady, identity } = useApp();
+  const hydrated = useSyncExternalStore(subscribeToHydration, clientSnapshot, serverSnapshot);
 
-  if (!authReady) {
+  // Browser-only record URLs and saved workspace preferences are read after
+  // hydration, so a phone deep link never hydrates against another screen.
+  if (!authReady || !hydrated) {
     return (
       <View
         style={{

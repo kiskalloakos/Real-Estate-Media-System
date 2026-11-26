@@ -9,7 +9,8 @@ import {
   View,
 } from 'react-native';
 
-import { Text } from '@/components/native';
+import { nativeColors, Text } from '@/components/native';
+import { webTheme } from '@/theme';
 import { useApp } from '@/providers/app-provider';
 
 export function LoginScreen() {
@@ -65,7 +66,7 @@ export function LoginScreen() {
           style={{
             backgroundColor: '#f5f3ef',
             borderCurve: 'continuous',
-            borderRadius: 32,
+            borderRadius: webTheme.radius.feature,
             justifyContent: 'center',
             maxWidth: 440,
             padding: compact ? 26 : 38,
@@ -104,15 +105,16 @@ export function LoginScreen() {
               accessibilityLabel="Email address"
               autoCapitalize="none"
               autoComplete="email"
+              keyboardType="email-address"
               onChangeText={setEmail}
               onSubmitEditing={() => password && void submit()}
               placeholder="Email address"
               placeholderTextColor="#686771"
               style={{
                 backgroundColor: '#fbfaf7',
-                borderColor: '#d4d1ce',
+                borderColor: nativeColors.controlBorder,
                 borderCurve: 'continuous',
-                borderRadius: 16,
+                borderRadius: webTheme.radius.control,
                 borderWidth: 1,
                 color: '#26262a',
                 fontFamily: 'OutfitRegular',
@@ -134,9 +136,9 @@ export function LoginScreen() {
               secureTextEntry
               style={{
                 backgroundColor: '#fbfaf7',
-                borderColor: '#d4d1ce',
+                borderColor: nativeColors.controlBorder,
                 borderCurve: 'continuous',
-                borderRadius: 16,
+                borderRadius: webTheme.radius.control,
                 borderWidth: 1,
                 color: '#26262a',
                 fontFamily: 'OutfitRegular',
@@ -172,7 +174,7 @@ export function LoginScreen() {
                       ? '#4346c4'
                       : '#5256E0',
                 borderCurve: 'continuous',
-                borderRadius: 16,
+                borderRadius: webTheme.radius.control,
                 height: 52,
                 justifyContent: 'center',
                 marginTop: 2,
@@ -198,6 +200,8 @@ export function LoginScreen() {
               onPress={() => void resetPassword()}
               style={({ pressed }) => ({
                 alignItems: 'center',
+                justifyContent: 'center',
+                minHeight: 44,
                 opacity: pressed ? 0.62 : 1,
                 paddingVertical: 3,
               })}

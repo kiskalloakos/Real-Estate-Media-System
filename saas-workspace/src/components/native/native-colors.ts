@@ -7,6 +7,7 @@ export const nativeColors = {
   secondaryLabel: '#626570',
   tertiaryLabel: '#626570',
   separator: '#DDDEE3',
+  controlBorder: '#777B87',
   fill: '#DDDEE3',
   strongerFill: '#DDDEE3',
   accent: '#5256E0',

@@ -2,7 +2,8 @@ import React from 'react';
 import { useRouter } from 'expo-router';
 import { ActivityIndicator, Pressable, ScrollView, TextInput, View } from 'react-native';
 
-import { Text } from '@/components/native';
+import { nativeColors, Text } from '@/components/native';
+import { webTheme } from '@/theme';
 import { signUpAgencyOwner } from '@/lib/agency-signup';
 import { useApp } from '@/providers/app-provider';
 
@@ -49,7 +50,7 @@ export function SignupScreen() {
       contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', padding: 24 }}
       style={{ backgroundColor: '#000000' }}
     >
-      <View style={{ alignSelf: 'center', backgroundColor: '#FFFFFF', borderRadius: 28, gap: 22, maxWidth: 500, padding: 30, width: '100%' }}>
+      <View style={{ alignSelf: 'center', backgroundColor: '#FFFFFF', borderRadius: webTheme.radius.feature, gap: 22, maxWidth: 500, padding: 30, width: '100%' }}>
         <View style={{ gap: 10 }}>
           <Text accessibilityRole="header" style={{ color: '#191B22', fontFamily: 'OutfitSemiBold', fontSize: 34, lineHeight: 40 }}>
             {confirmationSent ? 'Check your email.' : ownerForm ? 'Create your agency workspace.' : 'How will you use the workspace?'}
@@ -71,7 +72,7 @@ export function SignupScreen() {
                 accessibilityLabel={role.title}
                 key={role.value}
                 onPress={() => role.value === 'owner' ? setOwnerForm(true) : router.replace({ pathname: '/', params: { access: role.value } })}
-                style={({ pressed }) => ({ backgroundColor: pressed ? '#F0F0FF' : '#F5F6F8', borderColor: pressed ? '#5256E0' : '#DDE0E6', borderWidth: 1, borderRadius: 16, gap: 6, padding: 18 })}
+                style={({ pressed }) => ({ backgroundColor: pressed ? '#F0F0FF' : '#F5F6F8', borderColor: pressed ? '#5256E0' : '#DDE0E6', borderWidth: 1, borderRadius: webTheme.radius.card, gap: 6, padding: 18 })}
               >
                 <Text style={{ color: '#191B22', fontFamily: 'OutfitSemiBold', fontSize: 18 }}>{role.title}</Text>
                 <Text style={{ color: '#5F6470', fontSize: 15, lineHeight: 22 }}>{role.description}</Text>
@@ -99,7 +100,7 @@ export function SignupScreen() {
                   onChangeText={field.change}
                   onSubmitEditing={field.label === 'Confirm password' ? () => void submit() : undefined}
                   secureTextEntry={field.secret}
-                  style={{ backgroundColor: '#F5F6F8', borderColor: '#DDE0E6', borderWidth: 1, borderRadius: 12, color: '#191B22', fontFamily: 'OutfitRegular', fontSize: 16, minHeight: 48, paddingHorizontal: 14 }}
+                  style={{ backgroundColor: '#F5F6F8', borderColor: nativeColors.controlBorder, borderWidth: 1, borderRadius: webTheme.radius.control, color: '#191B22', fontFamily: 'OutfitRegular', fontSize: 16, minHeight: 48, paddingHorizontal: 14 }}
                   value={field.value}
                 />
               </View>
@@ -111,7 +112,7 @@ export function SignupScreen() {
               accessibilityRole="button"
               disabled={submitting || !isSupabaseConfigured}
               onPress={() => void submit()}
-              style={{ alignItems: 'center', backgroundColor: '#5256E0', borderRadius: 12, minHeight: 50, justifyContent: 'center', opacity: submitting || !isSupabaseConfigured ? 0.55 : 1 }}
+              style={{ alignItems: 'center', backgroundColor: '#5256E0', borderRadius: webTheme.radius.control, minHeight: 50, justifyContent: 'center', opacity: submitting || !isSupabaseConfigured ? 0.55 : 1 }}
             >
               {submitting ? <ActivityIndicator color="#FFFFFF" /> : <Text style={{ color: '#FFFFFF', fontFamily: 'OutfitSemiBold', fontSize: 16 }}>Create agency workspace</Text>}
             </Pressable>

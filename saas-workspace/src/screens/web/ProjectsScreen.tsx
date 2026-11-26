@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { Button, Icon, Modal, PageHeader, useToast } from '@/components/web';
 import { engagementStatuses, engagementStatusLabels, belongsToEngagement } from '@/lib/engagements';
-import type { JobSummary, PortalActionHandlers, PortalData, PropertySummary } from './types';
+import type { JobSummary, PortalActionHandlers, PortalData, PortalScreenKey, PropertySummary } from './types';
+import { useWorkspace } from '@/workspace/WorkspaceProvider';
+import { workspacePages } from '@/workspace/navigation';
 import { ProjectForm } from './ProjectForm';
 import './ProjectsScreen.css';
 
@@ -12,10 +14,12 @@ interface Props {
   onStatusChange: (status?: JobSummary['status']) => void;
   onOpenProject: (project: JobSummary) => void;
   onOpenProperty: (property: PropertySummary) => void;
+  onNavigate: (screen: PortalScreenKey) => void;
 }
 
-export function ProjectsScreen({ data, actions, status, onStatusChange, onOpenProject, onOpenProperty }: Props) {
+export function ProjectsScreen({ data, actions, status, onStatusChange, onOpenProject, onOpenProperty, onNavigate }: Props) {
   const { notify } = useToast();
+  const { config } = useWorkspace();
   const [query, setQuery] = useState('');
   const [creating, setCreating] = useState(false);
   const projects = data.jobs ?? [];
@@ -27,7 +31,12 @@ export function ProjectsScreen({ data, actions, status, onStatusChange, onOpenPr
   const ready = data.projectFoundationReady !== false;
   return <div className="rm-page projects-page">
     <PageHeader eyebrow="ENGAGEMENTS" title="Projects" description="One place for each client engagement or internal project."
-      actions={<Button icon="plus" disabled={!actions?.createJob || !ready} onClick={() => setCreating(true)}>New project</Button>}/>
+      actions={<>
+        {workspacePages(config).filter(page => page.key === 'reviews' || page.key === 'scripting').map(page =>
+          <Button key={page.key} variant="secondary" icon={page.icon} onClick={() => onNavigate(page.key)}>{page.label}</Button>
+        )}
+        <Button icon="plus" disabled={!actions?.createJob || !ready} onClick={() => setCreating(true)}>New project</Button>
+      </>}/>
     {!ready && <p className="rm-feedback" role="status">Project setup is temporarily unavailable. You can still open existing work.</p>}
     <div className="projects-toolbar">
       <nav className="projects-filters" aria-label="Filter projects by status">

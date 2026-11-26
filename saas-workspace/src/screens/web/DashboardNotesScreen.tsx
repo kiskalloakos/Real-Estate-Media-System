@@ -5,6 +5,7 @@ import {
   Card,
   Icon,
   Modal,
+  PageHeader,
   RichTextEditor,
   useToast,
 } from '@/components/web';
@@ -336,7 +337,7 @@ export function DashboardNotesScreen({
   return (
     <div className="rm-page rm-dashboard-notes">
       {isOffers || !selectedFolder ? (
-        <div className="rm-dashboard-notes__actions">
+        <PageHeader title={isOffers ? 'Offers' : isRo ? 'Note' : 'Notes'} actions={<>
           {!isOffers ? (
             <Button icon="folder" onClick={openNewFolder} variant="secondary">
               {isRo ? 'Folder nou' : 'New folder'}
@@ -345,7 +346,7 @@ export function DashboardNotesScreen({
           <Button icon="plus" onClick={openNewNote}>
             {copy.new}
           </Button>
-        </div>
+        </>} />
       ) : null}
 
       {!isOffers && selectedFolder ? (

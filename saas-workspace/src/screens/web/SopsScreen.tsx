@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 
-import { Card, cleanEditorHtml, Icon, Modal } from '@/components/web';
+import { Card, cleanEditorHtml, Icon, Modal, PageHeader } from '@/components/web';
 
 import type { CompanyDocumentSummary } from './types';
 
@@ -30,7 +30,7 @@ export function SopsScreen({ documents = [], userId }: SopsScreenProps) {
 
   return (
     <div className="rm-page">
-      <div className="rm-hub-toolbar"><div><h2>SOPs</h2></div></div>
+      <PageHeader title="SOPs" />
       {assignedSops.length ? (
         <section className="rm-document-grid" aria-label="Assigned SOPs">
           {assignedSops.map((document) => (

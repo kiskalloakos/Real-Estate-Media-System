@@ -1,9 +1,7 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 
 import { type SidebarMode } from '@/workspace/modules';
-import { agencyModuleIds, workspacePages } from '@/workspace/navigation';
-import { engagementStatuses, engagementStatusLabels } from '@/lib/engagements';
-import type { JobSummary } from '@/screens/web/types';
+import { agencyModuleIds, mobileNavigation, workspacePages } from '@/workspace/navigation';
 import './WorkspaceNavigation.css';
 import { useWorkspace } from '@/workspace/WorkspaceProvider';
 
@@ -11,7 +9,7 @@ import { useWorkspace } from '@/workspace/WorkspaceProvider';
 
 import { AgencyAvatar } from '@/workspace/AgencyAvatar';
 import { useToast } from './feedback';
-import { Avatar, IconButton, cx } from './ui';
+import { Avatar, IconButton, Modal, cx } from './ui';
 import { Icon, type IconName } from './Icon';
 import {
   NotificationCenter,
@@ -24,6 +22,7 @@ import {
 export type PortalRole = 'admin' | 'team_member' | 'client';
 
 export type PortalScreenKey =
+  | 'agency'
   | 'modules'
   | 'dashboard'
   | 'documents'
@@ -90,9 +89,9 @@ export function portalNavigationForRole(role: PortalRole): NavigationItem[] {
   return navigation.filter((item) => item.roles.includes(role));
 }
 
-const groupForScreen = (screen: PortalScreenKey) =>
+const sectionForScreen = (screen: PortalScreenKey) =>
   ['projects', 'reviews', 'scripting'].includes(screen) ? 'projects' as const
-    : agencyModuleIds.some(id => id === screen) ? 'agency' as const : null;
+    : screen === 'agency' || agencyModuleIds.some(id => id === screen) ? 'agency' as const : null;
 
 export interface PortalShellProps {
   activeScreen: PortalScreenKey;
@@ -102,8 +101,6 @@ export interface PortalShellProps {
   onMarkAllNotificationsRead?: () => Promise<void> | void;
   onDeleteNotification?: (notificationId: string) => Promise<void> | void;
   onNavigate: (screen: PortalScreenKey) => void;
-  onNavigateProjectStatus?: (stage?: JobSummary['status']) => void;
-  activeProjectStatus?: JobSummary['status'];
   onSelectWorkspace?: (agencyId: string) => void;
   onReadNotification?: (notificationId: string) => Promise<void> | void;
   onOpenTaskNotification?: (taskId: string) => void;
@@ -133,8 +130,6 @@ export function PortalShell({
   onClearNotifications,
   onDeleteNotification,
   onNavigate,
-  onNavigateProjectStatus,
-  activeProjectStatus,
   onSelectWorkspace,
   onReadNotification,
   onOpenTaskNotification,
@@ -155,7 +150,7 @@ export function PortalShell({
   const [sidebarControlOpen, setSidebarControlOpen] = useState(false);
   const isRo = user.locale === 'ro';
   const { notify } = useToast();
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [previewReadIds, setPreviewReadIds] = useState<Set<string>>(
     () => new Set(),
@@ -171,33 +166,13 @@ export function PortalShell({
     () => role === 'admin' ? workspacePages(config) : portalNavigationForRole(role),
     [role, config],
   );
-  const [navigationOverride, setNavigationOverride] = useState<{ screen: PortalScreenKey; group: 'projects' | 'agency' | null } | null>(null);
-  const openNavigation = navigationOverride?.screen === activeScreen ? navigationOverride.group : groupForScreen(activeScreen);
-  const setOpenNavigation = (group: 'projects' | 'agency' | null) => setNavigationOverride({ screen: activeScreen, group });
-  const [flyoutTop, setFlyoutTop] = useState(100);
-  const agencyNavigation = visibleNavigation.filter(item => agencyModuleIds.some(id => id === item.key));
-  const projectTools = visibleNavigation.filter(item => ['reviews', 'scripting'].includes(item.key));
   const mainNavigation = role === 'admin'
-    ? ['dashboard', 'projects', 'clients', 'tasks', 'calendar'].flatMap(key => visibleNavigation.filter(item => item.key === key))
+    ? ['dashboard', 'projects', 'clients', 'tasks', 'calendar', 'agency'].flatMap(key => visibleNavigation.filter(item => item.key === key))
     : visibleNavigation;
-
-  useEffect(() => {
-    if (!openNavigation || config.sidebarMode !== 'collapsed') return;
-    const dismiss = (event: PointerEvent) => {
-      if (event.target instanceof Element && !event.target.closest('.aw-nav-group')) setNavigationOverride({ screen: activeScreen, group: null });
-    };
-    document.addEventListener('pointerdown', dismiss);
-    return () => document.removeEventListener('pointerdown', dismiss);
-  }, [openNavigation, config.sidebarMode, activeScreen]);
-
-  const toggleNavigation = (group: 'projects' | 'agency', element: HTMLElement) => {
-    setFlyoutTop(Math.max(72, Math.min(element.getBoundingClientRect().top, window.innerHeight - 460)));
-    setOpenNavigation(openNavigation === group ? null : group);
-  };
-  const openProjectStatus = (stage?: JobSummary['status']) => {
-    setMobileOpen(false);
-    onNavigateProjectStatus?.(stage);
-  };
+  const phoneNavigation = mobileNavigation(visibleNavigation, role);
+  const phoneSection = role === 'admin' ? sectionForScreen(activeScreen) ?? activeScreen : activeScreen;
+  const moreActive = !phoneNavigation.some(item => item.key === phoneSection);
+  const pageTitle = activeScreen === 'modules' ? (isRo ? 'Setări' : 'Settings') : activeScreen === 'notes' ? (isRo ? 'Notițe' : 'Notes') : visibleNavigation.find(item => item.key === activeScreen)?.label ?? activeScreen;
   const visibleNotifications = useMemo(
     () =>
       notifications.filter((notification) => !previewClearedIds.has(notification.id)).map((notification) => ({
@@ -221,42 +196,9 @@ export function PortalShell({
     return () => document.removeEventListener('keydown', onKeyDown);
   }, []);
 
-  useEffect(() => {
-    if (!mobileOpen) return undefined;
-
-    const previousFocus = document.activeElement as HTMLElement | null;
-    const sidebar = document.querySelector<HTMLElement>('.aw-sidebar');
-    const focusable = () => Array.from(sidebar?.querySelectorAll<HTMLElement>('button:not(:disabled), a[href], input') ?? []);
-    focusable()[0]?.focus();
-    const trap = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') { event.preventDefault(); setMobileOpen(false); }
-      if (event.key === 'Tab') {
-        const items = focusable(); const first = items[0]; const last = items[items.length - 1];
-        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
-        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
-      }
-    };
-    document.addEventListener('keydown', trap);
-    const scrollContainer = document.querySelector<HTMLElement>('.aw-frame');
-    const previousOverflow = scrollContainer?.style.overflow ?? document.body.style.overflow;
-    if (scrollContainer) {
-      scrollContainer.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'hidden';
-    }
-    return () => {
-      if (scrollContainer) {
-        scrollContainer.style.overflow = previousOverflow;
-      } else {
-        document.body.style.overflow = previousOverflow;
-      }
-      document.removeEventListener('keydown', trap);
-      previousFocus?.focus();
-    };
-  }, [mobileOpen]);
 
   const navigate = (screen: PortalScreenKey) => {
-    setMobileOpen(false);
+    setMobileMenuOpen(false);
     onNavigate(screen);
   };
 
@@ -272,10 +214,10 @@ export function PortalShell({
     }
     setNotificationOpen(false);
     if (notification.taskId && onOpenTaskNotification) {
-      setMobileOpen(false);
+      setMobileMenuOpen(false);
       onOpenTaskNotification(notification.taskId);
     } else if (notification.reviewId && onOpenReviewNotification) {
-      setMobileOpen(false);
+      setMobileMenuOpen(false);
       onOpenReviewNotification(notification.reviewId, notification.versionId);
     } else navigate(notification.screen);
   };
@@ -297,13 +239,6 @@ export function PortalShell({
         {isRo ? 'Sari la conținut' : 'Skip to content'}
       </a>
 
-      <button
-        aria-label="Close navigation"
-        className={cx('aw-sidebar-scrim', mobileOpen && 'is-visible')}
-        onClick={() => setMobileOpen(false)}
-        type="button"
-      />
-
       <header className="aw-topbar">
         <div className="aw-topbar__left">
           {workspaces.length > 1 && activeWorkspace ? (
@@ -316,13 +251,8 @@ export function PortalShell({
               </div> : null}
             </div>
           ) : null}
-          <div className="aw-breadcrumb"><span>{organizationName ?? 'Workspace'}</span><Icon name="chevron-right" size={14}/><strong>{activeScreen === 'modules' ? 'Customize' : visibleNavigation.find(item => item.key === activeScreen)?.label ?? activeScreen}</strong></div>
-          <IconButton
-            className="aw-topbar__menu"
-            icon="menu"
-            label="Open navigation"
-            onClick={() => setMobileOpen(true)}
-          />
+          <div className="aw-breadcrumb"><span>{organizationName ?? 'Workspace'}</span><Icon name="chevron-right" size={14}/><strong>{activeScreen === 'modules' ? 'Customize' : activeScreen === 'notes' ? 'Notes' : visibleNavigation.find(item => item.key === activeScreen)?.label ?? activeScreen}</strong></div>
+          <div className="aw-mobile-brand"><AgencyAvatar name={config.name} logoUrl={logoUrl}/><span><small>{config.name}</small><strong>{pageTitle}</strong></span></div>
         </div>
 
         <button
@@ -368,43 +298,14 @@ export function PortalShell({
 
       <aside
         aria-label="Primary navigation"
-        aria-modal={mobileOpen ? 'true' : undefined}
-        className={cx('aw-sidebar', mobileOpen && 'is-mobile-open', sidebarControlOpen && 'has-control-open')}
-        role={mobileOpen ? 'dialog' : undefined}
+        className={cx('aw-sidebar', sidebarControlOpen && 'has-control-open')}
       >
-        <div className="aw-sidebar__mobile-header">
-          <span className="aw-sidebar__mobile-title">{isRo ? 'Meniu' : 'Menu'}</span>
-          <IconButton
-            className="aw-sidebar__mobile-close"
-            icon="x"
-            label="Close navigation"
-            onClick={() => setMobileOpen(false)}
-            size="sm"
-          />
-        </div>
-
         <div className="aw-studio-brand"><AgencyAvatar name={config.name} logoUrl={logoUrl} /><div><strong title={config.name}>{config.name}</strong></div></div>
         <div className="aw-nav-caption">WORKSPACE</div>
         <nav className="aw-nav">
           <ul>
             {mainNavigation.map((item) => {
-              const active = activeScreen === item.key;
-              if (role === 'admin' && item.key === 'projects') return (
-                <li className="aw-nav-group" key={item.key} onKeyDown={event => {
-                  if (event.key === 'Escape') { setOpenNavigation(null); event.currentTarget.querySelector<HTMLButtonElement>('.aw-nav-group__toggle')?.focus(); }
-                }}>
-                  <div className={cx('aw-nav-group__row', groupForScreen(activeScreen) === 'projects' && 'has-active-page')}>
-                    <button type="button" className={cx('aw-nav__item', active && 'is-active')} aria-current={active ? 'page' : undefined} aria-label="Projects" title="Projects" onClick={() => { setOpenNavigation('projects'); openProjectStatus(); }}>
-                      <span className="aw-nav__icon"><Icon name="folder" size={19}/></span><span className="aw-nav__text">Projects</span>
-                    </button>
-                    <button type="button" className="aw-nav-group__toggle" aria-label="Project navigation" aria-expanded={openNavigation === 'projects'} aria-controls="aw-project-navigation" onClick={event => toggleNavigation('projects', event.currentTarget)}><Icon name={openNavigation === 'projects' ? 'chevron-up' : 'chevron-down'} size={15}/></button>
-                  </div>
-                  {openNavigation === 'projects' && <ul className="aw-nav-group__children" id="aw-project-navigation" style={{ top: flyoutTop }} aria-label="Project navigation">
-                    <li className="aw-nav-group__heading">Projects</li>
-                    {engagementStatuses.map(stage => <li key={stage}><button type="button" aria-current={active && activeProjectStatus === stage ? 'page' : undefined} onClick={() => openProjectStatus(stage)}>{engagementStatusLabels[stage]}</button></li>)}
-                  </ul>}
-                </li>
-              );
+              const active = activeScreen === item.key || (role === 'admin' && sectionForScreen(activeScreen) === item.key);
               return (
                 <li key={item.key}>
                   <button
@@ -425,18 +326,6 @@ export function PortalShell({
                 </li>
               );
             })}
-            {role === 'admin' && !config.enabled.includes('clients') && projectTools.map(item => <li key={item.key}><button type="button" className={cx('aw-nav__item', activeScreen === item.key && 'is-active')} aria-current={activeScreen === item.key ? 'page' : undefined} title={item.label} onClick={() => navigate(item.key)}><span className="aw-nav__icon"><Icon name={item.icon} size={19}/></span><span className="aw-nav__text">{item.label}</span></button></li>)}
-            {role === 'admin' && agencyNavigation.length > 0 && <li className="aw-nav-group" onKeyDown={event => {
-              if (event.key === 'Escape') { setOpenNavigation(null); event.currentTarget.querySelector<HTMLButtonElement>('button')?.focus(); }
-            }}>
-              <button type="button" className={cx('aw-nav__item', groupForScreen(activeScreen) === 'agency' && 'has-active-page')} title="Agency" aria-label="Agency" aria-expanded={openNavigation === 'agency'} aria-controls="aw-agency-navigation" onClick={event => toggleNavigation('agency', event.currentTarget)}>
-                <span className="aw-nav__icon"><Icon name="briefcase" size={19}/></span><span className="aw-nav__text">Agency</span><span className="aw-nav-group__chevron"><Icon name={openNavigation === 'agency' ? 'chevron-up' : 'chevron-down'} size={15}/></span>
-              </button>
-              {openNavigation === 'agency' && <ul className="aw-nav-group__children" id="aw-agency-navigation" style={{ top: flyoutTop }} aria-label="Agency navigation">
-                <li className="aw-nav-group__heading">Agency</li>
-                {agencyNavigation.map(item => <li key={item.key}><button type="button" aria-current={activeScreen === item.key ? 'page' : undefined} onClick={() => navigate(item.key)}><Icon name={item.icon} size={16}/>{item.label}</button></li>)}
-              </ul>}
-            </li>}
           </ul>
         </nav>
         <div className="aw-sidebar-bottom">
@@ -454,6 +343,24 @@ export function PortalShell({
         </main>
       </div>
 
+      <nav aria-label={isRo ? 'Navigare principală' : 'Phone navigation'} className="aw-bottom-nav" style={{ gridTemplateColumns: `repeat(${phoneNavigation.length + 1},minmax(0,1fr))` }}>
+        {phoneNavigation.map(item => <button aria-current={!mobileMenuOpen && phoneSection === item.key ? 'page' : undefined} key={item.key} onClick={() => navigate(item.key)} type="button"><Icon name={item.icon} size={22}/><span>{item.key === 'dashboard' ? (isRo ? 'Acasă' : 'Home') : item.label}</span></button>)}
+        <button aria-current={!mobileMenuOpen && moreActive ? 'page' : undefined} aria-expanded={mobileMenuOpen} aria-haspopup="dialog" onClick={() => setMobileMenuOpen(true)} type="button"><Icon name="menu" size={22}/><span>{isRo ? 'Mai mult' : 'More'}</span></button>
+      </nav>
+
+      <Modal className="aw-mobile-menu-modal" onClose={() => setMobileMenuOpen(false)} open={mobileMenuOpen} title={isRo ? 'Mai mult' : 'More'}>
+        <nav aria-label={isRo ? 'Mai multe pagini' : 'More pages'} className="aw-mobile-menu-links">
+          {mainNavigation.filter(item => !phoneNavigation.some(phone => phone.key === item.key)).map(item => <button aria-current={phoneSection === item.key ? 'page' : undefined} key={item.key} onClick={() => navigate(item.key)} type="button"><Icon name={item.icon} size={22}/><span>{item.label}</span><Icon name="chevron-right" size={18}/></button>)}
+          {role === 'admin' ? <button aria-current={activeScreen === 'modules' ? 'page' : undefined} onClick={() => navigate('modules')} type="button"><Icon name="settings" size={22}/><span>{isRo ? 'Setări' : 'Workspace settings'}</span><Icon name="chevron-right" size={18}/></button> : null}
+        </nav>
+        <div className="aw-mobile-account"><Avatar name={user.name} src={user.avatarUrl}/><div><strong>{user.name}</strong><small>{user.email}</small></div></div>
+        <div className="aw-mobile-account-actions">
+          {onUpdateProfile ? <button onClick={() => { setMobileMenuOpen(false); setProfileOpen(true); }} type="button"><Icon name="users" size={19}/>{isRo ? 'Profilul meu' : 'My profile'}</button> : null}
+          {workspaces.length > 1 ? <label>{isRo ? 'Spațiu de lucru' : 'Workspace'}<select aria-label="Switch workspace" value={activeWorkspace?.agencyId ?? ''} onChange={event => { onSelectWorkspace?.(event.target.value); setMobileMenuOpen(false); }}>{workspaces.map(workspace => <option value={workspace.agencyId} key={workspace.agencyId}>{workspace.name}</option>)}</select></label> : null}
+          {onSignOut ? <button onClick={() => { setMobileMenuOpen(false); onSignOut(); }} type="button"><Icon name="arrow-right" size={19}/>{isRo ? 'Deconectare' : 'Sign out'}</button> : null}
+        </div>
+      </Modal>
+
       <WorkspaceSearch
         items={searchItems}
         onClose={() => setSearchOpen(false)}
@@ -467,20 +374,18 @@ export function PortalShell({
         notifications={visibleNotifications}
         onClear={() => {
           if (onClearNotifications) {
-            void onClearNotifications();
+            return onClearNotifications();
           } else {
-            setPreviewClearedIds(new Set(visibleNotifications.map((notification) => notification.id)));
+            setPreviewClearedIds((previous) => new Set([...previous, ...visibleNotifications.map((notification) => notification.id)]));
           }
         }}
-        onDelete={onDeleteNotification}
+        onDelete={onDeleteNotification ?? ((id) => setPreviewClearedIds((previous) => new Set([...previous, id])))}
         onClose={() => setNotificationOpen(false)}
         onMarkAllRead={() => {
           if (onMarkAllNotificationsRead) {
-            void onMarkAllNotificationsRead();
+            return onMarkAllNotificationsRead();
           } else {
-            setPreviewReadIds(
-              new Set(visibleNotifications.map((notification) => notification.id)),
-            );
+            setPreviewReadIds((previous) => new Set([...previous, ...visibleNotifications.map((notification) => notification.id)]));
           }
         }}
         onSelect={selectNotification}

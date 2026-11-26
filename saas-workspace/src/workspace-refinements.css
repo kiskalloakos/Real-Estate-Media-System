@@ -1,11 +1,11 @@
 /* Shared workspace refinement, enabled by PortalShell only outside Overview and Tasks.
    The explicit content boundary beats the retained legacy rules without styling
    navigation, media, calendar event colors, document content, or portaled dialogs. */
-#aw-main-content.aw-refined #aw-feature-content { --aw-control-radius: 8px; --aw-panel-radius: 8px; }
+#aw-main-content.aw-refined #aw-feature-content { --aw-control-radius: var(--rm-radius-control); --aw-panel-radius: var(--rm-radius-card); }
 #aw-main-content.aw-refined #aw-feature-content :is(.rm-page,.aw-page) { gap: 24px; min-width: 0; }
 #aw-main-content.aw-refined #aw-feature-content :is(.rm-page-header,.aw-heading) { align-items: center; flex-wrap: wrap; gap: 16px !important; margin: 0 !important; padding: 0 !important; }
 #aw-main-content.aw-refined #aw-feature-content :is(.rm-page-header,.aw-heading) h1,
-#aw-main-content.aw-refined #aw-feature-content .rm-client-workspace__identity h1 { margin: 0; font: 600 28px/1.2 OutfitSemiBold,system-ui,sans-serif !important; letter-spacing: -.6px !important; }
+#aw-main-content.aw-refined #aw-feature-content .rm-client-workspace__identity h1 { margin: 0; font: 600 clamp(26px,2.4vw,32px)/1.2 OutfitSemiBold,system-ui,sans-serif !important; letter-spacing: -.6px !important; }
 #aw-main-content.aw-refined #aw-feature-content :is(.rm-page-header,.aw-heading) p { margin: 8px 0 0; font-size: 14px; color: var(--aw-muted); }
 #aw-main-content.aw-refined #aw-feature-content .rm-page-header__actions { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 8px; width: auto !important; margin: 0; }
 #aw-main-content.aw-refined #aw-feature-content :is(.rm-table-card__toolbar,.rm-access-toolbar,.rm-section-header,.rm-hub-toolbar,.aw-section-heading,.rm-instagram-card-heading,.rm-video-review__header) h2 { margin: 0; color: var(--aw-ink) !important; font: 600 18px/1.4 OutfitSemiBold,system-ui,sans-serif !important; letter-spacing: -.2px; }
@@ -213,4 +213,114 @@
   #aw-main-content[data-workspace-screen=team] #aw-feature-content .rm-table-person .rm-avatar { flex: 0 0 36px; width: 36px; height: 36px; min-width: 36px; }
   #aw-main-content[data-workspace-screen=team] #aw-feature-content .rm-table-person strong { white-space: normal; overflow-wrap: normal; }
   #aw-main-content.aw-refined #aw-feature-content :is(.rm-empty,.rm-video-review-empty,.rm-document-empty,.rm-scripting-empty,.rm-instagram-empty) { padding: 16px !important; }
+}
+
+/* One content grid; individual panels own their surfaces and spacing. */
+html body .aw-shell #aw-main-content.aw-main #aw-feature-content :is(.project-card,.aw-preset) { --aw-button-bg:var(--aw-surface); }
+html body .aw-shell #aw-main-content.aw-main #aw-feature-content { padding:0!important; }
+html body .aw-shell #aw-main-content.aw-main #aw-feature-content :is(.rm-page-header,.aw-heading) {
+  margin:0!important; padding:0!important; border:0!important;
+}
+html body .aw-shell #aw-main-content.aw-main #aw-feature-content :is(.rm-page-header,.aw-heading,.aw-overview__header) h1 {
+  font-size:clamp(26px,2.4vw,32px)!important; line-height:1.2!important; letter-spacing:-.025em!important;
+}
+html body .aw-shell #aw-main-content.aw-main #aw-feature-content .rm-page-header p { line-height:1.6; }
+#aw-main-content #aw-feature-content .aw-booking-requests { padding:20px 24px!important; margin:0; }
+.aw-booking-requests p { margin:8px 0 0; font-size:13px; line-height:1.5; }
+.aw-booking-requests[data-empty=true]>div>div>p { display:none; }
+#aw-main-content #aw-feature-content .aw-calendar-page .rm-calendar-toolbar__date { flex:0 1 auto; gap:12px; }
+
+/* Empty states should not reserve the height of a populated analytics screen. */
+#aw-main-content #aw-feature-content .rm-instagram-empty { min-height:0!important; padding:24px!important; }
+#aw-main-content #aw-feature-content .rm-social-connect { flex:0 0 auto; }
+#aw-main-content #aw-feature-content .rm-social-connect>.rm-instagram-account-tabs__connect {
+  width:auto!important; min-width:0!important; height:40px!important; min-height:40px!important; flex:0 0 auto!important;
+}
+#aw-main-content #aw-feature-content .rm-progress { background:var(--aw-line)!important; }
+#aw-main-content #aw-feature-content .rm-progress__fill { background:var(--aw-accent)!important; }
+
+/* Keep column names readable inside their own scroll container. */
+#aw-main-content #aw-feature-content .rm-leads-table { min-width:1380px!important; }
+#aw-main-content #aw-feature-content .rm-leads-table th { white-space:nowrap!important; text-overflow:clip; }
+
+/* Compact document tools; the actual page remains an uninterrupted canvas. */
+#aw-main-content.aw-refined #aw-feature-content .pp-paper { padding:24px clamp(20px,3vw,40px) 40px; }
+#aw-main-content.aw-refined #aw-feature-content .pp-page-settings { justify-content:flex-start; align-items:center; gap:24px; }
+#aw-main-content.aw-refined #aw-feature-content .pp-editor-bar .rm-button,
+#aw-main-content.aw-refined #aw-feature-content .pp-page-actions .rm-button {
+  min-height:32px!important; padding:6px 10px!important; font-size:12px!important;
+}
+#aw-main-content.aw-refined #aw-feature-content .pp-block-tools select {
+  height:30px!important; min-height:30px!important; padding:4px 24px 4px 8px!important; font-size:12px!important;
+}
+#aw-main-content.aw-refined #aw-feature-content .pp-block-tools button {
+  display:grid; place-items:center; width:30px; height:30px; min-height:30px!important; padding:0!important;
+}
+#aw-main-content.aw-refined #aw-feature-content .pp-tree-page { gap:8px; }
+#aw-main-content.aw-refined #aw-feature-content .pp-tree-page>svg { flex-shrink:0; }
+#aw-main-content.aw-refined #aw-feature-content .pp-tree-page>small { font-size:11px; }
+#aw-main-content.aw-refined #aw-feature-content .pp-privacy,
+#aw-main-content.aw-refined #aw-feature-content .pp-editor-bar { font-size:12px; line-height:1.5; }
+
+/* Inset section navigation uses the existing compact/control radius scale. */
+#aw-main-content #aw-feature-content .project-work>nav { gap:4px; padding:4px; width:fit-content; max-width:100%; }
+#aw-main-content #aw-feature-content .project-work>nav>button { padding:10px 12px; font-size:14px; }
+
+/* Nested workspace titles and empty states stay below the page title. */
+html body .aw-shell #aw-main-content.aw-main #aw-feature-content :is(.engagement-workspace,.project-work>main) :is(.rm-page-header,.aw-heading) h1 {
+  font-size:24px!important; line-height:1.3!important;
+}
+html body .aw-shell #aw-main-content.aw-main #aw-feature-content .rm-dashboard .rm-section-header h2 {
+  font-size:18px!important; line-height:1.4!important; letter-spacing:-.2px!important;
+}
+html body .aw-shell #aw-main-content.aw-main #aw-feature-content .rm-dashboard .rm-card-topline h2 {
+  font-size:18px!important; line-height:1.4!important; letter-spacing:-.2px!important;
+}
+html body .aw-shell #aw-main-content.aw-main #aw-feature-content :is(.rm-empty,.rm-next-shoot-event--empty) :is(h2,h3) {
+  font-size:18px!important; line-height:1.4!important; letter-spacing:-.2px!important;
+}
+html body .aw-shell #aw-main-content.aw-main #aw-feature-content .rm-section-header .rm-section-kicker {
+  font-size:12px!important; letter-spacing:.06em!important;
+}
+html body .aw-shell #aw-main-content.aw-main #aw-feature-content .rm-client-hero { min-height:280px!important; }
+html body .aw-shell #aw-main-content.aw-main #aw-feature-content .rm-client-hero__copy h2 {
+  font-size:32px!important; line-height:1.2!important; letter-spacing:-.025em!important;
+}
+#aw-main-content #aw-feature-content .aw-client-detail>.rm-button { justify-self:start; width:auto!important; }
+#aw-main-content #aw-feature-content .rm-task-list-grid>.rm-task-list-card { min-height:280px; align-self:stretch; }
+#aw-main-content #aw-feature-content .review-conversation { padding:20px; }
+#aw-main-content #aw-feature-content .review-conversation .rm-action-form { padding:0!important; }
+#aw-main-content #aw-feature-content .review-item-header { margin:0; }
+#aw-main-content #aw-feature-content .rm-client-deal-page .rm-agreement-card h2 { font-size:24px!important; }
+
+#aw-main-content #aw-feature-content .pp-hub-tabs { margin-bottom:0; }
+#aw-main-content #aw-feature-content .pp-workspace :is(input,select,button,textarea) { font-family:OutfitRegular,system-ui,sans-serif!important; }
+#aw-main-content #aw-feature-content .pp-workspace .pp-paper input.pp-title { font-family:OutfitSemiBold,system-ui,sans-serif!important; }
+#aw-main-content #aw-feature-content .pp-workspace .pp-block:is(.pp-block--heading1,.pp-block--heading2) textarea { font-family:OutfitSemiBold,system-ui,sans-serif!important; }
+#aw-main-content #aw-feature-content .pp-workspace .pp-block:is(.pp-block--code,.pp-block--scene,.pp-block--action,.pp-block--character,.pp-block--dialogue) textarea { font-family:monospace!important; }
+
+html body .rm-modal.aw-dialog .rm-calendar-colors__option {
+  min-height:38px; border:1px solid var(--aw-control-line); padding:7px 10px; font-size:13px;
+}
+html body .rm-modal.aw-dialog .rm-calendar-colors__option:has(input:checked) { border-color:var(--aw-accent); background:var(--aw-tint); }
+
+@media(max-width:760px) {
+  #aw-main-content #aw-feature-content .aw-booking-requests { padding:16px!important; }
+  #aw-main-content #aw-feature-content .studio-library-toolbar { align-items:flex-start; }
+  #aw-main-content #aw-feature-content .studio-library-toolbar>span { line-height:1.6; }
+  html body .aw-shell #aw-main-content.aw-main #aw-feature-content .aw-overview__header { align-items:flex-start!important; text-align:left!important; }
+  html body .aw-shell #aw-main-content.aw-main #aw-feature-content .aw-overview__header h1 { text-align:left!important; }
+  #aw-main-content #aw-feature-content .rm-page-header__actions,
+  #aw-main-content #aw-feature-content .projects-actions { flex-direction:row!important; justify-content:flex-start; flex-wrap:wrap!important; }
+  #aw-main-content #aw-feature-content .rm-page-header__actions .rm-button { width:auto!important; flex:0 1 auto!important; }
+  #aw-main-content #aw-feature-content .pp-hub-tabs { flex-wrap:nowrap; overflow-x:auto; padding-bottom:4px; }
+  #aw-main-content #aw-feature-content .pp-hub-tabs>button { flex:none; white-space:nowrap; }
+}
+
+.aw-frame,.aw-dialog .rm-modal__body,
+.aw-shell :is(.projects-filters,.engagement-tabs,.project-work>nav,.pp-hub-tabs,.rm-finance-tabs,.rm-caller-list-picker) {
+  scrollbar-width:thin; scrollbar-color:var(--aw-line,#383940) transparent;
+}
+@media(min-width:761px) {
+  #aw-main-content #aw-feature-content .aw-tasks__table :is(th,td):last-child { width:56px!important; min-width:56px; }
 }

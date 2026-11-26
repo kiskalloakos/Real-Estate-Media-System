@@ -205,7 +205,7 @@ export function ScriptingScreen({ properties = [], projectId }: ScriptingScreenP
       const updated = [saved, ...savedScripts.filter((script) => script.id !== saved.id)];
       if (!isSupabaseConfigured) storePreviewScripts(updated);
       setSavedScripts(updated);
-      setEditDraft(null);
+      setEditDraft(saved);
       setWriterOpen(false);
       notify('Script and production plan saved.');
     } finally {
@@ -294,7 +294,7 @@ export function ScriptingScreen({ properties = [], projectId }: ScriptingScreenP
               </div>
               <div className="rm-document-card__body">
                 <h3>{script.title || 'Generated campaign script'}</h3>
-                {script.production ? <small>{script.production.scenes.length} scenes · {script.production.locations.length} locations</small> : null}
+                {script.production ? <small>{script.production.scenes.length} {script.production.scenes.length === 1 ? 'scene' : 'scenes'} · {script.production.locations.length} {script.production.locations.length === 1 ? 'location' : 'locations'}</small> : null}
                 <p>{script.script.slice(0, 180)}</p>
               </div>
               <footer>
@@ -338,7 +338,6 @@ export function ScriptingScreen({ properties = [], projectId }: ScriptingScreenP
           aiAvailable={isSupabaseConfigured}
           generatingMore={generatingMore}
           initial={editDraft ?? { id: '', title: '', script: '', hooks: [], brief: projectId ? brief : null }}
-          key={editDraft?.id ?? 'new-screenplay'}
           onClose={() => { setEditDraft(null); setWriterOpen(false); }}
           onDelete={editDraft ? archiveEditedScript : undefined}
           onGenerateMore={editDraft?.brief && isSupabaseConfigured ? generateMoreFromDraft : undefined}

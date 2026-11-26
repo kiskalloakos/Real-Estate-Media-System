@@ -26,6 +26,15 @@ const project = { id: 'project-a', status: 'active' };
 const today = '2026-11-24';
 const stage = (reviews = [], events = [], property = project) => workflow.projectStage(property, reviews, events, today);
 
+test('phone navigation prioritizes each role without adding unavailable destinations', () => {
+  const pages = navigation.workspacePages({ ...modules.defaultConfig, enabled: modules.modules.map(module => module.id) });
+  assert.deepEqual(navigation.mobileNavigation(pages, 'admin').map(page => page.key), ['dashboard','projects','tasks','calendar']);
+  const clientPages = pages.filter(page => ['dashboard','reviews','calendar','documents','billing','analytics'].includes(page.key));
+  assert.deepEqual(navigation.mobileNavigation(clientPages, 'client').map(page => page.key), ['dashboard','reviews','calendar','documents']);
+  assert.deepEqual(navigation.mobileNavigation(pages.filter(page => ['dashboard','tasks','calendar','reviews','sops'].includes(page.key)), 'team_member').map(page => page.key), ['dashboard','tasks','calendar','reviews']);
+  assert.deepEqual(navigation.mobileNavigation([{key:'dashboard',label:'Home',icon:'grid'}], 'admin').map(page => page.key), ['dashboard']);
+});
+
 test('writing page links round-trip inside projects and client documents without leaking into other screens',()=>{
   const location={screen:'projects',projectId:'engagement',projectSection:'Pages',pageId:'script'};
   const url=routes.portalLocationUrl('https://app.realtymedia.ro/?sample=1',location);
@@ -76,7 +85,7 @@ test('invalid project tabs and stages are ignored and restricted roles cannot en
   assert.equal(url, '/?screen=calendar');
 });
 
-test('enabled pages remain searchable once each and Projects follows the client module', () => {
+test('enabled pages remain searchable once each and preserve the configured agency tool order', () => {
   const config = { ...modules.defaultConfig, enabled: modules.modules.map(module => module.id) };
   const pages = navigation.workspacePages(config);
   assert.equal(new Set(pages.map(page => page.key)).size, pages.length);
@@ -88,6 +97,16 @@ test('enabled pages remain searchable once each and Projects follows the client 
   const ordered = navigation.workspacePages({ ...config, order: [...config.order].reverse() });
   const agencyKeys = ordered.filter(page => navigation.agencyModuleIds.includes(page.key)).map(page => page.key);
   assert.deepEqual(agencyKeys, [...config.order].reverse().filter(id => navigation.agencyModuleIds.includes(id)));
+});
+
+test('section entry points keep enabled tools accessible without sidebar dropdowns', () => {
+  const pagesFor = enabled => navigation.workspacePages({ ...modules.defaultConfig, enabled }).map(page => page.key);
+  assert.deepEqual(pagesFor(['reviews']), ['dashboard', 'projects', 'reviews']);
+  assert.deepEqual(pagesFor(['scripting']), ['dashboard', 'projects', 'scripting']);
+  assert.deepEqual(pagesFor(['team']), ['dashboard', 'agency', 'team']);
+  assert.deepEqual(pagesFor(['tasks']), ['dashboard', 'tasks']);
+  assert.deepEqual(routes.readPortalLocation('?screen=agency', 'dashboard', ['dashboard', 'agency']), { screen: 'agency' });
+  assert.deepEqual(routes.readPortalLocation('?screen=agency', 'dashboard', ['dashboard', 'reviews']), { screen: 'dashboard' });
 });
 
 

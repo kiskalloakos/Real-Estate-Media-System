@@ -36,6 +36,7 @@ import { MarketingScreen } from './MarketingScreen';
 import { MarketingItemEditor } from './MarketingItemEditor';
 import { StudioHome } from '@/workspace/StudioHome';
 import { ModulesScreen } from '@/workspace/ModulesScreen';
+import { AgencyScreen } from '@/workspace/AgencyScreen';
 import { modules } from '@/workspace/modules';
 import { workspacePages } from '@/workspace/navigation';
 import { WorkspaceProvider, useWorkspace } from '@/workspace/WorkspaceProvider';
@@ -68,7 +69,7 @@ import type {
 } from './types';
 
 const allowedScreens: Record<PortalRole, PortalScreenKey[]> = {
-  admin: ['modules', 'dashboard', 'documents', 'projects', 'clients', 'sales', 'team', 'gear', 'marketing', 'scripting', 'finances', 'tasks', 'calendar', 'reviews', 'notes'],
+  admin: ['agency', 'modules', 'dashboard', 'documents', 'projects', 'clients', 'sales', 'team', 'gear', 'marketing', 'scripting', 'finances', 'tasks', 'calendar', 'reviews', 'notes'],
   client: ['dashboard', 'analytics', 'reviews', 'billing', 'documents', 'calendar'],
   team_member: ['dashboard', 'sops', 'tasks', 'calendar', 'documents', 'reviews'],
 };
@@ -498,7 +499,7 @@ function PortalAppInner({
       }
     }
     if (!allowedScreens[effectiveRole].includes(screen)) return;
-    visit(screen === activeScreen ? location : { screen });
+    visit(screen === activeScreen && screen !== 'projects' ? location : { screen });
     onNavigate?.(screen);
   };
 
@@ -509,6 +510,8 @@ function PortalAppInner({
 
   const screen = (() => {
     switch (visibleScreen) {
+      case 'agency':
+        return <AgencyScreen onNavigate={navigate} />;
       case 'projects': {
         const engagement = shellData.jobs?.find(item => item.id === location.projectId);
         if (engagement) return <EngagementWorkspace agencyId={agencyId ?? undefined} key={engagement.id} project={engagement} data={shellData} actions={projectActions} currentUserId={workspaceUserId} location={location} onLocationChange={changes => visit({ ...location, ...changes })} onBack={() => visit({ screen: 'projects' })} onOpenClient={openClient}/>;
@@ -524,6 +527,7 @@ function PortalAppInner({
             onCreateClient={onCreateClient} onOpenTask={openTask}/>
         );
         return <ProjectsScreen data={shellData} actions={projectActions} status={location.projectStatus}
+          onNavigate={navigate}
           onStatusChange={projectStatus => visit({ screen: 'projects', projectStatus })}
           onOpenProject={project => visit({ screen: 'projects', clientId: project.clientId, projectId: project.id })}
           onOpenProperty={property => visit({ screen: 'projects', clientId: property.clientId, projectId: property.id })}/>;
@@ -724,8 +728,8 @@ function PortalAppInner({
       case 'calendar':
         return (
           <>
-            <CalendarBookings key={visibleWorkspaceId} agencyId={agencyId} clientId={effectiveClientAccountId} userId={workspaceUserId} role={effectiveRole} actions={projectActions} clients={shellData.clients}/>
             <CalendarScreen
+              bookingRequests={<CalendarBookings key={visibleWorkspaceId} agencyId={agencyId} clientId={effectiveClientAccountId} userId={workspaceUserId} role={effectiveRole} actions={projectActions} clients={shellData.clients}/>}
               readOnly={readOnlyPreview}
               clients={shellData.clients}
               currentUserId={workspaceUserId}
@@ -905,8 +909,6 @@ function PortalAppInner({
         onNavigate={navigate}
         onOpenTaskNotification={taskId => visit({ screen: 'tasks', taskId })}
         onOpenReviewNotification={(reviewId,versionId) => { setOpenedReviewId(reviewId); setOpenedReviewVersionId(versionId); navigate('reviews'); }}
-        onNavigateProjectStatus={projectStatus => visit({ screen: 'projects', projectStatus })}
-        activeProjectStatus={visibleScreen === 'projects' ? location.projectStatus : undefined}
         onSelectWorkspace={onSelectWorkspace}
         onSearchSelect={(item) => {
           if (!item.targetId) return;

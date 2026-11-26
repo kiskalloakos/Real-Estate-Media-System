@@ -6,9 +6,11 @@ export const webTheme = {
     grey: '#EEEEEE',
   },
   radius: {
-    control: 16,
-    card: 24,
-    feature: 32,
+    // Shared with the web CSS shape contract in workspace-radii.css.
+    compact: 8,
+    control: 12,
+    card: 20,
+    feature: 24,
     pill: 999,
   },
   space: {

@@ -4,30 +4,33 @@ export const escapeHtml = (value: string) => value.replace(/[&<>"']/g, (characte
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
 })[character]!);
 
-export function floorPlanMarkup(location: ShootLocation, scene: ScreenplayScene, selectedId = '', selectedShotId = ''): string {
+export function floorPlanMarkup(location: ShootLocation, scene: ScreenplayScene, selectedId = '', selectedShotId = '', theme: 'light' | 'dark' = 'light'): string {
+  const colors = theme === 'dark'
+    ? { canvas:'#1c1d22', grid:'#383940', room:'#292b34', activeRoom:'#30324e', wall:'#a2a5b5', ink:'#eeeef1', window:'#284451', furniture:'#414038', camera:'#aaadff', actor:'#6bd6bc', selected:'#ffd17c' }
+    : { canvas:'#fafbfe', grid:'#e4e6ed', room:'#ffffff', activeRoom:'#eeedff', wall:'#545968', ink:'#36394b', window:'#dbf1ff', furniture:'#f1ece3', camera:'#5256e0', actor:'#15846d', selected:'#3333ad' };
   const scope = escapeHtml(scene.id);
   const rooms = location.rooms.map((room) => `<g data-plan-id="${escapeHtml(room.id)}" data-plan-kind="room" class="plan-item">
-    <rect x="${room.x}" y="${room.y}" width="${room.width}" height="${room.height}" fill="${room.id === scene.roomId ? '#eeedff' : '#ffffff'}" fill-opacity=".82" stroke="${room.id === selectedId ? '#5256e0' : '#545968'}" stroke-width="${room.id === selectedId ? 5 : 3}"/>
-    <text x="${room.x + 12}" y="${room.y + 25}" font-size="16" fill="#36394b">${escapeHtml(room.name)}</text></g>`).join('');
+    <rect x="${room.x}" y="${room.y}" width="${room.width}" height="${room.height}" fill="${room.id === scene.roomId ? colors.activeRoom : colors.room}" fill-opacity=".82" stroke="${room.id === selectedId ? colors.selected : colors.wall}" stroke-width="${room.id === selectedId ? 5 : 3}"/>
+    <text x="${room.x + 12}" y="${room.y + 25}" font-size="${theme === 'dark' ? 20 : 16}" fill="${colors.ink}">${escapeHtml(room.name)}</text>${room.id === selectedId ? `<circle data-plan-resize="true" cx="${room.x + room.width}" cy="${room.y + room.height}" r="12" fill="${colors.selected}" stroke="${colors.canvas}" stroke-width="3" style="cursor:nwse-resize"/>` : ''}</g>`).join('');
   const fixtures = location.fixtures.map((fixture) => `<g data-plan-id="${escapeHtml(fixture.id)}" data-plan-kind="fixture" class="plan-item" transform="translate(${fixture.x} ${fixture.y}) rotate(${fixture.angle} ${fixture.width / 2} ${fixture.height / 2})">
-    <rect width="${fixture.width}" height="${fixture.height}" rx="${fixture.type === 'furniture' ? 5 : 0}" fill="${fixture.type === 'window' ? '#dbf1ff' : '#f1ece3'}" stroke="${fixture.id === selectedId ? '#5256e0' : '#7c8190'}" stroke-width="${fixture.id === selectedId ? 4 : 2}"/>
-    <text x="${fixture.width / 2}" y="${fixture.height / 2 + 5}" font-size="12" text-anchor="middle" fill="#36394b">${escapeHtml(fixture.label)}</text></g>`).join('');
+    <rect width="${fixture.width}" height="${fixture.height}" rx="${fixture.type === 'furniture' ? 5 : 0}" fill="${fixture.type === 'window' ? colors.window : colors.furniture}" stroke="${fixture.id === selectedId ? colors.selected : colors.wall}" stroke-width="${fixture.id === selectedId ? 4 : 2}"/>
+    <text x="${fixture.width / 2}" y="${fixture.height / 2 + 5}" font-size="${theme === 'dark' ? 18 : 12}" text-anchor="middle" fill="${colors.ink}">${escapeHtml(fixture.label)}</text></g>`).join('');
   const markers = scene.markers.map((marker) => {
-    const color = marker.id === selectedId || (selectedShotId && marker.shotId === selectedShotId) ? '#3333ad' : marker.type === 'actor' ? '#15846d' : '#5256e0';
+    const color = marker.id === selectedId || (selectedShotId && marker.shotId === selectedShotId) ? colors.selected : marker.type === 'actor' ? colors.actor : colors.camera;
     const shot = scene.shots.find((item) => item.id === marker.shotId);
     const label = escapeHtml([marker.label, shot?.label].filter(Boolean).join(' · '));
-    if (marker.type === 'movement') return `<g data-plan-id="${escapeHtml(marker.id)}" data-plan-kind="marker" class="plan-item"><line x1="${marker.x}" y1="${marker.y}" x2="${marker.endX}" y2="${marker.endY}" stroke="${color}" stroke-width="5" marker-end="url(#arrow-${scope})"/><circle cx="${marker.x}" cy="${marker.y}" r="10" fill="${color}"/><text x="${(marker.x + marker.endX) / 2}" y="${(marker.y + marker.endY) / 2 - 12}" font-size="15" fill="${color}" paint-order="stroke" stroke="white" stroke-width="4">${label}</text></g>`;
+    if (marker.type === 'movement') return `<g data-plan-id="${escapeHtml(marker.id)}" data-plan-kind="marker" class="plan-item"><line x1="${marker.x}" y1="${marker.y}" x2="${marker.endX}" y2="${marker.endY}" stroke="${color}" stroke-width="5" marker-end="url(#arrow-${scope})"/><circle cx="${marker.x}" cy="${marker.y}" r="10" fill="${color}"/><text x="${(marker.x + marker.endX) / 2}" y="${(marker.y + marker.endY) / 2 - 12}" font-size="${theme === 'dark' ? 20 : 15}" fill="${color}" paint-order="stroke" stroke="${colors.canvas}" stroke-width="4">${label}</text></g>`;
     return `<g data-plan-id="${escapeHtml(marker.id)}" data-plan-kind="marker" class="plan-item" transform="translate(${marker.x} ${marker.y})">
       <g transform="rotate(${marker.angle})">${marker.type === 'camera'
-        ? `<path d="M0 0 L-65 -100 L65 -100 Z" fill="#5256e0" fill-opacity=".12"/><rect x="-16" y="-12" width="32" height="24" rx="4" fill="${color}"/><path d="M-9 -17 L0 -32 L9 -17 Z" fill="${color}"/>`
+        ? `<path d="M0 0 L-65 -100 L65 -100 Z" fill="${colors.camera}" fill-opacity=".12"/><rect x="-16" y="-12" width="32" height="24" rx="4" fill="${color}"/><path d="M-9 -17 L0 -32 L9 -17 Z" fill="${color}"/>`
         : `<circle r="18" fill="${color}"/><path d="M-7 -23 L0 -35 L7 -23 Z" fill="${color}"/>`}</g>
-      <text x="0" y="40" text-anchor="middle" font-size="15" fill="${color}" paint-order="stroke" stroke="white" stroke-width="4">${label}</text></g>`;
+      <text x="0" y="40" text-anchor="middle" font-size="${theme === 'dark' ? 20 : 15}" fill="${color}" paint-order="stroke" stroke="${colors.canvas}" stroke-width="4">${label}</text></g>`;
   }).join('');
   const background = location.background && /^data:image\/(png|jpeg|webp);base64,/.test(location.background)
     ? `<image href="${escapeHtml(location.background)}" width="${planWidth}" height="${planHeight}" preserveAspectRatio="xMidYMid meet" opacity=".65"/>` : '';
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${planWidth} ${planHeight}" role="img" aria-label="${escapeHtml(`${location.name} floor plan for ${scene.heading}`)}" style="width:100%;height:auto;display:block;font-family:Arial,sans-serif;user-select:none">
-    <defs><pattern id="grid-${scope}" width="25" height="25" patternUnits="userSpaceOnUse"><path d="M25 0H0V25" fill="none" stroke="#e4e6ed" stroke-width="1"/></pattern><marker id="arrow-${scope}" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0 0 L0 6 L8 3 Z" fill="#5256e0"/></marker></defs>
-    <rect width="1000" height="700" fill="#fafbfe"/><rect width="1000" height="700" fill="url(#grid-${scope})"/>${background}${rooms}${fixtures}${markers}</svg>`;
+    <defs><pattern id="grid-${scope}" width="25" height="25" patternUnits="userSpaceOnUse"><path d="M25 0H0V25" fill="none" stroke="${colors.grid}" stroke-width="1"/></pattern><marker id="arrow-${scope}" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0 0 L0 6 L8 3 Z" fill="${colors.camera}"/></marker></defs>
+    <rect width="1000" height="700" fill="${colors.canvas}"/><rect width="1000" height="700" fill="url(#grid-${scope})"/>${background}${rooms}${fixtures}${markers}</svg>`;
 }
 
 function sceneHtml(scene: ScreenplayScene, index: number): string {

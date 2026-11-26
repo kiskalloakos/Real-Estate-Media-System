@@ -8,6 +8,7 @@ import {
   EmptyState,
   Icon,
   Modal,
+  PageHeader,
   useToast,
   type PortalRole,
 } from '@/components/web';
@@ -408,6 +409,7 @@ export function InstagramAnalyticsScreen({
 
   return (
     <div className="rm-page rm-instagram">
+      {scope === 'client' ? <PageHeader title="Analytics" /> : null}
       {!canConnect || scopedAccounts.length === 0 ? (
         <Card className="rm-instagram-empty" tone="paper">
           <EmptyState

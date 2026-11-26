@@ -1,0 +1,92 @@
+/* Hover changes the surface, never the target's position or size. */
+html body .aw-shell :is(
+  .rm-property-card,.rm-instagram-media-grid>a,.rm-workspace-return,
+  .aw-topbar .rm-icon-button,.aw-topbar .rm-topbar__profile
+):is(:hover,:focus-visible) { transform:none!important; }
+
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog) :is(
+  button,.rm-button,.rm-icon-button,.rm-property-card,.rm-instagram-media-grid>a
+) { transition:background-color 140ms ease,color 140ms ease,border-color 140ms ease!important; }
+
+/* This inbox owns its layout; retained rm-notification rules do not apply. */
+html body .rm-modal.aw-dialog.aw-notifications-dialog {
+  width:min(520px,calc(100vw - 24px))!important;
+  max-width:520px!important;
+  max-height:min(680px,calc(100dvh - 32px))!important;
+  min-height:0!important;
+}
+html body .rm-modal.aw-dialog.aw-notifications-dialog .rm-modal__header {
+  padding:20px 24px!important;
+  gap:16px;
+}
+html body .rm-modal.aw-dialog.aw-notifications-dialog .rm-modal__header h2 {
+  font:600 22px/1.3 OutfitSemiBold,system-ui,sans-serif!important;
+  letter-spacing:-.4px!important;
+}
+html body .rm-modal.aw-dialog.aw-notifications-dialog .rm-modal__body {
+  padding:0!important;
+  overflow:auto;
+  overscroll-behavior:contain;
+}
+.aw-notifications { min-width:0; }
+.aw-notifications__toolbar {
+  display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap;
+  gap:8px 16px; padding:12px 24px; border-bottom:1px solid var(--aw-line);
+}
+.aw-notifications__toolbar>small { font-size:13px; line-height:1.5; }
+.aw-notifications__actions { display:flex; align-items:center; gap:4px; }
+.aw-notifications__actions>button,.aw-notification__dismiss {
+  display:inline-flex; align-items:center; justify-content:center; gap:6px;
+  min-height:36px; padding:8px; border:0; border-radius:var(--rm-radius-compact);
+  font:13px/1.4 OutfitRegular,system-ui,sans-serif; cursor:pointer;
+}
+.aw-notifications button:disabled { cursor:default; opacity:.5; }
+.aw-notifications__list { display:grid; gap:4px; margin:0; padding:12px; list-style:none; }
+.aw-notification {
+  display:flex; align-items:center; min-width:0; padding-right:4px;
+  border-radius:var(--rm-radius-control); background:transparent;
+  transition:background-color 140ms ease;
+}
+.aw-notification:has(.aw-notification__open:is(:hover,:focus-visible):not(:disabled)) { background:var(--aw-bg); }
+.aw-notification__open {
+  --aw-bg:transparent;
+  display:flex; flex:1; align-items:center; gap:12px; min-width:0; width:100%;
+  padding:14px 12px; border:0; border-radius:var(--rm-radius-control);
+  text-align:left; white-space:normal; font:14px/1.4 OutfitRegular,system-ui,sans-serif; cursor:pointer;
+}
+.aw-notification__icon {
+  display:grid; place-items:center; flex:0 0 36px; height:36px;
+  background:var(--aw-tint); border-radius:var(--rm-radius-compact);
+}
+.aw-notification__copy { display:grid; flex:1; gap:4px; min-width:0; overflow-wrap:anywhere; }
+.aw-notification__heading { display:flex; align-items:baseline; gap:8px; }
+.aw-notification__heading strong { font:600 14px/1.45 OutfitSemiBold,system-ui,sans-serif; }
+.aw-notification__copy small { font-size:13px; line-height:1.5; }
+.aw-notification__copy .aw-notification__meta { font-size:12px; }
+.aw-notification__dot { flex:0 0 6px; height:6px; border-radius:50%; background:var(--aw-accent); }
+.aw-notification.is-read .aw-notification__dot { visibility:hidden; }
+.aw-notification.is-read .aw-notification__icon { background:var(--aw-input); }
+.aw-notification__open>svg { flex-shrink:0; }
+.aw-notification__dismiss { flex:0 0 36px; width:36px; margin-right:4px; }
+.aw-notifications__error { margin:12px 24px 0; font-size:13px; line-height:1.5; }
+.aw-notifications__empty { display:grid; justify-items:center; gap:8px; padding:40px 24px 48px; text-align:center; }
+.aw-notifications__empty>span {
+  display:grid; place-items:center; width:48px; height:48px; margin-bottom:8px;
+  border-radius:var(--rm-radius-control); background:var(--aw-tint);
+}
+.aw-notifications__empty strong { font:600 16px/1.5 OutfitSemiBold,system-ui,sans-serif; }
+.aw-notifications__empty small { font-size:14px; line-height:1.5; }
+
+@media(max-width:480px) {
+  html body .rm-modal.aw-dialog.aw-notifications-dialog .rm-modal__header { padding:16px 20px!important; }
+  .aw-notifications__toolbar { padding:10px 16px; gap:4px 8px; }
+  .aw-notifications__list { padding:8px; }
+  .aw-notification__open { gap:10px; padding:12px 8px; }
+  .aw-notification__open>svg { display:none; }
+  .aw-notifications__actions>button { min-height:40px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  :is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog) :is(
+    button,.rm-button,.rm-icon-button,.rm-property-card,.rm-instagram-media-grid>a,.aw-notification
+  ) { transition:none!important; }
+}

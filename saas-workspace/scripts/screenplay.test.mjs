@@ -6,9 +6,9 @@ import path from 'node:path';
 import { after, test } from 'node:test';
 import ts from 'typescript';
 
-// Compile the two browser-independent modules with the project's TypeScript.
+// Compile the browser-independent modules with the project's TypeScript.
 const output = mkdtempSync(path.join(tmpdir(), 'rm-screenplay-'));
-for (const name of ['screenplay', 'screenplay-export']) {
+for (const name of ['screenplay', 'screenplay-export', 'screenplay-editing']) {
   const source = readFileSync(new URL(`../src/lib/${name}.ts`, import.meta.url), 'utf8');
   const compiled = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 } }).outputText;
   writeFileSync(path.join(output, `${name}.cjs`), compiled.replace('require("./screenplay")', 'require("./screenplay.cjs")'));
@@ -16,6 +16,7 @@ for (const name of ['screenplay', 'screenplay-export']) {
 const require = createRequire(import.meta.url);
 const { newProduction, newScene, newBlock, newId, productionFromText, screenplayText, readProduction, moveItem, removeShot, removeRoom } = require(path.join(output, 'screenplay.cjs'));
 const { productionPrintHtml, floorPlanMarkup } = require(path.join(output, 'screenplay-export.cjs'));
+const { nextBlockType, cycleBlockType, splitBlock, productionHistory, reduceProductionHistory } = require(path.join(output, 'screenplay-editing.cjs'));
 after(() => rmSync(output, { recursive: true, force: true }));
 
 function fixture() {
@@ -123,4 +124,64 @@ test('script, room, and marker text cannot inject HTML into previews or exports'
   assert.ok(!html.includes('<img src=x'));
   assert.ok(html.includes('&lt;img'));
   assert.ok(!floorPlanMarkup(production.locations[0], production.scenes[0]).includes('<img src=x'));
+});
+
+test('Enter keeps surrounding text and moves character cues into dialogue', () => {
+  const original = newBlock('action', 'Open the door. Walk inside.');
+  const [before, after] = splitBlock(original, 15);
+  assert.equal(before.id, original.id);
+  assert.notEqual(after.id, original.id);
+  assert.equal(before.text + after.text, original.text);
+  assert.equal(after.type, 'action');
+  const [cue, dialogue] = splitBlock(newBlock('character', 'ANA'), 3);
+  assert.equal(cue.text, 'ANA');
+  assert.equal(dialogue.type, 'dialogue');
+  assert.equal(dialogue.text, '');
+  assert.equal(nextBlockType('parenthetical'), 'dialogue');
+  assert.equal(nextBlockType('dialogue'), 'character');
+  assert.equal(splitBlock(newBlock('action', 'One two three'), 4, 8)[1].text, 'three');
+  assert.equal(cycleBlockType('action'), 'character');
+  assert.equal(cycleBlockType('transition'), 'action');
+});
+
+test('typing is undone as a group and structural edits preserve script and plan links', () => {
+  const original = fixture();
+  let state = productionHistory(original);
+  const type = text => current => ({ ...current, scenes: current.scenes.map((scene, index) => index ? scene : { ...scene, blocks: scene.blocks.map((block, index) => index ? block : { ...block, text }) }) });
+  state = reduceProductionHistory(state, { type:'change', update:type('Ana'), group:'text', now:100 });
+  state = reduceProductionHistory(state, { type:'change', update:type('Ana opens the window.'), group:'text', now:200 });
+  assert.equal(state.past.length, 1);
+  const typed = state.present;
+  state = reduceProductionHistory(state, { type:'change', update:current => removeRoom(current, current.locations[0].id, current.locations[0].rooms[0].id), now:300 });
+  assert.equal(state.present.scenes[0].roomId, '');
+  state = reduceProductionHistory(state, { type:'undo' });
+  assert.deepEqual(state.present, typed);
+  assert.ok(readProduction(state.present));
+  state = reduceProductionHistory(state, { type:'undo' });
+  assert.deepEqual(state.present, original);
+  state = reduceProductionHistory(state, { type:'redo' });
+  assert.deepEqual(state.present, typed);
+  state = reduceProductionHistory(state, { type:'change', update:type('A new direction.'), group:'text', now:400 });
+  assert.equal(state.future.length, 0);
+});
+
+test('history separates pauses and keeps a bounded undo stack', () => {
+  let state = productionHistory(fixture());
+  for (let index = 0; index < 100; index++) {
+    state = reduceProductionHistory(state, { type:'change', group:'typing', now:index * 700, update:current => ({ ...current, scenes:[...current.scenes] }) });
+  }
+  assert.equal(state.past.length, 80);
+});
+
+test('on-screen plans use dark colors while production exports stay print-ready', () => {
+  const production = fixture();
+  const location = production.locations[0];
+  const scene = production.scenes[0];
+  const dark = floorPlanMarkup(location, scene, location.rooms[0].id, '', 'dark');
+  assert.ok(dark.includes('#1c1d22'));
+  assert.ok(dark.includes('data-plan-resize="true"'));
+  const print = floorPlanMarkup(location, scene);
+  assert.ok(print.includes('#fafbfe'));
+  assert.ok(!print.includes('data-plan-resize'));
+  assert.ok(!print.includes('#1c1d22'));
 });

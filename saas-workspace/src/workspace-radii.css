@@ -1,0 +1,139 @@
+/* Shape contract. Loaded after the retained screen styles so equivalent
+   components share a radius in every workspace and portaled dialog.
+   Keep the numeric scale aligned with theme/web.ts. */
+:root {
+  --rm-radius-compact: 8px;
+  --rm-radius-control: 12px;
+  --rm-radius-card: 20px;
+  --rm-radius-feature: 24px;
+  --rm-radius-pill: 999px;
+  --rm-radius-event: var(--rm-radius-compact);
+}
+
+html body .aw-shell #aw-main-content.aw-main #aw-feature-content {
+  --aw-control-radius: var(--rm-radius-control);
+  --aw-panel-radius: var(--rm-radius-card);
+  --overview-radius: var(--rm-radius-card);
+  border-radius: var(--rm-radius-feature) !important;
+}
+html body .rm-modal.aw-dialog[role=dialog]:not(.aw-task-drawer) {
+  border-radius: var(--rm-radius-feature) !important;
+  overflow: hidden;
+}
+/* An edge-attached drawer has flush joins to the viewport. */
+html body .rm-modal.aw-dialog.aw-task-drawer { border-radius: 0 !important; }
+
+/* Standalone panels, cards and menus. */
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog) :is(
+  .rm-card,.aw-panel,.aw-pulse,.aw-preset,.aw-name-form,.aw-module-list,.aw-agency-settings,
+  .aw-overview__panel,.studio-client,.studio-production-strip>button,
+  .project-card,.projects-empty,.engagement-panel,.engagement-legacy,.project-phase-summary,
+  .project-summary,.project-billing,.project-work>main,
+  .rm-task-list-card,.aw-tasks__table-wrap,.aw-tasks__empty,.rm-task-column,
+  .rm-table-card,.rm-client-directory,.rm-team-directory,.rm-access-panel,
+  .rm-client-workspace__section,.rm-client-property-card,.rm-document-card,.rm-folder-card,
+  .rm-review-directory,.aw-review-directory,.review-directory-row,.pp-layout,
+  .rm-gear-board__column,.rm-agreement-card,.rm-payment-due-card,.rm-note-card,
+  .rm-debt-card,.rm-debt-hero,.rm-cost-list-card,.rm-finance-ledger-card,
+  .rm-calendar-card,.aw-calendar-month,.aw-calendar-agenda,.aw-calendar-filters__body,
+  .rm-reminders-card,.rm-rich-text-editor,.pp-slash-menu,.rm-toast
+) { border-radius: var(--rm-radius-card) !important; }
+
+/* Buttons, fields, segmented controls and inset content. */
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog) :is(
+  .rm-button,.rm-icon-button,.aw-button,
+  input:where(:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]):not([type=hidden])),
+  select,textarea,.rm-input-with-icon,.rm-input-with-action,.rm-inline-search,
+  .rm-command__input,.projects-search,.aw-tasks__search,.studio-library-search,
+  .rm-checkbox-field,.rm-task-upload__control,.rm-upload-tile,.rm-upload-document-button,
+  .rm-task-priority-switch,.rm-calendar-view-switch,.aw-tasks__layouts,
+  .rm-tabs,.rm-tab-list,.rm-calendar-toolbar,.aw-calendar-filters>summary,.project-work>nav,
+  .projects-filters>button,.engagement-tabs>button,.project-phases>button,.pp-hub-tabs>button,
+  .rm-tabs>button,.rm-tab-list>button,.rm-caller-list-picker>button,
+  .rm-finance-tabs>button,.rm-sales-tabs>button,[role=tab],
+  .aw-tasks__views>button,.aw-tasks__layouts>button,.rm-calendar-view-switch>button,
+  .aw-overview__summary>button,.aw-overview__link,.project-phase-summary>button,.studio-date,
+  .rm-task-item,.rm-client-task-list>li,.rm-cost-list__record,.rm-member-row,
+  .rm-client-workspace__content-link,.rm-client-workspace__calendar-link,.rm-client-document-row,
+  .rm-fulfillment__item,.rm-agreement-facts,.rm-agreement-facts>div,.rm-detail-list>div,
+  .rm-task-archive-list>article,.aw-task-drawer__discard,.aw-tasks__recovery,
+  .sp-outline li,.sp-shot-fields,.sp-ai,.sp-plan-scroll,
+  .pp-tree-page,.pp-history button,.pp-block--callout .pp-block-body,.pp-block--code .pp-block-body,
+  .pp-read-block.pp-block--callout,.pp-read-block.pp-block--code,.pp-error,.rm-feedback
+) { border-radius: var(--rm-radius-control) !important; }
+
+/* Small labels, icon tiles and nested toolbar actions. */
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog) :is(
+  .rm-status,.rm-status-pill,.aw-tag,.aw-preview-label,.aw-tasks__count,.rm-owner-task-urgent,
+  .engagement-status,.project-card__stage,.project-current-stage,.rm-manual-badge,
+  .rm-command__icon,.rm-empty__icon,.rm-kpi__icon,.aw-module-icon,
+  .aw-reorder button,.aw-tasks__list-archive,.rm-task-item__archive,
+  .aw-calendar-month__event,.rm-month-event,.rm-week-stack-event,.rm-calendar-overflow-event,
+  [role=tab]>span,.project-work>nav>button,
+  .rm-task-priority-switch>label,.rm-task-upload__button,kbd,
+  .sp-view-tabs button,.sp-plan-tools button,.sp-shot-tabs button,.sp-add-elements button,
+  .sp-element-tools,.sp-element-tools button,.sp-element-tools select,
+  .pp-block-tools button,.pp-block-tools select,.pp-slash-menu button,
+  .aw-calendar-month__date
+) { border-radius: var(--rm-radius-compact) !important; }
+
+/* The container owns the shape of joined rows and compound fields. */
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog) :is(
+  .rm-modal__header,.rm-modal__body,.rm-form-footer,.rm-dialog-actions,.aw-task-drawer__actions,
+  .rm-kpi,.rm-instagram-kpi,.rm-client-workspace__metrics>article,.rm-cost-overview>.rm-card,
+  .rm-table thead,.rm-table tr,.rm-table th,.rm-table td,
+  .rm-task-item--compact,.rm-task-list-card .rm-task-item.rm-task-item--compact,
+  .rm-task-item__open,.rm-gear-board__item,.aw-tasks__list-open,
+  .aw-review-directory__item,.aw-overview__task,.aw-overview__event,
+  .studio-client-open,.project-card__cover,
+  .rm-rich-text-toolbar,.rm-rich-text-content,
+  .rm-input-with-icon>input,.rm-inline-search input,.projects-search input,.studio-library-search input,
+  .aw-tasks__search input,.rm-command__input input,
+  .pp-paper input.pp-title,.pp-block textarea,.sp-paper input,.sp-paper textarea
+) { border-radius: 0 !important; }
+
+/* A single rounded wrapper owns compound-field focus, too. */
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog) :is(
+  .rm-input-with-icon>input,.rm-inline-search input,.projects-search input,.studio-library-search input,
+  .aw-tasks__search input,.rm-command__input input
+):focus-visible { outline: none !important; }
+
+/* Clipping is limited to joined surfaces; other cards keep menus and focus visible. */
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog) :is(
+  .rm-table-card,.rm-task-list-card,.aw-module-list,.aw-review-directory,.rm-gear-board__column
+) { overflow: hidden; }
+
+/* Chrome and menus live outside the feature-content boundary. */
+html body .aw-shell :is(
+  .aw-search,.aw-workspace-switcher__trigger,.aw-icon-button,.rm-icon-button,
+  .aw-nav__item,
+  .aw-customize,.aw-sidebar-control-trigger,.aw-workspace-return
+) { border-radius: var(--rm-radius-control) !important; }
+html body .aw-shell :is(.aw-sidebar-popover,.aw-workspace-switcher__menu) {
+  border-radius: var(--rm-radius-card) !important;
+}
+html body .rm-toast { border-radius: var(--rm-radius-card) !important; }
+html body .aw-shell :is(.aw-sidebar-popover,.aw-workspace-switcher__menu) button {
+  border-radius: var(--rm-radius-control) !important;
+}
+html body .aw-shell :is(.aw-agency-avatar,kbd) {
+  border-radius: var(--rm-radius-compact) !important;
+}
+
+/* The standalone setup flow uses the same hierarchy. */
+.aw-setup .aw-setup__panel,.aw-setup button.aw-setup__preset,
+.aw-shell :is(.aw-getting-started,.aw-welcome) { border-radius: var(--rm-radius-card); }
+.aw-setup :is(button,input,select),.aw-shell .aw-getting-started__items button {
+  border-radius: var(--rm-radius-control);
+}
+.aw-setup input::file-selector-button { border-radius: var(--rm-radius-compact); }
+
+/* Circles and switch tracks communicate identity or state, rather than surface size. */
+html body .aw-shell :is(.rm-avatar,.aw-topbar__profile,.aw-overview__assignee,.studio-client-arrow),
+html body .rm-modal.aw-dialog .rm-avatar {
+  border-radius: var(--rm-radius-pill) !important;
+}
+:is(html body .aw-shell #aw-main-content.aw-main #aw-feature-content, html body .rm-modal.aw-dialog) :is(
+  .aw-module-toggle,.aw-module-toggle__thumb,.aw-switch,.aw-switch>span,
+  .aw-calendar-month__day.is-today .aw-calendar-month__date
+) { border-radius: var(--rm-radius-pill) !important; }

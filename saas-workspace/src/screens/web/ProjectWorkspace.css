@@ -86,7 +86,7 @@ html body .aw-shell #aw-main-content.aw-main #aw-feature-content .project-phases
 .project-work nav[aria-label="Project sections"] { flex-direction:row; flex-wrap:nowrap; gap:8px; padding:0; overflow-x:auto; background:transparent; border:0; border-bottom:1px solid var(--aw-line); border-radius:0; }
 .project-work nav[aria-label="Project sections"] button { flex:none; border-radius:0; padding:12px 14px; font-size:13px; }
 .project-work nav[aria-label="Project sections"] button:last-child { margin:0 0 0 auto; }
-html body .aw-shell #aw-main-content.aw-main #aw-feature-content .project-work nav[aria-label="Project sections"] button[aria-current=page] { background:transparent!important; color:var(--aw-accent)!important; border:0!important; border-bottom:2px solid var(--aw-accent)!important; border-radius:0; }
+html body .aw-shell #aw-main-content.aw-main #aw-feature-content .project-work nav[aria-label="Project sections"] button[aria-current=page] { background:var(--aw-tint)!important; color:var(--aw-accent)!important; border:0!important; }
 html body .aw-shell #aw-main-content.aw-main #aw-feature-content .project-work nav[aria-label="Project sections"] button[aria-current=page] svg { color:inherit!important; }
 .project-work>main { width:100%; }
 .project-phase-summary { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:16px; padding:24px; margin-bottom:20px; border:1px solid var(--aw-line); border-radius:12px; background:var(--aw-surface,#fff); }

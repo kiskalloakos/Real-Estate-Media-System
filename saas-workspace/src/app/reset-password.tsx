@@ -3,6 +3,7 @@ import React from 'react';
 import { ScrollView, TextInput, View } from 'react-native';
 
 import { NativeButton, Text, nativeColors } from '@/components/native';
+import { webTheme } from '@/theme';
 import { useApp } from '@/providers/app-provider';
 
 export default function ResetPasswordRoute() {
@@ -58,7 +59,7 @@ export default function ResetPasswordRoute() {
           backgroundColor: nativeColors.card,
           borderColor: nativeColors.separator,
           borderCurve: 'continuous',
-          borderRadius: 32,
+          borderRadius: webTheme.radius.feature,
           borderWidth: 1,
           gap: 24,
           padding: 24,
@@ -110,9 +111,9 @@ export default function ResetPasswordRoute() {
           secureTextEntry
           style={{
             backgroundColor: nativeColors.fill,
-            borderColor: nativeColors.separator,
+            borderColor: nativeColors.controlBorder,
             borderCurve: 'continuous',
-            borderRadius: 16,
+            borderRadius: webTheme.radius.control,
             borderWidth: 1,
             color: nativeColors.label,
             fontFamily: 'OutfitRegular',
@@ -131,9 +132,9 @@ export default function ResetPasswordRoute() {
           secureTextEntry
           style={{
             backgroundColor: nativeColors.fill,
-            borderColor: nativeColors.separator,
+            borderColor: nativeColors.controlBorder,
             borderCurve: 'continuous',
-            borderRadius: 16,
+            borderRadius: webTheme.radius.control,
             borderWidth: 1,
             color: nativeColors.label,
             fontFamily: 'OutfitRegular',
@@ -153,6 +154,7 @@ export default function ResetPasswordRoute() {
           label={submitting ? 'Saving…' : 'Save new password'}
           loading={submitting}
           onPress={() => void submit()}
+          style={{ borderRadius: webTheme.radius.control }}
         />
       </View>
       </View>

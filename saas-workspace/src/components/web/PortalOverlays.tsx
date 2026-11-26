@@ -10,7 +10,7 @@ import {
 
 import { Icon, type IconName } from './Icon';
 import type { PortalScreenKey, PortalUser } from './PortalShell';
-import { Avatar, Button, Modal, StatusPill } from './ui';
+import { Avatar, Button, Modal } from './ui';
 
 export interface PortalSearchItem {
   detail: string;
@@ -130,9 +130,9 @@ export function WorkspaceSearch({
 interface NotificationCenterProps {
   notifications: PortalNotification[];
   onClose: () => void;
-  onClear: () => void;
+  onClear: () => Promise<void> | void;
   onDelete?: (notificationId: string) => Promise<void> | void;
-  onMarkAllRead: () => void;
+  onMarkAllRead: () => Promise<void> | void;
   onSelect: (notification: PortalNotification) => void;
   open: boolean;
 }
@@ -147,68 +147,87 @@ export function NotificationCenter({
   open,
 }: NotificationCenterProps) {
   const unreadCount = notifications.filter((item) => !item.read).length;
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState('');
+  const centerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (open) setError('');
+  }, [open]);
+
+  async function runAction(action: () => Promise<void> | void) {
+    // Keep focus in the dialog before the initiating action is disabled or removed.
+    centerRef.current?.closest('[role="dialog"]')?.querySelector<HTMLButtonElement>('button:not(:disabled)')?.focus();
+    setPending(true);
+    setError('');
+    try {
+      await action();
+    } catch {
+      setError('Couldn’t update notifications. Please try again.');
+    } finally {
+      setPending(false);
+    }
+  }
 
   return (
     <Modal
-      className="rm-notification-modal"
+      className="aw-notifications-dialog"
       onClose={onClose}
       open={open}
       title="Notifications"
     >
-      <div className="rm-notification-center">
-        {notifications.length ? (
-          <div className="rm-notification-center__toolbar">
-            {unreadCount ? <StatusPill tone="accent">{`${unreadCount} unread`}</StatusPill> : <span />}
-            <div>
-              {unreadCount ? <Button onClick={onMarkAllRead} variant="ghost">Mark all as read</Button> : null}
-              <Button onClick={onClear} variant="ghost">Clear</Button>
-            </div>
+      <div className="aw-notifications" aria-busy={pending} ref={centerRef}>
+        <div className="aw-notifications__toolbar">
+          <small role="status">{unreadCount ? `${unreadCount} unread` : 'All caught up'}</small>
+          <div className="aw-notifications__actions">
+            <button disabled={pending || !unreadCount} onClick={() => void runAction(onMarkAllRead)} type="button">
+              <Icon name="check" size={15} />Mark all read
+            </button>
+            <button disabled={pending || !notifications.length} onClick={() => void runAction(onClear)} type="button">Clear all</button>
           </div>
-        ) : null}
-        <div className="rm-notification-list">
-          {notifications.map((notification) => {
-            return (
-              <div className="rm-notification-list__row" key={notification.id}>
+        </div>
+        {error ? <p className="aw-notifications__error" role="alert">{error}</p> : null}
+        {notifications.length ? (
+          <ul className="aw-notifications__list" aria-label="Notifications">
+            {notifications.map((notification) => (
+              <li className={`aw-notification${notification.read ? ' is-read' : ''}`} key={notification.id}>
                 <button
-                  className={notification.read ? 'is-read' : undefined}
+                  className="aw-notification__open"
+                  disabled={pending}
                   onClick={() => onSelect(notification)}
                   type="button"
                 >
-                  <span className="rm-notification-list__dot" />
-                  <span>
-                    <strong>{notification.title}</strong>
+                  <span className="aw-notification__icon" aria-hidden="true">
+                    <Icon name={notification.reviewId || notification.screen === 'reviews' ? 'play' : notification.taskId || notification.screen === 'tasks' ? 'list-check' : 'bell'} size={18} />
+                  </span>
+                  <span className="aw-notification__copy">
+                    <span className="aw-notification__heading"><strong>{notification.title}</strong><span className="aw-notification__dot" aria-label={notification.read ? undefined : 'Unread'} /></span>
                     <small>{notification.body}</small>
-                    <time>{notification.timeLabel}</time>
+                    {notification.timeLabel ? <small className="aw-notification__meta">{notification.timeLabel}</small> : null}
                   </span>
                   <Icon name="chevron-right" size={16} />
                 </button>
                 {onDelete ? (
-                  <span
-                    aria-label={`Delete ${notification.title}`}
-                    className="rm-notification-list__delete"
-                    onClick={() => void onDelete(notification.id)}
-                    onKeyDown={(event) => {
-                      if (event.key === 'Enter' || event.key === ' ') {
-                        event.preventDefault();
-                        void onDelete(notification.id);
-                      }
-                    }}
-                    role="button"
-                    tabIndex={0}
+                  <button
+                    aria-label={`Dismiss ${notification.title}`}
+                    className="aw-notification__dismiss"
+                    disabled={pending}
+                    onClick={() => void runAction(() => onDelete(notification.id))}
+                    type="button"
                   >
                     <Icon name="x" size={16} />
-                  </span>
+                  </button>
                 ) : null}
-              </div>
-            );
-          })}
-          {!notifications.length ? (
-            <div className="rm-command__empty">
-              <Icon name="check" size={22} />
-              <strong>No notifications yet</strong>
-            </div>
-          ) : null}
-        </div>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div className="aw-notifications__empty">
+            <span aria-hidden="true"><Icon name="check" size={24} /></span>
+            <strong>You’re all caught up</strong>
+            <small>New updates will appear here.</small>
+          </div>
+        )}
       </div>
     </Modal>
   );

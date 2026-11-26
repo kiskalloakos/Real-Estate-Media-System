@@ -4,6 +4,7 @@ import {
   useState,
   type CSSProperties,
   type FormEvent,
+  type ReactNode,
 } from 'react';
 
 import {
@@ -43,6 +44,7 @@ import type {
 } from './types';
 
 export interface CalendarScreenProps {
+  bookingRequests?: ReactNode;
   readOnly?: boolean;
   projectContext?: { clientId?: string; propertyId?: string; jobId?: string };
   clients?: ClientSummary[];
@@ -226,6 +228,7 @@ function dateDistance(from: string, to: string) {
 }
 
 export function CalendarScreen({
+  bookingRequests,
   readOnly = false,
   projectContext,
   clients = [],
@@ -728,6 +731,7 @@ export function CalendarScreen({
         }
         title="Calendar"
       />
+      {bookingRequests}
 
       <div className="rm-calendar-layout">
         <Card className="rm-calendar-card" tone="bright">

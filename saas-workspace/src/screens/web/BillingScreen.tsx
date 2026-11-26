@@ -302,7 +302,7 @@ export function BillingScreen({
           }
           title="Deal"
         />
-      ) : null}
+      ) : <PageHeader title="Deal" />}
 
       {role === 'admin' && (clients.length > 1 || sourceAgreements.length > 1) ? (
         <Card className="rm-billing-client-switcher" tone="transparent">

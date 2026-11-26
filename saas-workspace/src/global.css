@@ -9,12 +9,7 @@
   --rm-font-regular: "OutfitRegular";
   --rm-font-semibold: "OutfitSemiBold";
 
-  /* One radius scale. */
-  --rm-radius-control: 16px;
-  --rm-radius-card: 24px;
-  --rm-radius-feature: 32px;
-  --rm-radius-pill: 999px;
-  --rm-radius-event: 10px;
+  /* The radius scale is defined in workspace-radii.css. */
   --rm-topbar-height: 76px;
   --rm-sidebar-width: 248px;
   --rm-shell-gap: 12px;
